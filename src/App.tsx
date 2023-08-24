@@ -4,7 +4,9 @@ function App() {
   return (
     <>
       <div className="flex items-center justify-center h-screen">
-        <div className="text-5xl text-center">WELCOME TO HOMEPAGE</div>
+        <div className="text-5xl text-center font-bold">
+          WELCOME TO HOMEPAGE
+        </div>
       </div>
     </>
   );
