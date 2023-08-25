@@ -3,11 +3,11 @@ export default {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     colors: {
-      primary: '#0BA854',
+      primary: '#0B6533',
       white: '#fff',
       black: '#2F2F41',
       pureBlack: '#000',
-      link: '#3b82f6',
+      link: '#0751C5',
     },
     fontFamily: {
       body: ['Poppins'],

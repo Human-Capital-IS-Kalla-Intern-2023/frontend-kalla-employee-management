@@ -1,14 +1,16 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
 import './App.css';
 
 function App() {
   return (
-    <>
-      <div className="flex items-center justify-center h-screen">
-        <div className="text-5xl text-center font-bold">
-          WELCOME TO HOMEPAGE
-        </div>
-      </div>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/dashboard/" element={<Dashboard />} />
+      </Routes>
+    </Router>
   );
 }
 
