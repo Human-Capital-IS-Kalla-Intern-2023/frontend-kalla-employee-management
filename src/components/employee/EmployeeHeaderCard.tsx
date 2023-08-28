@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function EmployeeCardHeader() {
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
@@ -6,6 +6,24 @@ export default function EmployeeCardHeader() {
   const toggleFilterDropdown = () => {
     setIsFilterDropdownOpen(!isFilterDropdownOpen);
   };
+
+  const closeFilterDropdown = () => {
+    setIsFilterDropdownOpen(false);
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (isFilterDropdownOpen) {
+        closeFilterDropdown();
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [isFilterDropdownOpen]);
 
   return (
     <section className="py-3 antialiased sm:py-5">
@@ -46,7 +64,7 @@ export default function EmployeeCardHeader() {
               <button
                 id="actionsDropdownButton"
                 type="button"
-                className="flex items-center justify-center px-4 py-2 text-sm font-medium rounded-lg text-pureBlack bg-secondary focus:ring-4 bg-primary-600 hover:bg-white"
+                className="flex items-center justify-center px-4 py-2 text-sm font-medium duration-300 rounded-lg text-pureBlack bg-secondary focus:ring-4 bg-primary-600 hover:bg-white"
               >
                 <svg
                   className="h-3.5 w-3.5 mr-2"
@@ -68,7 +86,7 @@ export default function EmployeeCardHeader() {
                   <button
                     id="actionsDropdownButton"
                     onClick={toggleFilterDropdown}
-                    className="flex items-center justify-center w-full px-4 py-2 text-sm font-medium bg-white rounded-lg md:w-auto focus:outline-none hover:text-primary-700 focus:z-10 focus:ring-4 hover:text-black hover:bg-secondary"
+                    className="flex items-center justify-center w-full px-4 py-2 text-sm duration-300 bg-white rounded-lg md:w-auto focus:outline-none hover:text-primary-700 focus:z-10 focus:ring-4 hover:text-black hover:bg-secondary"
                     type="button"
                   >
                     <svg

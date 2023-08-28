@@ -1,5 +1,5 @@
 import EmployeeBodyCard from '../components/employee/EmployeeBodyCard';
-import EmployeeCardHeader from '../components/employee/EmployeeCardHeader';
+import EmployeeCardHeader from '../components/employee/EmployeeHeaderCard';
 import EmployeeBootomCard from '../components/employee/EmployeeBootomCard';
 const Employee = () => {
   return (
