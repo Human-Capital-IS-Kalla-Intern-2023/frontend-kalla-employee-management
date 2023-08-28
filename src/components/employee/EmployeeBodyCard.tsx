@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export default function EmployeeBodyCard() {
   const [activeDropdown, setActiveDropdown] = useState<number | null | boolean>(
     null
   );
+
+  const scrollRef = useRef(false);
 
   const toggleDropdown = (rowIndex: number) => {
     setActiveDropdown((prevIndex) =>
@@ -17,8 +19,9 @@ export default function EmployeeBodyCard() {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (activeDropdown) {
+      if (scrollRef.current) {
         closeFilterDropdown();
+        scrollRef.current = false;
       }
     };
 
@@ -27,7 +30,19 @@ export default function EmployeeBodyCard() {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [activeDropdown]);
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      scrollRef.current = true;
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   interface EmployeeData {
     fullName: string;
@@ -140,7 +155,12 @@ export default function EmployeeBodyCard() {
               </thead>
               <tbody>
                 {data.map((employee: EmployeeData, index: number) => (
-                  <tr className="border-b " key={index}>
+                  <tr
+                    className={`border-b ${
+                      index === data.length - 1 ? 'border-none' : ''
+                    } ${activeDropdown === index ? 'bg-slate-200' : ''}`}
+                    key={index}
+                  >
                     <th
                       scope="row"
                       className="px-4 py-3 font-medium text-black whitespace-nowrap"
@@ -153,7 +173,7 @@ export default function EmployeeBodyCard() {
                       {employee.jabatanUtama}
                     </td>
                     <td className="px-4 py-3">{employee.jabatanLainnya}</td>
-                    <td className="flex items-center justify-end px-4 py-3">
+                    <td className="flex items-center justify-end px-4 py-3 ">
                       <button
                         id={`dropdown-button-${index}`}
                         className="inline-flex items-center text-sm font-medium rounded-lg hover:text-center "
@@ -171,7 +191,11 @@ export default function EmployeeBodyCard() {
                         </svg>
                       </button>
                       {activeDropdown === index && (
-                        <div className="fixed right-0 z-10 mr-10 bg-white divide-y rounded shadow-2xl w-44">
+                        <div
+                          className={`absolute right-0 z-10 mr-10 bg-white divide-y rounded shadow-2xl w-44 ${
+                            index === data.length - 1 ? 'mb-20' : ''
+                          }`}
+                        >
                           <ul className="py-1 text-sm">
                             <li>
                               <button
