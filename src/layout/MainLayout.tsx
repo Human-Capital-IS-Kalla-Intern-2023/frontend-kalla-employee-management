@@ -7,7 +7,7 @@ function MainLayout({ children }: any) {
   const isLoginPage = location.pathname === '/';
   const isNotAllow = location.pathname === '/notallow';
   const isNotFound = location.pathname === '/notfound';
-  const isDenied = location.pathname === '/permissiondenied'
+  const isDenied = location.pathname === '/permissiondenied';
 
   if (isLoginPage || isNotAllow || isNotFound || isDenied) {
     return <main className="py-4 mx-auto">{children}</main>;
@@ -21,4 +21,4 @@ function MainLayout({ children }: any) {
   );
 }
 
-export default MainLayout;
+export default MainLayout;
