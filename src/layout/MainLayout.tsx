@@ -11,7 +11,7 @@ function MainLayout({ children }: any) {
   }
 
   return (
-    <div className="flex gap-5">
+    <div className="flex gap-5 ">
       <Sidebar />
       <main className="flex-1 py-4 mx-auto">{children}</main>
     </div>

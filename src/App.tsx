@@ -10,7 +10,7 @@ import Reports from './pages/Reports';
 import Logout from './pages/Logout';
 
 import './App.css';
-
+import './index.css';
 const App = () => {
   return (
     <Router>

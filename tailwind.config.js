@@ -4,17 +4,25 @@ import scrollbarPlugin from 'tailwind-scrollbar';
 export default {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
-    colors: {
-      primary: '#0B6533',
-      white: '#fff',
-      black: '#2F2F41',
-      pureBlack: '#000',
-      link: '#0751C5',
-    },
     fontFamily: {
       body: ['Poppins'],
     },
-    extend: {},
+    extend: {
+      colors: {
+        primary: '#0B6533',
+        secondary: '#DCA63F',
+        white: '#fff',
+        black: '#2F2F41',
+        pureBlack: '#000',
+        link: '#0751C5',
+        gray: '#374151',
+        transparet: '#FFFFFF00',
+      },
+
+      boxShadow: {
+        custom: '0 0 30px 2px  rgba(0, 0, 0, 0.3)',
+      },
+    },
   },
   plugins: [scrollbarPlugin],
 };
