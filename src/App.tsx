@@ -9,6 +9,8 @@ import Company from './pages/Company';
 import Reports from './pages/Reports';
 import Logout from './pages/Logout';
 import NotFound from './pages/NotFound';
+import PermissionDenied from './pages/PermissionDenied';
+
 
 import './App.css';
 const App = () => {
@@ -24,10 +26,11 @@ const App = () => {
           <Route path="/company/:aID" element={<Company />} />
           <Route path="/setting/:settingId" element={<Setting />} />
           <Route path="/notfound" element={<NotFound />} />
+          <Route path="/permissiondenied" element={<PermissionDenied />} />
         </Routes>
       </MainLayout>
     </Router>
   );
 };
 
-export default App;
+export default App;
