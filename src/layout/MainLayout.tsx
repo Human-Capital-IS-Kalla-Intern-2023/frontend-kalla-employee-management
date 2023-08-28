@@ -5,8 +5,10 @@ function MainLayout({ children }: any) {
   const location = useLocation();
 
   const isLoginPage = location.pathname === '/';
+  const isNotAllow = location.pathname === '/notallow';
+  const isNotFound = location.pathname === '/notfound';
 
-  if (isLoginPage) {
+  if (isLoginPage || isNotAllow || isNotFound) {
     return <main className="py-4 mx-auto">{children}</main>;
   }
 

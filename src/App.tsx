@@ -8,9 +8,9 @@ import Setting from './pages/Setting';
 import Company from './pages/Company';
 import Reports from './pages/Reports';
 import Logout from './pages/Logout';
+import NotFound from './pages/NotFound';
 
 import './App.css';
-import './index.css';
 const App = () => {
   return (
     <Router>
@@ -23,6 +23,7 @@ const App = () => {
           <Route path="/logout" element={<Logout />} />
           <Route path="/company/:aID" element={<Company />} />
           <Route path="/setting/:settingId" element={<Setting />} />
+          <Route path="/notfound" element={<NotFound />} />
         </Routes>
       </MainLayout>
     </Router>
