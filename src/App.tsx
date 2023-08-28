@@ -1,13 +1,32 @@
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-function App() {
+import MainLayout from './layout/MainLayout';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
+import Employee from './pages/Employee';
+import Setting from './pages/Setting';
+import Company from './pages/Company';
+import Reports from './pages/Reports';
+import Logout from './pages/Logout';
+
+import './App.css';
+import './index.css';
+const App = () => {
   return (
-    <>
-      <div className="flex items-center justify-center h-screen">
-        <div className="text-5xl text-center">WELCOME TO HOMEPAGE</div>
-      </div>
-    </>
+    <Router>
+      <MainLayout>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/employee" element={<Employee />} />
+          <Route path="/reports" element={<Reports />} />
+          <Route path="/logout" element={<Logout />} />
+          <Route path="/company/:aID" element={<Company />} />
+          <Route path="/setting/:settingId" element={<Setting />} />
+        </Routes>
+      </MainLayout>
+    </Router>
   );
-}
+};
 
 export default App;
