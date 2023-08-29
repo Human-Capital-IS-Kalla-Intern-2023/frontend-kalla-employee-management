@@ -1,9 +1,11 @@
 import ErrorCard403 from '../components/errorpage/ErrorCard403';
 
-export default function Login() {
+const PermissionDenied = () => {
   return (
     <>
       <ErrorCard403 />
     </>
   );
-}
+};
+
+export default PermissionDenied;

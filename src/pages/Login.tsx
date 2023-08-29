@@ -1,9 +1,11 @@
 import LoginCard from '../components/login/LoginCard';
 
-export default function Login() {
+const Login = () => {
   return (
     <>
       <LoginCard />
     </>
   );
-}
+};
+
+export default Login;

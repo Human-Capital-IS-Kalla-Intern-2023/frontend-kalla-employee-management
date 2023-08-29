@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export default function EmployeeCardHeader() {
+const EmployeeHeaderCard = () => {
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
 
   const toggleFilterDropdown = () => {
@@ -53,7 +53,6 @@ export default function EmployeeCardHeader() {
                   </div>
                   <input
                     type="text"
-                    id="simple-search"
                     className="block w-full p-2 pl-10 text-sm text-black border rounded-lg "
                     placeholder="Search"
                   />
@@ -62,7 +61,6 @@ export default function EmployeeCardHeader() {
             </div>
             <div className="flex flex-col items-stretch justify-end flex-shrink-0 w-full space-y-2 md:w-auto md:flex-row md:space-y-0 md:items-center md:space-x-3">
               <button
-                id="actionsDropdownButton"
                 type="button"
                 className="flex items-center justify-center px-4 py-2 text-sm font-medium duration-300 rounded-lg text-pureBlack bg-secondary focus:ring-4 bg-primary-600 hover:bg-white"
               >
@@ -79,12 +77,11 @@ export default function EmployeeCardHeader() {
                     d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
                   />
                 </svg>
-                Add product
+                Add Employee
               </button>
               <div className="relative flex items-center w-full space-x-3 md:w-auto">
                 <div className="relative inline-block">
                   <button
-                    id="actionsDropdownButton"
                     onClick={toggleFilterDropdown}
                     className="flex items-center justify-center w-full px-4 py-2 text-sm duration-300 bg-white rounded-lg md:w-auto focus:outline-none hover:text-primary-700 focus:z-10 focus:ring-4 hover:text-black hover:bg-secondary"
                     type="button"
@@ -167,4 +164,6 @@ export default function EmployeeCardHeader() {
       </div>
     </section>
   );
-}
+};
+
+export default EmployeeHeaderCard;

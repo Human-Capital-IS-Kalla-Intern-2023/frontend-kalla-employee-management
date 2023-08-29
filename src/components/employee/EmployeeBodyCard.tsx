@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 
-export default function EmployeeBodyCard() {
+const EmployeeBodyCard = () => {
   const [activeDropdown, setActiveDropdown] = useState<number | null | boolean>(
     null
   );
@@ -177,7 +177,8 @@ export default function EmployeeBodyCard() {
                       <button
                         id={`dropdown-button-${index}`}
                         className="inline-flex items-center text-sm font-medium rounded-lg hover:text-center "
-                        type="button"
+                        role="button"
+                        aria-label="Dropdown button"
                         onClick={() => toggleDropdown(index)}
                       >
                         <svg
@@ -200,8 +201,6 @@ export default function EmployeeBodyCard() {
                             <li>
                               <button
                                 type="button"
-                                data-modal-target="updateProductModal"
-                                data-modal-toggle="updateProductModal"
                                 className="flex items-center w-full px-4 py-2 duration-200 hover: hover:text-white hover:bg-primary"
                               >
                                 <svg
@@ -224,8 +223,6 @@ export default function EmployeeBodyCard() {
                             <li>
                               <button
                                 type="button"
-                                data-modal-target="readProductModal"
-                                data-modal-toggle="readProductModal"
                                 className="flex items-center w-full px-4 py-2 duration-200 hover: hover:text-white hover:bg-primary"
                               >
                                 <svg
@@ -248,8 +245,6 @@ export default function EmployeeBodyCard() {
                             <li>
                               <button
                                 type="button"
-                                data-modal-target="deleteModal"
-                                data-modal-toggle="deleteModal"
                                 className="flex items-center w-full px-4 py-2 text-red-500 duration-200 hover: hover:text-white hover:bg-red-500"
                               >
                                 Delete
@@ -268,4 +263,6 @@ export default function EmployeeBodyCard() {
       </div>
     </section>
   );
-}
+};
+
+export default EmployeeBodyCard;
