@@ -4,9 +4,6 @@ import scrollbarPlugin from 'tailwind-scrollbar';
 export default {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
-    fontFamily: {
-      body: ['Poppins'],
-    },
     extend: {
       colors: {
         primary: '#0B6533',
@@ -21,6 +18,9 @@ export default {
 
       boxShadow: {
         custom: '0 0 30px 2px  rgba(0, 0, 0, 0.3)',
+      },
+      fontFamily: {
+        poppins: ['Poppins'],
       },
     },
   },
