@@ -1,22 +1,30 @@
-import Sidebar from './sidebar/SideBar';
 import { useLocation } from 'react-router-dom';
+import Sidebar from './sidebar/SideBar';
 
 function MainLayout({ children }: any) {
   const location = useLocation();
 
-  const isLoginPage = location.pathname === '/';
-  const isNotAllow = location.pathname === '/notallow';
-  const isNotFound = location.pathname === '/notfound';
-  const isDenied = location.pathname === '/permissiondenied';
+  // Define an array of paths that should have the sidebar
+  const sidebarPaths = [
+    '/dashboard',
+    '/employee',
+    '/reports',
+    '/company',
+    '/setting',
+  ];
 
-  if (isLoginPage || isNotAllow || isNotFound || isDenied) {
-    return <main className="py-4 mx-auto">{children}</main>;
-  }
+  const shouldShowSidebar = sidebarPaths.some((path) =>
+    location.pathname.startsWith(path)
+  );
 
   return (
     <div className="flex gap-5 ">
-      <Sidebar />
-      <main className="flex-1 py-4 mx-auto">{children}</main>
+      {shouldShowSidebar && <Sidebar />}
+      <main
+        className={shouldShowSidebar ? 'flex-1 py-4 mx-auto' : 'py-4 mx-auto'}
+      >
+        {children}
+      </main>
     </div>
   );
 }
