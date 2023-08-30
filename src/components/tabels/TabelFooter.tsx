@@ -1,7 +1,7 @@
 // Assets Import
 import { LeftArrowIcon, RightArrowIcon } from '../../assets/icons/icon';
 
-const EmployeeBootomCard = () => {
+const TabelFooter = () => {
   return (
     <section className="py-3 antialiased sm:py-5">
       <div className="max-w-screen-xl px-4 mx-auto">
@@ -83,4 +83,4 @@ const EmployeeBootomCard = () => {
   );
 };
 
-export default EmployeeBootomCard;
+export default TabelFooter;

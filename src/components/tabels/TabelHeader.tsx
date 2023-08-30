@@ -4,7 +4,19 @@ import { useState, useEffect } from 'react';
 // Assets Import
 import { SearchIcon, ArrowButtonIcon, PlusIcon } from '../../assets/icons/icon';
 
-const EmployeeHeaderCard = () => {
+interface FilterOption {
+  id: string;
+  label: string;
+}
+interface TabelHeaderProps {
+  addButtonText: string;
+  filterOptions: FilterOption[];
+}
+
+const TabelHeader: React.FC<TabelHeaderProps> = ({
+  addButtonText,
+  filterOptions,
+}) => {
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
 
   const toggleFilterDropdown = () => {
@@ -57,7 +69,7 @@ const EmployeeHeaderCard = () => {
                 className="flex items-center justify-center px-4 py-2 text-sm font-medium duration-300 rounded-lg text-pureBlack bg-secondary focus:ring-4 bg-primary-600 hover:bg-white"
               >
                 <PlusIcon className="h-3.5 w-3.5 mr-2" />
-                Add Employee
+                {addButtonText}
               </button>
               <div className="relative flex items-center w-full space-x-3 md:w-auto">
                 <div className="relative inline-block">
@@ -80,48 +92,25 @@ const EmployeeHeaderCard = () => {
                       className="space-y-2 text-sm"
                       aria-labelledby="filterDropdownButton"
                     >
-                      <li className="flex items-center px-2 py-1">
-                        <input
-                          id="nama"
-                          type="checkbox"
-                          value=""
-                          className="w-4 h-4 rounded focus:ring-2"
-                        />
-                        <label
-                          htmlFor="nama"
-                          className="ml-2 text-sm font-medium"
+                      {filterOptions.map((option: FilterOption) => (
+                        <li
+                          className="flex items-center px-2 py-1"
+                          key={option.id}
                         >
-                          Nama
-                        </label>
-                      </li>
-                      <li className="flex items-center px-2 py-1">
-                        <input
-                          id="jabatan_utama"
-                          type="checkbox"
-                          value=""
-                          className="w-4 h-4 rounded focus:ring-2"
-                        />
-                        <label
-                          htmlFor="jabatan_utama"
-                          className="ml-2 text-sm font-medium"
-                        >
-                          Jabatan Utama
-                        </label>
-                      </li>
-                      <li className="flex items-center px-2 py-1">
-                        <input
-                          id="jabatan_lainnya"
-                          type="checkbox"
-                          value=""
-                          className="w-4 h-4 rounded focus:ring-2"
-                        />
-                        <label
-                          htmlFor="jabatan_lainnya"
-                          className="ml-2 text-sm font-medium"
-                        >
-                          Jabatan Lainnya
-                        </label>
-                      </li>
+                          <input
+                            id={option.id}
+                            type="checkbox"
+                            value=""
+                            className="w-4 h-4 rounded focus:ring-2"
+                          />
+                          <label
+                            htmlFor={option.id}
+                            className="ml-2 text-sm font-medium"
+                          >
+                            {option.label}
+                          </label>
+                        </li>
+                      ))}
                     </ul>
                   </div>
                 </div>
@@ -134,4 +123,4 @@ const EmployeeHeaderCard = () => {
   );
 };
 
-export default EmployeeHeaderCard;
+export default TabelHeader;
