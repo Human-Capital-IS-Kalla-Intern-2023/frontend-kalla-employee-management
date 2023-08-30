@@ -1,37 +1,23 @@
-import axios from 'axios';
-
-const API_BASE_URL = 'http://localhost:8000/api';
+import { handleRequest } from '../helpers/ApiHelpers';
 
 const loginUser = async (credentials: any) => {
-  try {
-    const response = await axios.post(`${API_BASE_URL}/login`, credentials, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    return response.data;
-  } catch (error: any) {
-    console.error('Error When Try Login', error);
-    throw error;
-  }
+  console.log(credentials);
+
+  return await handleRequest('post', 'login', credentials, {}, 'want to login');
 };
 
 const logoutUser = async (token: string) => {
-  try {
-    const response = await axios.post(`${API_BASE_URL}/logout`, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
+  const headerToken = {
+    Authorization: `Bearer ${token}`,
+  };
 
-    console.log(response.data);
-
-    return response.data;
-  } catch (error) {
-    console.error('Error When Try Logout', error);
-    throw error;
-  }
+  return await handleRequest(
+    'post',
+    'logout',
+    {},
+    headerToken,
+    'want to logout'
+  );
 };
 
 export { loginUser, logoutUser };
