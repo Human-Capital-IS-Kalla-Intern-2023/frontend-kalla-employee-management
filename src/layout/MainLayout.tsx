@@ -1,10 +1,12 @@
+// Library & Package Import
 import { useLocation } from 'react-router-dom';
+
+// Components Import
 import Sidebar from './sidebar/SideBar';
 
 function MainLayout({ children }: any) {
   const location = useLocation();
 
-  // Define an array of paths that should have the sidebar
   const sidebarPaths = [
     '/dashboard',
     '/employee',

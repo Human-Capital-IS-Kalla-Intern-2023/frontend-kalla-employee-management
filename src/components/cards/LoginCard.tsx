@@ -1,25 +1,32 @@
-import LoginImg from '../../assets/img/login-img.webp';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
-import { faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+// Library & Package Import
 import { SetStateAction, useState } from 'react';
-// import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
-import Swal from 'sweetalert2';
 import ReactLoading from 'react-loading';
+import Cookies from 'js-cookie';
+
+// APIs Import
+import { loginUser } from '../../api/api';
+
+//Components Import
+import { ErrorAlert } from '../alerts/CustomAlert';
+
+// Assets Import
+import LoginImg from '../../assets/img/login-img.webp';
+import { OpenEyeIcon, CloseEyeIcon } from '../../assets/icons/icon';
 
 const LoginCard = () => {
   const [passwordInput, setPasswordInput] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [identifier, setIdentifier] = useState('');
+  const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  const [loginError, setLoginError] = useState(false);
+
   const navigate = useNavigate();
-  const handleIdentifierChange = (event: {
+  const handleEmailChange = (event: {
     target: { value: SetStateAction<string> };
   }) => {
-    setIdentifier(event.target.value);
+    setEmail(event.target.value);
   };
 
   const handlePasswordChange = (event: {
@@ -32,58 +39,27 @@ const LoginCard = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
-  const loginUser = async () => {
-    try {
-      setIsLoading(true);
-
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      setIsLoading(false);
-
-      // const response = await axios.post(
-      //   'http://localhost:8080/login',
-      //   credentials,
-      //   {
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //     },
-      //   }
-      // );
-
-      const response = {
-        data: 'Dummy Data',
-      };
-
-      return response.data;
-    } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Login Failed',
-        text: 'Invalid Username or Password. Please check your Username and password.',
-      });
-      console.error(error);
-    }
-  };
-
-  const handleLoginFormSubmit = async (event: {
-    preventDefault: () => void;
-  }) => {
+  const handleLoginFormSubmit = async (event: any) => {
     event.preventDefault();
 
-    // const credentials = {
-    //   identifier,
-    //   password: passwordInput,
-    // };
-    // // console.log(credentials);
+    setIsLoading(true);
+    const credentials = {
+      email,
+      password: passwordInput,
+    };
 
-    const responseData = await loginUser();
-    console.log(responseData);
-    // const Username = responseData.data.users.Username;
-    // const token = responseData.data.token;
-    // localStorage.setItem('access_token', token);
+    try {
+      const responseData = await loginUser(credentials);
+      console.log(responseData);
+      const access_token = responseData.data.access_token;
+      Cookies.set('access_token', access_token, { expires: 7 });
+      setIsLoading(false);
 
-    navigate(`/dashboard/`);
-    // setIsLoading(false);
+      navigate(`/dashboard/`);
+    } catch (error) {
+      setLoginError(true);
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -108,8 +84,8 @@ const LoginCard = () => {
                 name="Username"
                 placeholder="Username"
                 autoComplete="Username"
-                value={identifier}
-                onChange={handleIdentifierChange}
+                value={email}
+                onChange={handleEmailChange}
                 required
               />
               <div className="relative">
@@ -124,13 +100,17 @@ const LoginCard = () => {
                   required
                 />
 
-                <FontAwesomeIcon
-                  icon={isPasswordVisible ? faEyeSlash : faEye}
-                  width="16"
-                  height="16"
-                  onClick={togglePassword}
-                  className="absolute text-black -translate-y-1/2 cursor-pointer bi bi-eye top-1/2 right-3"
-                />
+                {isPasswordVisible ? (
+                  <CloseEyeIcon
+                    onClick={togglePassword}
+                    className="absolute text-black -translate-y-1/2 cursor-pointer bi bi-eye top-1/2 right-3"
+                  />
+                ) : (
+                  <OpenEyeIcon
+                    onClick={togglePassword}
+                    className="absolute text-black -translate-y-1/2 cursor-pointer bi bi-eye top-1/2 right-3"
+                  />
+                )}
               </div>
               <div className="text-xs text-link hover:text-black m text-start">
                 <Link to="/forget-pass">Forgot your password?</Link>
@@ -160,6 +140,12 @@ const LoginCard = () => {
           </div>
         </div>
       </section>
+      {loginError && (
+        <ErrorAlert
+          title="Login Failed"
+          text="Invalid Email or Password. Please check your Email and password."
+        />
+      )}
     </>
   );
 };
