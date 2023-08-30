@@ -1,6 +1,10 @@
+// Library & Package Import
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
+// Layout Import
 import MainLayout from './layout/MainLayout';
+
+// Pages Import
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Employee from './pages/Employee';

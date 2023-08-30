@@ -1,3 +1,6 @@
+// Assets Import
+import { LeftArrowIcon, RightArrowIcon } from '../../assets/icons/icon';
+
 const EmployeeBootomCard = () => {
   return (
     <section className="py-3 antialiased sm:py-5">
@@ -19,19 +22,7 @@ const EmployeeBootomCard = () => {
                   className="flex items-center justify-center h-full py-1.5 px-3 ml-0  bg-white rounded-l-lg border   hover:bg-primary    border-pureBlack hover:text-white"
                 >
                   <span className="sr-only">Previous</span>
-                  <svg
-                    className="w-5 h-5"
-                    aria-hidden="true"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+                  <LeftArrowIcon className="w-5 h-5" />
                 </a>
               </li>
               <li>
@@ -81,19 +72,7 @@ const EmployeeBootomCard = () => {
                   className="flex items-center justify-center h-full py-1.5 px-3 leading-tight  bg-white rounded-r-lg border hover:bg-primar border-pureBlackhover:text-white"
                 >
                   <span className="sr-only">Next</span>
-                  <svg
-                    className="w-5 h-5"
-                    aria-hidden="true"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+                  <RightArrowIcon className="w-5 h-5" />
                 </a>
               </li>
             </ul>
