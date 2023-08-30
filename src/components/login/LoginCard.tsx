@@ -9,7 +9,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import ReactLoading from 'react-loading';
 
-export default function LoginCard() {
+const LoginCard = () => {
   const [passwordInput, setPasswordInput] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [identifier, setIdentifier] = useState('');
@@ -162,4 +162,6 @@ export default function LoginCard() {
       </section>
     </>
   );
-}
+};
+
+export default LoginCard;

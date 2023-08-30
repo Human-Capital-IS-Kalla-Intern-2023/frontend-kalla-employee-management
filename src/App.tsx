@@ -11,22 +11,21 @@ import Logout from './pages/Logout';
 import NotFound from './pages/NotFound';
 import PermissionDenied from './pages/PermissionDenied';
 
-
 import './App.css';
 const App = () => {
   return (
     <Router>
-      <MainLayout>
+      <MainLayout className="font-poppins">
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/employee" element={<Employee />} />
           <Route path="/reports" element={<Reports />} />
           <Route path="/logout" element={<Logout />} />
-          <Route path="/company/:aID" element={<Company />} />
+          <Route path="/company/:companyId" element={<Company />} />
           <Route path="/setting/:settingId" element={<Setting />} />
-          <Route path="/notfound" element={<NotFound />} />
           <Route path="/permissiondenied" element={<PermissionDenied />} />
+          <Route path="/*" element={<NotFound />} />
         </Routes>
       </MainLayout>
     </Router>

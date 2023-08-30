@@ -8,22 +8,24 @@ const SideBarMenu = ({ data }: any) => {
 
   return (
     <>
-      <li
-        className={`link flex items-center ${pathname.includes(data.name)}`}
-        onClick={() => setSubMenuOpen(!subMenuOpen)}
-      >
-        {data.icon}
-        <p className="flex-1 ml-2 capitalize">{data.name}</p>
-
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          height="1em"
-          viewBox="0 0 448 512"
-          className={` ${subMenuOpen && 'rotate-180'} duration-200  `}
+      <ul>
+        <li
+          className={`link flex items-center ${pathname.includes(data.name)}`}
+          onClick={() => setSubMenuOpen(!subMenuOpen)}
         >
-          <path d="M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" />
-        </svg>
-      </li>
+          {data.icon}
+          <p className="flex-1 ml-2 capitalize">{data.name}</p>
+
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="1em"
+            viewBox="0 0 448 512"
+            className={` ${subMenuOpen && 'rotate-180'} duration-200  `}
+          >
+            <path d="M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" />
+          </svg>
+        </li>
+      </ul>
       <motion.ul
         animate={
           subMenuOpen

@@ -1,4 +1,4 @@
-export default function EmployeeBootomCard() {
+const EmployeeBootomCard = () => {
   return (
     <section className="py-3 antialiased sm:py-5">
       <div className="max-w-screen-xl px-4 mx-auto">
@@ -102,4 +102,6 @@ export default function EmployeeBootomCard() {
       </div>
     </section>
   );
-}
+};
+
+export default EmployeeBootomCard;
