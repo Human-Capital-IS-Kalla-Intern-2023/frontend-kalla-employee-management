@@ -2,16 +2,11 @@
 import { useEffect, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useMediaQuery } from 'react-responsive';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
-import ReactLoading from 'react-loading';
-import Cookies from 'js-cookie';
-
-// APIs Import
-import { logoutUser } from '../../api/api';
+import { NavLink, useLocation } from 'react-router-dom';
 
 // Components Import
 import SideBarMenu from './SideBarMenu';
+import ButtonLogout from '../../components/buttons/LogoutButton';
 
 // Assets Import
 import logoKalla from '../../assets/img/kalla-logo-full.webp';
@@ -20,7 +15,6 @@ import {
   DashboardIcon,
   UserIcon,
   ReportIcon,
-  LogoutIcon,
   CloseSidebarIcon,
   ReponsiveSidebarIcon,
 } from '../../assets/icons/icon';
@@ -30,31 +24,6 @@ const Sidebar = () => {
   const [open, setOpen] = useState(isTabletMid ? false : true);
   const { pathname } = useLocation();
   const sidebarRef = useRef<HTMLDivElement>(null);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const navigate = useNavigate();
-
-  const handleLogout = async () => {
-    setIsLoading(true);
-    const token = Cookies.get('access_token');
-
-    if (token) {
-      const responseData = await logoutUser(token);
-      console.log(responseData);
-      if (responseData) {
-        Cookies.remove('access_token');
-        navigate(`/`);
-      }
-    } else {
-      Swal.fire({
-        icon: 'error',
-        title: 'Login Failed',
-        text: 'Invalid Email or Password. Please check your Email and password.',
-      });
-    }
-
-    setIsLoading(false);
-  };
 
   const textAnimation = {
     open: { opacity: 1 },
@@ -124,11 +93,6 @@ const Sidebar = () => {
 
   return (
     <>
-      {isLoading && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <ReactLoading type="spin" color="green" height={50} width={50} />
-        </div>
-      )}
       <div className="">
         <div
           onClick={() => setOpen(false)}
@@ -216,37 +180,7 @@ const Sidebar = () => {
                   ))}
                 </div>
               )}
-              <li className="px-1 py-2 mt-3 mb-1 rounded-md hover:bg-primary hover:text-white">
-                <button
-                  onClick={() => {
-                    Swal.fire({
-                      icon: 'warning',
-                      title: 'Confirm Logout',
-                      text: 'Are you sure you want to log out?',
-                      showCancelButton: true,
-                      confirmButtonText: 'Logout',
-                      cancelButtonText: 'Cancel',
-                    }).then((result) => {
-                      if (result.isConfirmed) {
-                        handleLogout();
-                      }
-                    });
-                  }}
-                  className=" link"
-                >
-                  <div className="flex items-center">
-                    <LogoutIcon className="min-w-max" />
-
-                    <motion.div
-                      variants={textAnimation}
-                      animate={open ? 'open' : 'closed'}
-                      className="ml-2 link"
-                    >
-                      Logout
-                    </motion.div>
-                  </div>
-                </button>
-              </li>
+              <ButtonLogout />
             </ul>
           </div>
           <motion.div
