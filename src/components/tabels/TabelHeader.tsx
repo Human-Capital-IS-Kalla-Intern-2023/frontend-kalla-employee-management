@@ -9,14 +9,24 @@ interface FilterOption {
   id: string;
   label: string;
 }
+
+interface InputField {
+  id: string;
+  label: string;
+  name: string;
+  type?: string;
+}
 interface TabelHeaderProps {
   addButtonText: string;
+  title: string;
   filterOptions: FilterOption[];
+  inputFields: InputField[];
 }
-
 const TabelHeader: React.FC<TabelHeaderProps> = ({
   addButtonText,
+  title,
   filterOptions,
+  inputFields,
 }) => {
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
 
@@ -98,7 +108,12 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
               >
                 <PlusIcon className="h-3.5 w-3.5 mr-2" />
                 {addButtonText}
-                <AddModal isOpen={modalOpen} onClose={closeModal} />
+                <AddModal
+                  isOpen={modalOpen}
+                  onClose={closeModal}
+                  title={title}
+                  inputFields={inputFields}
+                />
               </button>
               <div className="relative flex items-center w-full space-x-3 md:w-auto">
                 <div className="relative inline-block">
