@@ -61,11 +61,7 @@ const LoginButton: React.FC<LoginButtonProps> = ({
         }`}
         disabled={isLoading}
       >
-        {isLoading ? (
-          <ReactLoading type="spin" color="white" height={20} width={20} />
-        ) : (
-          'Login'
-        )}
+        {isLoading ? '....' : 'Login'}
       </button>
     </div>
   );

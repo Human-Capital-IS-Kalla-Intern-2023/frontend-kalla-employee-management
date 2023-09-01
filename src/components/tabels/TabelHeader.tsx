@@ -1,6 +1,6 @@
 // Library & Package Import
 import { useState, useEffect } from 'react';
-import RegistrationModal from '../cards/RegistrationModal';
+import AddModal from '../modals/AddModal';
 
 // Assets Import
 import { SearchIcon, ArrowButtonIcon, PlusIcon } from '../../assets/icons/icon';
@@ -36,18 +36,20 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
   const closeModal = () => {
     setModalOpen(false);
   };
-  const handleEscapeKey = (event : any) => {
-    if (event.key === 'Escape') {
-      closeModal();
-    }
-  };
-  const handleOverlayClick = (e : any) => {
+
+  const handleOverlayClick = (e: any) => {
     if (e.target.classList.contains('overlay')) {
       closeModal();
     }
   };
 
   useEffect(() => {
+    const handleEscapeKey = (event: any) => {
+      if (event.key === 'Escape') {
+        closeModal();
+      }
+    };
+
     const handleScroll = () => {
       if (isFilterDropdownOpen) {
         closeFilterDropdown();
@@ -55,16 +57,19 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
     };
 
     window.addEventListener('scroll', handleScroll);
-    window.addEventListener('keydown', handleEscapeKey); // Menambahkan event listener untuk tombol "Esc"
+    window.addEventListener('keydown', handleEscapeKey);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('keydown', handleEscapeKey); // Menghapus event listener saat komponen unmount
+      window.removeEventListener('keydown', handleEscapeKey);
     };
   }, [isFilterDropdownOpen]);
 
   return (
-    <section className="py-3 antialiased sm:py-5 overlay" onClick={handleOverlayClick}>
+    <section
+      className="py-3 antialiased sm:py-5 overlay"
+      onClick={handleOverlayClick}
+    >
       <div className="max-w-screen-xl px-4 mx-auto">
         <div className="relative overflow-hidden bg-white shadow-md sm:rounded-lg">
           <div className="flex flex-col items-center justify-between p-4 space-y-3 rounded-md shadow-md md:flex-row md:space-y-0 md:space-x-4 bg-primary">
@@ -93,7 +98,7 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
               >
                 <PlusIcon className="h-3.5 w-3.5 mr-2" />
                 {addButtonText}
-                <RegistrationModal isOpen={modalOpen} onClose={closeModal} />
+                <AddModal isOpen={modalOpen} onClose={closeModal} />
               </button>
               <div className="relative flex items-center w-full space-x-3 md:w-auto">
                 <div className="relative inline-block">
