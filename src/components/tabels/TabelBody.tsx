@@ -80,7 +80,7 @@ const TabelBody = (props: CustomTabelBodyProps) => {
                 </tr>
               </thead>
               <tbody>
-                {data ? (
+                {data && Array.isArray(data) && data.length > 0 ? (
                   data.map((customCell: any, index: number) => (
                     <tr
                       className={`border-b ${
