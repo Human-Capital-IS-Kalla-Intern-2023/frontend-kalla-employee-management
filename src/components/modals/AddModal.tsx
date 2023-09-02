@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { CloseButtonIcon } from '../../assets/icons/icon';
 
-const AddModal = ({ isOpen, onClose, title, inputFields }: any) => {
+const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
   const [formData, setFormData] = useState({});
 
   const handleChange = (e: any) => {
@@ -12,10 +12,17 @@ const AddModal = ({ isOpen, onClose, title, inputFields }: any) => {
     }));
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log('Data submitted:', formData);
-    onClose();
+
+    try {
+      await onSubmit(formData);
+      console.log(formData);
+
+      onClose();
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   const handleOverlayClick = (e: any) => {
@@ -63,9 +70,12 @@ const AddModal = ({ isOpen, onClose, title, inputFields }: any) => {
               />
             </div>
           ))}
-          <div className="col-span-2 px-4 py-2 text-lg text-white duration-200 bg-green-800 border border-transparent rounded hover:bg-secondary hover:text-pureBlack hover:border-pureBlack">
+          <button
+            type="submit"
+            className="col-span-2 px-4 py-2 text-lg text-white duration-200 bg-green-800 border border-transparent rounded hover:bg-secondary hover:text-pureBlack hover:border-pureBlack"
+          >
             Submit
-          </div>
+          </button>
         </form>
       </div>
     </div>

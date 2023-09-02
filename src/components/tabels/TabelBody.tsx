@@ -149,7 +149,7 @@ const TabelBody = (props: CustomTabelBodyProps) => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={colCells.length}>No data available</td>
+                    <td colSpan={colCells.length}> </td>
                   </tr>
                 )}
               </tbody>

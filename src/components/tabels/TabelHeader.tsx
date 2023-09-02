@@ -21,12 +21,14 @@ interface TabelHeaderProps {
   title: string;
   filterOptions: FilterOption[];
   inputFields: InputField[];
+  onSubmit: any;
 }
 const TabelHeader: React.FC<TabelHeaderProps> = ({
   addButtonText,
   title,
   filterOptions,
   inputFields,
+  onSubmit,
 }) => {
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
 
@@ -100,21 +102,24 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
                 </div>
               </form>
             </div>
-            <div className="flex flex-col items-stretch justify-end flex-shrink-0 w-full space-y-2 md:w-auto md:flex-row md:space-y-0 md:items-center md:space-x-3">
+            <div className="flex flex-col items-stretch justify-end flex-shrink-0 w-full space-y-2 md:w-auto md:flex-row md:space-y-0 md:items-center">
               <button
                 onClick={openModal}
                 type="button"
-                className="flex items-center justify-center px-4 py-2 text-sm font-medium duration-300 rounded-lg text-pureBlack bg-secondary focus:ring-4 bg-primary-600 hover:bg-white"
+                className="flex items-center justify-center px-4 py-2 mr-3 text-sm font-medium duration-300 rounded-lg text-pureBlack bg-secondary focus:ring-4 bg-primary-600 hover:bg-white"
               >
                 <PlusIcon className="h-3.5 w-3.5 mr-2" />
                 {addButtonText}
+              </button>
+              {modalOpen && (
                 <AddModal
                   isOpen={modalOpen}
                   onClose={closeModal}
                   title={title}
                   inputFields={inputFields}
+                  onSubmit={onSubmit} // Pass the onSubmit callback
                 />
-              </button>
+              )}
               <div className="relative flex items-center w-full space-x-3 md:w-auto">
                 <div className="relative inline-block">
                   <button

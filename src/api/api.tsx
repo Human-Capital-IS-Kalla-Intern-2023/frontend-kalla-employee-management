@@ -21,7 +21,7 @@ const logoutUser = async (token: string) => {
   );
 };
 
-const fetchDepartments = async () => {
+const getDirectorat = async () => {
   try {
     const token = Cookies.get('access_token');
     if (!token) {
@@ -33,19 +33,45 @@ const fetchDepartments = async () => {
       Authorization: `Bearer ${token}`,
     };
 
-    const responseDepartement = await handleRequest(
+    const reponseGetDirectorat = await handleRequest(
       'GET',
       'directorat',
       {},
       headerToken,
-      'fetching departments'
+      'fetching directorate'
     );
-    console.log(responseDepartement);
 
-    return responseDepartement.data;
+    return reponseGetDirectorat.data;
   } catch (error) {
-    console.error('Terjadi kesalahan saat mengambil data departemen:', error);
+    console.error('Terjadi kesalahan saat mengambil data directorate:', error);
   }
 };
 
-export { loginUser, logoutUser, fetchDepartments };
+const addDirectorat = async (formData: any) => {
+  try {
+    const token = Cookies.get('access_token');
+    if (!token) {
+      console.error('Token tidak tersedia');
+      return;
+    }
+
+    const headerToken = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const responseAddDirectorat = await handleRequest(
+      'POST',
+      'directorat',
+      formData,
+      headerToken,
+      'Create Directorat'
+    );
+
+    return responseAddDirectorat;
+  } catch (error) {
+    console.error('Error creating directorate:', error);
+    throw error;
+  }
+};
+
+export { loginUser, logoutUser, getDirectorat, addDirectorat };
