@@ -1,59 +1,86 @@
 import { handleRequest } from '../helpers/ApiHelpers';
 import Cookies from 'js-cookie';
 
+const getAccessToken = () => {
+  const token = Cookies.get('access_token');
+  console.log(token);
+  if (!token) {
+    throw new Error('Access token not available');
+  }
+  return token;
+};
+
 const loginUser = async (credentials: any) => {
-  console.log(credentials);
-
-  return await handleRequest('post', 'login', credentials, {}, 'want to login');
-};
-
-const logoutUser = async (token: string) => {
-  const headerToken = {
-    Authorization: `Bearer ${token}`,
-  };
-
-  return await handleRequest(
-    'post',
-    'logout',
-    {},
-    headerToken,
-    'want to logout'
-  );
-};
-
-const getDirectorat = async () => {
   try {
-    const token = Cookies.get('access_token');
-    if (!token) {
-      console.error('Token tidak tersedia');
-      return;
-    }
+    const responseLogin = await handleRequest(
+      'POST',
+      'login',
+      credentials,
+      {},
+      'Mencoba Login'
+    );
+
+    const access_token = responseLogin.data.access_token;
+    Cookies.set('access_token', access_token, { expires: 7 });
+
+    return true;
+  } catch (error) {
+    console.error('Terjadi kesalahan saat mencoba login ', error);
+    return false;
+  }
+};
+
+const logoutUser = async () => {
+  try {
+    const token = getAccessToken();
 
     const headerToken = {
       Authorization: `Bearer ${token}`,
     };
 
-    const reponseGetDirectorat = await handleRequest(
+    const responseData = await handleRequest(
+      'POST',
+      'logout',
+      {},
+      headerToken,
+      'Mencoba Keluar'
+    );
+
+    Cookies.remove('access_token');
+
+    return responseData;
+  } catch (error) {
+    console.error('Terjadi kesalahan saat mencoba logout ', error);
+    return false;
+  }
+};
+
+const getDirectorat = async () => {
+  try {
+    const token = getAccessToken();
+
+    const headerToken = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const responseGetDirectorat = await handleRequest(
       'GET',
       'directorat',
       {},
       headerToken,
-      'fetching directorate'
+      'Mengambil direktorat'
     );
 
-    return reponseGetDirectorat;
+    return responseGetDirectorat;
   } catch (error) {
-    console.error('Terjadi kesalahan saat mengambil data directorate:', error);
+    console.error('Terjadi kesalahan saat mengambil data direktorat:', error);
+    return false;
   }
 };
 
 const addDirectorat = async (formData: any) => {
   try {
-    const token = Cookies.get('access_token');
-    if (!token) {
-      console.error('Token tidak tersedia');
-      return;
-    }
+    const token = getAccessToken();
 
     const headerToken = {
       Authorization: `Bearer ${token}`,
@@ -64,39 +91,58 @@ const addDirectorat = async (formData: any) => {
       'directorat',
       formData,
       headerToken,
-      'Create Directorat'
+      'Membuat Direktorat'
     );
 
     return responseAddDirectorat;
   } catch (error) {
-    console.error('Error creating directorate:', error);
+    console.error('Kesalahan saat membuat direktorat:', error);
     throw error;
   }
 };
 
 const updateDirectorat = async (id: any, directoratData: any) => {
   try {
-    const token = Cookies.get('access_token');
-    if (!token) {
-      console.error('Token tidak tersedia');
-      return;
-    }
+    const token = getAccessToken();
 
     const headerToken = {
       Authorization: `Bearer ${token}`,
     };
 
-    const reponseUpdateDirectorat = await handleRequest(
+    const responseUpdateDirectorat = await handleRequest(
       'PUT',
       `directorat/${id}`,
       directoratData,
       headerToken,
-      'Update Directorat'
+      'Memperbarui Direktorat'
     );
 
-    return reponseUpdateDirectorat.data;
+    return responseUpdateDirectorat;
   } catch (error) {
-    console.error('Error creating directorate:', error);
+    console.error('Kesalahan saat memperbarui direktorat:', error);
+    throw error;
+  }
+};
+
+const deleteDirectorat = async (id: any) => {
+  try {
+    const token = getAccessToken();
+
+    const headerToken = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const responseDeleteDirectorat = await handleRequest(
+      'DELETE',
+      `directorat/${id}`,
+      null,
+      headerToken,
+      'Menghapus Direktorat'
+    );
+
+    return responseDeleteDirectorat;
+  } catch (error) {
+    console.error('Kesalahan saat menghapus direktorat:', error);
     throw error;
   }
 };
@@ -107,4 +153,5 @@ export {
   getDirectorat,
   addDirectorat,
   updateDirectorat,
+  deleteDirectorat,
 };
