@@ -1,11 +1,17 @@
 import { useLocation } from 'react-router-dom';
 import Sidebar from './sidebar/SideBar';
-import Cookies from 'js-cookie'; // Import Cookies library
+import Cookies from 'js-cookie';
 
 function MainLayout({ children }: any) {
   const location = useLocation();
 
-  const sidebarPaths = ['/dashboard', '/reports', '/company', '/setting'];
+  const sidebarPaths = [
+    '/dashboard',
+    '/employee',
+    '/reports',
+    '/company',
+    '/setting',
+  ];
 
   const isAuthenticated = !!Cookies.get('access_token');
 

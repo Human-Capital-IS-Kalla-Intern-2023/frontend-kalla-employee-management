@@ -8,7 +8,7 @@ import PrivateRoute from './helpers/PrivateRoutes';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Directorate from './pages/Directorate';
-// import Employee from './pages/Employee';
+import Employee from './pages/Employee';
 import Setting from './pages/Setting';
 import Company from './pages/Company';
 import Reports from './pages/Reports';
@@ -27,6 +27,10 @@ const App = () => {
           <Route
             path="/dashboard"
             element={<PrivateRoute path="/dashboard" element={<Dashboard />} />}
+          />
+          <Route
+            path="/employee"
+            element={<PrivateRoute path="/employee" element={<Employee />} />}
           />
           <Route
             path="/reports"
