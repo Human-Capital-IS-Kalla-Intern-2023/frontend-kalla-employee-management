@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { CloseButtonIcon } from '../../assets/icons/icon';
+import ReactLoading from 'react-loading';
 
 const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
   const [formData, setFormData] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -16,12 +18,15 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
     e.preventDefault();
 
     try {
+      setIsLoading(true);
+
       await onSubmit(formData);
       console.log(formData);
-
       onClose();
     } catch (error) {
       console.error('Error:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -72,8 +77,21 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
           ))}
           <button
             type="submit"
-            className="col-span-2 px-4 py-2 text-lg text-white duration-200 bg-green-800 border border-transparent rounded hover:bg-secondary hover:text-pureBlack hover:border-pureBlack"
+            className={`col-span-2 px-4 py-2 text-lg text-white duration-200 border rounded hover:bg-secondary hover:text-pureBlack hover:border-pureBlack ${
+              isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-800'
+            }`}
+            disabled={isLoading}
           >
+            {isLoading && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                <ReactLoading
+                  type="spin"
+                  color="green"
+                  height={50}
+                  width={50}
+                />
+              </div>
+            )}
             Submit
           </button>
         </form>

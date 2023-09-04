@@ -32,6 +32,14 @@ const LoginCard = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
+  const handleLoginError = () => {
+    setLoginError(true);
+
+    setTimeout(() => {
+      setLoginError(false);
+    }, 1000);
+  };
+
   return (
     <>
       <section className="flex items-center justify-center min-h-screen bg-gray-50">
@@ -79,7 +87,7 @@ const LoginCard = () => {
               <LoginButton
                 email={email}
                 passwordInput={passwordInput}
-                setLoginError={setLoginError}
+                onLoginError={handleLoginError}
               />
             </form>
           </div>

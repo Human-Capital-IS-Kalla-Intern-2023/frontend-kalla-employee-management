@@ -7,13 +7,13 @@ import { loginUser } from '../../api/api';
 interface LoginButtonProps {
   email: string;
   passwordInput: string;
-  setLoginError: React.Dispatch<React.SetStateAction<boolean>>;
+  onLoginError: () => void;
 }
 
 const LoginButton: React.FC<LoginButtonProps> = ({
   email,
   passwordInput,
-  setLoginError,
+  onLoginError,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -37,10 +37,10 @@ const LoginButton: React.FC<LoginButtonProps> = ({
       Cookies.set('access_token', access_token, { expires: 7 });
       setIsLoading(false);
 
-      navigate(`/dashboard/`);
+      navigate(`/dashboard`);
     } catch (error) {
       setIsLoading(false);
-      setLoginError(true);
+      onLoginError();
     }
   };
 

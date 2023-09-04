@@ -4,6 +4,7 @@ import TabelFooter from '../components/tabels/TabelFooter';
 import TabelBody from '../components/tabels/TabelBody';
 import { getDirectorat, addDirectorat, updateDirectorat } from '../api/api';
 import { SuccessAlert, ErrorAlert } from '../components/alerts/CustomAlert';
+import { ResetAlert } from '../helpers/ResetAlert';
 const colCells = [
   { key: 'id', text: 'No' },
   { key: 'directorat_name', text: 'Nama Direktorat' },
@@ -30,28 +31,40 @@ const Directorate: React.FC = () => {
   const fetchData = async () => {
     try {
       const directorateData = await getDirectorat();
-      setDirectorate(directorateData);
-    } catch (error) {
-      console.error(
-        'Terjadi kesalahan saat mengambil data directorate:',
-        error
-      );
+      setDirectorate(directorateData.data);
+    } catch (error: any) {
+      console.error('Error adding directorate:', error);
+      setErrorTitle(`${error.response.data.meta.status}`);
+      setErrorMessage(` ${error.response.data.data.message}`);
     }
   };
 
   const handleAddDirectorat = async (formData: any) => {
     try {
       const responseData = await addDirectorat(formData);
-
-      console.log('Directorate added successfully');
+      console.log(responseData);
       setSuccessTitle(`${responseData.meta.status}`);
       setSuccessMessage(`${responseData.meta.message}`);
 
       fetchData();
+
+      ResetAlert(
+        setSuccessTitle,
+        setSuccessMessage,
+        setErrorTitle,
+        setErrorMessage
+      );
     } catch (error: any) {
       console.error('Error adding directorate:', error);
-      setErrorMessage(`${error.message}`);
-      setErrorTitle(`${error.response.data.data.message}`);
+      setErrorTitle(`${error.response.data.meta.status}`);
+      setErrorMessage(` ${error.response.data.data.message}`);
+
+      ResetAlert(
+        setSuccessTitle,
+        setSuccessMessage,
+        setErrorTitle,
+        setErrorMessage
+      );
     }
   };
 
@@ -64,10 +77,17 @@ const Directorate: React.FC = () => {
       setSuccessMessage(`${responseData.meta.message}`);
 
       fetchData();
+
+      ResetAlert(
+        setSuccessTitle,
+        setSuccessMessage,
+        setErrorTitle,
+        setErrorMessage
+      );
     } catch (error: any) {
       console.error('Error editing directorate:', error);
-      setErrorMessage(`${error.message}`);
-      setErrorTitle(`${error.response.data.data.message}`);
+      setErrorTitle(`${error.response.data.meta.status}`);
+      setErrorMessage(` ${error.response.data.data.message}`);
     }
   };
 
