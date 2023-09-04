@@ -2,23 +2,52 @@ import { handleRequest } from '../helpers/ApiHelpers';
 import Cookies from 'js-cookie';
 
 const loginUser = async (credentials: any) => {
-  console.log(credentials);
+  try {
+    const responseLogin = await handleRequest(
+      'POST',
+      'login',
+      credentials,
+      {},
+      'Mencoba Login'
+    );
 
-  return await handleRequest('post', 'login', credentials, {}, 'want to login');
+    const access_token = responseLogin.data.access_token;
+    Cookies.set('access_token', access_token, { expires: 7 });
+
+    return true;
+  } catch (error) {
+    console.error('Terjadi kesalahan saat mencoba login ', error);
+    return false;
+  }
 };
 
-const logoutUser = async (token: string) => {
+const logoutUser = async () => {
+  const token = Cookies.get('access_token');
+
+  if (!token) {
+    return false;
+  }
+
   const headerToken = {
     Authorization: `Bearer ${token}`,
   };
 
-  return await handleRequest(
-    'post',
-    'logout',
-    {},
-    headerToken,
-    'want to logout'
-  );
+  try {
+    const responseData = await handleRequest(
+      'post',
+      'logout',
+      {},
+      headerToken,
+      'Mencoba Leluar'
+    );
+
+    Cookies.remove('access_token');
+
+    return responseData;
+  } catch (error) {
+    console.error('Terjadi kesalahan saat mencoba logout ', error);
+    return false;
+  }
 };
 
 const getDirectorat = async () => {
@@ -38,12 +67,13 @@ const getDirectorat = async () => {
       'directorat',
       {},
       headerToken,
-      'fetching directorate'
+      'Mengambil direktorat'
     );
 
     return reponseGetDirectorat;
   } catch (error) {
-    console.error('Terjadi kesalahan saat mengambil data directorate:', error);
+    console.error('Terjadi kesalahan saat mengambil data direktorat:', error);
+    return false;
   }
 };
 
@@ -64,12 +94,12 @@ const addDirectorat = async (formData: any) => {
       'directorat',
       formData,
       headerToken,
-      'Create Directorat'
+      'Membuat Direktorat'
     );
 
     return responseAddDirectorat;
   } catch (error) {
-    console.error('Error creating directorate:', error);
+    console.error('Kesalahan saat membuat direktorat:', error);
     throw error;
   }
 };
@@ -91,12 +121,38 @@ const updateDirectorat = async (id: any, directoratData: any) => {
       `directorat/${id}`,
       directoratData,
       headerToken,
-      'Update Directorat'
+      'Memperbarui Direktorat'
     );
 
-    return reponseUpdateDirectorat.data;
+    return reponseUpdateDirectorat;
   } catch (error) {
-    console.error('Error creating directorate:', error);
+    console.error('Kesalahan saat memperbarui direktorat:', error);
+    throw error;
+  }
+};
+const deleteDirectorat = async (id: any) => {
+  try {
+    const token = Cookies.get('access_token');
+    if (!token) {
+      console.error('Token tidak tersedia');
+      return;
+    }
+
+    const headerToken = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const responseDeleteDirectorat = await handleRequest(
+      'DELETE',
+      `directorat/${id}`,
+      null, // No request body is needed for DELETE requests
+      headerToken,
+      'Menghapus Direktorat'
+    );
+
+    return responseDeleteDirectorat;
+  } catch (error) {
+    console.error('Kesalahan saat menghapus direktorat:', error);
     throw error;
   }
 };
@@ -107,4 +163,5 @@ export {
   getDirectorat,
   addDirectorat,
   updateDirectorat,
+  deleteDirectorat,
 };
