@@ -31,6 +31,7 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
   onSubmit,
 }) => {
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const toggleFilterDropdown = () => {
     setIsFilterDropdownOpen(!isFilterDropdownOpen);
@@ -39,7 +40,6 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
   const closeFilterDropdown = () => {
     setIsFilterDropdownOpen(false);
   };
-  const [modalOpen, setModalOpen] = useState(false);
 
   const openModal = () => {
     setModalOpen(true);
@@ -117,7 +117,7 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
                   onClose={closeModal}
                   title={title}
                   inputFields={inputFields}
-                  onSubmit={onSubmit} // Pass the onSubmit callback
+                  onSubmit={onSubmit}
                 />
               )}
               <div className="relative flex items-center w-full space-x-3 md:w-auto">

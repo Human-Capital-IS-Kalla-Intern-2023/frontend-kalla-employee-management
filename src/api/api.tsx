@@ -74,4 +74,37 @@ const addDirectorat = async (formData: any) => {
   }
 };
 
-export { loginUser, logoutUser, getDirectorat, addDirectorat };
+const updateDirectorat = async (id: any, directoratData: any) => {
+  try {
+    const token = Cookies.get('access_token');
+    if (!token) {
+      console.error('Token tidak tersedia');
+      return;
+    }
+
+    const headerToken = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const reponseUpdateDirectorat = await handleRequest(
+      'PUT',
+      `directorat/${id}`,
+      directoratData,
+      headerToken,
+      'Update Directorat'
+    );
+
+    return reponseUpdateDirectorat;
+  } catch (error) {
+    console.error('Error creating directorate:', error);
+    throw error;
+  }
+};
+
+export {
+  loginUser,
+  logoutUser,
+  getDirectorat,
+  addDirectorat,
+  updateDirectorat,
+};

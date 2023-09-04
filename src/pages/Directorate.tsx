@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import TabelHeader from '../components/tabels/TabelHeader';
 import TabelFooter from '../components/tabels/TabelFooter';
 import TabelBody from '../components/tabels/TabelBody';
-import { getDirectorat, addDirectorat } from '../api/api';
+import { getDirectorat, addDirectorat, updateDirectorat } from '../api/api';
 import { SuccessAlert, ErrorAlert } from '../components/alerts/CustomAlert';
 const colCells = [
   { key: 'id', text: 'No' },
@@ -26,6 +26,7 @@ const Directorate: React.FC = () => {
 
   const [successTitle, setSuccessTitle] = useState<string | null>(null);
   const [errorTitle, setErrorTitle] = useState<string | null>(null);
+
   const fetchData = async () => {
     try {
       const directorateData = await getDirectorat();
@@ -41,7 +42,6 @@ const Directorate: React.FC = () => {
   const handleAddDirectorat = async (formData: any) => {
     try {
       const responseData = await addDirectorat(formData);
-      console.log(responseData);
 
       console.log('Directorate added successfully');
       setSuccessTitle(`${responseData.meta.status}`);
@@ -54,6 +54,23 @@ const Directorate: React.FC = () => {
       setErrorTitle(`${error.response.data.data.message}`);
     }
   };
+
+  const handleEditDirectorat = async (formData: any, id: any) => {
+    try {
+      const responseData = await updateDirectorat(id, formData);
+
+      console.log('Directorate updated successfully');
+      setSuccessTitle(`${responseData.meta.status}`);
+      setSuccessMessage(`${responseData.meta.message}`);
+
+      fetchData();
+    } catch (error: any) {
+      console.error('Error editing directorate:', error);
+      setErrorMessage(`${error.message}`);
+      setErrorTitle(`${error.response.data.data.message}`);
+    }
+  };
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -73,7 +90,13 @@ const Directorate: React.FC = () => {
         inputFields={inputField}
         onSubmit={handleAddDirectorat}
       />
-      <TabelBody colCells={colCells} data={directorate} />
+      <TabelBody
+        title="Edit Directorate"
+        colCells={colCells}
+        data={directorate}
+        inputFields={inputField}
+        onSubmit={handleEditDirectorat}
+      />
       <TabelFooter />
     </>
   );

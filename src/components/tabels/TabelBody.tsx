@@ -5,25 +5,43 @@ import { useState, useEffect, useRef } from 'react';
 import {
   ThreeDotIcon,
   EditIcon,
-  PreviewIcon,
+  DetailIcon,
   TrashIcon,
 } from '../../assets/icons/icon';
 
+import EditModal from '../modals/EditModal';
 interface ColCells {
   key: string;
   text: string;
 }
 
-interface CustomTabelBodyProps {
-  colCells: ColCells[];
-  data?: any[];
+interface InputField {
+  id: string;
+  label: string;
+  name: string;
+  type?: string;
 }
 
-const TabelBody = (props: CustomTabelBodyProps) => {
+interface TabelBodyProps {
+  title: string;
+  data?: any[];
+  colCells: ColCells[];
+  inputFields: InputField[];
+  onSubmit: any;
+}
+
+const TabelBody: React.FC<TabelBodyProps> = ({
+  title,
+  data,
+  colCells,
+  inputFields,
+  onSubmit,
+}) => {
   const [activeDropdown, setActiveDropdown] = useState<number | null | boolean>(
     null
   );
-  const { colCells, data } = props;
+  const [modalOpen, setModalOpen] = useState(false);
+  const [editId, setEditId] = useState<any>(null);
 
   const scrollRef = useRef(false);
 
@@ -37,6 +55,21 @@ const TabelBody = (props: CustomTabelBodyProps) => {
     setActiveDropdown(false);
   };
 
+  const openModal = (id: any) => {
+    setEditId(id);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  const handleOverlayClick = (e: any) => {
+    if (e.target.classList.contains('overlay')) {
+      closeModal();
+    }
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       if (scrollRef.current) {
@@ -44,28 +77,22 @@ const TabelBody = (props: CustomTabelBodyProps) => {
         scrollRef.current = false;
       }
     };
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      scrollRef.current = true;
+    const handleEscapeKey = (event: any) => {
+      if (event.key === 'Escape') {
+        closeModal();
+      }
     };
 
     window.addEventListener('scroll', handleScroll);
-
+    window.addEventListener('keydown', handleEscapeKey);
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('keydown', handleEscapeKey);
     };
   }, []);
 
   return (
-    <section className="py-3 antialiased sm:py-5">
+    <section className="py-3 antialiased sm:py-5" onClick={handleOverlayClick}>
       <div className="max-w-screen-xl px-4 mx-auto">
         <div className="relative overflow-hidden bg-white shadow-custom sm:rounded-lg">
           <div className="overflow-x-auto">
@@ -97,7 +124,10 @@ const TabelBody = (props: CustomTabelBodyProps) => {
                         </td>
                       ))}
 
-                      <td className="flex items-center justify-end px-4 py-3 ">
+                      <td
+                        className="flex items-center justify-end px-4 py-3 "
+                        onClick={handleOverlayClick}
+                      >
                         <button
                           id={`dropdown-button-${index}`}
                           className="inline-flex items-center text-sm font-medium rounded-lg hover:text-center "
@@ -116,20 +146,31 @@ const TabelBody = (props: CustomTabelBodyProps) => {
                             <ul className="py-1 text-sm">
                               <li>
                                 <button
+                                  onClick={() => openModal(customCell.id)}
                                   type="button"
                                   className="flex items-center w-full px-4 py-2 duration-200 hover: hover:text-white hover:bg-primary"
                                 >
                                   <EditIcon className="w-4 h-4 mr-2" />
                                   Edit
                                 </button>
+                                {modalOpen && (
+                                  <EditModal
+                                    isOpen={modalOpen}
+                                    onClose={closeModal}
+                                    title={title}
+                                    inputFields={inputFields}
+                                    onSubmit={onSubmit}
+                                    idToEdit={editId}
+                                  />
+                                )}
                               </li>
                               <li>
                                 <button
                                   type="button"
                                   className="flex items-center w-full px-4 py-2 duration-200 hover: hover:text-white hover:bg-primary"
                                 >
-                                  <PreviewIcon className="w-4 h-4 mr-2" />
-                                  Preview
+                                  <DetailIcon className="w-4 h-4 mr-2" />
+                                  Detail
                                 </button>
                               </li>
                               <li>

@@ -59,7 +59,7 @@ const EditIcon: React.FC<SvgIconProps> = ({ className }) => (
   </svg>
 );
 
-const PreviewIcon: React.FC<SvgIconProps> = ({ className }) => (
+const DetailIcon: React.FC<SvgIconProps> = ({ className }) => (
   <svg
     className={className}
     xmlns="http://www.w3.org/2000/svg"
@@ -301,7 +301,7 @@ const CloseButtonIcon: React.FC<SvgIconProps> = ({ className }) => (
 export {
   ThreeDotIcon,
   EditIcon,
-  PreviewIcon,
+  DetailIcon,
   TrashIcon,
   LeftArrowIcon,
   RightArrowIcon,
