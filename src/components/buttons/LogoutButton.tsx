@@ -27,9 +27,10 @@ const ButtonLogout = () => {
     } else {
       Swal.fire({
         icon: 'error',
-        title: 'Login Failed',
-        text: 'Invalid Email or Password. Please check your Email and password.',
+        title: 'Logout Failed',
+        text: 'Something went wrong',
       });
+      navigate(`/`);
     }
 
     setIsLoading(false);

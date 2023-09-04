@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 interface CustomAlertProps {
   title: string;
   text: string;
+  duration?: number;
 }
 
 const ErrorAlert: React.FC<CustomAlertProps> = ({ title, text }) => {

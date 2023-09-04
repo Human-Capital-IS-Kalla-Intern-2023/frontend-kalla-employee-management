@@ -9,7 +9,7 @@ function integratedDevServer(mode: string): PluginOption {
     apply: 'serve',
     buildStart() {
       const pathFile = '../backend-kalla-employee-management/public/hot';
-      const hostDevServer = 'http://localhost:3000';
+      const hostDevServer = 'http://localhost:4000';
       if (mode !== 'production') {
         fs.writeFileSync(pathFile, hostDevServer);
       } else {
@@ -24,5 +24,5 @@ function integratedDevServer(mode: string): PluginOption {
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), integratedDevServer('dev')],
-  server: { port: 3000, origin: 'http://localhost:3000' },
+  server: { port: 4000, origin: 'http://localhost:4000' },
 });

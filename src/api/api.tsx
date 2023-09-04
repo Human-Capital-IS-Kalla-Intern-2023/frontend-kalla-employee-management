@@ -41,7 +41,7 @@ const getDirectorat = async () => {
       'fetching directorate'
     );
 
-    return reponseGetDirectorat.data;
+    return reponseGetDirectorat;
   } catch (error) {
     console.error('Terjadi kesalahan saat mengambil data directorate:', error);
   }
@@ -94,7 +94,7 @@ const updateDirectorat = async (id: any, directoratData: any) => {
       'Update Directorat'
     );
 
-    return reponseUpdateDirectorat;
+    return reponseUpdateDirectorat.data;
   } catch (error) {
     console.error('Error creating directorate:', error);
     throw error;

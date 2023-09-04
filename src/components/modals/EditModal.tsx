@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { CloseButtonIcon } from '../../assets/icons/icon';
+import ReactLoading from 'react-loading';
 
 const EditModal = ({
   isOpen,
@@ -10,6 +11,7 @@ const EditModal = ({
   idToEdit,
 }: any) => {
   const [formData, setFormData] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -21,6 +23,7 @@ const EditModal = ({
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    setIsLoading(true);
 
     try {
       await onSubmit(formData, idToEdit);
@@ -28,6 +31,8 @@ const EditModal = ({
       onClose();
     } catch (error) {
       console.error('Error:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -80,6 +85,16 @@ const EditModal = ({
             type="submit"
             className="col-span-2 px-4 py-2 text-lg text-white duration-200 bg-green-800 border border-transparent rounded hover:bg-secondary hover:text-pureBlack hover:border-pureBlack"
           >
+            {isLoading && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                <ReactLoading
+                  type="spin"
+                  color="green"
+                  height={50}
+                  width={50}
+                />
+              </div>
+            )}
             Update
           </button>
         </form>

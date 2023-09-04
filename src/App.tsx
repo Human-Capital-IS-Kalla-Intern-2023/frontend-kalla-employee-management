@@ -8,7 +8,7 @@ import MainLayout from './layout/MainLayout';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Directorate from './pages/Directorate';
-import Employee from './pages/Employee';
+// import Employee from './pages/Employee';
 import Setting from './pages/Setting';
 import Company from './pages/Company';
 import Reports from './pages/Reports';
@@ -23,7 +23,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/employee" element={<Employee />} />
+          {/* <Route path="/employee" element={<Employee />} /> */}
           <Route path="/reports" element={<Reports />} />
           <Route path="/company/:companyId" element={<Company />} />
           <Route path="/company/directorate" element={<Directorate />} />
