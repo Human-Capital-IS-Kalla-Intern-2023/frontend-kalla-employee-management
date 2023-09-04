@@ -1,5 +1,5 @@
 import React from 'react';
-import TabelHeader from '../components/tabels/TabelHeader'; // Adjust the import path
+import TabelHeader from '../components/tabels/TabelHeader';
 import TabelFooter from '../components/tabels/TabelFooter';
 import TabelBody from '../components/tabels/TabelBody';
 
@@ -11,6 +11,50 @@ const colCells = [
   { key: 'jabatanLainnya', text: 'Jabatan Lainnya' },
 ];
 
+const inputField = [
+  {
+    id: 'employee_name',
+    label: 'Nama Karyawan',
+    name: 'Nama Karyawan',
+    type: 'text',
+  },
+  {
+    id: 'nip',
+    label: 'NIP',
+    name: 'NIP',
+    type: 'text',
+  },
+  {
+    id: 'nickname',
+    label: 'Nick Name',
+    name: 'Nick Name',
+    type: 'text',
+  },
+  {
+    id: 'hiredate',
+    label: 'Tanggal Masuk',
+    name: 'Tanggal Masuk',
+    type: 'date',
+  },
+  {
+    id: 'companyemail',
+    label: 'Company Email',
+    name: 'Company Email',
+    type: 'email',
+  },
+  {
+    id: 'mainposition',
+    label: 'Posisi Utama',
+    name: 'Posisi Utama',
+    type: 'text',
+  },
+  {
+    id: 'secondaryposition',
+    label: 'Posisi Lainnya',
+    name: 'Posisi Lainnya',
+    type: 'text',
+  },
+];
 const data = [
   {
     fullName: 'John Doe',
@@ -89,7 +133,12 @@ const Employee: React.FC = () => {
   return (
     <>
       <h1>Employee Management Page</h1>
-      <TabelHeader addButtonText="Add Employee" filterOptions={filterOptions} />
+      <TabelHeader
+        addButtonText="Add Employee"
+        title="Add Employee"
+        filterOptions={filterOptions}
+        inputFields={inputField}
+      />
       <TabelBody colCells={colCells} data={data} />
 
       <TabelFooter />

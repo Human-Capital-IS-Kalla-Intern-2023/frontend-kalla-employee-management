@@ -1,6 +1,6 @@
 // Library & Package Import
 import { useState, useEffect } from 'react';
-import RegistrationModal from '../cards/RegistrationModal';
+import AddModal from '../modals/AddModal';
 
 // Assets Import
 import { SearchIcon, ArrowButtonIcon, PlusIcon } from '../../assets/icons/icon';
@@ -9,16 +9,29 @@ interface FilterOption {
   id: string;
   label: string;
 }
+
+interface InputField {
+  id: string;
+  label: string;
+  name: string;
+  type?: string;
+}
 interface TabelHeaderProps {
   addButtonText: string;
+  title: string;
   filterOptions: FilterOption[];
+  inputFields: InputField[];
+  onSubmit: any;
 }
-
 const TabelHeader: React.FC<TabelHeaderProps> = ({
   addButtonText,
+  title,
   filterOptions,
+  inputFields,
+  onSubmit,
 }) => {
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const toggleFilterDropdown = () => {
     setIsFilterDropdownOpen(!isFilterDropdownOpen);
@@ -27,7 +40,6 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
   const closeFilterDropdown = () => {
     setIsFilterDropdownOpen(false);
   };
-  const [modalOpen, setModalOpen] = useState(false);
 
   const openModal = () => {
     setModalOpen(true);
@@ -36,18 +48,20 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
   const closeModal = () => {
     setModalOpen(false);
   };
-  const handleEscapeKey = (event : any) => {
-    if (event.key === 'Escape') {
-      closeModal();
-    }
-  };
-  const handleOverlayClick = (e : any) => {
+
+  const handleOverlayClick = (e: any) => {
     if (e.target.classList.contains('overlay')) {
       closeModal();
     }
   };
 
   useEffect(() => {
+    const handleEscapeKey = (event: any) => {
+      if (event.key === 'Escape') {
+        closeModal();
+      }
+    };
+
     const handleScroll = () => {
       if (isFilterDropdownOpen) {
         closeFilterDropdown();
@@ -55,16 +69,19 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
     };
 
     window.addEventListener('scroll', handleScroll);
-    window.addEventListener('keydown', handleEscapeKey); // Menambahkan event listener untuk tombol "Esc"
+    window.addEventListener('keydown', handleEscapeKey);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('keydown', handleEscapeKey); // Menghapus event listener saat komponen unmount
+      window.removeEventListener('keydown', handleEscapeKey);
     };
   }, [isFilterDropdownOpen]);
 
   return (
-    <section className="py-3 antialiased sm:py-5 overlay" onClick={handleOverlayClick}>
+    <section
+      className="py-3 antialiased sm:py-5 overlay"
+      onClick={handleOverlayClick}
+    >
       <div className="max-w-screen-xl px-4 mx-auto">
         <div className="relative overflow-hidden bg-white shadow-md sm:rounded-lg">
           <div className="flex flex-col items-center justify-between p-4 space-y-3 rounded-md shadow-md md:flex-row md:space-y-0 md:space-x-4 bg-primary">
@@ -85,16 +102,24 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
                 </div>
               </form>
             </div>
-            <div className="flex flex-col items-stretch justify-end flex-shrink-0 w-full space-y-2 md:w-auto md:flex-row md:space-y-0 md:items-center md:space-x-3">
+            <div className="flex flex-col items-stretch justify-end flex-shrink-0 w-full space-y-2 md:w-auto md:flex-row md:space-y-0 md:items-center">
               <button
                 onClick={openModal}
                 type="button"
-                className="flex items-center justify-center px-4 py-2 text-sm font-medium duration-300 rounded-lg text-pureBlack bg-secondary focus:ring-4 bg-primary-600 hover:bg-white"
+                className="flex items-center justify-center px-4 py-2 mr-3 text-sm font-medium duration-300 rounded-lg text-pureBlack bg-secondary focus:ring-4 bg-primary-600 hover:bg-white"
               >
                 <PlusIcon className="h-3.5 w-3.5 mr-2" />
                 {addButtonText}
-                <RegistrationModal isOpen={modalOpen} onClose={closeModal} />
               </button>
+              {modalOpen && (
+                <AddModal
+                  isOpen={modalOpen}
+                  onClose={closeModal}
+                  title={title}
+                  inputFields={inputFields}
+                  onSubmit={onSubmit}
+                />
+              )}
               <div className="relative flex items-center w-full space-x-3 md:w-auto">
                 <div className="relative inline-block">
                   <button

@@ -59,7 +59,7 @@ const EditIcon: React.FC<SvgIconProps> = ({ className }) => (
   </svg>
 );
 
-const PreviewIcon: React.FC<SvgIconProps> = ({ className }) => (
+const DetailIcon: React.FC<SvgIconProps> = ({ className }) => (
   <svg
     className={className}
     xmlns="http://www.w3.org/2000/svg"
@@ -282,10 +282,26 @@ const DropdownSidebarMenuIcon: React.FC<SvgIconProps> = ({ className }) => (
     <path d="M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" />
   </svg>
 );
+
+const CloseButtonIcon: React.FC<SvgIconProps> = ({ className }) => (
+  <svg
+    fill="none"
+    viewBox="0 0 24 24"
+    height="1em"
+    width="1em"
+    className={className}
+  >
+    <path
+      fill="currentColor"
+      d="M6.225 4.811a1 1 0 00-1.414 1.414L10.586 12 4.81 17.775a1 1 0 101.414 1.414L12 13.414l5.775 5.775a1 1 0 001.414-1.414L13.414 12l5.775-5.775a1 1 0 00-1.414-1.414L12 10.586 6.225 4.81z"
+    />
+  </svg>
+);
+
 export {
   ThreeDotIcon,
   EditIcon,
-  PreviewIcon,
+  DetailIcon,
   TrashIcon,
   LeftArrowIcon,
   RightArrowIcon,
@@ -303,4 +319,5 @@ export {
   CloseSidebarIcon,
   ReponsiveSidebarIcon,
   DropdownSidebarMenuIcon,
+  CloseButtonIcon,
 };

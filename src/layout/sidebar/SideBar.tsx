@@ -82,7 +82,7 @@ const Sidebar = () => {
       name: 'company',
 
       icon: <CompanyIcon className="min-w-max" />,
-      menus: ['bisnis unit', 'departement', 'division'],
+      menus: ['bisnis unit', 'directorate', 'division'],
     },
     {
       name: 'setting',
@@ -96,7 +96,7 @@ const Sidebar = () => {
       <div className="">
         <div
           onClick={() => setOpen(false)}
-          className={`md:hidden fixed inset-0 max-h-full  z-[998] bg-black/50 ${
+          className={`md:hidden fixed inset-0 max-h-full z-10 bg-black/50 ${
             open ? 'block' : 'hidden'
           } `}
         ></div>
@@ -105,7 +105,7 @@ const Sidebar = () => {
           variants={Nav_animation}
           initial={{ x: isTabletMid ? -250 : 0 }}
           animate={open ? 'open' : 'closed'}
-          className=" bg-white text-gray  z-[999] max-w-[16rem]  w-[16rem] 
+          className=" bg-white text-gray  z-10 max-w-[16rem]  w-[16rem] 
             overflow-hidden md:relative fixed
          h-full  min-h-screen"
         >

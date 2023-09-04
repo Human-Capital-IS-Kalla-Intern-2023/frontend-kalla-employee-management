@@ -7,7 +7,7 @@ import MainLayout from './layout/MainLayout';
 // Pages Import
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
-import Departement from './pages/Departement';
+import Directorate from './pages/Directorate';
 import Employee from './pages/Employee';
 import Setting from './pages/Setting';
 import Company from './pages/Company';
@@ -26,7 +26,7 @@ const App = () => {
           <Route path="/employee" element={<Employee />} />
           <Route path="/reports" element={<Reports />} />
           <Route path="/company/:companyId" element={<Company />} />
-          <Route path="/company/departement" element={<Departement />} />
+          <Route path="/company/directorate" element={<Directorate />} />
 
           <Route path="/setting/:settingId" element={<Setting />} />
           <Route path="/permissiondenied" element={<PermissionDenied />} />
