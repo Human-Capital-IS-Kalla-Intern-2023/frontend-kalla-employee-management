@@ -11,7 +11,6 @@ import {
 
 import EditModal from '../modals/EditModal';
 import DeleteModal from '../modals/DeleteModal';
-import DetailModal from '../modals/DetailModal';
 interface ColCells {
   key: string;
   text: string;
@@ -43,8 +42,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
     null
   );
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
-  const [selectedData] = useState(null);
+
 
   const handleDeleteClick = () => {
     setDeleteModalOpen(true);
@@ -83,10 +81,6 @@ const TabelBody: React.FC<TabelBodyProps> = ({
     if (e.target.classList.contains('overlay')) {
       closeModal();
     }
-  };
-
-  const openDetailModal = () => {
-    setIsDetailModalOpen(true);
   };
   useEffect(() => {
     const handleScroll = () => {
@@ -185,17 +179,11 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                               <li>
                                 <button
                                   type="button"
-                                  onClick={openDetailModal}
                                   className="flex items-center w-full px-4 py-2 duration-200 hover: hover:text-white hover:bg-primary"
                                 >
                                   <DetailIcon className="w-4 h-4 mr-2" />
                                   Detail
                                 </button>
-                                <DetailModal
-                                  isOpen={isDetailModalOpen}
-                                  onClose={() => setIsDetailModalOpen(false)}
-                                  data={selectedData}
-                                />  
                               </li>
                               <li>
                                 <button
