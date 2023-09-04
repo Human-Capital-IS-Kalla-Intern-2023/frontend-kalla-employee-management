@@ -60,7 +60,7 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
       if (event.key === 'Escape') {
         closeModal();
       }
-    };
+    }
 
     const handleScroll = () => {
       if (isFilterDropdownOpen) {

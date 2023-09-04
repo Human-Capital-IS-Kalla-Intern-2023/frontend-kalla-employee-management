@@ -10,6 +10,8 @@ import {
 } from '../../assets/icons/icon';
 
 import EditModal from '../modals/EditModal';
+import DeleteModal from '../modals/DeleteModal';
+import DetailModal from '../modals/DetailModal';
 interface ColCells {
   key: string;
   text: string;
@@ -40,6 +42,19 @@ const TabelBody: React.FC<TabelBodyProps> = ({
   const [activeDropdown, setActiveDropdown] = useState<number | null | boolean>(
     null
   );
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [selectedData] = useState(null);
+
+  const handleDeleteClick = () => {
+    setDeleteModalOpen(true);
+  };
+
+  const handleDeleteConfirm = () => {
+    // Lakukan logika penghapusan di sini
+    console.log('Delete Successful');
+    setDeleteModalOpen(false);
+  };
   const [modalOpen, setModalOpen] = useState(false);
   const [editId, setEditId] = useState<any>(null);
 
@@ -70,6 +85,9 @@ const TabelBody: React.FC<TabelBodyProps> = ({
     }
   };
 
+  const openDetailModal = () => {
+    setIsDetailModalOpen(true);
+  };
   useEffect(() => {
     const handleScroll = () => {
       if (scrollRef.current) {
@@ -82,17 +100,17 @@ const TabelBody: React.FC<TabelBodyProps> = ({
         closeModal();
       }
     };
-
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('keydown', handleEscapeKey);
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('keydown', handleEscapeKey);
     };
-  }, []);
+  }
+  );
 
   return (
-    <section className="py-3 antialiased sm:py-5" onClick={handleOverlayClick}>
+    <section className="py-3 antialiased sm:py-5 overlay" onClick={handleOverlayClick}>
       <div className="max-w-screen-xl px-4 mx-auto">
         <div className="relative overflow-hidden bg-white shadow-custom sm:rounded-lg">
           <div className="overflow-x-auto">
@@ -167,19 +185,31 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                               <li>
                                 <button
                                   type="button"
+                                  onClick={openDetailModal}
                                   className="flex items-center w-full px-4 py-2 duration-200 hover: hover:text-white hover:bg-primary"
                                 >
                                   <DetailIcon className="w-4 h-4 mr-2" />
                                   Detail
                                 </button>
+                                <DetailModal
+                                  isOpen={isDetailModalOpen}
+                                  onClose={() => setIsDetailModalOpen(false)}
+                                  data={selectedData}
+                                />  
                               </li>
                               <li>
                                 <button
                                   type="button"
+                                  onClick={handleDeleteClick}
                                   className="flex items-center w-full px-4 py-2 text-red-500 duration-200 hover: hover:text-white hover:bg-red-500"
                                 >
                                   <TrashIcon className="w-4 h-4 mr-2" />
                                   Delete
+                                  <DeleteModal
+                                  isOpen={isDeleteModalOpen}
+                                  onClose={() => setDeleteModalOpen(false)}
+                                  onDelete={handleDeleteConfirm}
+                                  />
                                 </button>
                               </li>
                             </ul>
