@@ -9,8 +9,11 @@ import {
   TrashIcon,
 } from '../../assets/icons/icon';
 
+//Import Modals
 import EditModal from '../modals/EditModal';
 import DeleteModal from '../modals/DeleteModal';
+import DetailModal from '../modals/DetailModal';
+
 interface ColCells {
   key: string;
   text: string;
@@ -44,6 +47,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
     null
   );
 
+  //EditModal
   const [editId, setEditId] = useState<any>(null);
 
   const scrollRef = useRef(false);
@@ -53,25 +57,29 @@ const TabelBody: React.FC<TabelBodyProps> = ({
       prevIndex === rowIndex ? null : rowIndex
     );
   };
-
+  //DeleteModal
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [detailModalOpen, setIsDetailModalOpen] = useState(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);
 
+  //EditModal
   const openEditModal = (id: any) => {
     setEditId(id);
     setEditModalOpen(true);
   };
 
+  //EditModal
   const closeEditModal = () => {
     setEditModalOpen(false);
   };
 
+  //DeleteModal
   const openDeleteModal = (id: number) => {
     setDeleteId(id);
     setDeleteModalOpen(true);
   };
-
+  //DeleteModal
   const closeDeleteModal = () => {
     setDeleteId(null);
     setDeleteModalOpen(false);
@@ -81,10 +89,29 @@ const TabelBody: React.FC<TabelBodyProps> = ({
     setActiveDropdown(false);
   };
 
+  //DetailModal
+  const [selectedData, setSelectedData] = useState(null);
+  //DetailModal
+  const dataToDisplay : any = {
+    name: 'John Doe',
+    age: 30,
+    // Tambahkan data lainnya sesuai kebutuhan
+  };
+
+  //DetailModal
+  const openDetailModal = () => {
+    setSelectedData(dataToDisplay);
+    setIsDetailModalOpen(true);
+  };
+  const closeDetailModal = () => {
+    setIsDetailModalOpen(false);
+  };
+
   const handleOverlayClick = (e: any) => {
     if (e.target.classList.contains('overlay')) {
       closeEditModal();
       closeDeleteModal();
+      closeDetailModal();
     }
   };
   useEffect(() => {
@@ -94,10 +121,13 @@ const TabelBody: React.FC<TabelBodyProps> = ({
         scrollRef.current = false;
       }
     };
+
+    //Esc Key
     const handleEscapeKey = (event: any) => {
       if (event.key === 'Escape') {
         closeEditModal();
         closeDeleteModal();
+        closeDetailModal();
       }
     };
     window.addEventListener('scroll', handleScroll);
@@ -145,7 +175,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                       ))}
 
                       <td
-                        className="flex items-center justify-end px-4 py-3 "
+                        className="flex items-center justify-end px-4 py-3"
                         onClick={handleOverlayClick}
                       >
                         <button
@@ -187,11 +217,19 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                               <li>
                                 <button
                                   type="button"
+                                  onClick={openDetailModal}
                                   className="flex items-center w-full px-4 py-2 duration-200 hover: hover:text-white hover:bg-primary"
                                 >
                                   <DetailIcon className="w-4 h-4 mr-2" />
                                   Detail
                                 </button>
+                                {detailModalOpen && (
+                                <DetailModal
+                                    isOpen={detailModalOpen}
+                                    onClose={closeDetailModal}
+                                    data={selectedData}
+                                  />
+                                )}
                               </li>
                               <li>
                                 <button
