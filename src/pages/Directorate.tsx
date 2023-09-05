@@ -17,7 +17,11 @@ import {
   getDetailDirectorat,
 } from '../api/DirectoratAPI';
 
-import { colCells, filterOptions, inputField } from '../data/DirectoratData';
+import {
+  colCells,
+  filterOptions,
+  inputField,
+} from '../assets/data/DirectoratData';
 
 const Directorate: React.FC = () => {
   // Alert State
