@@ -1,12 +1,12 @@
-// Library & Package Import
+// Import Library & Package
 import { SetStateAction, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-//Components Import
+//Import Components
 import { ErrorAlert } from '../alerts/CustomAlert';
 import LoginButton from '../buttons/LoginButton';
 
-// Assets Import
+//Import Assets
 import LoginImg from '../../assets/img/login-img.webp';
 import { OpenEyeIcon, CloseEyeIcon } from '../../assets/icons/icon';
 

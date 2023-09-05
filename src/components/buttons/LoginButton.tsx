@@ -1,8 +1,10 @@
+// Import Library & Package
 import React, { useState } from 'react';
 import ReactLoading from 'react-loading';
 import { useNavigate } from 'react-router-dom';
-import { loginUser } from '../../api/api';
 
+// Import API
+import { loginUser } from '../../api/AuthAPI';
 interface LoginButtonProps {
   email: string;
   passwordInput: string;

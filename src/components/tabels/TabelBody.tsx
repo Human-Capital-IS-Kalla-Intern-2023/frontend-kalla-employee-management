@@ -1,13 +1,18 @@
+// Library & Package Import
 import React, { useState, useEffect, useRef } from 'react';
+
+// Import Components
+import EditModal from '../modals/EditModal';
+import DeleteModal from '../modals/DeleteModal';
+import DetailModal from '../modals/DetailModal';
+
+// Import Assets
 import {
   ThreeDotIcon,
   EditIcon,
   DetailIcon,
   TrashIcon,
 } from '../../assets/icons/icon';
-import EditModal from '../modals/EditModal';
-import DeleteModal from '../modals/DeleteModal';
-import DetailModal from '../modals/DetailModal';
 
 interface ColCells {
   key: string;

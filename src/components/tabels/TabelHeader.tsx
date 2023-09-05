@@ -1,8 +1,8 @@
-// Library & Package Import
+// Import Library & Package
 import { useState, useEffect } from 'react';
 import AddModal from '../modals/AddModal';
 
-// Assets Import
+// Import Assets
 import { SearchIcon, ArrowButtonIcon, PlusIcon } from '../../assets/icons/icon';
 
 interface FilterOption {
@@ -60,7 +60,7 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
       if (event.key === 'Escape') {
         closeModal();
       }
-    }
+    };
 
     const handleScroll = () => {
       if (isFilterDropdownOpen) {

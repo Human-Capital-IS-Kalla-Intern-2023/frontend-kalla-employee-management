@@ -1,3 +1,4 @@
+// Import Assets
 import { LeftArrowIcon, RightArrowIcon } from '../../assets/icons/icon';
 
 interface TabelFooterProps {
