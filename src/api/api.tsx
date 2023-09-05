@@ -3,7 +3,6 @@ import Cookies from 'js-cookie';
 
 const getAccessToken = () => {
   const token = Cookies.get('access_token');
-  console.log(token);
   if (!token) {
     throw new Error('Access token not available');
   }

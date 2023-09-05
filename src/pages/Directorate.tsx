@@ -28,11 +28,18 @@ const inputField = [
 
 const Directorate: React.FC = () => {
   const [directorate, setDirectorate] = useState<any[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const itemsPerPage = 10;
+
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const [successTitle, setSuccessTitle] = useState<string | null>(null);
   const [errorTitle, setErrorTitle] = useState<string | null>(null);
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
 
   const fetchData = async () => {
     try {
@@ -100,7 +107,6 @@ const Directorate: React.FC = () => {
       setSuccessTitle(`${responseData.meta.status}`);
       setSuccessMessage(`${responseData.meta.message}`);
 
-      // Refresh the data after deletion
       fetchData();
 
       ResetAlert(
@@ -126,6 +132,16 @@ const Directorate: React.FC = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  const totalDataCount = directorate.length;
+  const totalPages = Math.ceil(totalDataCount / itemsPerPage);
+
+  const startIndex = (currentPage - 1) * itemsPerPage + 1;
+  const endIndex =
+    currentPage === totalPages ? totalDataCount : startIndex + itemsPerPage - 1;
+
+  const currentDirectorateData = directorate.slice(startIndex - 1, endIndex);
+
   return (
     <>
       <h1 className="">Directorate Page</h1>
@@ -145,12 +161,20 @@ const Directorate: React.FC = () => {
       <TabelBody
         title="Edit Directorate"
         colCells={colCells}
-        data={directorate}
+        data={currentDirectorateData}
         inputFields={inputField}
         onSubmit={handleEditDirectorat}
         onDelete={handleDeleteDirectorat}
       />
-      <TabelFooter />
+      <TabelFooter
+        currentPage={currentPage}
+        totalPages={totalPages}
+        itemsPerPage={itemsPerPage}
+        totalDataCount={totalDataCount}
+        onPreviousPage={() => setCurrentPage(currentPage - 1)}
+        onNextPage={() => setCurrentPage(currentPage + 1)}
+        onPageChange={handlePageChange}
+      />
     </>
   );
 };
