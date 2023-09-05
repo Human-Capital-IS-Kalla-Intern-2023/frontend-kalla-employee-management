@@ -1,6 +1,4 @@
-import React from 'react';
-
-const DetailModal = ({ isOpen, onClose, data } : any) => {
+const DetailModal = ({ isOpen, onClose, data }: any) => {
   return (
     <div
       className={`fixed inset-0 flex items-center justify-center z-50 ${
@@ -16,7 +14,6 @@ const DetailModal = ({ isOpen, onClose, data } : any) => {
         <div className="mb-4">
           <strong>Usia: </strong> {data.usia}
         </div>
-        {/* Tambahkan informasi lain yang ingin Anda tampilkan */}
         <div className="flex justify-end">
           <button
             onClick={onClose}

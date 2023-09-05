@@ -2,7 +2,13 @@ import React, { useEffect, useState } from 'react';
 import TabelHeader from '../components/tabels/TabelHeader';
 import TabelFooter from '../components/tabels/TabelFooter';
 import TabelBody from '../components/tabels/TabelBody';
-import { getDirectorat, addDirectorat, updateDirectorat } from '../api/api';
+import {
+  getDirectorat,
+  addDirectorat,
+  updateDirectorat,
+  deleteDirectorat,
+} from '../api/api';
+
 import { SuccessAlert, ErrorAlert } from '../components/alerts/CustomAlert';
 import { ResetAlert } from '../helpers/ResetAlert';
 const colCells = [
@@ -42,7 +48,6 @@ const Directorate: React.FC = () => {
   const handleAddDirectorat = async (formData: any) => {
     try {
       const responseData = await addDirectorat(formData);
-      console.log(responseData);
       setSuccessTitle(`${responseData.meta.status}`);
       setSuccessMessage(`${responseData.meta.message}`);
 
@@ -72,10 +77,8 @@ const Directorate: React.FC = () => {
     try {
       const responseData = await updateDirectorat(id, formData);
 
-      console.log('Directorate updated successfully');
       setSuccessTitle(`${responseData.meta.status}`);
       setSuccessMessage(`${responseData.meta.message}`);
-
       fetchData();
 
       ResetAlert(
@@ -88,6 +91,35 @@ const Directorate: React.FC = () => {
       console.error('Error editing directorate:', error);
       setErrorTitle(`${error.response.data.meta.status}`);
       setErrorMessage(` ${error.response.data.data.message}`);
+    }
+  };
+
+  const handleDeleteDirectorat = async (id: any) => {
+    try {
+      const responseData = await deleteDirectorat(id);
+      setSuccessTitle(`${responseData.meta.status}`);
+      setSuccessMessage(`${responseData.meta.message}`);
+
+      // Refresh the data after deletion
+      fetchData();
+
+      ResetAlert(
+        setSuccessTitle,
+        setSuccessMessage,
+        setErrorTitle,
+        setErrorMessage
+      );
+    } catch (error: any) {
+      console.error('Error deleting directorate:', error);
+      setErrorTitle(`${error.response.data.meta.status}`);
+      setErrorMessage(` ${error.response.data.data.message}`);
+
+      ResetAlert(
+        setSuccessTitle,
+        setSuccessMessage,
+        setErrorTitle,
+        setErrorMessage
+      );
     }
   };
 
@@ -116,6 +148,7 @@ const Directorate: React.FC = () => {
         data={directorate}
         inputFields={inputField}
         onSubmit={handleEditDirectorat}
+        onDelete={handleDeleteDirectorat}
       />
       <TabelFooter />
     </>

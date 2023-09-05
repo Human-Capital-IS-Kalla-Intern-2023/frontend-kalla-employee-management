@@ -28,7 +28,8 @@ interface TabelBodyProps {
   data?: any[];
   colCells: ColCells[];
   inputFields: InputField[];
-  onSubmit: any;
+  onSubmit: (formData: any, id: any) => void;
+  onDelete: (id: any) => void;
 }
 
 const TabelBody: React.FC<TabelBodyProps> = ({
@@ -37,23 +38,12 @@ const TabelBody: React.FC<TabelBodyProps> = ({
   colCells,
   inputFields,
   onSubmit,
+  onDelete,
 }) => {
   const [activeDropdown, setActiveDropdown] = useState<number | null | boolean>(
     null
   );
-  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
 
-
-  const handleDeleteClick = () => {
-    setDeleteModalOpen(true);
-  };
-
-  const handleDeleteConfirm = () => {
-    // Lakukan logika penghapusan di sini
-    console.log('Delete Successful');
-    setDeleteModalOpen(false);
-  };
-  const [modalOpen, setModalOpen] = useState(false);
   const [editId, setEditId] = useState<any>(null);
 
   const scrollRef = useRef(false);
@@ -64,22 +54,37 @@ const TabelBody: React.FC<TabelBodyProps> = ({
     );
   };
 
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState<number | null>(null);
+
+  const openEditModal = (id: any) => {
+    setEditId(id);
+    setEditModalOpen(true);
+  };
+
+  const closeEditModal = () => {
+    setEditModalOpen(false);
+  };
+
+  const openDeleteModal = (id: number) => {
+    setDeleteId(id);
+    setDeleteModalOpen(true);
+  };
+
+  const closeDeleteModal = () => {
+    setDeleteId(null);
+    setDeleteModalOpen(false);
+  };
+
   const closeFilterDropdown = () => {
     setActiveDropdown(false);
   };
 
-  const openModal = (id: any) => {
-    setEditId(id);
-    setModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setModalOpen(false);
-  };
-
   const handleOverlayClick = (e: any) => {
     if (e.target.classList.contains('overlay')) {
-      closeModal();
+      closeEditModal();
+      closeDeleteModal();
     }
   };
   useEffect(() => {
@@ -91,7 +96,8 @@ const TabelBody: React.FC<TabelBodyProps> = ({
     };
     const handleEscapeKey = (event: any) => {
       if (event.key === 'Escape') {
-        closeModal();
+        closeEditModal();
+        closeDeleteModal();
       }
     };
     window.addEventListener('scroll', handleScroll);
@@ -100,11 +106,13 @@ const TabelBody: React.FC<TabelBodyProps> = ({
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('keydown', handleEscapeKey);
     };
-  }
-  );
+  });
 
   return (
-    <section className="py-3 antialiased sm:py-5 overlay" onClick={handleOverlayClick}>
+    <section
+      className="py-3 antialiased sm:py-5 overlay"
+      onClick={handleOverlayClick}
+    >
       <div className="max-w-screen-xl px-4 mx-auto">
         <div className="relative overflow-hidden bg-white shadow-custom sm:rounded-lg">
           <div className="overflow-x-auto">
@@ -158,17 +166,17 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                             <ul className="py-1 text-sm">
                               <li>
                                 <button
-                                  onClick={() => openModal(customCell.id)}
+                                  onClick={() => openEditModal(customCell.id)}
                                   type="button"
                                   className="flex items-center w-full px-4 py-2 duration-200 hover: hover:text-white hover:bg-primary"
                                 >
                                   <EditIcon className="w-4 h-4 mr-2" />
                                   Edit
                                 </button>
-                                {modalOpen && (
+                                {editModalOpen && (
                                   <EditModal
-                                    isOpen={modalOpen}
-                                    onClose={closeModal}
+                                    isOpen={editModalOpen}
+                                    onClose={closeEditModal}
                                     title={title}
                                     inputFields={inputFields}
                                     onSubmit={onSubmit}
@@ -188,17 +196,24 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                               <li>
                                 <button
                                   type="button"
-                                  onClick={handleDeleteClick}
+                                  onClick={() => openDeleteModal(customCell.id)} // Pass the ID to delete
                                   className="flex items-center w-full px-4 py-2 text-red-500 duration-200 hover: hover:text-white hover:bg-red-500"
                                 >
                                   <TrashIcon className="w-4 h-4 mr-2" />
                                   Delete
-                                  <DeleteModal
-                                  isOpen={isDeleteModalOpen}
-                                  onClose={() => setDeleteModalOpen(false)}
-                                  onDelete={handleDeleteConfirm}
-                                  />
                                 </button>
+                                {deleteModalOpen && (
+                                  <DeleteModal
+                                    isOpen={deleteModalOpen}
+                                    onClose={closeDeleteModal}
+                                    onDelete={() => {
+                                      if (deleteId) {
+                                        onDelete(deleteId); // Call onDelete with the ID to delete
+                                        closeDeleteModal(); // Close the delete modal
+                                      }
+                                    }}
+                                  />
+                                )}
                               </li>
                             </ul>
                           </div>

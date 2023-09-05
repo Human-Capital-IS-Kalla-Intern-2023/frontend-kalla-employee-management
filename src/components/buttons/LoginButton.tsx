@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import ReactLoading from 'react-loading';
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
 import { loginUser } from '../../api/api';
 
 interface LoginButtonProps {
@@ -30,15 +29,12 @@ const LoginButton: React.FC<LoginButtonProps> = ({
       password: passwordInput,
     };
 
-    try {
-      const responseData = await loginUser(credentials);
-      console.log(responseData);
-      const access_token = responseData.data.access_token;
-      Cookies.set('access_token', access_token, { expires: 7 });
-      setIsLoading(false);
+    const isLoginSuccessful = await loginUser(credentials);
 
+    if (isLoginSuccessful) {
+      setIsLoading(false);
       navigate(`/dashboard`);
-    } catch (error) {
+    } else {
       setIsLoading(false);
       onLoginError();
     }

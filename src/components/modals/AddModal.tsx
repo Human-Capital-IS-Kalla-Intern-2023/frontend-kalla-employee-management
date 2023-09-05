@@ -21,7 +21,6 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
       setIsLoading(true);
 
       await onSubmit(formData);
-      console.log(formData);
       onClose();
     } catch (error) {
       console.error('Error:', error);

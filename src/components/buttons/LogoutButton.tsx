@@ -15,15 +15,12 @@ const ButtonLogout = () => {
 
   const handleLogout = async () => {
     setIsLoading(true);
-    const token = Cookies.get('access_token');
 
-    if (token) {
-      const responseData = await logoutUser(token);
-      console.log(responseData);
-      if (responseData) {
-        Cookies.remove('access_token');
-        navigate(`/`);
-      }
+    const responseData = await logoutUser();
+
+    if (responseData) {
+      Cookies.remove('access_token');
+      navigate(`/`);
     } else {
       Swal.fire({
         icon: 'error',
