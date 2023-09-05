@@ -15,7 +15,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ element }) => {
   if (isAuthenticated()) {
     return element;
   } else {
-    return <Navigate to="/permissiondenied" />;
+    return <Navigate to="/unauthorized" />;
   }
 };
 

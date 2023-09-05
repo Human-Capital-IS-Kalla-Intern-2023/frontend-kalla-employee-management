@@ -2,7 +2,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // Layout Import
 import MainLayout from './layout/MainLayout';
-import PrivateRoute from './helpers/PrivateRoutes';
+import PrivateRoute from './middleware/PrivateRoutes';
 
 // Pages Import
 import Login from './pages/Login';
