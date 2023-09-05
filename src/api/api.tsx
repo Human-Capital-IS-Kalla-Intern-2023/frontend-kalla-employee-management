@@ -77,6 +77,29 @@ const getDirectorat = async () => {
   }
 };
 
+const getDetailDirectorat = async (id: any) => {
+  try {
+    const token = getAccessToken();
+
+    const headerToken = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const reponseGetDetailDirectorat = await handleRequest(
+      'GET',
+      `directorat/${id}`,
+      {},
+      headerToken,
+      'Mengambil detail direktorat'
+    );
+
+    return reponseGetDetailDirectorat;
+  } catch (error) {
+    console.error('Terjadi kesalahan saat mengambil data direktorat:', error);
+    return false;
+  }
+};
+
 const addDirectorat = async (formData: any) => {
   try {
     const token = getAccessToken();
@@ -150,6 +173,7 @@ export {
   loginUser,
   logoutUser,
   getDirectorat,
+  getDetailDirectorat,
   addDirectorat,
   updateDirectorat,
   deleteDirectorat,

@@ -7,6 +7,7 @@ import {
   addDirectorat,
   updateDirectorat,
   deleteDirectorat,
+  getDetailDirectorat,
 } from '../api/api';
 
 import { SuccessAlert, ErrorAlert } from '../components/alerts/CustomAlert';
@@ -36,6 +37,8 @@ const Directorate: React.FC = () => {
 
   const [successTitle, setSuccessTitle] = useState<string | null>(null);
   const [errorTitle, setErrorTitle] = useState<string | null>(null);
+
+  const [detailedData, setDetailedData] = useState<any | null>(null);
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -98,6 +101,24 @@ const Directorate: React.FC = () => {
       console.error('Error editing directorate:', error);
       setErrorTitle(`${error.response.data.meta.status}`);
       setErrorMessage(` ${error.response.data.data.message}`);
+    }
+  };
+
+  const handeGetDetail = async (id: any) => {
+    try {
+      const responseData = await getDetailDirectorat(id);
+      setDetailedData(responseData.data);
+    } catch (error: any) {
+      console.error('Error deleting directorate:', error);
+      setErrorTitle(`${error.response.data.meta.status}`);
+      setErrorMessage(` ${error.response.data.data.message}`);
+
+      ResetAlert(
+        setSuccessTitle,
+        setSuccessMessage,
+        setErrorTitle,
+        setErrorMessage
+      );
     }
   };
 
@@ -165,6 +186,8 @@ const Directorate: React.FC = () => {
         inputFields={inputField}
         onSubmit={handleEditDirectorat}
         onDelete={handleDeleteDirectorat}
+        detailedData={detailedData}
+        fetchDetailedData={handeGetDetail}
       />
       <TabelFooter
         currentPage={currentPage}
