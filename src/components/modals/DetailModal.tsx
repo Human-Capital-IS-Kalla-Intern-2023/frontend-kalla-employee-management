@@ -1,30 +1,43 @@
-const DetailModal = ({onClose, data }: any) => {
-const handleOverlayClick = (e: any) => {
-  if (e.target.classList.contains('overlay')) {
-    onClose();
-  }
+import React from 'react';
+import { CloseButtonIcon } from '../../assets/icons/icon';
+
+interface DetailModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  data: any | null;
 }
+
+const DetailModal: React.FC<DetailModalProps> = ({ isOpen, onClose, data }) => {
+  const handleOverlayClick = (e: any) => {
+    if (e.target.classList.contains('overlay')) {
+      onClose();
+    }
+  };
+
+  if (!isOpen) return null;
 
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 overlay"
-      onClick={handleOverlayClick}>
+      onClick={handleOverlayClick}
+    >
       <div className="fixed inset-0 bg-black opacity-50"></div>
-      <div className="bg-white p-6 rounded-lg shadow-lg z-10">
-        <h2 className="text-xl font-semibold mb-4">Detail Data</h2>
-        <div className="mb-4">
-          <strong>Name: </strong> {data.name}
-        </div>
-        <div className="mb-4">
-          <strong>Age: </strong> {data.age}
-        </div>
-        <div className="flex justify-center">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 text-white bg-green-800 hover:bg-green-600 rounded-lg"
-          >
-            Close
-          </button>
+      <div className="relative z-10 p-8 bg-white rounded-lg shadow-lg">
+        <h2 className="mb-4 text-xl font-semibold">Detail Data</h2>
+        {data && (
+          <div>
+            {Object.keys(data).map((key) => (
+              <div className="my-2" key={key}>
+                <strong>{key}: </strong> {data[key]}
+              </div>
+            ))}
+          </div>
+        )}
+        <div
+          onClick={onClose}
+          className="absolute cursor-pointer top-2 right-2"
+        >
+          <CloseButtonIcon className="w-8 h-8 p-1 duration-200 rounded-full overlay hover:bg-primary hover:text-white" />
         </div>
       </div>
     </div>

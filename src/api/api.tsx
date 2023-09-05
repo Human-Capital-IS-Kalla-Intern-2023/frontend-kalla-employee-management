@@ -3,7 +3,6 @@ import Cookies from 'js-cookie';
 
 const getAccessToken = () => {
   const token = Cookies.get('access_token');
-  console.log(token);
   if (!token) {
     throw new Error('Access token not available');
   }
@@ -72,6 +71,29 @@ const getDirectorat = async () => {
     );
 
     return responseGetDirectorat;
+  } catch (error) {
+    console.error('Terjadi kesalahan saat mengambil data direktorat:', error);
+    return false;
+  }
+};
+
+const getDetailDirectorat = async (id: any) => {
+  try {
+    const token = getAccessToken();
+
+    const headerToken = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const reponseGetDetailDirectorat = await handleRequest(
+      'GET',
+      `directorat/${id}`,
+      {},
+      headerToken,
+      'Mengambil detail direktorat'
+    );
+
+    return reponseGetDetailDirectorat;
   } catch (error) {
     console.error('Terjadi kesalahan saat mengambil data direktorat:', error);
     return false;
@@ -151,6 +173,7 @@ export {
   loginUser,
   logoutUser,
   getDirectorat,
+  getDetailDirectorat,
   addDirectorat,
   updateDirectorat,
   deleteDirectorat,

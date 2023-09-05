@@ -1,15 +1,10 @@
-// Library & Package Import
-import { useState, useEffect, useRef } from 'react';
-
-// Assets Import
+import React, { useState, useEffect, useRef } from 'react';
 import {
   ThreeDotIcon,
   EditIcon,
   DetailIcon,
   TrashIcon,
 } from '../../assets/icons/icon';
-
-//Import Modals
 import EditModal from '../modals/EditModal';
 import DeleteModal from '../modals/DeleteModal';
 import DetailModal from '../modals/DetailModal';
@@ -31,6 +26,8 @@ interface TabelBodyProps {
   data?: any[];
   colCells: ColCells[];
   inputFields: InputField[];
+  detailedData?: any | null;
+  fetchDetailedData?: (id: any) => void;
   onSubmit: (formData: any, id: any) => void;
   onDelete: (id: any) => void;
 }
@@ -42,12 +39,13 @@ const TabelBody: React.FC<TabelBodyProps> = ({
   inputFields,
   onSubmit,
   onDelete,
+  detailedData,
+  fetchDetailedData,
 }) => {
   const [activeDropdown, setActiveDropdown] = useState<number | null | boolean>(
     null
   );
 
-  //EditModal
   const [editId, setEditId] = useState<any>(null);
 
   const scrollRef = useRef(false);
@@ -57,29 +55,26 @@ const TabelBody: React.FC<TabelBodyProps> = ({
       prevIndex === rowIndex ? null : rowIndex
     );
   };
-  //DeleteModal
+
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [detailModalOpen, setIsDetailModalOpen] = useState(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);
 
-  //EditModal
   const openEditModal = (id: any) => {
     setEditId(id);
     setEditModalOpen(true);
   };
 
-  //EditModal
   const closeEditModal = () => {
     setEditModalOpen(false);
   };
 
-  //DeleteModal
   const openDeleteModal = (id: number) => {
     setDeleteId(id);
     setDeleteModalOpen(true);
   };
-  //DeleteModal
+
   const closeDeleteModal = () => {
     setDeleteId(null);
     setDeleteModalOpen(false);
@@ -89,20 +84,13 @@ const TabelBody: React.FC<TabelBodyProps> = ({
     setActiveDropdown(false);
   };
 
-  //DetailModal
-  const [selectedData, setSelectedData] = useState(null);
-  //DetailModal
-  const dataToDisplay : any = {
-    name: 'John Doe',
-    age: 30,
-    // Tambahkan data lainnya sesuai kebutuhan
+  const openDetailModal = async (id: any) => {
+    if (fetchDetailedData) {
+      await fetchDetailedData(id);
+      setIsDetailModalOpen(true);
+    }
   };
 
-  //DetailModal
-  const openDetailModal = () => {
-    setSelectedData(dataToDisplay);
-    setIsDetailModalOpen(true);
-  };
   const closeDetailModal = () => {
     setIsDetailModalOpen(false);
   };
@@ -114,6 +102,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
       closeDetailModal();
     }
   };
+
   useEffect(() => {
     const handleScroll = () => {
       if (scrollRef.current) {
@@ -122,7 +111,6 @@ const TabelBody: React.FC<TabelBodyProps> = ({
       }
     };
 
-    //Esc Key
     const handleEscapeKey = (event: any) => {
       if (event.key === 'Escape') {
         closeEditModal();
@@ -130,13 +118,15 @@ const TabelBody: React.FC<TabelBodyProps> = ({
         closeDetailModal();
       }
     };
+
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('keydown', handleEscapeKey);
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('keydown', handleEscapeKey);
     };
-  });
+  }, []);
 
   return (
     <section
@@ -150,7 +140,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
               <thead className="text-xs uppercase">
                 <tr>
                   {colCells.map((cell, index) => (
-                    <th key={index} scope="col" className="px-4 py-4">
+                    <th key={index} scope="col" className="px-2 py-4">
                       {cell.text}
                     </th>
                   ))}
@@ -168,14 +158,14 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                       {colCells.map((cell, cellIndex) => (
                         <td
                           key={cellIndex}
-                          className="px-4 py-3 font-medium text-black whitespace-nowrap"
+                          className="px-2 py-3 font-medium text-black whitespace-nowrap"
                         >
                           {customCell[cell.key]}
                         </td>
                       ))}
 
                       <td
-                        className="flex items-center justify-end px-4 py-3"
+                        className="flex items-center justify-end px-2 py-3"
                         onClick={handleOverlayClick}
                       >
                         <button
@@ -217,24 +207,24 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                               <li>
                                 <button
                                   type="button"
-                                  onClick={openDetailModal}
+                                  onClick={() => openDetailModal(customCell.id)}
                                   className="flex items-center w-full px-4 py-2 duration-200 hover: hover:text-white hover:bg-primary"
                                 >
                                   <DetailIcon className="w-4 h-4 mr-2" />
                                   Detail
                                 </button>
                                 {detailModalOpen && (
-                                <DetailModal
+                                  <DetailModal
                                     isOpen={detailModalOpen}
                                     onClose={closeDetailModal}
-                                    data={selectedData}
+                                    data={detailedData}
                                   />
                                 )}
                               </li>
                               <li>
                                 <button
                                   type="button"
-                                  onClick={() => openDeleteModal(customCell.id)} // Pass the ID to delete
+                                  onClick={() => openDeleteModal(customCell.id)}
                                   className="flex items-center w-full px-4 py-2 text-red-500 duration-200 hover: hover:text-white hover:bg-red-500"
                                 >
                                   <TrashIcon className="w-4 h-4 mr-2" />
@@ -246,8 +236,8 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                                     onClose={closeDeleteModal}
                                     onDelete={() => {
                                       if (deleteId) {
-                                        onDelete(deleteId); // Call onDelete with the ID to delete
-                                        closeDeleteModal(); // Close the delete modal
+                                        onDelete(deleteId);
+                                        closeDeleteModal();
                                       }
                                     }}
                                   />
