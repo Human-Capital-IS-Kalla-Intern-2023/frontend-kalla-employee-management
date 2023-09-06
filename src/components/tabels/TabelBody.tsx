@@ -1,13 +1,18 @@
+// Library & Package Import
 import React, { useState, useEffect, useRef } from 'react';
+
+// Import Components
+import EditModal from '../modals/EditModal';
+import DeleteModal from '../modals/DeleteModal';
+import DetailModal from '../modals/DetailModal';
+
+// Import Assets
 import {
   ThreeDotIcon,
   EditIcon,
   DetailIcon,
   TrashIcon,
 } from '../../assets/icons/icon';
-import EditModal from '../modals/EditModal';
-import DeleteModal from '../modals/DeleteModal';
-import DetailModal from '../modals/DetailModal';
 
 interface ColCells {
   key: string;
@@ -153,7 +158,13 @@ const TabelBody: React.FC<TabelBodyProps> = ({
               <thead className="text-xs uppercase">
                 <tr>
                   {colCells.map((cell, index) => (
-                    <th key={index} scope="col" className="px-8 py-4"style={{width: '5%'}}>
+                    <th
+                      key={index}
+                      scope="col"
+                      className={`px-2 py-4 ${
+                        index === 0 ? 'text-center' : ''
+                      }`}
+                    >
                       {cell.text}
                     </th>
                   ))}
@@ -171,7 +182,10 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                       {colCells.map((cell, cellIndex) => (
                         <td
                           key={cellIndex}
-                          className="px-8 py-3 font-medium text-black whitespace-nowrap"
+                          className={`px-2 py-3 font-medium ${
+                            cellIndex === 0 ? 'text-center' : ''
+                          } text-black whitespace-nowrap`}
+
                         >
                           {customCell[cell.key]}
                         </td>

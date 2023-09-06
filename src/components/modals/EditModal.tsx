@@ -1,6 +1,9 @@
+// Library & Package Import
 import { useState } from 'react';
-import { CloseButtonIcon } from '../../assets/icons/icon';
 import ReactLoading from 'react-loading';
+
+// Import Assets
+import { CloseButtonIcon } from '../../assets/icons/icon';
 
 const EditModal = ({
   isOpen,

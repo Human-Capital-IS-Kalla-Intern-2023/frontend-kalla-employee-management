@@ -1,3 +1,4 @@
+// Import Assets
 import { LeftArrowIcon, RightArrowIcon } from '../../assets/icons/icon';
 
 interface TabelFooterProps {
@@ -48,6 +49,7 @@ const TabelFooter: React.FC<TabelFooterProps> = ({
               <li>
                 <button
                   onClick={onPreviousPage}
+                  aria-label="Left button"
                   className={`flex items-center border justify-center h-full py-1.5 px-3 ml-0  bg-white rounded-l-lg   hover:bg-primary    border-pureBlack hover:text-white ${
                     currentPage === 1 ? 'cursor-not-allowed text-gray-400' : ''
                   }`}
@@ -61,6 +63,7 @@ const TabelFooter: React.FC<TabelFooterProps> = ({
                 <li key={pageNumber}>
                   <button
                     onClick={() => onPageChange(pageNumber)}
+                    aria-label="Selected button"
                     className={`flex items-center justify-center px-3 py-2 text-sm leading-tight ${
                       pageNumber === currentPage
                         ? 'bg-primary-50 border-primary-300 bg-primary border-pureBlack border text-white'
@@ -74,6 +77,7 @@ const TabelFooter: React.FC<TabelFooterProps> = ({
               <li>
                 <button
                   onClick={onNextPage}
+                  aria-label="Right button"
                   className={`flex items-center justify-center h-full py-1.5 px-3 leading-tight  bg-white rounded-r-lg border hover:bg-primar border-pureBlack hover:text-white ${
                     currentPage === totalPages
                       ? 'cursor-not-allowed text-gray-400'

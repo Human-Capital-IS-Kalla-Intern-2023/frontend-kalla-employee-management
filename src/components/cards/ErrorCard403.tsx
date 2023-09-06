@@ -1,5 +1,8 @@
-import ForbideenImage from '../../assets/img/ForbiddenImage.svg';
+// Import Library & Package
 import { NavLink } from 'react-router-dom';
+
+// Import Assets
+import ForbideenImage from '../../assets/img/ForbiddenImage.svg';
 
 const ErrorCard404 = () => {
   return (

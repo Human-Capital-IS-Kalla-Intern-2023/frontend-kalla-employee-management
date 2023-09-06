@@ -1,68 +1,17 @@
-import { handleRequest } from '../helpers/ApiHelpers';
-import Cookies from 'js-cookie';
+// Import Helpers
+import { RequestApi } from '../helpers/RequestApi';
+import TokenHelper from '../helpers/TokenHelpers';
 
-const getAccessToken = () => {
-  const token = Cookies.get('access_token');
-  if (!token) {
-    throw new Error('Access token not available');
-  }
-  return token;
-};
-
-const loginUser = async (credentials: any) => {
-  try {
-    const responseLogin = await handleRequest(
-      'POST',
-      'login',
-      credentials,
-      {},
-      'Mencoba Login'
-    );
-
-    const access_token = responseLogin.data.access_token;
-    Cookies.set('access_token', access_token, { expires: 7 });
-
-    return true;
-  } catch (error) {
-    console.error('Terjadi kesalahan saat mencoba login ', error);
-    return false;
-  }
-};
-
-const logoutUser = async () => {
-  try {
-    const token = getAccessToken();
-
-    const headerToken = {
-      Authorization: `Bearer ${token}`,
-    };
-
-    const responseData = await handleRequest(
-      'POST',
-      'logout',
-      {},
-      headerToken,
-      'Mencoba Keluar'
-    );
-
-    Cookies.remove('access_token');
-
-    return responseData;
-  } catch (error) {
-    console.error('Terjadi kesalahan saat mencoba logout ', error);
-    return false;
-  }
-};
-
+// GET Directorat
 const getDirectorat = async () => {
   try {
-    const token = getAccessToken();
+    const token = TokenHelper();
 
     const headerToken = {
       Authorization: `Bearer ${token}`,
     };
 
-    const responseGetDirectorat = await handleRequest(
+    const responseGetDirectorat = await RequestApi(
       'GET',
       'directorat',
       {},
@@ -77,15 +26,16 @@ const getDirectorat = async () => {
   }
 };
 
+// GET Detail Directorat
 const getDetailDirectorat = async (id: any) => {
   try {
-    const token = getAccessToken();
+    const token = TokenHelper();
 
     const headerToken = {
       Authorization: `Bearer ${token}`,
     };
 
-    const reponseGetDetailDirectorat = await handleRequest(
+    const reponseGetDetailDirectorat = await RequestApi(
       'GET',
       `directorat/${id}`,
       {},
@@ -100,15 +50,16 @@ const getDetailDirectorat = async (id: any) => {
   }
 };
 
+// POST Directorat
 const addDirectorat = async (formData: any) => {
   try {
-    const token = getAccessToken();
+    const token = TokenHelper();
 
     const headerToken = {
       Authorization: `Bearer ${token}`,
     };
 
-    const responseAddDirectorat = await handleRequest(
+    const responseAddDirectorat = await RequestApi(
       'POST',
       'directorat',
       formData,
@@ -123,15 +74,16 @@ const addDirectorat = async (formData: any) => {
   }
 };
 
+// PUT Directorat
 const updateDirectorat = async (id: any, directoratData: any) => {
   try {
-    const token = getAccessToken();
+    const token = TokenHelper();
 
     const headerToken = {
       Authorization: `Bearer ${token}`,
     };
 
-    const responseUpdateDirectorat = await handleRequest(
+    const responseUpdateDirectorat = await RequestApi(
       'PUT',
       `directorat/${id}`,
       directoratData,
@@ -146,15 +98,16 @@ const updateDirectorat = async (id: any, directoratData: any) => {
   }
 };
 
+// DELETE  Directorat
 const deleteDirectorat = async (id: any) => {
   try {
-    const token = getAccessToken();
+    const token = TokenHelper();
 
     const headerToken = {
       Authorization: `Bearer ${token}`,
     };
 
-    const responseDeleteDirectorat = await handleRequest(
+    const responseDeleteDirectorat = await RequestApi(
       'DELETE',
       `directorat/${id}`,
       null,
@@ -170,8 +123,6 @@ const deleteDirectorat = async (id: any) => {
 };
 
 export {
-  loginUser,
-  logoutUser,
   getDirectorat,
   getDetailDirectorat,
   addDirectorat,
