@@ -153,7 +153,7 @@ const Employee: React.FC = () => {
         onDelete={handleDeleteEmployee}
       />
 
-      <TabelFooter />
+      <TabelFooter/>
     </>
   );
 };
