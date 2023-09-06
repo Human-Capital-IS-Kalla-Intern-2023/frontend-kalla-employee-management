@@ -57,7 +57,7 @@ const Directorate: React.FC = () => {
     } catch (error: any) {
       console.error('Error adding directorate:', error);
       setErrorTitle(`${error.response.data.meta.status}`);
-      setErrorMessage(` ${error.response.data.data.message}`);
+      setErrorMessage(` ${error.response.data.meta.message}`);
     }
   };
 
@@ -69,7 +69,7 @@ const Directorate: React.FC = () => {
     } catch (error: any) {
       console.error('Error deleting directorate:', error);
       setErrorTitle(`${error.response.data.meta.status}`);
-      setErrorMessage(` ${error.response.data.data.message}`);
+      setErrorMessage(` ${error.response.data.meta.message}`);
 
       ResetAlert(
         setSuccessTitle,
@@ -98,7 +98,7 @@ const Directorate: React.FC = () => {
     } catch (error: any) {
       console.error('Error adding directorate:', error);
       setErrorTitle(`${error.response.data.meta.status}`);
-      setErrorMessage(` ${error.response.data.data.message}`);
+      setErrorMessage(` ${error.response.data.meta.message}`);
 
       ResetAlert(
         setSuccessTitle,
@@ -127,7 +127,7 @@ const Directorate: React.FC = () => {
     } catch (error: any) {
       console.error('Error editing directorate:', error);
       setErrorTitle(`${error.response.data.meta.status}`);
-      setErrorMessage(` ${error.response.data.data.message}`);
+      setErrorMessage(` ${error.response.data.meta.message}`);
     }
   };
 
@@ -149,7 +149,7 @@ const Directorate: React.FC = () => {
     } catch (error: any) {
       console.error('Error deleting directorate:', error);
       setErrorTitle(`${error.response.data.meta.status}`);
-      setErrorMessage(` ${error.response.data.data.message}`);
+      setErrorMessage(` ${error.response.data.meta.message}`);
 
       ResetAlert(
         setSuccessTitle,

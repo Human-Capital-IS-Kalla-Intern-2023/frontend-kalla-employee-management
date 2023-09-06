@@ -145,7 +145,13 @@ const TabelBody: React.FC<TabelBodyProps> = ({
               <thead className="text-xs uppercase">
                 <tr>
                   {colCells.map((cell, index) => (
-                    <th key={index} scope="col" className="px-2 py-4">
+                    <th
+                      key={index}
+                      scope="col"
+                      className={`px-2 py-4 ${
+                        index === 0 ? 'text-center' : ''
+                      }`}
+                    >
                       {cell.text}
                     </th>
                   ))}
@@ -163,7 +169,9 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                       {colCells.map((cell, cellIndex) => (
                         <td
                           key={cellIndex}
-                          className="px-2 py-3 font-medium text-black whitespace-nowrap"
+                          className={`px-2 py-3 font-medium ${
+                            cellIndex === 0 ? 'text-center' : ''
+                          } text-black whitespace-nowrap`}
                         >
                           {customCell[cell.key]}
                         </td>
