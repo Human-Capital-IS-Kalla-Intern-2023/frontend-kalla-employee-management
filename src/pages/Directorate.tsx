@@ -165,7 +165,7 @@ const Directorate: React.FC = () => {
 
   return (
     <>
-      <h1 className="">Directorate Page</h1>
+      <h1 className="px-4">Directorate Page</h1>
       {successMessage && successTitle && (
         <SuccessAlert title={successTitle} text={successMessage} />
       )}

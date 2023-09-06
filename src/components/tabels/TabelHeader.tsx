@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import AddModal from '../modals/AddModal';
 
 // Assets Import
-import { SearchIcon, ArrowButtonIcon, PlusIcon } from '../../assets/icons/icon';
+import { SearchIcon, PlusIcon } from '../../assets/icons/icon';
 
 interface FilterOption {
   id: string;
@@ -26,16 +26,11 @@ interface TabelHeaderProps {
 const TabelHeader: React.FC<TabelHeaderProps> = ({
   addButtonText,
   title,
-  filterOptions,
   inputFields,
   onSubmit,
 }) => {
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-
-  const toggleFilterDropdown = () => {
-    setIsFilterDropdownOpen(!isFilterDropdownOpen);
-  };
 
   const closeFilterDropdown = () => {
     setIsFilterDropdownOpen(false);
@@ -79,12 +74,12 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
 
   return (
     <section
-      className="py-3 antialiased sm:py-5 overlay"
+      className="py-3 antialiased sm:py-3 overlay"
       onClick={handleOverlayClick}
     >
       <div className="max-w-screen-xl px-4 mx-auto">
         <div className="relative overflow-hidden bg-white shadow-md sm:rounded-lg">
-          <div className="flex flex-col items-center justify-between p-4 space-y-3 rounded-md shadow-md md:flex-row md:space-y-0 md:space-x-4 bg-primary">
+          <div className="flex flex-col items-center justify-between p-3 space-y-3 rounded-md shadow-md md:flex-row md:space-y-0 md:space-x-4 bg-primary">
             <div className="w-full md:w-1/2">
               <form className="flex items-center">
                 <label htmlFor="simple-search" className="sr-only">
@@ -120,50 +115,7 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
                   onSubmit={onSubmit}
                 />
               )}
-              <div className="relative flex items-center w-full space-x-3 md:w-auto">
-                <div className="relative inline-block">
-                  <button
-                    onClick={toggleFilterDropdown}
-                    className="flex items-center justify-center w-full px-4 py-2 text-sm duration-300 bg-white rounded-lg md:w-auto focus:outline-none hover:text-primary-700 focus:z-10 focus:ring-4 hover:text-black hover:bg-secondary"
-                    type="button"
-                  >
-                    <ArrowButtonIcon className="-ml-1 mr-1.5 w-5 h-5" />
-                    Filters
-                  </button>
-                  <div
-                    id="actionsDropdown"
-                    style={{ marginRight: '2rem' }}
-                    className={`${
-                      isFilterDropdownOpen ? '' : 'hidden'
-                    }  z-10 w-44 bg-white rounded divide-y fixed right-0 mt-2  shadow `}
-                  >
-                    <ul
-                      className="space-y-2 text-sm"
-                      aria-labelledby="filterDropdownButton"
-                    >
-                      {filterOptions.map((option: FilterOption) => (
-                        <li
-                          className="flex items-center px-2 py-1"
-                          key={option.id}
-                        >
-                          <input
-                            id={option.id}
-                            type="checkbox"
-                            value=""
-                            className="w-4 h-4 rounded focus:ring-2"
-                          />
-                          <label
-                            htmlFor={option.id}
-                            className="ml-2 text-sm font-medium"
-                          >
-                            {option.label}
-                          </label>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
+
             </div>
           </div>
         </div>
