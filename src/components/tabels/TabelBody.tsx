@@ -65,11 +65,17 @@ const TabelBody: React.FC<TabelBodyProps> = ({
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [detailModalOpen, setIsDetailModalOpen] = useState(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);
-  const dropdownButtonRef = useRef<HTMLButtonElement | null>(null);
+  const [editedData, setEditedData] = useState<any>({});
 
-  const openEditModal = (id: any) => {
-    setEditId(id);
-    setEditModalOpen(true);
+  const openEditModal = (id: number) => {
+    if (data) {
+      const dataToEdit = data.find((item: any) => item.id === id);
+      if (dataToEdit) {
+        setEditId(id);
+        setEditedData(dataToEdit);
+        setEditModalOpen(true);
+      }
+    }
   };
 
   const closeEditModal = () => {
@@ -122,28 +128,16 @@ const TabelBody: React.FC<TabelBodyProps> = ({
         closeEditModal();
         closeDeleteModal();
         closeDetailModal();
-        setActiveDropdown(null);
       }
     };
-    const handleClickOutside = (e : any) => {
-      if (dropdownButtonRef.current && !dropdownButtonRef.current.contains(e.target)) {
-        // Klik di luar tombol dropdown, tutup dropdown
-        setActiveDropdown(null);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
+
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('keydown', handleEscapeKey);
-    document.addEventListener("keydown", handleEscapeKey);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('keydown', handleEscapeKey);
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleEscapeKey);
     };
-
-  
   }, []);
 
   return (
@@ -151,7 +145,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
       className="py-3 antialiased sm:py-5 overlay"
       onClick={handleOverlayClick}
     >
-      <div className="max-w-screen-xl px-2 mx-auto">
+      <div className="max-w-screen-xl px-4 mx-auto">
         <div className="relative overflow-hidden bg-white shadow-custom sm:rounded-lg">
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left">
@@ -185,7 +179,6 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                           className={`px-2 py-3 font-medium ${
                             cellIndex === 0 ? 'text-center' : ''
                           } text-black whitespace-nowrap`}
-
                         >
                           {customCell[cell.key]}
                         </td>
@@ -196,7 +189,6 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                         onClick={handleOverlayClick}
                       >
                         <button
-                          ref={dropdownButtonRef}
                           id={`dropdown-button-${index}`}
                           className="inline-flex items-center text-sm font-medium rounded-lg hover:text-center "
                           role="button"
@@ -229,6 +221,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                                     inputFields={inputFields}
                                     onSubmit={onSubmit}
                                     idToEdit={editId}
+                                    initialFormData={editedData}
                                   />
                                 )}
                               </li>
