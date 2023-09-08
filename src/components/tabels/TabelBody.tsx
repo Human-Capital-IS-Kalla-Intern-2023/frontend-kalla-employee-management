@@ -1,5 +1,6 @@
 // Library & Package Import
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 // Import Components
 import EditModal from '../modals/EditModal';
@@ -55,10 +56,8 @@ const TabelBody: React.FC<TabelBodyProps> = ({
 
   const scrollRef = useRef(false);
 
-  const toggleDropdown = (rowIndex: number) => {
-    setActiveDropdown((prevIndex) =>
-      prevIndex === rowIndex ? null : rowIndex
-    );
+  const toggleDropdown = (idOrNo: number) => {
+    setActiveDropdown((prevIdOrNo) => (prevIdOrNo === idOrNo ? null : idOrNo));
   };
 
   const [editModalOpen, setEditModalOpen] = useState(false);
@@ -67,10 +66,19 @@ const TabelBody: React.FC<TabelBodyProps> = ({
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const [editedData, setEditedData] = useState<any>({});
 
-  const openEditModal = (id: number) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const openEditModal = async (id: number) => {
+    console.log(data);
+    navigate({ search: `edit=${id}` });
+
     if (data) {
-      const dataToEdit = data.find((item: any) => item.id === id);
+      const dataToEdit = await data.find((item: any) => item.id === id);
+      console.log(dataToEdit);
       if (dataToEdit) {
+        console.log(editedData);
+        console.log(editModalOpen);
         setEditId(id);
         setEditedData(dataToEdit);
         setEditModalOpen(true);
@@ -78,34 +86,45 @@ const TabelBody: React.FC<TabelBodyProps> = ({
     }
   };
 
-  const closeEditModal = () => {
+  const closeEditModal = useCallback(() => {
     setEditModalOpen(false);
-  };
+    navigate({ search: '' });
+  }, [navigate]);
 
-  const openDeleteModal = (id: number) => {
-    setDeleteId(id);
-    setDeleteModalOpen(true);
-  };
+  const openDeleteModal = useCallback(
+    (id: number) => {
+      setDeleteId(id);
+      setDeleteModalOpen(true);
+      navigate({ search: `delete=${id}` });
+    },
+    [navigate]
+  );
 
-  const closeDeleteModal = () => {
+  const closeDeleteModal = useCallback(() => {
     setDeleteId(null);
     setDeleteModalOpen(false);
-  };
+    navigate({ search: '' });
+  }, [navigate]);
 
   const closeFilterDropdown = () => {
     setActiveDropdown(false);
   };
 
-  const openDetailModal = async (id: any) => {
-    if (fetchDetailedData) {
-      await fetchDetailedData(id);
-      setIsDetailModalOpen(true);
-    }
-  };
+  const openDetailModal = useCallback(
+    async (id: any) => {
+      if (fetchDetailedData) {
+        navigate({ search: `detail=${id}` });
+        fetchDetailedData(id);
+        setIsDetailModalOpen(true);
+      }
+    },
+    [fetchDetailedData, navigate]
+  );
 
-  const closeDetailModal = () => {
+  const closeDetailModal = useCallback(() => {
     setIsDetailModalOpen(false);
-  };
+    navigate({ search: '' });
+  }, [navigate]);
 
   const handleOverlayClick = (e: any) => {
     if (e.target.classList.contains('overlay')) {
@@ -114,6 +133,26 @@ const TabelBody: React.FC<TabelBodyProps> = ({
       closeDetailModal();
     }
   };
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const editParam = searchParams.get('edit');
+
+    if (editParam) {
+      const idToEdit = parseInt(editParam);
+
+      if (data && Array.isArray(data) && data.length > 0) {
+        const dataToEdit = data.find((item: any) => item.id === idToEdit);
+        setActiveDropdown(dataToEdit.id);
+
+        if (dataToEdit) {
+          setEditId(idToEdit);
+          setEditedData(dataToEdit);
+          setEditModalOpen(true);
+        }
+      }
+    }
+  }, [activeDropdown, data, editModalOpen, location.search]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -138,7 +177,41 @@ const TabelBody: React.FC<TabelBodyProps> = ({
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('keydown', handleEscapeKey);
     };
-  }, []);
+  }, [closeDeleteModal, closeDetailModal, closeEditModal]);
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const deleteParam = searchParams.get('delete');
+
+    if (deleteParam) {
+      console.log(deleteParam);
+      const idToDelete = parseInt(deleteParam);
+      setActiveDropdown(idToDelete);
+
+      if (data && Array.isArray(data) && data.length > 0) {
+        const dataToDelete = data.find((item: any) => item.id === idToDelete);
+
+        if (dataToDelete) {
+          openDeleteModal(idToDelete);
+        }
+      }
+    }
+  }, [data, location.search, openDeleteModal]);
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const detailParam = searchParams.get('detail');
+
+    if (detailParam) {
+      const idToDetail = parseInt(detailParam);
+      setActiveDropdown(idToDetail);
+      console.log(detailParam);
+
+      if (!isNaN(idToDetail)) {
+        openDetailModal(idToDetail);
+      }
+    }
+  }, [location.search, openDetailModal]);
 
   return (
     <section
@@ -170,7 +243,9 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                     <tr
                       className={`border-b ${
                         index === data.length - 1 ? 'border-none' : ''
-                      } ${activeDropdown === index ? 'bg-slate-200' : ''}`}
+                      } ${
+                        activeDropdown === customCell.id ? 'bg-slate-200' : ''
+                      }`}
                       key={index}
                     >
                       {colCells.map((cell, cellIndex) => (
@@ -190,14 +265,14 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                       >
                         <button
                           id={`dropdown-button-${index}`}
-                          className="inline-flex items-center text-sm font-medium rounded-lg hover:text-center "
+                          className="inline-flex items-center text-sm font-medium rounded-lg hover:text-center"
                           role="button"
                           aria-label="Dropdown button"
-                          onClick={() => toggleDropdown(index)}
+                          onClick={() => toggleDropdown(customCell.id)}
                         >
                           <ThreeDotIcon className="w-5 h-5" />
                         </button>
-                        {activeDropdown === index && (
+                        {activeDropdown === customCell.id && (
                           <div
                             className={`absolute right-0 z-10 mr-10 bg-white divide-y rounded shadow-2xl w-44 ${
                               index === data.length - 1 ? 'mb-20' : ''

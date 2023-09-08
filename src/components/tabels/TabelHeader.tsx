@@ -1,6 +1,7 @@
 // Import Library & Package
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import AddModal from '../modals/AddModal';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 // Import Assets
 import { SearchIcon, ArrowButtonIcon, PlusIcon } from '../../assets/icons/icon';
@@ -23,6 +24,7 @@ interface TabelHeaderProps {
   inputFields: InputField[];
   onSubmit: any;
 }
+
 const TabelHeader: React.FC<TabelHeaderProps> = ({
   addButtonText,
   title,
@@ -41,13 +43,27 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
     setIsFilterDropdownOpen(false);
   };
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const openModal = () => {
     setModalOpen(true);
+    navigate({ search: '?add=true' });
   };
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setModalOpen(false);
-  };
+    navigate({ search: '' });
+  }, [navigate]);
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const isAddParam = searchParams.get('add');
+
+    if (isAddParam === 'true') {
+      setModalOpen(true);
+    }
+  }, [location.search, modalOpen]);
 
   const handleOverlayClick = (e: any) => {
     if (e.target.classList.contains('overlay')) {
@@ -75,7 +91,7 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('keydown', handleEscapeKey);
     };
-  }, [isFilterDropdownOpen]);
+  }, [location.search, modalOpen, closeModal, isFilterDropdownOpen]);
 
   return (
     <section
