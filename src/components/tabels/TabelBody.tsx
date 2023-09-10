@@ -64,11 +64,8 @@ const TabelBody: React.FC<TabelBodyProps> = ({
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [detailModalOpen, setIsDetailModalOpen] = useState(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);
-<<<<<<< HEAD
 
-=======
   const [editedData, setEditedData] = useState<any>({});
->>>>>>> 62b6bb9c673086ce46fbc33e273979c1c346b789
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -180,10 +177,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('keydown', handleEscapeKey);
-<<<<<<< HEAD
       document.removeEventListener("keydown", handleEscapeKey);
-=======
->>>>>>> 62b6bb9c673086ce46fbc33e273979c1c346b789
     };
   }, [closeDeleteModal, closeDetailModal, closeEditModal]);
 

@@ -3,13 +3,8 @@ import { useState, useEffect, useCallback } from 'react';
 import AddModal from '../modals/AddModal';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-<<<<<<< HEAD
 // Assets Import
 import { SearchIcon, PlusIcon } from '../../assets/icons/icon';
-=======
-// Import Assets
-import { SearchIcon, ArrowButtonIcon, PlusIcon } from '../../assets/icons/icon';
->>>>>>> 62b6bb9c673086ce46fbc33e273979c1c346b789
 
 interface FilterOption {
   id: string;

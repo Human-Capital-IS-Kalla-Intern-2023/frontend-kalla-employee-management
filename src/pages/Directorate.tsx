@@ -166,11 +166,7 @@ const Directorate: React.FC = () => {
 
   return (
     <>
-<<<<<<< HEAD
-      <h1 className="px-4">Directorate Page</h1>
-=======
       <h1>Directorate Page</h1>
->>>>>>> 62b6bb9c673086ce46fbc33e273979c1c346b789
       {successMessage && successTitle && (
         <SuccessAlert title={successTitle} text={successMessage} />
       )}
