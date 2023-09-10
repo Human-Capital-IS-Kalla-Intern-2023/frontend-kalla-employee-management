@@ -1,9 +1,10 @@
 import React from 'react';
 import TabelHeader from '../components/tabels/TabelHeader';
-import TabelFooter from '../components/tabels/TabelFooter';
+// import TabelFooter from '../components/tabels/TabelFooter';
 import TabelBody from '../components/tabels/TabelBody';
 
 const colCells = [
+  { key: 'id', text: 'No' },
   { key: 'fullName', text: 'Full Name' },
   { key: 'nik', text: 'NIK' },
   { key: 'email', text: 'Email' },
@@ -12,6 +13,12 @@ const colCells = [
 ];
 
 const inputField = [
+  {
+    id: 'id',
+    label: 'No',
+    name: 'No',
+    type: 'number',
+  },
   {
     id: 'employee_name',
     label: 'Nama Karyawan',
@@ -55,8 +62,10 @@ const inputField = [
     type: 'text',
   },
 ];
+
 const data = [
   {
+    id: 1,
     fullName: 'John Doe',
     nik: '1234567890123456',
     email: 'john.doe@example.com',
@@ -64,6 +73,7 @@ const data = [
     jabatanLainnya: 'Supervisor',
   },
   {
+    id: 2,
     fullName: 'Jane Smith',
     nik: '7890123456123456',
     email: 'jane.smith@example.com',
@@ -71,6 +81,7 @@ const data = [
     jabatanLainnya: 'Team Lead',
   },
   {
+    id: 3,
     fullName: 'Michael Johnson',
     nik: '4567890123456789',
     email: 'michael.johnson@example.com',
@@ -78,6 +89,7 @@ const data = [
     jabatanLainnya: 'Assistant',
   },
   {
+    id: 4,
     fullName: 'Emily Williams',
     nik: '2345678901234567',
     email: 'emily.williams@example.com',
@@ -85,6 +97,7 @@ const data = [
     jabatanLainnya: 'Intern',
   },
   {
+    id: 5,
     fullName: 'Robert Brown',
     nik: '6789012345678901',
     email: 'robert.brown@example.com',
@@ -92,6 +105,7 @@ const data = [
     jabatanLainnya: 'Supervisor',
   },
   {
+    id: 6,
     fullName: 'John Doe',
     nik: '1234567890123456',
     email: 'john.doe@example.com',
@@ -99,6 +113,7 @@ const data = [
     jabatanLainnya: 'Supervisor',
   },
   {
+    id: 7,
     fullName: 'Jane Smith',
     nik: '7890123456123456',
     email: 'jane.smith@example.com',
@@ -106,6 +121,7 @@ const data = [
     jabatanLainnya: 'Team Lead',
   },
   {
+    id: 8,
     fullName: 'Michael Johnson',
     nik: '4567890123456789',
     email: 'michael.johnson@example.com',
@@ -113,6 +129,7 @@ const data = [
     jabatanLainnya: 'Assistant',
   },
   {
+    id: 9,
     fullName: 'Emily Williams',
     nik: '2345678901234567',
     email: 'emily.williams@example.com',
@@ -120,6 +137,7 @@ const data = [
     jabatanLainnya: 'Intern',
   },
   {
+    id: 10,
     fullName: 'Robert Brown',
     nik: '6789012345678901',
     email: 'robert.brown@example.com',
@@ -153,7 +171,7 @@ const Employee: React.FC = () => {
         onDelete={handleDeleteEmployee}
       />
 
-      <TabelFooter/>
+      {/* <TabelFooter /> */}
     </>
   );
 };

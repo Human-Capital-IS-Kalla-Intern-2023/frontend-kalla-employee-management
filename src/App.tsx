@@ -1,10 +1,11 @@
-// Library & Package Import
+// Import Library & Package
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-// Layout Import
+
+// Import Layout
 import MainLayout from './layout/MainLayout';
 import PrivateRoute from './middleware/PrivateRoutes';
 
-// Pages Import
+//  Import Pages
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Directorate from './pages/Directorate';
@@ -16,12 +17,13 @@ import NotFound from './pages/NotFound';
 import PermissionDenied from './pages/PermissionDenied';
 import Unauthenticated from './pages/Unauthorized';
 
+// Import CSS
 import './App.css';
 
 const App = () => {
   return (
     <Router>
-      <MainLayout className="font-poppins">
+      <MainLayout>
         <Routes>
           <Route path="/" element={<Login />} />
           <Route

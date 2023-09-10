@@ -1,11 +1,13 @@
+// Import Library & Package
 import { useState } from 'react';
-import Swal from 'sweetalert2';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import Cookies from 'js-cookie';
 import ReactLoading from 'react-loading';
 
-import { logoutUser } from '../../api/api';
+// Import API
+import { logoutUser } from '../../api/AuthAPI';
 import { LogoutIcon } from '../../assets/icons/icon';
 
 const ButtonLogout = () => {

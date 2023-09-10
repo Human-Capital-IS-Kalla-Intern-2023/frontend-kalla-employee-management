@@ -1,6 +1,13 @@
-import { useState } from 'react';
-import { CloseButtonIcon } from '../../assets/icons/icon';
+// Library & Package Import
+import { useEffect, useState } from 'react';
 import ReactLoading from 'react-loading';
+
+// Import Assets
+import { CloseButtonIcon } from '../../assets/icons/icon';
+
+interface FormData {
+  [key: string]: string;
+}
 
 const EditModal = ({
   isOpen,
@@ -9,8 +16,9 @@ const EditModal = ({
   inputFields,
   onSubmit,
   idToEdit,
+  initialFormData,
 }: any) => {
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState<FormData>({});
   const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e: any) => {
@@ -23,9 +31,9 @@ const EditModal = ({
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    setIsLoading(true);
 
     try {
+      setIsLoading(true);
       await onSubmit(formData, idToEdit);
 
       onClose();
@@ -41,6 +49,16 @@ const EditModal = ({
       onClose();
     }
   };
+
+  useEffect(() => {
+    if (isOpen) {
+      const initialData: FormData = {};
+      inputFields.forEach((field: any) => {
+        initialData[field.name] = initialFormData[field.name] || '';
+      });
+      setFormData(initialData);
+    }
+  }, [isOpen, initialFormData, inputFields]);
 
   if (!isOpen) return null;
 
@@ -78,12 +96,16 @@ const EditModal = ({
                 placeholder={`Input ${field.label}`}
                 className="w-full px-3 py-2 border rounded"
                 onChange={handleChange}
+                value={formData[field.name] || ''}
               />
             </div>
           ))}
           <button
             type="submit"
-            className="col-span-2 px-4 py-2 text-lg text-white duration-200 bg-green-800 border border-transparent rounded hover:bg-secondary hover:text-pureBlack hover:border-pureBlack"
+            className={`col-span-2 px-4 py-2 text-lg text-white duration-200 border rounded hover:bg-secondary hover:text-pureBlack hover:border-pureBlack ${
+              isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-800'
+            }`}
+            disabled={isLoading}
           >
             {isLoading && (
               <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">

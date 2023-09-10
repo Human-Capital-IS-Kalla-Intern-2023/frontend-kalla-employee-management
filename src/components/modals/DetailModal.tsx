@@ -1,4 +1,7 @@
+// Library & Package Import
 import React from 'react';
+
+// Import Assets
 import { CloseButtonIcon } from '../../assets/icons/icon';
 
 interface DetailModalProps {

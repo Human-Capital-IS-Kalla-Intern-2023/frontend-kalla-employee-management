@@ -1,3 +1,4 @@
+// Library & Package Import
 import axios from 'axios';
 
 const API_BASE_URL = 'http://localhost:8000/api';
@@ -7,7 +8,7 @@ const handleErrorResponse = (error: any, action: string) => {
   throw error;
 };
 
-const handleRequest = async (
+const RequestApi = async (
   method: string,
   url: string,
   data: any = {},
@@ -31,4 +32,4 @@ const handleRequest = async (
   }
 };
 
-export { handleRequest };
+export { RequestApi };
