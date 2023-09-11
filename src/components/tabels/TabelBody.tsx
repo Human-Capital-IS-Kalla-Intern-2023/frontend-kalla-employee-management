@@ -132,6 +132,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
       closeEditModal();
       closeDeleteModal();
       closeDetailModal();
+      
     }
   };
 
@@ -168,6 +169,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
         closeEditModal();
         closeDeleteModal();
         closeDetailModal();
+        setActiveDropdown(null);
       }
     };
 
