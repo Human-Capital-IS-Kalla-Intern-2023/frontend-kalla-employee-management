@@ -9,6 +9,7 @@ import PrivateRoute from './middleware/PrivateRoutes';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Directorate from './pages/Directorate';
+import Division from './pages/Division';
 import Employee from './pages/Employee';
 import Setting from './pages/Setting';
 import Company from './pages/Company';
@@ -49,6 +50,12 @@ const App = () => {
                 path="/company/directorate"
                 element={<Directorate />}
               />
+            }
+          />
+          <Route
+            path="/company/division"
+            element={
+              <PrivateRoute path="/company/division" element={<Division />} />
             }
           />
           <Route
