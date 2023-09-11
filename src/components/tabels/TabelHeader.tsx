@@ -1,7 +1,7 @@
 // Import Library & Package
 import { useState, useEffect, useCallback } from 'react';
 import AddModal from '../modals/AddModal';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 // Import Assets
 import { SearchIcon, ArrowButtonIcon, PlusIcon } from '../../assets/icons/icon';
@@ -43,18 +43,20 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
     setIsFilterDropdownOpen(false);
   };
 
+  const navigate = useNavigate();
   const openModal = () => {
     setModalOpen(true);
   };
 
   const location = useLocation();
+
   const closeModal = useCallback(() => {
     setModalOpen(false);
     if (location.pathname.endsWith('/add')) {
       const newUrl = location.pathname.slice(0, -4);
-      window.history.replaceState(null, '', newUrl);
+      navigate(newUrl);
     }
-  }, [location.pathname]);
+  }, [location.pathname, navigate]);
 
   const handleOverlayClick = (e: any) => {
     if (e.target.classList.contains('overlay')) {

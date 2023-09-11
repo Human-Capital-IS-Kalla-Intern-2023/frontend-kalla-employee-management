@@ -1,16 +1,9 @@
 // Library & Package Import
-import React from 'react';
 
 // Import Assets
 import { CloseButtonIcon } from '../../assets/icons/icon';
 
-interface DetailModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  data: any | null;
-}
-
-const DetailModal: React.FC<DetailModalProps> = ({ isOpen, onClose, data }) => {
+const DetailModal = ({ isOpen, onClose, data }: any) => {
   const handleOverlayClick = (e: any) => {
     if (e.target.classList.contains('overlay')) {
       onClose();

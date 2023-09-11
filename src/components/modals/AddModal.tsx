@@ -1,7 +1,6 @@
 // Library & Package Import
 import { useState } from 'react';
 import ReactLoading from 'react-loading';
-import { createPortal } from 'react-dom';
 
 // Import Assets
 import { CloseButtonIcon } from '../../assets/icons/icon';
@@ -38,13 +37,10 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
       onClose();
     }
   };
-  const modalRoot = document.getElementById('modal_root');
-  if (!modalRoot) {
-    return null;
-  }
+
   if (!isOpen) return null;
 
-  return createPortal(
+  return (
     <div>
       <div
         className="fixed inset-0 z-20 flex items-center justify-center bg-black bg-opacity-50 overlay"
@@ -104,8 +100,7 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
           </form>
         </div>
       </div>
-    </div>,
-    modalRoot
+    </div>
   );
 };
 
