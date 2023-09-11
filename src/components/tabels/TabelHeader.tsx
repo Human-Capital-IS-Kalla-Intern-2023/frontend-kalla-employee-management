@@ -1,8 +1,8 @@
 // Import Library & Package
 import { useState, useEffect, useCallback } from 'react';
 import AddModal from '../modals/AddModal';
-import { useNavigate, useLocation } from 'react-router-dom';
-
+import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 // Import Assets
 import { SearchIcon, ArrowButtonIcon, PlusIcon } from '../../assets/icons/icon';
 
@@ -43,33 +43,29 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
     setIsFilterDropdownOpen(false);
   };
 
-  const navigate = useNavigate();
-  const location = useLocation();
-
   const openModal = () => {
     setModalOpen(true);
-    navigate({ search: '?add=true' });
   };
 
+  const location = useLocation();
   const closeModal = useCallback(() => {
     setModalOpen(false);
-    navigate({ search: '' });
-  }, [navigate]);
-
-  useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const isAddParam = searchParams.get('add');
-
-    if (isAddParam === 'true') {
-      setModalOpen(true);
+    if (location.pathname.endsWith('/add')) {
+      const newUrl = location.pathname.slice(0, -4);
+      window.history.replaceState(null, '', newUrl);
     }
-  }, [location.search, modalOpen]);
+  }, [location.pathname]);
 
   const handleOverlayClick = (e: any) => {
     if (e.target.classList.contains('overlay')) {
       closeModal();
     }
   };
+  useEffect(() => {
+    if (location.pathname.endsWith('/add')) {
+      setModalOpen(true);
+    }
+  }, [location.pathname]);
 
   useEffect(() => {
     const handleEscapeKey = (event: any) => {
@@ -91,7 +87,7 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('keydown', handleEscapeKey);
     };
-  }, [location.search, modalOpen, closeModal, isFilterDropdownOpen]);
+  }, [closeModal, location.pathname, isFilterDropdownOpen]);
 
   return (
     <section
@@ -119,14 +115,15 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
               </form>
             </div>
             <div className="flex flex-col items-stretch justify-end flex-shrink-0 w-full space-y-2 md:w-auto md:flex-row md:space-y-0 md:items-center">
-              <button
+              <Link
+                to="add"
                 onClick={openModal}
-                type="button"
                 className="flex items-center justify-center px-4 py-2 mr-3 text-sm font-medium duration-300 rounded-lg text-pureBlack bg-secondary focus:ring-4 bg-primary-600 hover:bg-white"
               >
                 <PlusIcon className="h-3.5 w-3.5 mr-2" />
                 {addButtonText}
-              </button>
+              </Link>
+
               {modalOpen && (
                 <AddModal
                   isOpen={modalOpen}
