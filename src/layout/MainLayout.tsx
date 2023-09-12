@@ -11,6 +11,7 @@ function MainLayout({ children }: any) {
     '/reports',
     '/company',
     '/setting',
+    '/position',
   ];
 
   const isAuthenticated = !!Cookies.get('access_token');

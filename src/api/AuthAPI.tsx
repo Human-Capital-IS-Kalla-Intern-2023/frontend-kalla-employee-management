@@ -22,7 +22,7 @@ const loginUser = async (credentials: any) => {
     return true;
   } catch (error) {
     console.error('Terjadi kesalahan saat mencoba login ', error);
-    return false;
+    throw error;
   }
 };
 

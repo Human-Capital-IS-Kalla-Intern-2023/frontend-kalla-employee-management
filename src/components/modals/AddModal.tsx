@@ -61,7 +61,18 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
           </div>
           <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-6 mt-8">
             {inputFields.map((field: any, index: number) => (
-              <div key={field.id} className={index === 0 ? 'col-span-2' : ''}>
+              <div
+                key={field.id}
+                className={
+                  inputFields.length === 1
+                    ? 'col-span-2'
+                    : inputFields.length === 2
+                    ? 'col-span-2'
+                    : index === 0 && inputFields.length >= 3
+                    ? 'col-span-2'
+                    : ''
+                }
+              >
                 <label
                   className="flex justify-start mb-2 font-medium"
                   htmlFor={field.id}
@@ -78,6 +89,7 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
                 />
               </div>
             ))}
+
             <button
               type="submit"
               className={`col-span-2 px-4 py-2 text-lg text-white duration-200 border rounded hover:bg-secondary hover:text-pureBlack hover:border-pureBlack ${
