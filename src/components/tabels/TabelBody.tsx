@@ -239,7 +239,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
   }, [data, location.search, modalDeleteId, openDeleteModal]);
 
   return (
-    <section className="py-3 antialiased sm:py-5 overlay">
+    <section className="py-3 antialiased sm:py-2 overlay">
       <div className="max-w-screen-xl px-4 mx-auto">
         <div className="relative overflow-hidden bg-white shadow-custom sm:rounded-lg">
           <div className="overflow-x-auto">

@@ -30,7 +30,7 @@ const TabelFooter: React.FC<TabelFooterProps> = ({
   }
 
   return (
-    <section className="py-3 antialiased sm:py-5">
+    <section className="py-1 antialiased sm:py-5">
       <div className="max-w-screen-xl px-4 mx-auto">
         <div className="relative overflow-hidden bg-white shadow-md sm:rounded-lg">
           <nav
