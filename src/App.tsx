@@ -9,6 +9,7 @@ import PrivateRoute from './middleware/PrivateRoutes';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Directorate from './pages/Directorate';
+import Division from './pages/Division';
 import Employee from './pages/Employee';
 import Setting from './pages/Setting';
 import Company from './pages/Company';
@@ -19,7 +20,10 @@ import Unauthenticated from './pages/Unauthorized';
 
 // Import CSS
 import './App.css';
-
+import AddModal from './components/modals/AddModal';
+import EditModal from './components/modals/EditModal';
+import DetailModal from './components/modals/DetailModal';
+import DeleteModal from './components/modals/DeleteModal';
 const App = () => {
   return (
     <Router>
@@ -50,13 +54,29 @@ const App = () => {
                 element={<Directorate />}
               />
             }
-          />
+          >
+            <Route path="add" element={<AddModal />} />
+            <Route path="edit/:modalEditId" element={<EditModal />} />
+            <Route path="detail/:modalDetailId" element={<DetailModal />} />
+            <Route path="delete/:modalDeleteId" element={<DeleteModal />} />
+          </Route>
+
+          <Route
+            path="/company/division"
+            element={
+              <PrivateRoute path="/company/division" element={<Division />} />
+            }
+          >
+            <Route path="add" element={<AddModal />} />
+          </Route>
+
           <Route
             path="/setting/:settingId"
             element={
               <PrivateRoute path="/setting/:settingId" element={<Setting />} />
             }
           />
+          <Route path="/company/directorate/add" element={<AddModal />} />
           <Route path="/*" element={<NotFound />} />
           <Route path="/unauthorized" element={<Unauthenticated />} />
           <Route path="/permissiondenied" element={<PermissionDenied />} />

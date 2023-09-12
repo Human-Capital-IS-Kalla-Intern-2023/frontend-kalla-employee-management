@@ -1,6 +1,7 @@
 // Library & Package Import
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 // Import Components
 import EditModal from '../modals/EditModal';
@@ -69,90 +70,96 @@ const TabelBody: React.FC<TabelBodyProps> = ({
   const navigate = useNavigate();
   const location = useLocation();
 
-  const openEditModal = async (id: number) => {
-    console.log(data);
-    navigate({ search: `edit=${id}` });
-
-    if (data) {
-      const dataToEdit = await data.find((item: any) => item.id === id);
-      console.log(dataToEdit);
-      if (dataToEdit) {
-        console.log(editedData);
-        console.log(editModalOpen);
-        setEditId(id);
-        setEditedData(dataToEdit);
-        setEditModalOpen(true);
-      }
-    }
-  };
-
-  const closeEditModal = useCallback(() => {
-    setEditModalOpen(false);
-    navigate({ search: '' });
-  }, [navigate]);
-
-  const openDeleteModal = useCallback(
-    (id: number) => {
-      setDeleteId(id);
-      setDeleteModalOpen(true);
-      navigate({ search: `delete=${id}` });
-    },
-    [navigate]
-  );
-
-  const closeDeleteModal = useCallback(() => {
-    setDeleteId(null);
-    setDeleteModalOpen(false);
-    navigate({ search: '' });
-  }, [navigate]);
-
-  const closeFilterDropdown = () => {
-    setActiveDropdown(false);
-  };
-
-  const openDetailModal = useCallback(
-    async (id: any) => {
-      if (fetchDetailedData) {
-        navigate({ search: `detail=${id}` });
-        fetchDetailedData(id);
-        setIsDetailModalOpen(true);
-      }
-    },
-    [fetchDetailedData, navigate]
-  );
-
-  const closeDetailModal = useCallback(() => {
-    setIsDetailModalOpen(false);
-    navigate({ search: '' });
-  }, [navigate]);
-
-  const handleOverlayClick = (e: any) => {
-    if (e.target.classList.contains('overlay')) {
-      closeEditModal();
-      closeDeleteModal();
-      closeDetailModal();
-    }
-  };
-
-  useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const editParam = searchParams.get('edit');
-
-    if (editParam) {
-      const idToEdit = parseInt(editParam);
-
-      if (data && Array.isArray(data) && data.length > 0) {
-        const dataToEdit = data.find((item: any) => item.id === idToEdit);
-        setActiveDropdown(dataToEdit.id);
-
+  const openEditModal = useCallback(
+    async (id: number) => {
+      if (data) {
+        const dataToEdit = await data.find((item: any) => item.id === id);
         if (dataToEdit) {
-          setEditId(idToEdit);
+          setEditId(id);
           setEditedData(dataToEdit);
           setEditModalOpen(true);
         }
       }
+    },
+    [data]
+  );
+  const { modalEditId, modalDetailId, modalDeleteId } = useParams();
+
+  const closeEditModal = useCallback(() => {
+    setEditId(null);
+    setEditModalOpen(false);
+    if (modalEditId !== undefined) {
+      const modalEditIdNumber = parseInt(modalEditId, 10);
+
+      if (!isNaN(modalEditIdNumber)) {
+        if (modalEditIdNumber >= 10) {
+          const newUrl = location.pathname.slice(0, -8);
+          navigate(newUrl);
+        } else {
+          const newUrl = location.pathname.slice(0, -7);
+          navigate(newUrl);
+        }
+      }
     }
-  }, [activeDropdown, data, editModalOpen, location.search]);
+  }, [navigate, modalEditId, location.pathname]);
+
+  const openDetailModal = useCallback(
+    async (id: any) => {
+      if (fetchDetailedData) {
+        try {
+          fetchDetailedData(id);
+          setIsDetailModalOpen(true);
+        } catch (error) {
+          console.error('Error fetching detailed data:', error);
+        }
+      }
+    },
+    [fetchDetailedData]
+  );
+
+  const closeDetailModal = useCallback(() => {
+    setIsDetailModalOpen(false);
+    if (modalDetailId !== undefined) {
+      const modalDetailNumber = parseInt(modalDetailId, 10);
+
+      if (!isNaN(modalDetailNumber)) {
+        if (modalDetailNumber >= 10) {
+          const newUrl = location.pathname.slice(0, -10);
+          navigate(newUrl);
+        } else {
+          const newUrl = location.pathname.slice(0, -9);
+          navigate(newUrl);
+        }
+      }
+    }
+  }, [location.pathname, modalDetailId, navigate]);
+
+  const openDeleteModal = useCallback((id: number) => {
+    setDeleteId(id);
+    setDeleteModalOpen(true);
+  }, []);
+
+  const closeDeleteModal = useCallback(() => {
+    setDeleteId(null);
+    setDeleteModalOpen(false);
+    if (modalDeleteId !== undefined) {
+      const modalDeleteNumber = parseInt(modalDeleteId, 10);
+
+      if (!isNaN(modalDeleteNumber)) {
+        if (modalDeleteNumber >= 10) {
+          const newUrl = location.pathname.slice(0, -10);
+          navigate(newUrl);
+        } else {
+          const newUrl = location.pathname.slice(0, -9);
+          navigate(newUrl);
+        }
+      }
+    }
+  }, [location.pathname, modalDeleteId, navigate]);
+
+  const closeFilterDropdown = () => {
+    setActiveDropdown(false);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -180,44 +187,56 @@ const TabelBody: React.FC<TabelBodyProps> = ({
   }, [closeDeleteModal, closeDetailModal, closeEditModal]);
 
   useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const deleteParam = searchParams.get('delete');
+    if (modalEditId !== undefined) {
+      const modalEditIdNumber = parseInt(modalEditId, 10);
 
-    if (deleteParam) {
-      console.log(deleteParam);
-      const idToDelete = parseInt(deleteParam);
-      setActiveDropdown(idToDelete);
+      if (!isNaN(modalEditIdNumber)) {
+        if (data && Array.isArray(data) && data.length > 0) {
+          const dataToEdit = data.find(
+            (item: any) => item.id === modalEditIdNumber
+          );
+          setActiveDropdown(dataToEdit.id);
 
-      if (data && Array.isArray(data) && data.length > 0) {
-        const dataToDelete = data.find((item: any) => item.id === idToDelete);
-
-        if (dataToDelete) {
-          openDeleteModal(idToDelete);
+          if (dataToEdit) {
+            setEditId(modalEditIdNumber);
+            setEditedData(dataToEdit);
+            setEditModalOpen(true);
+          }
         }
       }
     }
-  }, [data, location.search, openDeleteModal]);
+  }, [data, modalEditId, openEditModal]);
 
   useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const detailParam = searchParams.get('detail');
+    if (modalDetailId !== undefined) {
+      const modalDetailNumber = parseInt(modalDetailId, 10);
 
-    if (detailParam) {
-      const idToDetail = parseInt(detailParam);
-      setActiveDropdown(idToDetail);
-      console.log(detailParam);
-
-      if (!isNaN(idToDetail)) {
-        openDetailModal(idToDetail);
+      if (!isNaN(modalDetailNumber)) {
+        setActiveDropdown(modalDetailNumber);
+        openDetailModal(modalDetailNumber);
       }
     }
-  }, [location.search, openDetailModal]);
+  }, [modalDetailId, openDetailModal]);
+
+  useEffect(() => {
+    if (modalDeleteId) {
+      const modalDeleteNumber = parseInt(modalDeleteId);
+      setActiveDropdown(modalDeleteNumber);
+
+      if (data && Array.isArray(data) && data.length > 0) {
+        const dataToDelete = data.find(
+          (item: any) => item.id === modalDeleteNumber
+        );
+
+        if (dataToDelete) {
+          openDeleteModal(modalDeleteNumber);
+        }
+      }
+    }
+  }, [data, location.search, modalDeleteId, openDeleteModal]);
 
   return (
-    <section
-      className="py-3 antialiased sm:py-5 overlay"
-      onClick={handleOverlayClick}
-    >
+    <section className="py-3 antialiased sm:py-5 overlay">
       <div className="max-w-screen-xl px-4 mx-auto">
         <div className="relative overflow-hidden bg-white shadow-custom sm:rounded-lg">
           <div className="overflow-x-auto">
@@ -259,10 +278,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                         </td>
                       ))}
 
-                      <td
-                        className="flex items-center justify-end px-2 py-3"
-                        onClick={handleOverlayClick}
-                      >
+                      <td className="flex items-center justify-end px-2 py-3">
                         <button
                           id={`dropdown-button-${index}`}
                           className="inline-flex items-center text-sm font-medium rounded-lg hover:text-center"
@@ -280,14 +296,15 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                           >
                             <ul className="py-1 text-sm">
                               <li>
-                                <button
+                                <Link
+                                  to={`edit/${customCell.id}`}
                                   onClick={() => openEditModal(customCell.id)}
                                   type="button"
                                   className="flex items-center w-full px-4 py-2 duration-200 hover: hover:text-white hover:bg-primary"
                                 >
                                   <EditIcon className="w-4 h-4 mr-2" />
                                   Edit
-                                </button>
+                                </Link>
                                 {editModalOpen && (
                                   <EditModal
                                     isOpen={editModalOpen}
@@ -301,14 +318,15 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                                 )}
                               </li>
                               <li>
-                                <button
-                                  type="button"
+                                <Link
+                                  to={`detail/${customCell.id}`}
                                   onClick={() => openDetailModal(customCell.id)}
+                                  type="button"
                                   className="flex items-center w-full px-4 py-2 duration-200 hover: hover:text-white hover:bg-primary"
                                 >
                                   <DetailIcon className="w-4 h-4 mr-2" />
                                   Detail
-                                </button>
+                                </Link>
                                 {detailModalOpen && (
                                   <DetailModal
                                     isOpen={detailModalOpen}
@@ -318,14 +336,15 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                                 )}
                               </li>
                               <li>
-                                <button
+                                <Link
+                                  to={`delete/${customCell.id}`}
                                   type="button"
                                   onClick={() => openDeleteModal(customCell.id)}
                                   className="flex items-center w-full px-4 py-2 text-red-500 duration-200 hover: hover:text-white hover:bg-red-500"
                                 >
                                   <TrashIcon className="w-4 h-4 mr-2" />
                                   Delete
-                                </button>
+                                </Link>
                                 {deleteModalOpen && (
                                   <DeleteModal
                                     isOpen={deleteModalOpen}

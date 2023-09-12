@@ -44,12 +44,6 @@ const EditModal = ({
     }
   };
 
-  const handleOverlayClick = (e: any) => {
-    if (e.target.classList.contains('overlay')) {
-      onClose();
-    }
-  };
-
   useEffect(() => {
     if (isOpen) {
       const initialData: FormData = {};
@@ -63,10 +57,7 @@ const EditModal = ({
   if (!isOpen) return null;
 
   return (
-    <div
-      className="fixed inset-0 z-20 flex items-center justify-center bg-black bg-opacity-50 overlay"
-      onClick={handleOverlayClick}
-    >
+    <div className="fixed inset-0 z-20 flex items-center justify-center bg-black bg-opacity-50 overlay">
       <div className="relative w-3/6 p-6 bg-white rounded shadow-lg overlay">
         <div
           onClick={onClose}
