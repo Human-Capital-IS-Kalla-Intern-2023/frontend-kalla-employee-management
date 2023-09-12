@@ -52,24 +52,26 @@ const Directorate: React.FC = () => {
   // GET all directorate data
   const featchAllDirecorateData = async () => {
     try {
-      const directorateData = await getDirectorat();
-      setDirectorate(directorateData.data);
+      const responseData = await getDirectorat();
+      setDirectorate(responseData.data);
     } catch (error: any) {
-      console.error('Error adding directorate:', error);
-      setErrorTitle(`${error.response.data.meta.status}`);
-      setErrorMessage(` ${error.response.data.meta.message}`);
+      console.error('Error featch directorate:', error);
+      setErrorTitle('Error featch directorate data');
+      const errorMessages = Object.values(error.response.data.errors).flat();
+      setErrorMessage(errorMessages.join('\n'));
     }
   };
 
   // GET detail directorate data by id
-  const featchAllDirecorateDetail = async (id: number) => {
+  const featchDirectorateDetail = async (id: number) => {
     try {
       const responseData = await getDetailDirectorat(id);
       setDetailedData(responseData.data);
     } catch (error: any) {
-      console.error('Error deleting directorate:', error);
-      setErrorTitle(`${error.response.data.meta.status}`);
-      setErrorMessage(` ${error.response.data.meta.message}`);
+      console.error('Error featch directorate:', error);
+      setErrorTitle('Error featch directorate detail');
+      const errorMessages = Object.values(error.response.data.errors).flat();
+      setErrorMessage(errorMessages.join('\n'));
 
       ResetAlert(
         setSuccessTitle,
@@ -84,8 +86,9 @@ const Directorate: React.FC = () => {
   const handleAddDirectorat = async (formData: string) => {
     try {
       const responseData = await addDirectorat(formData);
-      setSuccessTitle(`${responseData.meta.status}`);
-      setSuccessMessage(`${responseData.meta.message}`);
+      console.log(responseData);
+      setSuccessTitle(`${responseData.status}`);
+      setSuccessMessage(`${responseData.message}`);
 
       featchAllDirecorateData();
 
@@ -97,9 +100,9 @@ const Directorate: React.FC = () => {
       );
     } catch (error: any) {
       console.error('Error adding directorate:', error);
-      setErrorTitle(`${error.response.data.meta.status}`);
-      setErrorMessage(` ${error.response.data.meta.message}`);
-
+      setErrorTitle('Error adding directorate');
+      const errorMessages = Object.values(error.response.data.errors).flat();
+      setErrorMessage(errorMessages.join('\n'));
       ResetAlert(
         setSuccessTitle,
         setSuccessMessage,
@@ -113,9 +116,9 @@ const Directorate: React.FC = () => {
   const handleEditDirectorat = async (formData: string, id: number) => {
     try {
       const responseData = await updateDirectorat(id, formData);
-
-      setSuccessTitle(`${responseData.meta.status}`);
-      setSuccessMessage(`${responseData.meta.message}`);
+      console.log(responseData);
+      setSuccessTitle(`${responseData.status}`);
+      setSuccessMessage(`${responseData.message}`);
       featchAllDirecorateData();
 
       ResetAlert(
@@ -126,8 +129,9 @@ const Directorate: React.FC = () => {
       );
     } catch (error: any) {
       console.error('Error editing directorate:', error);
-      setErrorTitle(`${error.response.data.meta.status}`);
-      setErrorMessage(` ${error.response.data.meta.message}`);
+      setErrorTitle('Error editing directorate');
+      const errorMessages = Object.values(error.response.data.errors).flat();
+      setErrorMessage(errorMessages.join('\n'));
     }
   };
 
@@ -135,8 +139,8 @@ const Directorate: React.FC = () => {
   const handleDeleteDirectorat = async (id: number) => {
     try {
       const responseData = await deleteDirectorat(id);
-      setSuccessTitle(`${responseData.meta.status}`);
-      setSuccessMessage(`${responseData.meta.message}`);
+      setSuccessTitle(`${responseData.status}`);
+      setSuccessMessage(`${responseData.message}`);
 
       featchAllDirecorateData();
 
@@ -148,8 +152,9 @@ const Directorate: React.FC = () => {
       );
     } catch (error: any) {
       console.error('Error deleting directorate:', error);
-      setErrorTitle(`${error.response.data.meta.status}`);
-      setErrorMessage(` ${error.response.data.meta.message}`);
+      setErrorTitle('Error deleting directorate');
+      const errorMessages = Object.values(error.response.data.errors).flat();
+      setErrorMessage(errorMessages.join('\n'));
 
       ResetAlert(
         setSuccessTitle,
@@ -189,7 +194,7 @@ const Directorate: React.FC = () => {
         onSubmit={handleEditDirectorat}
         onDelete={handleDeleteDirectorat}
         detailedData={detailedData}
-        fetchDetailedData={featchAllDirecorateDetail}
+        fetchDetailedData={featchDirectorateDetail}
       />
       <TabelFooter
         currentPage={currentPage}
