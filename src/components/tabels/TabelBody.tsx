@@ -83,7 +83,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
     },
     [data]
   );
-  const { modalEditId, modalDetailId } = useParams();
+  const { modalEditId, modalDetailId, modalDeleteId } = useParams();
 
   const closeEditModal = useCallback(() => {
     setEditId(null);
@@ -134,20 +134,28 @@ const TabelBody: React.FC<TabelBodyProps> = ({
     }
   }, [location.pathname, modalDetailId, navigate]);
 
-  const openDeleteModal = useCallback(
-    (id: number) => {
-      setDeleteId(id);
-      setDeleteModalOpen(true);
-      navigate({ search: `delete=${id}` });
-    },
-    [navigate]
-  );
+  const openDeleteModal = useCallback((id: number) => {
+    setDeleteId(id);
+    setDeleteModalOpen(true);
+  }, []);
 
   const closeDeleteModal = useCallback(() => {
     setDeleteId(null);
     setDeleteModalOpen(false);
-    navigate({ search: '' });
-  }, [navigate]);
+    if (modalDeleteId !== undefined) {
+      const modalDeleteNumber = parseInt(modalDeleteId, 10);
+
+      if (!isNaN(modalDeleteNumber)) {
+        if (modalDeleteNumber >= 10) {
+          const newUrl = location.pathname.slice(0, -10);
+          navigate(newUrl);
+        } else {
+          const newUrl = location.pathname.slice(0, -9);
+          navigate(newUrl);
+        }
+      }
+    }
+  }, [location.pathname, modalDeleteId, navigate]);
 
   const closeFilterDropdown = () => {
     setActiveDropdown(false);
@@ -200,7 +208,6 @@ const TabelBody: React.FC<TabelBodyProps> = ({
   }, [data, modalEditId, openEditModal]);
 
   useEffect(() => {
-    console.log(modalDetailId);
     if (modalDetailId !== undefined) {
       const modalDetailNumber = parseInt(modalDetailId, 10);
 
@@ -210,6 +217,23 @@ const TabelBody: React.FC<TabelBodyProps> = ({
       }
     }
   }, [modalDetailId, openDetailModal]);
+
+  useEffect(() => {
+    if (modalDeleteId) {
+      const modalDeleteNumber = parseInt(modalDeleteId);
+      setActiveDropdown(modalDeleteNumber);
+
+      if (data && Array.isArray(data) && data.length > 0) {
+        const dataToDelete = data.find(
+          (item: any) => item.id === modalDeleteNumber
+        );
+
+        if (dataToDelete) {
+          openDeleteModal(modalDeleteNumber);
+        }
+      }
+    }
+  }, [data, location.search, modalDeleteId, openDeleteModal]);
 
   return (
     <section className="py-3 antialiased sm:py-5 overlay">
@@ -312,14 +336,15 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                                 )}
                               </li>
                               <li>
-                                <button
+                                <Link
+                                  to={`delete/${customCell.id}`}
                                   type="button"
                                   onClick={() => openDeleteModal(customCell.id)}
                                   className="flex items-center w-full px-4 py-2 text-red-500 duration-200 hover: hover:text-white hover:bg-red-500"
                                 >
                                   <TrashIcon className="w-4 h-4 mr-2" />
                                   Delete
-                                </button>
+                                </Link>
                                 {deleteModalOpen && (
                                   <DeleteModal
                                     isOpen={deleteModalOpen}

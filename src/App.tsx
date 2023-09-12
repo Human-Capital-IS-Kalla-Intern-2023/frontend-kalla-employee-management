@@ -23,6 +23,7 @@ import './App.css';
 import AddModal from './components/modals/AddModal';
 import EditModal from './components/modals/EditModal';
 import DetailModal from './components/modals/DetailModal';
+import DeleteModal from './components/modals/DeleteModal';
 const App = () => {
   return (
     <Router>
@@ -57,6 +58,7 @@ const App = () => {
             <Route path="add" element={<AddModal />} />
             <Route path="edit/:modalEditId" element={<EditModal />} />
             <Route path="detail/:modalDetailId" element={<DetailModal />} />
+            <Route path="delete/:modalDeleteId" element={<DeleteModal />} />
           </Route>
 
           <Route
