@@ -10,7 +10,11 @@ import ButtonLogout from '../../components/buttons/LogoutButton';
 
 // Assets Import
 import logoKalla from '../../assets/img/kalla-logo-full.webp';
-import { SettingIcon, CompanyIcon } from '../../assets/icons/icon';
+import {
+  SettingIcon,
+  CompanyIcon,
+  PositionIcon,
+} from '../../assets/icons/icon';
 import {
   DashboardIcon,
   UserIcon,
@@ -80,9 +84,13 @@ const Sidebar = () => {
   const subMenusList = [
     {
       name: 'company',
-
       icon: <CompanyIcon className="min-w-max" />,
-      menus: ['bisnis unit', 'directorate', 'division'],
+      menus: ['bisnis', 'directorate', 'division', 'seksi', 'location'],
+    },
+    {
+      name: 'position',
+      icon: <PositionIcon className="min-w-max w-6 h-6" />,
+      menus: ['posisi', 'grade'],
     },
     {
       name: 'setting',
