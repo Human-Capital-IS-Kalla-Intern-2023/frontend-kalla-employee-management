@@ -1,6 +1,6 @@
 // Import Library & Package
 import React, { useEffect, useState } from 'react';
-
+// import { Outlet } from 'react-router-dom';
 // Import Component
 import TabelHeader from '../components/tabels/TabelHeader';
 import TabelFooter from '../components/tabels/TabelFooter';
@@ -173,6 +173,7 @@ const Directorate: React.FC = () => {
       {errorMessage && errorTitle && (
         <ErrorAlert title={errorTitle} text={errorMessage} />
       )}
+
       <TabelHeader
         addButtonText="Add Directorate"
         title="Add Directorate"
