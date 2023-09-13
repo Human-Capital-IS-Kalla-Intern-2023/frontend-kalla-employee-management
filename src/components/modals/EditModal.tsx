@@ -56,8 +56,7 @@ const EditModal = ({
   }, [isOpen, initialFormData, inputFields]);
   useEffect(() => {
     if (isOpen && firstInputRef.current) {
-      // Jika modal terbuka dan ref elemen input pertama tersedia
-      firstInputRef.current.focus(); // Fokuskan kursor ke elemen input pertama
+      firstInputRef.current.focus();
     }
   }, [isOpen]);
 
