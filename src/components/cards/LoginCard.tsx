@@ -3,7 +3,6 @@ import { SetStateAction, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 //Import Components
-import { ErrorAlert } from '../alerts/CustomAlert';
 import LoginButton from '../buttons/LoginButton';
 
 //Import Assets
@@ -14,7 +13,6 @@ const LoginCard = () => {
   const [passwordInput, setPasswordInput] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [email, setEmail] = useState('');
-  const [loginError, setLoginError] = useState(false);
 
   const handleEmailChange = (event: {
     target: { value: SetStateAction<string> };
@@ -30,14 +28,6 @@ const LoginCard = () => {
 
   const togglePassword = () => {
     setIsPasswordVisible(!isPasswordVisible);
-  };
-
-  const handleLoginError = () => {
-    setLoginError(true);
-
-    setTimeout(() => {
-      setLoginError(false);
-    }, 1000);
   };
 
   return (
@@ -84,11 +74,7 @@ const LoginCard = () => {
               <div className="text-xs text-link hover:text-black m text-start">
                 <Link to="/forget-pass">Forgot your password?</Link>
               </div>
-              <LoginButton
-                email={email}
-                passwordInput={passwordInput}
-                onLoginError={handleLoginError}
-              />
+              <LoginButton email={email} passwordInput={passwordInput} />
             </form>
           </div>
 
@@ -103,12 +89,6 @@ const LoginCard = () => {
           </div>
         </div>
       </section>
-      {loginError && (
-        <ErrorAlert
-          title="Login Failed"
-          text="Invalid Email or Password. Please check your Email and password."
-        />
-      )}
     </>
   );
 };

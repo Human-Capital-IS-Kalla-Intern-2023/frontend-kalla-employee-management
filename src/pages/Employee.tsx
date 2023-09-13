@@ -14,12 +14,6 @@ const colCells = [
 
 const inputField = [
   {
-    id: 'id',
-    label: 'No',
-    name: 'No',
-    type: 'number',
-  },
-  {
     id: 'employee_name',
     label: 'Nama Karyawan',
     name: 'Nama Karyawan',
