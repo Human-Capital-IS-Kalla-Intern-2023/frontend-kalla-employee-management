@@ -1,6 +1,6 @@
 // Import Library & Package
 import React, { useEffect, useState } from 'react';
-// import { Outlet } from 'react-router-dom';
+
 // Import Component
 import TabelHeader from '../components/tabels/TabelHeader';
 import TabelFooter from '../components/tabels/TabelFooter';
@@ -10,28 +10,24 @@ import { ResetAlert } from '../helpers/ResetAlert';
 
 // Import API
 import {
-  getDirectorat,
-  addDirectorat,
-  updateDirectorat,
-  deleteDirectorat,
-  getDetailDirectorat,
-} from '../api/DirectoratAPI';
+  getGrade,
+  getDetailGrade,
+  addGrade,
+  updateGrade,
+  deleteGrade,
+} from '../api/GradeAPI';
 
-import {
-  colCells,
-  filterOptions,
-  inputField,
-} from '../assets/data/DirectoratData';
+import { colCells, filterOptions, inputField } from '../assets/data/GradeData';
 
-const Directorate: React.FC = () => {
+const Grade: React.FC = () => {
   // Alert State
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successTitle, setSuccessTitle] = useState<string | null>(null);
   const [errorTitle, setErrorTitle] = useState<string | null>(null);
 
-  // Directorate State
-  const [directorate, setDirectorate] = useState<string[]>([]);
+  // Grade State
+  const [grade, setGrade] = useState<string[]>([]);
   const [detailedData, setDetailedData] = useState<string | null>(null);
 
   // Pagination
@@ -42,34 +38,36 @@ const Directorate: React.FC = () => {
     setCurrentPage(pageNumber);
   };
 
-  const totalDataCount = directorate.length;
+  const totalDataCount = grade.length;
   const totalPages = Math.ceil(totalDataCount / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage + 1;
   const endIndex =
     currentPage === totalPages ? totalDataCount : startIndex + itemsPerPage - 1;
-  const currentDirectorateData = directorate.slice(startIndex - 1, endIndex);
+  const curretGradeData = grade.slice(startIndex - 1, endIndex);
 
-  // GET all directorate data
-  const featchAllDirecorateData = async () => {
+  // GET all grade data
+  const featchGrade = async () => {
     try {
-      const responseData = await getDirectorat();
-      setDirectorate(responseData.data);
+      const reponseData = await getGrade();
+      setGrade(reponseData.data);
     } catch (error: any) {
-      console.error('Error featch directorate:', error);
-      setErrorTitle('Error featch directorate data');
+      console.error('Error featch all grade:', error);
+      setErrorTitle(`Error featch all grade`);
+
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
   };
 
-  // GET detail directorate data by id
-  const featchDirectorateDetail = async (id: number) => {
+  // GET detail grade data by id
+  const featchDetailGrade = async (id: number) => {
     try {
-      const responseData = await getDetailDirectorat(id);
+      const responseData = await getDetailGrade(id);
       setDetailedData(responseData.data);
     } catch (error: any) {
-      console.error('Error featch directorate:', error);
-      setErrorTitle('Error featch directorate detail');
+      console.error('Error featch detail grade:', error);
+      setErrorTitle(`Error featch detail grade`);
+
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
 
@@ -82,15 +80,14 @@ const Directorate: React.FC = () => {
     }
   };
 
-  // POST new directorat data
-  const handleAddDirectorat = async (formData: string) => {
+  // POST new grade data
+  const handleAddGrade = async (formData: string) => {
     try {
-      const responseData = await addDirectorat(formData);
-      console.log(responseData);
+      const responseData = await addGrade(formData);
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
 
-      featchAllDirecorateData();
+      featchGrade();
 
       ResetAlert(
         setSuccessTitle,
@@ -99,10 +96,12 @@ const Directorate: React.FC = () => {
         setErrorMessage
       );
     } catch (error: any) {
-      console.error('Error adding directorate:', error);
-      setErrorTitle('Error adding directorate');
+      console.error('Error adding grade:', error);
+      setErrorTitle(`Error adding grade`);
+
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
+
       ResetAlert(
         setSuccessTitle,
         setSuccessMessage,
@@ -112,14 +111,14 @@ const Directorate: React.FC = () => {
     }
   };
 
-  // PUT directorate data
-  const handleEditDirectorat = async (formData: string, id: number) => {
+  // PUT grade data
+  const handleEditGrade = async (formData: string, id: number) => {
     try {
-      const responseData = await updateDirectorat(id, formData);
-      console.log(responseData);
+      const responseData = await updateGrade(id, formData);
+
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
-      featchAllDirecorateData();
+      featchGrade();
 
       ResetAlert(
         setSuccessTitle,
@@ -128,21 +127,20 @@ const Directorate: React.FC = () => {
         setErrorMessage
       );
     } catch (error: any) {
-      console.error('Error editing directorate:', error);
-      setErrorTitle('Error editing directorate');
+      console.error('Error editing grade:', error);
+      setErrorTitle(`Error editing grade`);
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
   };
 
-  // DELETE directorat data
-  const handleDeleteDirectorat = async (id: number) => {
+  // DELETE grade data
+  const handleDeleteGrade = async (id: number) => {
     try {
-      const responseData = await deleteDirectorat(id);
+      const responseData = await deleteGrade(id);
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
-
-      featchAllDirecorateData();
+      featchGrade();
 
       ResetAlert(
         setSuccessTitle,
@@ -151,8 +149,9 @@ const Directorate: React.FC = () => {
         setErrorMessage
       );
     } catch (error: any) {
-      console.error('Error deleting directorate:', error);
-      setErrorTitle('Error deleting directorate');
+      console.error('Error deleting grade:', error);
+      setErrorTitle(`Error deleting grade`);
+
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
 
@@ -166,35 +165,34 @@ const Directorate: React.FC = () => {
   };
 
   useEffect(() => {
-    featchAllDirecorateData();
+    featchGrade();
   }, []);
 
   return (
     <>
-      <h1>Directorate Page</h1>
+      <h1>Grade Page</h1>
       {successMessage && successTitle && (
         <SuccessAlert title={successTitle} text={successMessage} />
       )}
       {errorMessage && errorTitle && (
         <ErrorAlert title={errorTitle} text={errorMessage} />
       )}
-
       <TabelHeader
-        addButtonText="Add Directorate"
-        title="Add Directorate"
+        addButtonText="Add Grade"
+        title="Add Grade"
         filterOptions={filterOptions}
         inputFields={inputField}
-        onSubmit={handleAddDirectorat}
+        onSubmit={handleAddGrade}
       />
       <TabelBody
-        title="Edit Directorate"
+        title="Edit Grade"
         colCells={colCells}
-        data={currentDirectorateData}
+        data={curretGradeData}
         inputFields={inputField}
-        onSubmit={handleEditDirectorat}
-        onDelete={handleDeleteDirectorat}
+        onSubmit={handleEditGrade}
+        onDelete={handleDeleteGrade}
         detailedData={detailedData}
-        fetchDetailedData={featchDirectorateDetail}
+        fetchDetailedData={featchDetailGrade}
       />
       <TabelFooter
         currentPage={currentPage}
@@ -209,4 +207,4 @@ const Directorate: React.FC = () => {
   );
 };
 
-export default Directorate;
+export default Grade;

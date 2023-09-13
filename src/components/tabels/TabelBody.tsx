@@ -198,17 +198,19 @@ const TabelBody: React.FC<TabelBodyProps> = ({
           const dataToEdit = data.find(
             (item: any) => item.id === modalEditIdNumber
           );
-          setActiveDropdown(dataToEdit.id);
 
           if (dataToEdit) {
+            setActiveDropdown(dataToEdit.id);
             setEditId(modalEditIdNumber);
             setEditedData(dataToEdit);
             setEditModalOpen(true);
           }
+        } else {
+          navigate('/notfound');
         }
       }
     }
-  }, [data, modalEditId, openEditModal]);
+  }, [data, modalEditId, navigate, openEditModal]);
 
   useEffect(() => {
     if (modalDetailId !== undefined) {
@@ -216,10 +218,23 @@ const TabelBody: React.FC<TabelBodyProps> = ({
 
       if (!isNaN(modalDetailNumber)) {
         setActiveDropdown(modalDetailNumber);
-        openDetailModal(modalDetailNumber);
+
+        if (!detailedData) {
+          try {
+            if (fetchDetailedData) {
+              fetchDetailedData(modalDetailNumber);
+            }
+          } catch (error) {
+            console.error('Error fetching detailed data:', error);
+          }
+        }
+
+        setIsDetailModalOpen(true);
+      } else {
+        navigate('/notfound');
       }
     }
-  }, [modalDetailId, openDetailModal]);
+  }, [modalDetailId, navigate, detailedData, fetchDetailedData]);
 
   useEffect(() => {
     if (modalDeleteId) {
@@ -234,9 +249,11 @@ const TabelBody: React.FC<TabelBodyProps> = ({
         if (dataToDelete) {
           openDeleteModal(modalDeleteNumber);
         }
+      } else {
+        navigate('/notfound');
       }
     }
-  }, [data, location.search, modalDeleteId, openDeleteModal]);
+  }, [data, location.search, modalDeleteId, navigate, openDeleteModal]);
 
   return (
     <section className="py-3 antialiased sm:py-2 overlay">

@@ -4,7 +4,7 @@ import axios from 'axios';
 const API_BASE_URL = 'http://localhost:8000/api';
 
 const handleErrorResponse = (error: any, action: string) => {
-  console.error(`Error: while ${action}`, error);
+  console.error(`Error: saat ${action}`, error);
   throw error;
 };
 

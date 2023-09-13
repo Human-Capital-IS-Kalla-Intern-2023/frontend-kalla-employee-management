@@ -52,12 +52,14 @@ const Division: React.FC = () => {
   // GET all division data
   const featchAllDivision = async () => {
     try {
-      const divisionData = await getDivision();
-      setDivision(divisionData.data);
+      const responseData = await getDivision();
+      setDivision(responseData.data);
     } catch (error: any) {
-      console.error('Error adding division:', error);
-      setErrorTitle(`${error.response.data.meta.status}`);
-      setErrorMessage(` ${error.response.data.meta.message}`);
+      console.error('Error featch all division:', error);
+      setErrorTitle(`Error featch all division`);
+
+      const errorMessages = Object.values(error.response.data.errors).flat();
+      setErrorMessage(errorMessages.join('\n'));
     }
   };
 
@@ -67,9 +69,11 @@ const Division: React.FC = () => {
       const responseData = await getDetailDivision(id);
       setDetailedData(responseData.data);
     } catch (error: any) {
-      console.error('Error deleting division:', error);
-      setErrorTitle(`${error.response.data.meta.status}`);
-      setErrorMessage(` ${error.response.data.meta.message}`);
+      console.error('Error featch detail division:', error);
+      setErrorTitle(`Error featch detail division`);
+
+      const errorMessages = Object.values(error.response.data.errors).flat();
+      setErrorMessage(errorMessages.join('\n'));
 
       ResetAlert(
         setSuccessTitle,
@@ -84,8 +88,8 @@ const Division: React.FC = () => {
   const handleAddDivision = async (formData: string) => {
     try {
       const responseData = await addDivision(formData);
-      setSuccessTitle(`${responseData.meta.status}`);
-      setSuccessMessage(`${responseData.meta.message}`);
+      setSuccessTitle(`${responseData.status}`);
+      setSuccessMessage(`${responseData.message}`);
 
       featchAllDivision();
 
@@ -97,8 +101,10 @@ const Division: React.FC = () => {
       );
     } catch (error: any) {
       console.error('Error adding division:', error);
-      setErrorTitle(`${error.response.data.meta.status}`);
-      setErrorMessage(` ${error.response.data.meta.message}`);
+      setErrorTitle(`Error adding division`);
+
+      const errorMessages = Object.values(error.response.data.errors).flat();
+      setErrorMessage(errorMessages.join('\n'));
 
       ResetAlert(
         setSuccessTitle,
@@ -114,8 +120,8 @@ const Division: React.FC = () => {
     try {
       const responseData = await updateDivision(id, formData);
 
-      setSuccessTitle(`${responseData.meta.status}`);
-      setSuccessMessage(`${responseData.meta.message}`);
+      setSuccessTitle(`${responseData.status}`);
+      setSuccessMessage(`${responseData.message}`);
       featchAllDivision();
 
       ResetAlert(
@@ -126,8 +132,9 @@ const Division: React.FC = () => {
       );
     } catch (error: any) {
       console.error('Error editing division:', error);
-      setErrorTitle(`${error.response.data.meta.status}`);
-      setErrorMessage(` ${error.response.data.meta.message}`);
+      setErrorTitle(``);
+      const errorMessages = Object.values(error.response.data.errors).flat();
+      setErrorMessage(errorMessages.join('\n'));
     }
   };
 
@@ -135,9 +142,8 @@ const Division: React.FC = () => {
   const handleDeleteDivision = async (id: number) => {
     try {
       const responseData = await deleteDivision(id);
-      setSuccessTitle(`${responseData.meta.status}`);
-      setSuccessMessage(`${responseData.meta.message}`);
-
+      setSuccessTitle(`${responseData.status}`);
+      setSuccessMessage(`${responseData.message}`);
       featchAllDivision();
 
       ResetAlert(
@@ -148,8 +154,10 @@ const Division: React.FC = () => {
       );
     } catch (error: any) {
       console.error('Error deleting division:', error);
-      setErrorTitle(`${error.response.data.meta.status}`);
-      setErrorMessage(` ${error.response.data.meta.message}`);
+      setErrorTitle(`Error deleting division`);
+
+      const errorMessages = Object.values(error.response.data.errors).flat();
+      setErrorMessage(errorMessages.join('\n'));
 
       ResetAlert(
         setSuccessTitle,
