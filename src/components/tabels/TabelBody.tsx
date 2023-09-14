@@ -290,7 +290,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                       {colCells.map((cell, cellIndex) => (
                         <td
                           key={cellIndex}
-                          className={`px-2 py-3 font-medium ${
+                          className={`px-2 py-4 font-medium ${
                             cellIndex === 0 ? 'text-center' : ''
                           } text-black whitespace-nowrap`}
                         >
