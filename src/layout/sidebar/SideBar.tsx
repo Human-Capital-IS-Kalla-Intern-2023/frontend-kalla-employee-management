@@ -85,7 +85,7 @@ const Sidebar = () => {
     {
       name: 'company',
       icon: <CompanyIcon className="min-w-max" />,
-      menus: ['business unit', 'directorate', 'division', 'section', 'location'],
+      menus: ['bisnis', 'directorate', 'division', 'section', 'location'],
     },
     {
       name: 'position',
