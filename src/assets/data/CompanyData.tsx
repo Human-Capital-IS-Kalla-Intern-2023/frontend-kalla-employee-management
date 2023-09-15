@@ -1,7 +1,7 @@
 const colCells = [
   { key: 'id', text: 'No' },
   { key: 'company_name', text: 'Nama Bisnis Unit' },
-  { key: 'locations_id', text: 'Lokasi' },
+  { key: 'location[0].location_name', text: 'Lokasi' },
 ];
 
 const filterOptions = [{ id: 'Location', label: 'Location' }];
@@ -14,9 +14,9 @@ const inputField = [
     type: 'text',
   },
   {
-    id: 'locations_id',
+    id: 'location[0].location_name',
     label: 'Lokasi',
-    name: 'locations_id',
+    name: 'location[0].location_name',
     type: 'text',
   },
 ];

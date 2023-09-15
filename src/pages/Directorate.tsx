@@ -132,6 +132,13 @@ const Directorate: React.FC = () => {
       setErrorTitle('Error editing directorate');
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
+
+      ResetAlert(
+        setSuccessTitle,
+        setSuccessMessage,
+        setErrorTitle,
+        setErrorMessage
+      );
     }
   };
 
