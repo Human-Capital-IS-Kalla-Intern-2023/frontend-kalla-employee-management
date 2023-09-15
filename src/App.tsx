@@ -123,9 +123,9 @@ const App = () => {
           </Route>
 
           <Route
-            path="/company/seksi"
+            path="/company/section"
             element={
-              <PrivateRoute path="/company/seksi" element={<Section />} />
+              <PrivateRoute path="/company/section" element={<Section />} />
             }
           >
             <Route path="add" element={<AddModal />} />

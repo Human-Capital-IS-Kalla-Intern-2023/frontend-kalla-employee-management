@@ -30,7 +30,7 @@ const TabelFooter: React.FC<TabelFooterProps> = ({
   }
 
   return (
-    <section className="py-3 antialiased sm:py-5">
+    <section className="py-1 antialiased sm:py-5">
       <div className="max-w-screen-xl px-4 mx-auto">
         <div className="relative overflow-hidden bg-white shadow-md sm:rounded-lg">
           <nav
@@ -78,7 +78,7 @@ const TabelFooter: React.FC<TabelFooterProps> = ({
                 <button
                   onClick={onNextPage}
                   aria-label="Right button"
-                  className={`flex items-center justify-center h-full py-1.5 px-3 leading-tight  bg-white rounded-r-lg border hover:bg-primar border-pureBlack hover:text-white ${
+                  className={`flex items-center justify-center h-full py-1.5 px-3 leading-tight  bg-white rounded-r-lg border hover:bg-primary border-pureBlack hover:text-white ${
                     currentPage === totalPages
                       ? 'cursor-not-allowed text-gray-400'
                       : ''

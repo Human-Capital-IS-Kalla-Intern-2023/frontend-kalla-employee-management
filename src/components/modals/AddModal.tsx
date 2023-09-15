@@ -1,5 +1,5 @@
 // Library & Package Import
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import ReactLoading from 'react-loading';
 
 // Import Assets
@@ -8,6 +8,7 @@ import { CloseButtonIcon } from '../../assets/icons/icon';
 const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
   const [formData, setFormData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const firstInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -38,7 +39,12 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
     }
   };
 
-  if (!isOpen) return null;
+  useEffect(() => {
+    if (isOpen && firstInputRef.current) {
+      // Jika modal terbuka dan ref elemen input pertama tersedia
+      firstInputRef.current.focus(); // Fokuskan kursor ke elemen input pertama
+    }
+  }, [isOpen]);
 
   return (
     <div>
@@ -86,13 +92,14 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
                   placeholder={`Input ${field.label}`}
                   className="w-full px-3 py-2 border rounded"
                   onChange={handleChange}
+                  ref={index === 0 ? firstInputRef : null}
                 />
               </div>
             ))}
 
             <button
               type="submit"
-              className={`col-span-2 px-4 py-2 text-lg text-white duration-200 border rounded hover:bg-secondary hover:text-pureBlack hover:border-pureBlack ${
+              className={`col-span-2 px-4 py-2 text-lg text-white duration-200 border rounded hover:bg-green-600 hover:text-white  ${
                 isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-800'
               }`}
               disabled={isLoading}

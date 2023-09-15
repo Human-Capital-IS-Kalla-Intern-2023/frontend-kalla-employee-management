@@ -1,5 +1,5 @@
 // Library & Package Import
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import ReactLoading from 'react-loading';
 
 // Import Assets
@@ -20,6 +20,7 @@ const EditModal = ({
 }: any) => {
   const [formData, setFormData] = useState<FormData>({});
   const [isLoading, setIsLoading] = useState(false);
+  const firstInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -53,6 +54,11 @@ const EditModal = ({
       setFormData(initialData);
     }
   }, [isOpen, initialFormData, inputFields]);
+  useEffect(() => {
+    if (isOpen && firstInputRef.current) {
+      firstInputRef.current.focus();
+    }
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -90,6 +96,7 @@ const EditModal = ({
                 placeholder={`Input ${field.label}`}
                 className="w-full px-3 py-2 border rounded"
                 onChange={handleChange}
+                ref={index === 0 ? firstInputRef : null}
                 value={formData[field.name] || ''}
               />
             </div>

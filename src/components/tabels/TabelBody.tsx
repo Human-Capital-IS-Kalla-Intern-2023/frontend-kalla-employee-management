@@ -65,6 +65,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [detailModalOpen, setIsDetailModalOpen] = useState(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);
+
   const [editedData, setEditedData] = useState<any>({});
 
   const navigate = useNavigate();
@@ -174,6 +175,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
         closeEditModal();
         closeDeleteModal();
         closeDetailModal();
+        setActiveDropdown(null);
       }
     };
 
@@ -183,6 +185,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('keydown', handleEscapeKey);
+      document.removeEventListener("keydown", handleEscapeKey);
     };
   }, [closeDeleteModal, closeDetailModal, closeEditModal]);
 
@@ -248,7 +251,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
   }, [data, location.search, modalDeleteId, navigate, openDeleteModal]);
 
   return (
-    <section className="py-3 antialiased sm:py-5 overlay">
+    <section className="py-3 antialiased sm:py-2 overlay">
       <div className="max-w-screen-xl px-4 mx-auto">
         <div className="relative overflow-hidden bg-white shadow-custom sm:rounded-lg">
           <div className="overflow-x-auto">
@@ -282,7 +285,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                       {colCells.map((cell, cellIndex) => (
                         <td
                           key={cellIndex}
-                          className={`px-2 py-3 font-medium ${
+                          className={`px-2 py-4 font-medium ${
                             cellIndex === 0 ? 'text-center' : ''
                           } text-black whitespace-nowrap`}
                         >

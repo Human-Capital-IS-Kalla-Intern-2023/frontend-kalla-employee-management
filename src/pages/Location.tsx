@@ -174,7 +174,7 @@ const Location: React.FC = () => {
 
   return (
     <>
-      <h1>Location Page</h1>
+      <h1 className='px-4'>Location Page</h1>
       {successMessage && successTitle && (
         <SuccessAlert title={successTitle} text={successMessage} />
       )}

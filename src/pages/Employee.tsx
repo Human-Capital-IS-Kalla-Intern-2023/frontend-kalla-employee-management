@@ -148,7 +148,7 @@ const handleDeleteEmployee = async () => {};
 const Employee: React.FC = () => {
   return (
     <>
-      <h1>Employee Management Page</h1>
+      <h1 className='px-4'>Employee Management Page</h1>
       <TabelHeader
         addButtonText="Add Employee"
         title="Add Employee"
