@@ -1,6 +1,6 @@
 // Import Library & Package
 import React, { useEffect, useState } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 // Import Component
 import TabelHeader from '../components/tabels/TabelHeader';
 import TabelFooter from '../components/tabels/TabelFooter';
@@ -34,6 +34,7 @@ const Grade: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 10;
 
+  const navigate = useNavigate();
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
@@ -67,7 +68,7 @@ const Grade: React.FC = () => {
     } catch (error: any) {
       console.error('Error featch detail grade:', error);
       setErrorTitle(`Error featch detail grade`);
-
+      navigate('/notfound');
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
 

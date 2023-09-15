@@ -81,15 +81,7 @@ const EditModal = ({
           {inputFields.map((field: any, index: number) => (
             <div
               key={field.id}
-              className={
-                inputFields.length === 1
-                  ? 'col-span-2'
-                  : inputFields.length === 2
-                  ? 'col-span-2'
-                  : index === 0 && inputFields.length >= 3
-                  ? 'col-span-2'
-                  : ''
-              }
+              className={index === 0 || index === 1 ? 'col-span-2' : ''}
             >
               <label
                 className="flex justify-start mb-2 font-medium"
@@ -105,6 +97,7 @@ const EditModal = ({
                 className="w-full px-3 py-2 border rounded"
                 onChange={handleChange}
                 ref={index === 0 ? firstInputRef : null}
+                value={formData[field.name] || ''}
               />
             </div>
           ))}
