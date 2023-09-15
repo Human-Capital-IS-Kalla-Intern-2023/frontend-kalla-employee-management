@@ -191,6 +191,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
       const modalEditIdNumber = parseInt(modalEditId, 10);
 
       if (!isNaN(modalEditIdNumber)) {
+        console.log('biji', data);
         if (data && Array.isArray(data) && data.length > 0) {
           const dataToEdit = data.find(
             (item: any) => item.id === modalEditIdNumber
@@ -201,9 +202,9 @@ const TabelBody: React.FC<TabelBodyProps> = ({
             setEditId(modalEditIdNumber);
             setEditedData(dataToEdit);
             setEditModalOpen(true);
+          } else {
+            navigate('/notfound');
           }
-        } else {
-          navigate('/notfound');
         }
       }
     }
@@ -217,18 +218,12 @@ const TabelBody: React.FC<TabelBodyProps> = ({
         setActiveDropdown(modalDetailNumber);
 
         if (!detailedData) {
-          try {
-            if (fetchDetailedData) {
-              fetchDetailedData(modalDetailNumber);
-            }
-          } catch (error) {
-            console.error('Error fetching detailed data:', error);
+          if (fetchDetailedData) {
+            console.log(fetchDetailedData);
+            setIsDetailModalOpen(true);
+            fetchDetailedData(modalDetailNumber);
           }
         }
-
-        setIsDetailModalOpen(true);
-      } else {
-        navigate('/notfound');
       }
     }
   }, [modalDetailId, navigate, detailedData, fetchDetailedData]);
@@ -245,9 +240,9 @@ const TabelBody: React.FC<TabelBodyProps> = ({
 
         if (dataToDelete) {
           openDeleteModal(modalDeleteNumber);
+        } else {
+          navigate('/notfound');
         }
-      } else {
-        navigate('/notfound');
       }
     }
   }, [data, location.search, modalDeleteId, navigate, openDeleteModal]);
@@ -291,7 +286,9 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                             cellIndex === 0 ? 'text-center' : ''
                           } text-black whitespace-nowrap`}
                         >
-                          {customCell[cell.key]}
+                          {cell.key === 'location[0].location_name'
+                            ? customCell.location[0].location_name
+                            : customCell[cell.key]}
                         </td>
                       ))}
 
