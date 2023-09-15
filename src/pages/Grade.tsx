@@ -170,7 +170,7 @@ const Grade: React.FC = () => {
 
   return (
     <>
-      <h1>Grade Page</h1>
+      <h1 className='px-4'>Job Grade Page</h1>
       {successMessage && successTitle && (
         <SuccessAlert title={successTitle} text={successMessage} />
       )}

@@ -78,7 +78,7 @@ const TabelFooter: React.FC<TabelFooterProps> = ({
                 <button
                   onClick={onNextPage}
                   aria-label="Right button"
-                  className={`flex items-center justify-center h-full py-1.5 px-3 leading-tight  bg-white rounded-r-lg border hover:bg-primar border-pureBlack hover:text-white ${
+                  className={`flex items-center justify-center h-full py-1.5 px-3 leading-tight  bg-white rounded-r-lg border hover:bg-primary border-pureBlack hover:text-white ${
                     currentPage === totalPages
                       ? 'cursor-not-allowed text-gray-400'
                       : ''
