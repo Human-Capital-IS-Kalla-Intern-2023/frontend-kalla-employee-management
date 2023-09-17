@@ -15,6 +15,7 @@ import {
   addLocation,
   updateLocation,
   deleteLocation,
+  searchLocation,
 } from '../api/LocationAPI';
 
 import {
@@ -34,6 +35,9 @@ const Location: React.FC = () => {
   const [location, setLocation] = useState<string[]>([]);
   const [detailedData, setDetailedData] = useState<string | null>(null);
 
+  // Search
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+
   // Pagination
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 10;
@@ -42,12 +46,13 @@ const Location: React.FC = () => {
     setCurrentPage(pageNumber);
   };
 
-  const totalDataCount = location.length;
+  const totalDataCount =
+    searchResults.length > 0 ? searchResults.length : location.length;
   const totalPages = Math.ceil(totalDataCount / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage + 1;
   const endIndex =
     currentPage === totalPages ? totalDataCount : startIndex + itemsPerPage - 1;
-  const curretLocationData = location.slice(startIndex - 1, endIndex);
+  const currentLocationData = location.slice(startIndex - 1, endIndex);
 
   // GET all location data
   const featchLocation = async () => {
@@ -61,6 +66,12 @@ const Location: React.FC = () => {
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   // GET detail location data by id
@@ -74,14 +85,14 @@ const Location: React.FC = () => {
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     }
+
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   // POST new location data
@@ -92,27 +103,19 @@ const Location: React.FC = () => {
       setSuccessMessage(`${responseData.message}`);
 
       featchLocation();
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     } catch (error: any) {
       console.error('Error adding location:', error);
       setErrorTitle(`Error adding location`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   // PUT location data
@@ -123,19 +126,18 @@ const Location: React.FC = () => {
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
       featchLocation();
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     } catch (error: any) {
       console.error('Error editing location:', error);
       setErrorTitle(`Error editing location`);
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   // DELETE location data
@@ -145,27 +147,47 @@ const Location: React.FC = () => {
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
       featchLocation();
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     } catch (error: any) {
       console.error('Error deleting location:', error);
       setErrorTitle(`Error deleting location`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
+  };
+
+  const handleSearchPostion = async (inputSearch: string) => {
+    try {
+      if (inputSearch.trim() === '') {
+        setSearchResults([]);
+      } else {
+        const responseData = await searchLocation(inputSearch);
+        console.log(responseData);
+        if (responseData.data.length === 0) {
+          setErrorTitle('No Results');
+          setErrorMessage(`No results found for ${inputSearch}`);
+        } else {
+          setSearchResults(responseData.data);
+        }
+      }
+    } catch (error: any) {
+      console.error('Error search location:', error);
+      setErrorTitle('Error search location');
+      const errorMessages = Object.values(error.response.data.errors).flat();
+      setErrorMessage(errorMessages.join('\n'));
+    }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   useEffect(() => {
@@ -174,7 +196,7 @@ const Location: React.FC = () => {
 
   return (
     <>
-      <h1 className='px-4'>Location Page</h1>
+      <h1 className="px-4">Location Page</h1>
       {successMessage && successTitle && (
         <SuccessAlert title={successTitle} text={successMessage} />
       )}
@@ -187,11 +209,12 @@ const Location: React.FC = () => {
         filterOptions={filterOptions}
         inputFields={inputField}
         onSubmit={handleAddLocation}
+        onSearch={handleSearchPostion}
       />
       <TabelBody
         title="Edit Location"
         colCells={colCells}
-        data={curretLocationData}
+        data={searchResults.length > 0 ? searchResults : currentLocationData}
         inputFields={inputField}
         onSubmit={handleEditLocation}
         onDelete={handleDeleteLocation}

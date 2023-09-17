@@ -122,11 +122,35 @@ const deleteDirectorat = async (id: any) => {
   }
 };
 
+// Search Directorat
+const searchDirectorate = async (searchInput: any) => {
+  try {
+    const token = TokenHelper();
+
+    const headerToken = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const responseSearchDirectoreate = await RequestApi(
+      'GET',
+      `directorat?search=${searchInput}`,
+      null,
+      headerToken,
+      'Mencari Direktorat'
+    );
+
+    return responseSearchDirectoreate;
+  } catch (error) {
+    console.error('Kesalahan saat mencari direktorat:', error);
+    throw error;
+  }
+};
+
 export {
   getDirectorat,
   getDetailDirectorat,
   addDirectorat,
   updateDirectorat,
   deleteDirectorat,
+  searchDirectorate,
 };
-

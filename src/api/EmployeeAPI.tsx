@@ -122,10 +122,35 @@ const deleteEmployee = async (id: any) => {
   }
 };
 
+// Search Employee
+const searchEmployee = async (searchInput: any) => {
+  try {
+    const token = TokenHelper();
+
+    const headerToken = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const responseSearchEmployee = await RequestApi(
+      'GET',
+      `employee?search=${searchInput}`,
+      null,
+      headerToken,
+      'Mencari employee'
+    );
+
+    return responseSearchEmployee;
+  } catch (error) {
+    console.error('Kesalahan saat mencari employee:', error);
+    throw error;
+  }
+};
+
 export {
   getEmployee,
   getDetailEmployee,
   addEmployee,
   updateEmployee,
   deleteEmployee,
+  searchEmployee,
 };

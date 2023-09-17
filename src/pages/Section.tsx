@@ -15,6 +15,7 @@ import {
   updateSection,
   deleteSection,
   getDetailSection,
+  searchSection,
 } from '../api/SectionAPI';
 
 import {
@@ -34,6 +35,9 @@ const Section: React.FC = () => {
   const [section, setSection] = useState<string[]>([]);
   const [detailedData, setDetailedData] = useState<string | null>(null);
 
+  // Search
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+
   // Pagination
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 10;
@@ -42,12 +46,13 @@ const Section: React.FC = () => {
     setCurrentPage(pageNumber);
   };
 
-  const totalDataCount = section.length;
+  const totalDataCount =
+    searchResults.length > 0 ? searchResults.length : section.length;
   const totalPages = Math.ceil(totalDataCount / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage + 1;
   const endIndex =
     currentPage === totalPages ? totalDataCount : startIndex + itemsPerPage - 1;
-  const curretSectionData = section.slice(startIndex - 1, endIndex);
+  const currentSectionData = section.slice(startIndex - 1, endIndex);
 
   // GET all section data
   const featchAllSection = async () => {
@@ -61,6 +66,12 @@ const Section: React.FC = () => {
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   // GET detail section data by id
@@ -74,14 +85,13 @@ const Section: React.FC = () => {
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   // POST new section data
@@ -92,27 +102,19 @@ const Section: React.FC = () => {
       setSuccessMessage(`${responseData.message}`);
 
       featchAllSection();
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     } catch (error: any) {
       console.error('Error adding section:', error);
       setErrorTitle(`Error adding section`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   // PUT section data
@@ -123,19 +125,19 @@ const Section: React.FC = () => {
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
       featchAllSection();
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     } catch (error: any) {
       console.error('Error editing section:', error);
       setErrorTitle(``);
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
+
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   // DELETE section data
@@ -145,27 +147,47 @@ const Section: React.FC = () => {
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
       featchAllSection();
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     } catch (error: any) {
       console.error('Error deleting section:', error);
       setErrorTitle(`Error deleting section`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
+  };
+
+  const handleSearchPostion = async (inputSearch: string) => {
+    try {
+      if (inputSearch.trim() === '') {
+        setSearchResults([]);
+      } else {
+        const responseData = await searchSection(inputSearch);
+        console.log(responseData);
+        if (responseData.data.length === 0) {
+          setErrorTitle('No Results');
+          setErrorMessage(`No results found for ${inputSearch}`);
+        } else {
+          setSearchResults(responseData.data);
+        }
+      }
+    } catch (error: any) {
+      console.error('Error search section:', error);
+      setErrorTitle('Error search section');
+      const errorMessages = Object.values(error.response.data.errors).flat();
+      setErrorMessage(errorMessages.join('\n'));
+    }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   useEffect(() => {
@@ -174,7 +196,7 @@ const Section: React.FC = () => {
 
   return (
     <>
-      <h1 className='px-4'>Section Page</h1>
+      <h1 className="px-4">Section Page</h1>
       {successMessage && successTitle && (
         <SuccessAlert title={successTitle} text={successMessage} />
       )}
@@ -187,11 +209,12 @@ const Section: React.FC = () => {
         filterOptions={filterOptions}
         inputFields={inputField}
         onSubmit={handleAddSection}
+        onSearch={handleSearchPostion}
       />
       <TabelBody
         title="Edit Section"
         colCells={colCells}
-        data={curretSectionData}
+        data={searchResults.length > 0 ? searchResults : currentSectionData}
         inputFields={inputField}
         onSubmit={handleEditSection}
         onDelete={handleDeleteSection}

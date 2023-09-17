@@ -15,6 +15,7 @@ import {
   addPosition,
   updatePosition,
   deletePosition,
+  searchPosition,
 } from '../api/PositionAPI';
 
 import {
@@ -34,6 +35,9 @@ const Position: React.FC = () => {
   const [position, setPosition] = useState<string[]>([]);
   const [detailedData, setDetailedData] = useState<string | null>(null);
 
+  // Search
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+
   // Pagination
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 10;
@@ -47,7 +51,7 @@ const Position: React.FC = () => {
   const startIndex = (currentPage - 1) * itemsPerPage + 1;
   const endIndex =
     currentPage === totalPages ? totalDataCount : startIndex + itemsPerPage - 1;
-  const curretPositionData = position.slice(startIndex - 1, endIndex);
+  const currentPositionData = position.slice(startIndex - 1, endIndex);
 
   // GET all position data
   const featchPosition = async () => {
@@ -61,6 +65,13 @@ const Position: React.FC = () => {
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
+
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   // GET detail position data by id
@@ -74,14 +85,13 @@ const Position: React.FC = () => {
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   // POST new position data
@@ -92,27 +102,19 @@ const Position: React.FC = () => {
       setSuccessMessage(`${responseData.message}`);
 
       featchPosition();
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     } catch (error: any) {
       console.error('Error adding position:', error);
       setErrorTitle(`Error adding position`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   // PUT position data
@@ -123,19 +125,18 @@ const Position: React.FC = () => {
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
       featchPosition();
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     } catch (error: any) {
       console.error('Error editing position:', error);
       setErrorTitle(`Error editing position`);
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   // DELETE position data
@@ -145,27 +146,48 @@ const Position: React.FC = () => {
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
       featchPosition();
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     } catch (error: any) {
       console.error('Error deleting position:', error);
       setErrorTitle(`Error deleting position`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     }
+
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
+  };
+
+  const handleSearchPostion = async (inputSearch: string) => {
+    try {
+      if (inputSearch.trim() === '') {
+        setSearchResults([]);
+      } else {
+        const responseData = await searchPosition(inputSearch);
+        console.log(responseData);
+        if (responseData.data.length === 0) {
+          setErrorTitle('No Results');
+          setErrorMessage(`No results found for ${inputSearch}`);
+        } else {
+          setSearchResults(responseData.data);
+        }
+      }
+    } catch (error: any) {
+      console.error('Error search position:', error);
+      setErrorTitle('Error search position');
+      const errorMessages = Object.values(error.response.data.errors).flat();
+      setErrorMessage(errorMessages.join('\n'));
+    }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   useEffect(() => {
@@ -187,11 +209,12 @@ const Position: React.FC = () => {
         filterOptions={filterOptions}
         inputFields={inputField}
         onSubmit={handleAddPosition}
+        onSearch={handleSearchPostion}
       />
       <TabelBody
         title="Edit Position"
         colCells={colCells}
-        data={curretPositionData}
+        data={searchResults.length > 0 ? searchResults : currentPositionData}
         inputFields={inputField}
         onSubmit={handleEditPosition}
         onDelete={handleDeletePosition}
