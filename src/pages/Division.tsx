@@ -15,6 +15,7 @@ import {
   updateDivision,
   deleteDivision,
   getDetailDivision,
+  searchDivision,
 } from '../api/DivisionAPI';
 
 import {
@@ -34,6 +35,9 @@ const Division: React.FC = () => {
   const [division, setDivision] = useState<string[]>([]);
   const [detailedData, setDetailedData] = useState<string | null>(null);
 
+  // Search
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+
   // Pagination
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 10;
@@ -42,12 +46,13 @@ const Division: React.FC = () => {
     setCurrentPage(pageNumber);
   };
 
-  const totalDataCount = division.length;
+  const totalDataCount =
+    searchResults.length > 0 ? searchResults.length : division.length;
   const totalPages = Math.ceil(totalDataCount / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage + 1;
   const endIndex =
     currentPage === totalPages ? totalDataCount : startIndex + itemsPerPage - 1;
-  const curretDivisionData = division.slice(startIndex - 1, endIndex);
+  const currentDivisionData = division.slice(startIndex - 1, endIndex);
 
   // GET all division data
   const featchAllDivision = async () => {
@@ -61,6 +66,12 @@ const Division: React.FC = () => {
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   // GET detail division data by id
@@ -74,14 +85,13 @@ const Division: React.FC = () => {
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   // POST new division data
@@ -92,27 +102,19 @@ const Division: React.FC = () => {
       setSuccessMessage(`${responseData.message}`);
 
       featchAllDivision();
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     } catch (error: any) {
       console.error('Error adding division:', error);
       setErrorTitle(`Error adding division`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   // PUT division data
@@ -123,19 +125,18 @@ const Division: React.FC = () => {
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
       featchAllDivision();
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     } catch (error: any) {
       console.error('Error editing division:', error);
       setErrorTitle(``);
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   // DELETE division data
@@ -145,27 +146,48 @@ const Division: React.FC = () => {
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
       featchAllDivision();
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     } catch (error: any) {
       console.error('Error deleting division:', error);
       setErrorTitle(`Error deleting division`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     }
+
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
+  };
+
+  const handleSearchDivision = async (inputSearch: string) => {
+    try {
+      if (inputSearch.trim() === '') {
+        setSearchResults([]);
+      } else {
+        const responseData = await searchDivision(inputSearch);
+        console.log(responseData);
+        if (responseData.data.length === 0) {
+          setErrorTitle('No Results');
+          setErrorMessage(`No results found for ${inputSearch}`);
+        } else {
+          setSearchResults(responseData.data);
+        }
+      }
+    } catch (error: any) {
+      console.error('Error search division:', error);
+      setErrorTitle('Error search division');
+      const errorMessages = Object.values(error.response.data.errors).flat();
+      setErrorMessage(errorMessages.join('\n'));
+    }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   useEffect(() => {
@@ -174,7 +196,7 @@ const Division: React.FC = () => {
 
   return (
     <>
-      <h1 className='px-4'>Division Page</h1>
+      <h1 className="px-4">Division Page</h1>
       {successMessage && successTitle && (
         <SuccessAlert title={successTitle} text={successMessage} />
       )}
@@ -187,11 +209,12 @@ const Division: React.FC = () => {
         filterOptions={filterOptions}
         inputFields={inputField}
         onSubmit={handleAddDivision}
+        onSearch={handleSearchDivision}
       />
       <TabelBody
         title="Edit Division"
         colCells={colCells}
-        data={curretDivisionData}
+        data={searchResults.length > 0 ? searchResults : currentDivisionData}
         inputFields={inputField}
         onSubmit={handleEditDivision}
         onDelete={handleDeleteDivision}

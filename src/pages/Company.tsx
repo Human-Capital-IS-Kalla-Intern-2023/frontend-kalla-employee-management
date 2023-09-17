@@ -15,6 +15,7 @@ import {
   addCompany,
   updateCompany,
   deleteCompany,
+  searchCompany,
 } from '../api/CompanyAPI';
 
 import {
@@ -34,6 +35,9 @@ const Company: React.FC = () => {
   const [company, setCompany] = useState<string[]>([]);
   const [detailedData, setDetailedData] = useState<string | null>(null);
 
+  // Search
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+
   // Pagination
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 10;
@@ -42,12 +46,13 @@ const Company: React.FC = () => {
     setCurrentPage(pageNumber);
   };
 
-  const totalDataCount = company.length;
+  const totalDataCount =
+    searchResults.length > 0 ? searchResults.length : company.length;
   const totalPages = Math.ceil(totalDataCount / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage + 1;
   const endIndex =
     currentPage === totalPages ? totalDataCount : startIndex + itemsPerPage - 1;
-  const curretCompanyData = company.slice(startIndex - 1, endIndex);
+  const currentCompanyData = company.slice(startIndex - 1, endIndex);
 
   // GET all company data
   const featchCompany = async () => {
@@ -61,6 +66,12 @@ const Company: React.FC = () => {
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   // GET detail company data by id
@@ -74,14 +85,13 @@ const Company: React.FC = () => {
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   // POST new company data
@@ -92,27 +102,20 @@ const Company: React.FC = () => {
       setSuccessMessage(`${responseData.message}`);
 
       featchCompany();
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     } catch (error: any) {
       console.error('Error adding company:', error);
       setErrorTitle(`Error adding company`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     }
+
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   // PUT company data
@@ -123,19 +126,18 @@ const Company: React.FC = () => {
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
       featchCompany();
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     } catch (error: any) {
       console.error('Error editing company:', error);
       setErrorTitle(`Error editing company`);
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   // DELETE company data
@@ -145,27 +147,53 @@ const Company: React.FC = () => {
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
       featchCompany();
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     } catch (error: any) {
       console.error('Error deleting company:', error);
       setErrorTitle(`Error deleting company`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
+  };
+
+  const handleSearchPostion = async (inputSearch: string) => {
+    try {
+      if (inputSearch.trim() === '') {
+        setSearchResults([]);
+      } else {
+        const responseData = await searchCompany(inputSearch);
+        console.log(responseData);
+        if (responseData.data.length === 0) {
+          setErrorTitle('No Results');
+          setErrorMessage(`No results found for ${inputSearch}`);
+          ResetAlert(
+            setSuccessTitle,
+            setSuccessMessage,
+            setErrorTitle,
+            setErrorMessage
+          );
+        } else {
+          setSearchResults(responseData.data);
+        }
+      }
+    } catch (error: any) {
+      console.error('Error search company:', error);
+      setErrorTitle('Error search company');
+      const errorMessages = Object.values(error.response.data.errors).flat();
+      setErrorMessage(errorMessages.join('\n'));
+    }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   useEffect(() => {
@@ -174,7 +202,7 @@ const Company: React.FC = () => {
 
   return (
     <>
-      <h1 className='px-4'>Company Page</h1>
+      <h1 className="px-4">Company Page</h1>
       {successMessage && successTitle && (
         <SuccessAlert title={successTitle} text={successMessage} />
       )}
@@ -187,11 +215,12 @@ const Company: React.FC = () => {
         filterOptions={filterOptions}
         inputFields={inputField}
         onSubmit={handleAddCompany}
+        onSearch={handleSearchPostion}
       />
       <TabelBody
         title="Edit Company"
         colCells={colCells}
-        data={curretCompanyData}
+        data={searchResults.length > 0 ? searchResults : currentCompanyData}
         inputFields={inputField}
         onSubmit={handleEditCompany}
         onDelete={handleDeleteCompany}

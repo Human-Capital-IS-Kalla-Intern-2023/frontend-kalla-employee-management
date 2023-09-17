@@ -15,6 +15,7 @@ import {
   addEmployee,
   updateEmployee,
   deleteEmployee,
+  searchEmployee,
 } from '../api/EmployeeAPI';
 
 import {
@@ -34,6 +35,9 @@ const Employee: React.FC = () => {
   const [employee, setEmployee] = useState<string[]>([]);
   const [detailedData, setDetailedData] = useState<string | null>(null);
 
+  // Search
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+
   // Pagination
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 10;
@@ -42,12 +46,13 @@ const Employee: React.FC = () => {
     setCurrentPage(pageNumber);
   };
 
-  const totalDataCount = employee.length;
+  const totalDataCount =
+    searchResults.length > 0 ? searchResults.length : employee.length;
   const totalPages = Math.ceil(totalDataCount / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage + 1;
   const endIndex =
     currentPage === totalPages ? totalDataCount : startIndex + itemsPerPage - 1;
-  const curretEmployeeData = employee.slice(startIndex - 1, endIndex);
+  const currentEmployeeData = employee.slice(startIndex - 1, endIndex);
 
   // GET all employee data
   const featchEmployee = async () => {
@@ -92,27 +97,19 @@ const Employee: React.FC = () => {
       setSuccessMessage(`${responseData.message}`);
 
       featchEmployee();
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     } catch (error: any) {
       console.error('Error adding employee:', error);
       setErrorTitle(`Error adding employee`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   // PUT employee data
@@ -123,19 +120,18 @@ const Employee: React.FC = () => {
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
       featchEmployee();
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     } catch (error: any) {
       console.error('Error editing employee:', error);
       setErrorTitle(`Error editing employee`);
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   // DELETE employee data
@@ -145,27 +141,47 @@ const Employee: React.FC = () => {
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
       featchEmployee();
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     } catch (error: any) {
       console.error('Error deleting employee:', error);
       setErrorTitle(`Error deleting employee`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
+  };
+
+  const handleSearchPostion = async (inputSearch: string) => {
+    try {
+      if (inputSearch.trim() === '') {
+        setSearchResults([]);
+      } else {
+        const responseData = await searchEmployee(inputSearch);
+        console.log(responseData);
+        if (responseData.data.length === 0) {
+          setErrorTitle('No Results');
+          setErrorMessage(`No results found for ${inputSearch}`);
+        } else {
+          setSearchResults(responseData.data);
+        }
+      }
+    } catch (error: any) {
+      console.error('Error search employee:', error);
+      setErrorTitle('Error search employee');
+      const errorMessages = Object.values(error.response.data.errors).flat();
+      setErrorMessage(errorMessages.join('\n'));
+    }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   useEffect(() => {
@@ -187,11 +203,12 @@ const Employee: React.FC = () => {
         filterOptions={filterOptions}
         inputFields={inputField}
         onSubmit={handleAddEmployee}
+        onSearch={handleSearchPostion}
       />
       <TabelBody
         title="Edit Employee"
         colCells={colCells}
-        data={curretEmployeeData}
+        data={searchResults.length > 0 ? searchResults : currentEmployeeData}
         inputFields={inputField}
         onSubmit={handleEditEmployee}
         onDelete={handleDeleteEmployee}

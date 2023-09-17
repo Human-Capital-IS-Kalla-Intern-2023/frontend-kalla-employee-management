@@ -1,10 +1,11 @@
 // Import Library & Package
 import { useState, useEffect, useCallback } from 'react';
 import AddModal from '../modals/AddModal';
-import { Link, useNavigate } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import ReactLoading from 'react-loading';
+
 // Import Assets
-import { SearchIcon, ArrowButtonIcon, PlusIcon } from '../../assets/icons/icon';
+import { SearchIcon, PlusIcon } from '../../assets/icons/icon';
 
 interface FilterOption {
   id: string;
@@ -23,6 +24,7 @@ interface TabelHeaderProps {
   filterOptions: FilterOption[];
   inputFields: InputField[];
   onSubmit: any;
+  onSearch: any;
 }
 
 const TabelHeader: React.FC<TabelHeaderProps> = ({
@@ -30,20 +32,23 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
   title,
   inputFields,
   onSubmit,
+  onSearch,
 }) => {
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [searchInput, setSearchInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const closeFilterDropdown = () => {
     setIsFilterDropdownOpen(false);
   };
 
   const navigate = useNavigate();
+  const location = useLocation();
+
   const openModal = () => {
     setModalOpen(true);
   };
-
-  const location = useLocation();
 
   const closeModal = useCallback(() => {
     setModalOpen(false);
@@ -53,18 +58,44 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
     }
   }, [location.pathname, navigate]);
 
+  const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value);
+  };
+
+  const handleSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      await onSearch(searchInput);
+    } catch (error) {
+      throw Error;
+    } finally {
+      setIsLoading(false);
+
+      if (searchInput) {
+        navigate(`?search=${searchInput}`);
+      } else {
+        navigate('');
+      }
+    }
+  };
+
   const handleOverlayClick = (e: any) => {
     if (e.target.classList.contains('overlay')) {
       closeModal();
     }
   };
+
   useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const searchValue = searchParams.get('search');
+    if (searchValue) {
+      setSearchInput(searchValue);
+    }
+
     if (location.pathname.endsWith('/add')) {
       setModalOpen(true);
     }
-  }, [location.pathname]);
-
-  useEffect(() => {
     const handleEscapeKey = (event: any) => {
       if (event.key === 'Escape') {
         closeModal();
@@ -84,7 +115,7 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('keydown', handleEscapeKey);
     };
-  }, [closeModal, location.pathname, isFilterDropdownOpen]);
+  }, [closeModal, location.pathname, isFilterDropdownOpen, location.search]);
 
   return (
     <section
@@ -95,19 +126,36 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
         <div className="relative overflow-hidden bg-white shadow-md sm:rounded-lg">
           <div className="flex flex-col items-center justify-between p-3 space-y-3 rounded-md shadow-md md:flex-row md:space-y-0 md:space-x-4 bg-primary">
             <div className="w-full md:w-1/2">
-              <form className="flex items-center">
+              <form className="flex items-center" onSubmit={handleSearch}>
                 <label htmlFor="simple-search" className="sr-only">
                   Search
                 </label>
                 <div className="relative w-full">
-                  <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <SearchIcon className="w-5 h-5 " />
-                  </div>
                   <input
                     type="text"
-                    className="block w-full p-2 pl-10 text-sm text-black border rounded-lg "
+                    className="block w-full p-2 text-sm text-black border rounded-lg"
                     placeholder="Search"
+                    value={searchInput}
+                    onChange={handleSearchInputChange}
                   />
+
+                  <button
+                    className="absolute inset-y-0 right-0 flex items-center px-4 duration-300 border rounded-none rounded-r-lg bg-secondary hover:bg-white "
+                    onClick={handleSearch}
+                    type="submit"
+                  >
+                    {isLoading && (
+                      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                        <ReactLoading
+                          type="spin"
+                          color="green"
+                          height={50}
+                          width={50}
+                        />
+                      </div>
+                    )}
+                    <SearchIcon className="w-5 h-5 cursor-pointer " />
+                  </button>
                 </div>
               </form>
             </div>
@@ -130,7 +178,6 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
                   onSubmit={onSubmit}
                 />
               )}
-
             </div>
           </div>
         </div>

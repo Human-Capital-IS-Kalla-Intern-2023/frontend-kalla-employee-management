@@ -122,10 +122,35 @@ const deleteDivision = async (id: any) => {
   }
 };
 
+// Search Division
+const searchDivision = async (searchInput: any) => {
+  try {
+    const token = TokenHelper();
+
+    const headerToken = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const responseSearchDivision = await RequestApi(
+      'GET',
+      `division?search=${searchInput}`,
+      null,
+      headerToken,
+      'Mencari division'
+    );
+
+    return responseSearchDivision;
+  } catch (error) {
+    console.error('Kesalahan saat mencari division:', error);
+    throw error;
+  }
+};
+
 export {
   getDivision,
   getDetailDivision,
   addDivision,
   updateDivision,
   deleteDivision,
+  searchDivision,
 };

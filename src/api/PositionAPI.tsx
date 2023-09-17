@@ -122,10 +122,35 @@ const deletePosition = async (id: any) => {
   }
 };
 
+// Search Position
+const searchPosition = async (searchInput: any) => {
+  try {
+    const token = TokenHelper();
+
+    const headerToken = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const responseSearchPosition = await RequestApi(
+      'GET',
+      `position?search=${searchInput}`,
+      null,
+      headerToken,
+      'Mencari position'
+    );
+
+    return responseSearchPosition;
+  } catch (error) {
+    console.error('Kesalahan saat mencari position:', error);
+    throw error;
+  }
+};
+
 export {
   getPosition,
   getDetailPosition,
   addPosition,
   updatePosition,
   deletePosition,
+  searchPosition,
 };

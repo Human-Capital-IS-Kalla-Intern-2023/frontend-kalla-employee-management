@@ -15,6 +15,7 @@ import {
   addGrade,
   updateGrade,
   deleteGrade,
+  searchGrade,
 } from '../api/GradeAPI';
 
 import { colCells, filterOptions, inputField } from '../assets/data/GradeData';
@@ -30,6 +31,9 @@ const Grade: React.FC = () => {
   const [grade, setGrade] = useState<string[]>([]);
   const [detailedData, setDetailedData] = useState<string | null>(null);
 
+  // Search
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+
   // Pagination
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 10;
@@ -39,12 +43,13 @@ const Grade: React.FC = () => {
     setCurrentPage(pageNumber);
   };
 
-  const totalDataCount = grade.length;
+  const totalDataCount =
+    searchResults.length > 0 ? searchResults.length : grade.length;
   const totalPages = Math.ceil(totalDataCount / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage + 1;
   const endIndex =
     currentPage === totalPages ? totalDataCount : startIndex + itemsPerPage - 1;
-  const curretGradeData = grade.slice(startIndex - 1, endIndex);
+  const currentGradeData = grade.slice(startIndex - 1, endIndex);
 
   // GET all grade data
   const featchGrade = async () => {
@@ -58,6 +63,12 @@ const Grade: React.FC = () => {
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   // GET detail grade data by id
@@ -71,14 +82,13 @@ const Grade: React.FC = () => {
       navigate('/notfound');
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   // POST new grade data
@@ -89,27 +99,19 @@ const Grade: React.FC = () => {
       setSuccessMessage(`${responseData.message}`);
 
       featchGrade();
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     } catch (error: any) {
       console.error('Error adding grade:', error);
       setErrorTitle(`Error adding grade`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   // PUT grade data
@@ -120,19 +122,18 @@ const Grade: React.FC = () => {
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
       featchGrade();
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     } catch (error: any) {
       console.error('Error editing grade:', error);
       setErrorTitle(`Error editing grade`);
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   // DELETE grade data
@@ -142,27 +143,47 @@ const Grade: React.FC = () => {
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
       featchGrade();
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     } catch (error: any) {
       console.error('Error deleting grade:', error);
       setErrorTitle(`Error deleting grade`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
+  };
+
+  const handleSearchGrade = async (inputSearch: string) => {
+    try {
+      if (inputSearch.trim() === '') {
+        setSearchResults([]);
+      } else {
+        const responseData = await searchGrade(inputSearch);
+        console.log(responseData);
+        if (responseData.data.length === 0) {
+          setErrorTitle('No Results');
+          setErrorMessage(`No results found for ${inputSearch}`);
+        } else {
+          setSearchResults(responseData.data);
+        }
+      }
+    } catch (error: any) {
+      console.error('Error search grade:', error);
+      setErrorTitle('Error search grade');
+      const errorMessages = Object.values(error.response.data.errors).flat();
+      setErrorMessage(errorMessages.join('\n'));
+    }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   useEffect(() => {
@@ -171,7 +192,7 @@ const Grade: React.FC = () => {
 
   return (
     <>
-      <h1 className='px-4'>Job Grade Page</h1>
+      <h1 className="px-4">Job Grade Page</h1>
       {successMessage && successTitle && (
         <SuccessAlert title={successTitle} text={successMessage} />
       )}
@@ -184,11 +205,12 @@ const Grade: React.FC = () => {
         filterOptions={filterOptions}
         inputFields={inputField}
         onSubmit={handleAddGrade}
+        onSearch={handleSearchGrade}
       />
       <TabelBody
         title="Edit Grade"
         colCells={colCells}
-        data={curretGradeData}
+        data={searchResults.length > 0 ? searchResults : currentGradeData}
         inputFields={inputField}
         onSubmit={handleEditGrade}
         onDelete={handleDeleteGrade}
