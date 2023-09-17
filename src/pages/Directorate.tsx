@@ -86,7 +86,6 @@ const Directorate: React.FC = () => {
   const handleAddDirectorat = async (formData: string) => {
     try {
       const responseData = await addDirectorat(formData);
-      console.log(responseData);
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
 
@@ -116,7 +115,6 @@ const Directorate: React.FC = () => {
   const handleEditDirectorat = async (formData: string, id: number) => {
     try {
       const responseData = await updateDirectorat(id, formData);
-      console.log(responseData);
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
       featchAllDirecorateData();
@@ -178,7 +176,7 @@ const Directorate: React.FC = () => {
 
   return (
     <>
-      <h1 className='px-4'>Directorate Page</h1>
+      <h1 className="px-4">Directorate Page</h1>
       {successMessage && successTitle && (
         <SuccessAlert title={successTitle} text={successMessage} />
       )}

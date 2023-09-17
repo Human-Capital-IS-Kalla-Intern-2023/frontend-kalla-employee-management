@@ -85,12 +85,18 @@ const Sidebar = () => {
     {
       name: 'company',
       icon: <CompanyIcon className="min-w-max" />,
-      menus: ['business unit', 'directorate', 'division', 'section', 'location'],
+      menus: [
+        'business unit',
+        'directorate',
+        'division',
+        'section',
+        'location',
+      ],
     },
     {
       name: 'position',
-      icon: <PositionIcon className="min-w-max w-6 h-6" />,
-      menus: ['position', 'grade'],
+      icon: <PositionIcon className="w-6 h-6 min-w-max" />,
+      menus: ['posisi', 'grade'],
     },
     {
       name: 'setting',
@@ -129,9 +135,12 @@ const Sidebar = () => {
 
           <div className="flex flex-col h-full">
             <ul className="whitespace-pre px-2.5 text-[0.9rem] py-5 flex  flex-col gap-1  font-medium overflow-x-hidden scrollbar-thin scrollbar-track-white scrollbar-thumb-slate-100   md:h-[68%] h-[70%] rounded-md">
-              <li className={`px-1 py-2 mb-1 rounded-md hover:bg-primary hover:text-white" ${
-              pathname.includes('/dashboard') ? 'bg-primary text-white hover:bg-green-600' : 'hover:text-white'
-              }`}
+              <li
+                className={`px-1 py-2 mb-1 rounded-md hover:bg-primary hover:text-white" ${
+                  pathname.includes('/dashboard')
+                    ? 'bg-primary text-white hover:bg-green-600'
+                    : 'hover:text-white'
+                }`}
               >
                 <NavLink to={'/dashboard'}>
                   <div className="flex items-center">
@@ -147,9 +156,11 @@ const Sidebar = () => {
                 </NavLink>
               </li>
               <li
-              className={`px-1 py-2 mb-1 rounded-md hover:bg-primary hover:text-white" ${
-              pathname.includes('/employee') ? 'bg-primary text-white hover:bg-green-600' : 'hover:text-white'
-              }`}
+                className={`px-1 py-2 mb-1 rounded-md hover:bg-primary hover:text-white" ${
+                  pathname.includes('/employee')
+                    ? 'bg-primary text-white hover:bg-green-600'
+                    : 'hover:text-white'
+                }`}
               >
                 <NavLink to={'/employee'} className="link">
                   <div className="flex items-center">
@@ -165,9 +176,12 @@ const Sidebar = () => {
                   </div>
                 </NavLink>
               </li>
-              <li className={`px-1 py-2 mb-1 rounded-md hover:bg-primary hover:text-white" ${
-              pathname.includes('/reports') ? 'bg-primary text-white hover:bg-green-600' : 'hover:text-white'
-              }`}
+              <li
+                className={`px-1 py-2 mb-1 rounded-md hover:bg-primary hover:text-white" ${
+                  pathname.includes('/reports')
+                    ? 'bg-primary text-white hover:bg-green-600'
+                    : 'hover:text-white'
+                }`}
               >
                 <NavLink to={'/reports'} className="link">
                   <div className="flex items-center">

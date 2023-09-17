@@ -185,7 +185,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('keydown', handleEscapeKey);
-      document.removeEventListener("keydown", handleEscapeKey);
+      document.removeEventListener('keydown', handleEscapeKey);
     };
   }, [closeDeleteModal, closeDetailModal, closeEditModal]);
 
@@ -194,7 +194,6 @@ const TabelBody: React.FC<TabelBodyProps> = ({
       const modalEditIdNumber = parseInt(modalEditId, 10);
 
       if (!isNaN(modalEditIdNumber)) {
-        console.log('biji', data);
         if (data && Array.isArray(data) && data.length > 0) {
           const dataToEdit = data.find(
             (item: any) => item.id === modalEditIdNumber
@@ -222,7 +221,6 @@ const TabelBody: React.FC<TabelBodyProps> = ({
 
         if (!detailedData) {
           if (fetchDetailedData) {
-            console.log(fetchDetailedData);
             setIsDetailModalOpen(true);
             fetchDetailedData(modalDetailNumber);
           }
