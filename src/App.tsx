@@ -84,9 +84,12 @@ const App = () => {
           </Route>
 
           <Route
-            path="/company/bisnis"
+            path="/company/business unit"
             element={
-              <PrivateRoute path="/company/bisnis" element={<Company />} />
+              <PrivateRoute
+                path="/company/business unit"
+                element={<Company />}
+              />
             }
           >
             <Route path="add" element={<AddModal />} />
