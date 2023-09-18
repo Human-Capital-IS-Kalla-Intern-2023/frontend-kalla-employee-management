@@ -21,6 +21,7 @@ const EditModal = ({
   const [formData, setFormData] = useState<FormData>({});
   const [isLoading, setIsLoading] = useState(false);
   const firstInputRef = useRef<HTMLInputElement | null>(null);
+  const selectRef = useRef<HTMLSelectElement | null>(null);
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -54,6 +55,7 @@ const EditModal = ({
       setFormData(initialData);
     }
   }, [isOpen, initialFormData, inputFields]);
+
   useEffect(() => {
     if (isOpen && firstInputRef.current) {
       firstInputRef.current.focus();
@@ -89,18 +91,37 @@ const EditModal = ({
               >
                 {field.label}
               </label>
-              <input
-                type={field.type || 'text'}
-                id={field.id}
-                name={field.name}
-                placeholder={`Input ${field.label}`}
-                className="w-full px-3 py-2 border rounded"
-                onChange={handleChange}
-                ref={index === 0 ? firstInputRef : null}
-                value={formData[field.name] || ''}
-              />
+              {field.type === 'select' ? (
+                <select
+                  id={field.id}
+                  name={field.name}
+                  className="w-full px-3 py-2 border rounded"
+                  onChange={handleChange}
+                  ref={index === 0 ? selectRef : null}
+                  value={formData[field.name] || ''}
+                >
+                  <option value="">Select {field.label}</option>
+                  {field.options.map((option: any) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  type={field.type || 'text'}
+                  id={field.id}
+                  name={field.name}
+                  placeholder={`Masukkan ${field.label}`}
+                  className="w-full px-3 py-2 border rounded"
+                  onChange={handleChange}
+                  ref={index === 0 ? firstInputRef : null}
+                  value={formData[field.name] || ''}
+                />
+              )}
             </div>
           ))}
+
           <button
             type="submit"
             className={`col-span-2 px-4 py-2 text-lg text-white duration-200 border rounded hover:bg-secondary hover:text-pureBlack hover:border-pureBlack ${
@@ -118,7 +139,7 @@ const EditModal = ({
                 />
               </div>
             )}
-            Update
+            Perbarui
           </button>
         </form>
       </div>

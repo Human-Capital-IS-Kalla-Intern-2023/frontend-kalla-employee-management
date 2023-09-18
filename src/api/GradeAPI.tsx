@@ -122,4 +122,35 @@ const deleteGrade = async (id: any) => {
   }
 };
 
-export { getGrade, getDetailGrade, addGrade, updateGrade, deleteGrade };
+// Search Grade
+const searchGrade = async (searchInput: any) => {
+  try {
+    const token = TokenHelper();
+
+    const headerToken = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const responseSearchGrade = await RequestApi(
+      'GET',
+      `grade?search=${searchInput}`,
+      null,
+      headerToken,
+      'Mencari grade'
+    );
+
+    return responseSearchGrade;
+  } catch (error) {
+    console.error('Kesalahan saat mencari grade:', error);
+    throw error;
+  }
+};
+
+export {
+  getGrade,
+  getDetailGrade,
+  addGrade,
+  updateGrade,
+  deleteGrade,
+  searchGrade,
+};

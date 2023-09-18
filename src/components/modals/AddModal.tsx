@@ -9,13 +9,22 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
   const [formData, setFormData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const firstInputRef = useRef<HTMLInputElement | null>(null);
+  const selectRef = useRef<HTMLSelectElement | null>(null);
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+
+    if (name === 'locations_id') {
+      setFormData((prevData) => ({
+        ...prevData,
+        locations_id: value,
+      }));
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
   };
 
   const handleSubmit = async (e: any) => {
@@ -25,6 +34,7 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
       setIsLoading(true);
 
       await onSubmit(formData);
+
       onClose();
     } catch (error) {
       console.error('Error:', error);
@@ -40,9 +50,12 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
   };
 
   useEffect(() => {
-    if (isOpen && firstInputRef.current) {
-      // Jika modal terbuka dan ref elemen input pertama tersedia
-      firstInputRef.current.focus(); // Fokuskan kursor ke elemen input pertama
+    if (isOpen) {
+      if (firstInputRef.current) {
+        firstInputRef.current.focus();
+      } else if (selectRef.current) {
+        selectRef.current.focus();
+      }
     }
   }, [isOpen]);
 
@@ -85,15 +98,32 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
                 >
                   {field.label}
                 </label>
-                <input
-                  type={field.type || 'text'}
-                  id={field.id}
-                  name={field.name}
-                  placeholder={`Input ${field.label}`}
-                  className="w-full px-3 py-2 border rounded"
-                  onChange={handleChange}
-                  ref={index === 0 ? firstInputRef : null}
-                />
+                {field.type === 'select' ? (
+                  <select
+                    id={field.id}
+                    name={field.name}
+                    className="w-full px-3 py-2 border rounded"
+                    onChange={handleChange}
+                    ref={index === 0 ? selectRef : null}
+                  >
+                    <option value="">Select {field.label}</option>
+                    {field.options.map((option: any) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <input
+                    type={field.type || 'text'}
+                    id={field.id}
+                    name={field.name}
+                    placeholder={`Input ${field.label}`}
+                    className="w-full px-3 py-2 border rounded"
+                    onChange={handleChange}
+                    ref={index === 0 ? firstInputRef : null}
+                  />
+                )}
               </div>
             ))}
 

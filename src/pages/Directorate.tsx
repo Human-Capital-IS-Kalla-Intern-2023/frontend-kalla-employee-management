@@ -15,6 +15,7 @@ import {
   updateDirectorat,
   deleteDirectorat,
   getDetailDirectorat,
+  searchDirectorate,
 } from '../api/DirectoratAPI';
 
 import {
@@ -34,6 +35,9 @@ const Directorate: React.FC = () => {
   const [directorate, setDirectorate] = useState<string[]>([]);
   const [detailedData, setDetailedData] = useState<string | null>(null);
 
+  // Search
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+
   // Pagination
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 10;
@@ -42,7 +46,8 @@ const Directorate: React.FC = () => {
     setCurrentPage(pageNumber);
   };
 
-  const totalDataCount = directorate.length;
+  const totalDataCount =
+    searchResults.length > 0 ? searchResults.length : directorate.length;
   const totalPages = Math.ceil(totalDataCount / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage + 1;
   const endIndex =
@@ -60,6 +65,12 @@ const Directorate: React.FC = () => {
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   // GET detail directorate data by id
@@ -72,74 +83,58 @@ const Directorate: React.FC = () => {
       setErrorTitle('Error featch directorate detail');
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     }
+
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   // POST new directorat data
   const handleAddDirectorat = async (formData: string) => {
     try {
       const responseData = await addDirectorat(formData);
-      console.log(responseData);
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
 
       featchAllDirecorateData();
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     } catch (error: any) {
       console.error('Error adding directorate:', error);
       setErrorTitle('Error adding directorate');
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   // PUT directorate data
   const handleEditDirectorat = async (formData: string, id: number) => {
     try {
       const responseData = await updateDirectorat(id, formData);
-      console.log(responseData);
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
       featchAllDirecorateData();
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     } catch (error: any) {
       console.error('Error editing directorate:', error);
       setErrorTitle('Error editing directorate');
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     }
+
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   // DELETE directorat data
@@ -150,26 +145,52 @@ const Directorate: React.FC = () => {
       setSuccessMessage(`${responseData.message}`);
 
       featchAllDirecorateData();
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     } catch (error: any) {
       console.error('Error deleting directorate:', error);
       setErrorTitle('Error deleting directorate');
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
-
-      ResetAlert(
-        setSuccessTitle,
-        setSuccessMessage,
-        setErrorTitle,
-        setErrorMessage
-      );
     }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
+  };
+
+  const handleSearchDirectorat = async (inputSearch: string) => {
+    try {
+      if (inputSearch.trim() === '') {
+        setSearchResults([]);
+      } else {
+        const responseData = await searchDirectorate(inputSearch);
+        console.log(responseData);
+        if (responseData.data.length === 0) {
+          setErrorTitle('No Results');
+          setErrorMessage(`No results found for ${inputSearch}`);
+          ResetAlert(
+            setSuccessTitle,
+            setSuccessMessage,
+            setErrorTitle,
+            setErrorMessage
+          );
+        } else {
+          setSearchResults(responseData.data);
+        }
+      }
+    } catch (error: any) {
+      console.error('Error search directorate:', error);
+      setErrorTitle('Error search directorate');
+      const errorMessages = Object.values(error.response.data.errors).flat();
+      setErrorMessage(errorMessages.join('\n'));
+    }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   useEffect(() => {
@@ -178,7 +199,7 @@ const Directorate: React.FC = () => {
 
   return (
     <>
-      <h1 className='px-4'>Directorate Page</h1>
+      <h1 className="px-4">Directorate Page</h1>
       {successMessage && successTitle && (
         <SuccessAlert title={successTitle} text={successMessage} />
       )}
@@ -192,11 +213,12 @@ const Directorate: React.FC = () => {
         filterOptions={filterOptions}
         inputFields={inputField}
         onSubmit={handleAddDirectorat}
+        onSearch={handleSearchDirectorat}
       />
       <TabelBody
         title="Edit Directorate"
         colCells={colCells}
-        data={currentDirectorateData}
+        data={searchResults.length > 0 ? searchResults : currentDirectorateData}
         inputFields={inputField}
         onSubmit={handleEditDirectorat}
         onDelete={handleDeleteDirectorat}

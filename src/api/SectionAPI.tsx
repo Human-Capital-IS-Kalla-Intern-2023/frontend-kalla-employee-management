@@ -122,10 +122,35 @@ const deleteSection = async (id: any) => {
   }
 };
 
+// Search Section
+const searchSection = async (searchInput: any) => {
+  try {
+    const token = TokenHelper();
+
+    const headerToken = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const responseSearchSection = await RequestApi(
+      'GET',
+      `section?search=${searchInput}`,
+      null,
+      headerToken,
+      'Mencari section'
+    );
+
+    return responseSearchSection;
+  } catch (error) {
+    console.error('Kesalahan saat mencari section:', error);
+    throw error;
+  }
+};
+
 export {
   getSection,
   getDetailSection,
   addSection,
   updateSection,
   deleteSection,
+  searchSection,
 };

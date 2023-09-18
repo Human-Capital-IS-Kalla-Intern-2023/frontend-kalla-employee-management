@@ -122,10 +122,35 @@ const deleteCompany = async (id: any) => {
   }
 };
 
+// Search Company
+const searchCompany = async (searchInput: any) => {
+  try {
+    const token = TokenHelper();
+
+    const headerToken = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const responseSearchCompany = await RequestApi(
+      'GET',
+      `company?search=${searchInput}`,
+      null,
+      headerToken,
+      'Mencari company'
+    );
+
+    return responseSearchCompany;
+  } catch (error) {
+    console.error('Kesalahan saat mencari company:', error);
+    throw error;
+  }
+};
+
 export {
   getCompany,
   getDetailCompany,
   addCompany,
   updateCompany,
   deleteCompany,
+  searchCompany,
 };

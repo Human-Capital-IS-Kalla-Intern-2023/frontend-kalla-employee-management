@@ -122,10 +122,35 @@ const deleteLocation = async (id: any) => {
   }
 };
 
+// Search Location
+const searchLocation = async (searchInput: any) => {
+  try {
+    const token = TokenHelper();
+
+    const headerToken = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const responseSearchLocation = await RequestApi(
+      'GET',
+      `location?search=${searchInput}`,
+      null,
+      headerToken,
+      'Mencari location'
+    );
+
+    return responseSearchLocation;
+  } catch (error) {
+    console.error('Kesalahan saat mencari location:', error);
+    throw error;
+  }
+};
+
 export {
   getLocation,
   getDetailLocation,
   addLocation,
   updateLocation,
   deleteLocation,
+  searchLocation,
 };
