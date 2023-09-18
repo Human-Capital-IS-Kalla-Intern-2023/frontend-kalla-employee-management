@@ -162,6 +162,30 @@ const TabelBody: React.FC<TabelBodyProps> = ({
     setActiveDropdown(false);
   };
 
+  const truncateText = (text : string, maxLength : number) => {
+    return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+  };
+  
+  interface TableCell {
+    key: string;
+  }
+  const renderTableCell = (cell: TableCell, customCell: Record<string, any>, locationPathname: string) => {
+    if (cell.key === 'location[0].location_name') {
+      return customCell.location[0].location_name;
+    } else if (
+      ['fullname', 'company_email', 'main_position', 'second_position', 'position_name'].includes(cell.key)
+    ) {
+      return truncateText(customCell[cell.key], 16);
+    } else if (
+      locationPathname.includes('/position/posisi') &&
+      ['division_name', 'section_name', 'directorat_name'].includes(cell.key)
+    ) {
+      return truncateText(customCell[cell.key], 18);
+    } else {
+      return customCell[cell.key];
+    }
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       if (scrollRef.current) {
@@ -178,6 +202,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
         setActiveDropdown(null);
       }
     };
+    
 
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('keydown', handleEscapeKey);
@@ -282,16 +307,14 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                     >
                       {colCells.map((cell, cellIndex) => (
                         <td
-                          key={cellIndex}
-                          className={`px-2 py-4 font-medium ${
-                            cellIndex === 0 ? 'text-center' : ''
-                          } text-black whitespace-nowrap`}
-                        >
-                          {cell.key === 'location[0].location_name'
-                            ? customCell.location[0].location_name
-                            : customCell[cell.key]}
-                        </td>
-                      ))}
+                        key={cellIndex}
+                        className={`px-2 py-4 font-medium ${
+                          cellIndex === 0 ? 'text-center' : ''
+                        } text-black whitespace-nowrap`}
+                      >
+                        {renderTableCell(cell, customCell, location.pathname)}
+                      </td>
+                    ))}
 
                       <td className="flex items-center justify-end px-2 py-3">
                         <button
