@@ -46,16 +46,16 @@ const inputField = [
   {
     id: 'main_position',
     label: 'Posisi Utama',
-    name: 'main_position',
-    type: 'select', // Ubah tipe input menjadi 'select'
-    options: [], // Inisialisasi opsi sebagai array kosong
+    name: 'id_main_position',
+    type: 'select',
+    options: [],
   },
   {
     id: 'second_position',
     label: 'Posisi Lainnya',
-    name: 'second_position',
-    type: 'select', // Ubah tipe input menjadi 'select'
-    options: [], // Inisialisasi opsi sebagai array kosong
+    name: 'id_second_position',
+    type: 'select',
+    options: [],
   },
 ];
 
@@ -64,15 +64,15 @@ const fetchPositions = async () => {
     const responseData = await getPosition();
     const positionOptions = responseData.data.map((item: any) => ({
       label: item.position_name,
-      value: item.id, // Gunakan ID posisi sebagai nilai
+      value: item.id,
     }));
 
     // Temukan bidang 'Posisi Utama' dan 'Posisi Lainnya' dalam array inputField
     const mainPositionField = inputField.find(
-      (field: any) => field.name === 'main_position'
+      (field: any) => field.label === 'Posisi Utama'
     );
     const secondPositionField = inputField.find(
-      (field: any) => field.name === 'second_position'
+      (field: any) => field.label === 'Posisi Lainnya'
     );
 
     if (mainPositionField) {
