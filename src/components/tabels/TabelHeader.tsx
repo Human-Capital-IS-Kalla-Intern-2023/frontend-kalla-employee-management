@@ -90,6 +90,7 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
     const searchParams = new URLSearchParams(location.search);
     const searchValue = searchParams.get('search');
     if (searchValue) {
+      onSearch(searchValue);
       setSearchInput(searchValue);
     }
 
