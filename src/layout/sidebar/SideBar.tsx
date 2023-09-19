@@ -102,7 +102,7 @@ const Sidebar = () => {
     {
       name: 'salary',
       icon: <SalaryIcon className="w-6 h-6 min-w-max" />,
-      menus: ['master', 'custom'],
+      menus: ['configures', 'regulation'],
     },
     {
       name: 'setting',

@@ -13,6 +13,7 @@ import Reports from './pages/Reports/Reports';
 
 import Position from './pages/Position/Position';
 import Grade from './pages/Salary/Grade';
+import MasterSalary from './pages/Salary/MasterSalary';
 
 import Company from './pages/Company/Company';
 import Directorate from './pages/Company/Directorate';
@@ -34,6 +35,7 @@ import DeleteModal from './components/modals/DeleteModal';
 
 // Import CSS
 import './App.css';
+import ConfigureSalary from './pages/Salary/ConfigureSalary';
 
 const App = () => {
   return (
@@ -141,6 +143,36 @@ const App = () => {
             path="/company/location"
             element={
               <PrivateRoute path="/company/location" element={<Location />} />
+            }
+          >
+            <Route path="add" element={<AddModal />} />
+            <Route path="edit/:modalEditId" element={<EditModal />} />
+            <Route path="detail/:modalDetailId" element={<DetailModal />} />
+            <Route path="delete/:modalDeleteId" element={<DeleteModal />} />
+          </Route>
+
+          <Route
+            path="/salary/regulation"
+            element={
+              <PrivateRoute
+                path="/salary/regulation"
+                element={<MasterSalary />}
+              />
+            }
+          >
+            <Route path="add" element={<AddModal />} />
+            <Route path="edit/:modalEditId" element={<EditModal />} />
+            <Route path="detail/:modalDetailId" element={<DetailModal />} />
+            <Route path="delete/:modalDeleteId" element={<DeleteModal />} />
+          </Route>
+
+          <Route
+            path="/salary/configures"
+            element={
+              <PrivateRoute
+                path="/salary/configures"
+                element={<ConfigureSalary />}
+              />
             }
           >
             <Route path="add" element={<AddModal />} />
