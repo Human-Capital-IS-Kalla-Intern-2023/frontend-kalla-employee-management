@@ -33,13 +33,13 @@ const CloseEyeIcon: React.FC<SvgIconProps> = ({ className, onClick }) => (
 
 const ThreeDotIcon: React.FC<SvgIconProps> = ({ className }) => (
   <svg
-    className={className}
-    aria-hidden="true"
     fill="currentColor"
-    viewBox="0 0 20 20"
-    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 16 16"
+    height="1em"
+    width="1em"
+    className={className}
   >
-    <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+    <path d="M9.5 13a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm0-5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm0-5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
   </svg>
 );
 const EditIcon: React.FC<SvgIconProps> = ({ className }) => (
