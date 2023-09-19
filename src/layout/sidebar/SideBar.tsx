@@ -14,6 +14,7 @@ import {
   SettingIcon,
   CompanyIcon,
   PositionIcon,
+  SalaryIcon,
 } from '../../assets/icons/icon';
 import {
   DashboardIcon,
@@ -97,6 +98,11 @@ const Sidebar = () => {
       name: 'position',
       icon: <PositionIcon className="w-6 h-6 min-w-max" />,
       menus: ['posisi', 'grade'],
+    },
+    {
+      name: 'salary',
+      icon: <SalaryIcon className="w-6 h-6 min-w-max" />,
+      menus: ['master', 'custom'],
     },
     {
       name: 'setting',

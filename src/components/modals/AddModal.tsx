@@ -6,7 +6,18 @@ import ReactLoading from 'react-loading';
 import { CloseButtonIcon } from '../../assets/icons/icon';
 
 const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
-  const [formData, setFormData] = useState({});
+  const saveFormDataToLocalStorage = (data: any) => {
+    localStorage.setItem('formData', JSON.stringify(data));
+  };
+
+  const loadFormDataFromLocalStorage = () => {
+    const storedData = localStorage.getItem('formData');
+    return storedData ? JSON.parse(storedData) : {};
+  };
+
+  const [formData, setFormData] = useState(() =>
+    loadFormDataFromLocalStorage()
+  );
   const [isLoading, setIsLoading] = useState(false);
   const firstInputRef = useRef<HTMLInputElement | null>(null);
   const selectRef = useRef<HTMLSelectElement | null>(null);
@@ -15,16 +26,17 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
     const { name, value } = e.target;
 
     if (name === 'locations_id') {
-      setFormData((prevData) => ({
+      setFormData((prevData: any) => ({
         ...prevData,
         locations_id: value,
       }));
     } else {
-      setFormData((prevData) => ({
+      setFormData((prevData: any) => ({
         ...prevData,
         [name]: value,
       }));
     }
+    saveFormDataToLocalStorage(formData);
   };
 
   const handleSubmit = async (e: any) => {
@@ -36,6 +48,7 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
       await onSubmit(formData);
 
       onClose();
+      localStorage.removeItem('formData');
     } catch (error) {
       console.error('Error:', error);
     } finally {
@@ -57,6 +70,7 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
         selectRef.current.focus();
       }
     }
+    setFormData(loadFormDataFromLocalStorage());
   }, [isOpen]);
 
   return (
@@ -104,6 +118,7 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
                     name={field.name}
                     className="w-full px-3 py-2 border rounded"
                     onChange={handleChange}
+                    value={formData[field.name] || ''}
                     ref={index === 0 ? selectRef : null}
                   >
                     <option value="">Select {field.label}</option>
@@ -121,6 +136,7 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
                     placeholder={`Input ${field.label}`}
                     className="w-full px-3 py-2 border rounded"
                     onChange={handleChange}
+                    value={formData[field.name] || ''}
                     ref={index === 0 ? firstInputRef : null}
                   />
                 )}
