@@ -2,37 +2,37 @@
 import React, { useEffect, useState } from 'react';
 
 // Import Component
-import TabelHeader from '../components/tabels/TabelHeader';
-import TabelFooter from '../components/tabels/TabelFooter';
-import TabelBody from '../components/tabels/TabelBody';
-import { SuccessAlert, ErrorAlert } from '../components/alerts/CustomAlert';
-import { ResetAlert } from '../helpers/ResetAlert';
+import TabelHeader from '../../components/tabels/TabelHeader';
+import TabelFooter from '../../components/tabels/TabelFooter';
+import TabelBody from '../../components/tabels/TabelBody';
+import { SuccessAlert, ErrorAlert } from '../../components/alerts/CustomAlert';
+import { ResetAlert } from '../../helpers/ResetAlert';
 
 // Import API
 import {
-  getDivision,
-  addDivision,
-  updateDivision,
-  deleteDivision,
-  getDetailDivision,
-  searchDivision,
-} from '../api/DivisionAPI';
+  getEmployee,
+  getDetailEmployee,
+  addEmployee,
+  updateEmployee,
+  deleteEmployee,
+  searchEmployee,
+} from '../../api/EmployeeAPI';
 
 import {
   colCells,
   filterOptions,
   inputField,
-} from '../assets/data/DivisionData';
+} from '../../assets/data/EmployeeData';
 
-const Division: React.FC = () => {
+const Employee: React.FC = () => {
   // Alert State
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successTitle, setSuccessTitle] = useState<string | null>(null);
   const [errorTitle, setErrorTitle] = useState<string | null>(null);
 
-  // Division State
-  const [division, setDivision] = useState<string[]>([]);
+  // Employee State
+  const [employee, setEmployee] = useState<string[]>([]);
   const [detailedData, setDetailedData] = useState<string | null>(null);
 
   // Search
@@ -47,64 +47,59 @@ const Division: React.FC = () => {
   };
 
   const totalDataCount =
-    searchResults.length > 0 ? searchResults.length : division.length;
+    searchResults.length > 0 ? searchResults.length : employee.length;
   const totalPages = Math.ceil(totalDataCount / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage + 1;
   const endIndex =
     currentPage === totalPages ? totalDataCount : startIndex + itemsPerPage - 1;
-  const currentDivisionData = division.slice(startIndex - 1, endIndex);
+  const currentEmployeeData = employee.slice(startIndex - 1, endIndex);
 
-  // GET all division data
-  const featchAllDivision = async () => {
+  // GET all employee data
+  const featchEmployee = async () => {
     try {
-      const responseData = await getDivision();
-      setDivision(responseData.data);
+      const reponseData = await getEmployee();
+      setEmployee(reponseData.data);
     } catch (error: any) {
-      console.error('Error featch all division:', error);
-      setErrorTitle(`Error featch all division`);
+      console.error('Error featch all employee:', error);
+      setErrorTitle(`Error featch all employee`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
-    ResetAlert(
-      setSuccessTitle,
-      setSuccessMessage,
-      setErrorTitle,
-      setErrorMessage
-    );
   };
 
-  // GET detail division data by id
-  const featchDetailDivision = async (id: number) => {
+  // GET detail employee data by id
+  const featchDetailEmployee = async (id: number) => {
     try {
-      const responseData = await getDetailDivision(id);
+      const responseData = await getDetailEmployee(id);
       setDetailedData(responseData.data);
     } catch (error: any) {
-      console.error('Error featch detail division:', error);
-      setErrorTitle(`Error featch detail division`);
+      console.error('Error featch detail employee:', error);
+      setErrorTitle(`Error featch detail employee`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
+
+      ResetAlert(
+        setSuccessTitle,
+        setSuccessMessage,
+        setErrorTitle,
+        setErrorMessage
+      );
     }
-    ResetAlert(
-      setSuccessTitle,
-      setSuccessMessage,
-      setErrorTitle,
-      setErrorMessage
-    );
   };
 
-  // POST new division data
-  const handleAddDivision = async (formData: string) => {
+  // POST new employee data
+  const handleAddEmployee = async (formData: string) => {
     try {
-      const responseData = await addDivision(formData);
+      const responseData = await addEmployee(formData);
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
 
-      featchAllDivision();
+      featchEmployee();
     } catch (error: any) {
-      console.error('Error adding division:', error);
-      setErrorTitle(`Error adding division`);
+      console.error('Error adding employee:', error);
+      setErrorTitle(`Error adding employee`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
@@ -117,17 +112,17 @@ const Division: React.FC = () => {
     );
   };
 
-  // PUT division data
-  const handleEditDivision = async (formData: string, id: number) => {
+  // PUT employee data
+  const handleEditEmployee = async (formData: string, id: number) => {
     try {
-      const responseData = await updateDivision(id, formData);
+      const responseData = await updateEmployee(id, formData);
 
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
-      featchAllDivision();
+      featchEmployee();
     } catch (error: any) {
-      console.error('Error editing division:', error);
-      setErrorTitle(``);
+      console.error('Error editing employee:', error);
+      setErrorTitle(`Error editing employee`);
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
@@ -139,21 +134,20 @@ const Division: React.FC = () => {
     );
   };
 
-  // DELETE division data
-  const handleDeleteDivision = async (id: number) => {
+  // DELETE employee data
+  const handleDeleteEmployee = async (id: number) => {
     try {
-      const responseData = await deleteDivision(id);
+      const responseData = await deleteEmployee(id);
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
-      featchAllDivision();
+      featchEmployee();
     } catch (error: any) {
-      console.error('Error deleting division:', error);
-      setErrorTitle(`Error deleting division`);
+      console.error('Error deleting employee:', error);
+      setErrorTitle(`Error deleting employee`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
-
     ResetAlert(
       setSuccessTitle,
       setSuccessMessage,
@@ -162,12 +156,12 @@ const Division: React.FC = () => {
     );
   };
 
-  const handleSearchDivision = async (inputSearch: string) => {
+  const handleSearchPostion = async (inputSearch: string) => {
     try {
       if (inputSearch.trim() === '') {
         setSearchResults([]);
       } else {
-        const responseData = await searchDivision(inputSearch);
+        const responseData = await searchEmployee(inputSearch);
         console.log(responseData);
         if (responseData.data.length === 0) {
           setErrorTitle('No Results');
@@ -177,8 +171,8 @@ const Division: React.FC = () => {
         }
       }
     } catch (error: any) {
-      console.error('Error search division:', error);
-      setErrorTitle('Error search division');
+      console.error('Error search employee:', error);
+      setErrorTitle('Error search employee');
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
@@ -191,12 +185,12 @@ const Division: React.FC = () => {
   };
 
   useEffect(() => {
-    featchAllDivision();
+    featchEmployee();
   }, []);
 
   return (
     <>
-      <h1 className="px-4">Division Page</h1>
+      <h1 className="px-4">Employee Page</h1>
       {successMessage && successTitle && (
         <SuccessAlert title={successTitle} text={successMessage} />
       )}
@@ -204,22 +198,22 @@ const Division: React.FC = () => {
         <ErrorAlert title={errorTitle} text={errorMessage} />
       )}
       <TabelHeader
-        addButtonText="Add Division"
-        title="Add Division"
+        addButtonText="Add Employee"
+        title="Add Employee"
         filterOptions={filterOptions}
         inputFields={inputField}
-        onSubmit={handleAddDivision}
-        onSearch={handleSearchDivision}
+        onSubmit={handleAddEmployee}
+        onSearch={handleSearchPostion}
       />
       <TabelBody
-        title="Edit Division"
+        title="Edit Employee"
         colCells={colCells}
-        data={searchResults.length > 0 ? searchResults : currentDivisionData}
+        data={searchResults.length > 0 ? searchResults : currentEmployeeData}
         inputFields={inputField}
-        onSubmit={handleEditDivision}
-        onDelete={handleDeleteDivision}
+        onSubmit={handleEditEmployee}
+        onDelete={handleDeleteEmployee}
         detailedData={detailedData}
-        fetchDetailedData={featchDetailDivision}
+        fetchDetailedData={featchDetailEmployee}
       />
       <TabelFooter
         currentPage={currentPage}
@@ -234,4 +228,4 @@ const Division: React.FC = () => {
   );
 };
 
-export default Division;
+export default Employee;

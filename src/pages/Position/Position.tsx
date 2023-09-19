@@ -1,38 +1,38 @@
 // Import Library & Package
 import React, { useEffect, useState } from 'react';
-// import { Outlet } from 'react-router-dom';
+
 // Import Component
-import TabelHeader from '../components/tabels/TabelHeader';
-import TabelFooter from '../components/tabels/TabelFooter';
-import TabelBody from '../components/tabels/TabelBody';
-import { SuccessAlert, ErrorAlert } from '../components/alerts/CustomAlert';
-import { ResetAlert } from '../helpers/ResetAlert';
+import TabelHeader from '../../components/tabels/TabelHeader';
+import TabelFooter from '../../components/tabels/TabelFooter';
+import TabelBody from '../../components/tabels/TabelBody';
+import { SuccessAlert, ErrorAlert } from '../../components/alerts/CustomAlert';
+import { ResetAlert } from '../../helpers/ResetAlert';
 
 // Import API
 import {
-  getDirectorat,
-  addDirectorat,
-  updateDirectorat,
-  deleteDirectorat,
-  getDetailDirectorat,
-  searchDirectorate,
-} from '../api/DirectoratAPI';
+  getPosition,
+  getDetailPosition,
+  addPosition,
+  updatePosition,
+  deletePosition,
+  searchPosition,
+} from '../../api/PositionAPI';
 
 import {
   colCells,
   filterOptions,
   inputField,
-} from '../assets/data/DirectoratData';
+} from '../../assets/data/PositionData';
 
-const Directorate: React.FC = () => {
+const Position: React.FC = () => {
   // Alert State
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successTitle, setSuccessTitle] = useState<string | null>(null);
   const [errorTitle, setErrorTitle] = useState<string | null>(null);
 
-  // Directorate State
-  const [directorate, setDirectorate] = useState<string[]>([]);
+  // Position State
+  const [position, setPosition] = useState<string[]>([]);
   const [detailedData, setDetailedData] = useState<string | null>(null);
 
   // Search
@@ -46,25 +46,26 @@ const Directorate: React.FC = () => {
     setCurrentPage(pageNumber);
   };
 
-  const totalDataCount =
-    searchResults.length > 0 ? searchResults.length : directorate.length;
+  const totalDataCount = position.length;
   const totalPages = Math.ceil(totalDataCount / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage + 1;
   const endIndex =
     currentPage === totalPages ? totalDataCount : startIndex + itemsPerPage - 1;
-  const currentDirectorateData = directorate.slice(startIndex - 1, endIndex);
+  const currentPositionData = position.slice(startIndex - 1, endIndex);
 
-  // GET all directorate data
-  const featchAllDirecorateData = async () => {
+  // GET all position data
+  const featchPosition = async () => {
     try {
-      const responseData = await getDirectorat();
-      setDirectorate(responseData.data);
+      const reponseData = await getPosition();
+      setPosition(reponseData.data);
     } catch (error: any) {
-      console.error('Error featch directorate:', error);
-      setErrorTitle('Error featch directorate data');
+      console.error('Error featch all position:', error);
+      setErrorTitle(`Error featch all position`);
+
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
+
     ResetAlert(
       setSuccessTitle,
       setSuccessMessage,
@@ -73,18 +74,18 @@ const Directorate: React.FC = () => {
     );
   };
 
-  // GET detail directorate data by id
-  const featchDirectorateDetail = async (id: number) => {
+  // GET detail position data by id
+  const featchDetailPosition = async (id: number) => {
     try {
-      const responseData = await getDetailDirectorat(id);
+      const responseData = await getDetailPosition(id);
       setDetailedData(responseData.data);
     } catch (error: any) {
-      console.error('Error featch directorate:', error);
-      setErrorTitle('Error featch directorate detail');
+      console.error('Error featch detail position:', error);
+      setErrorTitle(`Error featch detail position`);
+
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
-
     ResetAlert(
       setSuccessTitle,
       setSuccessMessage,
@@ -93,17 +94,18 @@ const Directorate: React.FC = () => {
     );
   };
 
-  // POST new directorat data
-  const handleAddDirectorat = async (formData: string) => {
+  // POST new position data
+  const handleAddPosition = async (formData: string) => {
     try {
-      const responseData = await addDirectorat(formData);
+      const responseData = await addPosition(formData);
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
 
-      featchAllDirecorateData();
+      featchPosition();
     } catch (error: any) {
-      console.error('Error adding directorate:', error);
-      setErrorTitle('Error adding directorate');
+      console.error('Error adding position:', error);
+      setErrorTitle(`Error adding position`);
+
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
@@ -115,20 +117,20 @@ const Directorate: React.FC = () => {
     );
   };
 
-  // PUT directorate data
-  const handleEditDirectorat = async (formData: string, id: number) => {
+  // PUT position data
+  const handleEditPosition = async (formData: string, id: number) => {
     try {
-      const responseData = await updateDirectorat(id, formData);
+      const responseData = await updatePosition(id, formData);
+
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
-      featchAllDirecorateData();
+      featchPosition();
     } catch (error: any) {
-      console.error('Error editing directorate:', error);
-      setErrorTitle('Error editing directorate');
+      console.error('Error editing position:', error);
+      setErrorTitle(`Error editing position`);
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
-
     ResetAlert(
       setSuccessTitle,
       setSuccessMessage,
@@ -137,20 +139,21 @@ const Directorate: React.FC = () => {
     );
   };
 
-  // DELETE directorat data
-  const handleDeleteDirectorat = async (id: number) => {
+  // DELETE position data
+  const handleDeletePosition = async (id: number) => {
     try {
-      const responseData = await deleteDirectorat(id);
+      const responseData = await deletePosition(id);
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
-
-      featchAllDirecorateData();
+      featchPosition();
     } catch (error: any) {
-      console.error('Error deleting directorate:', error);
-      setErrorTitle('Error deleting directorate');
+      console.error('Error deleting position:', error);
+      setErrorTitle(`Error deleting position`);
+
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
+
     ResetAlert(
       setSuccessTitle,
       setSuccessMessage,
@@ -159,29 +162,23 @@ const Directorate: React.FC = () => {
     );
   };
 
-  const handleSearchDirectorat = async (inputSearch: string) => {
+  const handleSearchPostion = async (inputSearch: string) => {
     try {
       if (inputSearch.trim() === '') {
         setSearchResults([]);
       } else {
-        const responseData = await searchDirectorate(inputSearch);
+        const responseData = await searchPosition(inputSearch);
         console.log(responseData);
         if (responseData.data.length === 0) {
           setErrorTitle('No Results');
           setErrorMessage(`No results found for ${inputSearch}`);
-          ResetAlert(
-            setSuccessTitle,
-            setSuccessMessage,
-            setErrorTitle,
-            setErrorMessage
-          );
         } else {
           setSearchResults(responseData.data);
         }
       }
     } catch (error: any) {
-      console.error('Error search directorate:', error);
-      setErrorTitle('Error search directorate');
+      console.error('Error search position:', error);
+      setErrorTitle('Error search position');
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
@@ -194,36 +191,35 @@ const Directorate: React.FC = () => {
   };
 
   useEffect(() => {
-    featchAllDirecorateData();
+    featchPosition();
   }, []);
 
   return (
     <>
-      <h1 className="px-4">Directorate Page</h1>
+      <h1 className="px-4">Position Page</h1>
       {successMessage && successTitle && (
         <SuccessAlert title={successTitle} text={successMessage} />
       )}
       {errorMessage && errorTitle && (
         <ErrorAlert title={errorTitle} text={errorMessage} />
       )}
-
       <TabelHeader
-        addButtonText="Add Directorate"
-        title="Add Directorate"
+        addButtonText="Add Position"
+        title="Add Position"
         filterOptions={filterOptions}
         inputFields={inputField}
-        onSubmit={handleAddDirectorat}
-        onSearch={handleSearchDirectorat}
+        onSubmit={handleAddPosition}
+        onSearch={handleSearchPostion}
       />
       <TabelBody
-        title="Edit Directorate"
+        title="Edit Position"
         colCells={colCells}
-        data={searchResults.length > 0 ? searchResults : currentDirectorateData}
+        data={searchResults.length > 0 ? searchResults : currentPositionData}
         inputFields={inputField}
-        onSubmit={handleEditDirectorat}
-        onDelete={handleDeleteDirectorat}
+        onSubmit={handleEditPosition}
+        onDelete={handleDeletePosition}
         detailedData={detailedData}
-        fetchDetailedData={featchDirectorateDetail}
+        fetchDetailedData={featchDetailPosition}
       />
       <TabelFooter
         currentPage={currentPage}
@@ -238,4 +234,4 @@ const Directorate: React.FC = () => {
   );
 };
 
-export default Directorate;
+export default Position;

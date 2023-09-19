@@ -1,4 +1,4 @@
-import ErrorCard401 from '../components/cards/ErrorCard401';
+import ErrorCard401 from '../../components/cards/ErrorCard401';
 
 const Unauthorized = () => {
   return (

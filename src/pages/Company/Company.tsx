@@ -2,37 +2,37 @@
 import React, { useEffect, useState } from 'react';
 
 // Import Component
-import TabelHeader from '../components/tabels/TabelHeader';
-import TabelFooter from '../components/tabels/TabelFooter';
-import TabelBody from '../components/tabels/TabelBody';
-import { SuccessAlert, ErrorAlert } from '../components/alerts/CustomAlert';
-import { ResetAlert } from '../helpers/ResetAlert';
+import TabelHeader from '../../components/tabels/TabelHeader';
+import TabelFooter from '../../components/tabels/TabelFooter';
+import TabelBody from '../../components/tabels/TabelBody';
+import { SuccessAlert, ErrorAlert } from '../../components/alerts/CustomAlert';
+import { ResetAlert } from '../../helpers/ResetAlert';
 
 // Import API
 import {
-  getPosition,
-  getDetailPosition,
-  addPosition,
-  updatePosition,
-  deletePosition,
-  searchPosition,
-} from '../api/PositionAPI';
+  getCompany,
+  getDetailCompany,
+  addCompany,
+  updateCompany,
+  deleteCompany,
+  searchCompany,
+} from '../../api/CompanyAPI';
 
 import {
   colCells,
   filterOptions,
   inputField,
-} from '../assets/data/PositionData';
+} from '../../assets/data/CompanyData';
 
-const Position: React.FC = () => {
+const Company: React.FC = () => {
   // Alert State
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successTitle, setSuccessTitle] = useState<string | null>(null);
   const [errorTitle, setErrorTitle] = useState<string | null>(null);
 
-  // Position State
-  const [position, setPosition] = useState<string[]>([]);
+  // Company State
+  const [company, setCompany] = useState<string[]>([]);
   const [detailedData, setDetailedData] = useState<string | null>(null);
 
   // Search
@@ -46,26 +46,26 @@ const Position: React.FC = () => {
     setCurrentPage(pageNumber);
   };
 
-  const totalDataCount = position.length;
+  const totalDataCount =
+    searchResults.length > 0 ? searchResults.length : company.length;
   const totalPages = Math.ceil(totalDataCount / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage + 1;
   const endIndex =
     currentPage === totalPages ? totalDataCount : startIndex + itemsPerPage - 1;
-  const currentPositionData = position.slice(startIndex - 1, endIndex);
+  const currentCompanyData = company.slice(startIndex - 1, endIndex);
 
-  // GET all position data
-  const featchPosition = async () => {
+  // GET all company data
+  const featchCompany = async () => {
     try {
-      const reponseData = await getPosition();
-      setPosition(reponseData.data);
+      const reponseData = await getCompany();
+      setCompany(reponseData.data);
     } catch (error: any) {
-      console.error('Error featch all position:', error);
-      setErrorTitle(`Error featch all position`);
+      console.error('Error featch all company:', error);
+      setErrorTitle(`Error featch all company`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
-
     ResetAlert(
       setSuccessTitle,
       setSuccessMessage,
@@ -74,14 +74,14 @@ const Position: React.FC = () => {
     );
   };
 
-  // GET detail position data by id
-  const featchDetailPosition = async (id: number) => {
+  // GET detail company data by id
+  const featchDetailCompany = async (id: number) => {
     try {
-      const responseData = await getDetailPosition(id);
+      const responseData = await getDetailCompany(id);
       setDetailedData(responseData.data);
     } catch (error: any) {
-      console.error('Error featch detail position:', error);
-      setErrorTitle(`Error featch detail position`);
+      console.error('Error featch detail company:', error);
+      setErrorTitle(`Error featch detail company`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
@@ -94,18 +94,41 @@ const Position: React.FC = () => {
     );
   };
 
-  // POST new position data
-  const handleAddPosition = async (formData: string) => {
+  // POST new company data
+  const handleAddCompany = async (formData: string) => {
     try {
-      const responseData = await addPosition(formData);
+      const responseData = await addCompany(formData);
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
 
-      featchPosition();
+      featchCompany();
     } catch (error: any) {
-      console.error('Error adding position:', error);
-      setErrorTitle(`Error adding position`);
+      console.error('Error adding company:', error);
+      setErrorTitle(`Error adding company`);
 
+      const errorMessages = Object.values(error.response.data.errors).flat();
+      setErrorMessage(errorMessages.join('\n'));
+    }
+
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
+  };
+
+  // PUT company data
+  const handleEditCompany = async (formData: string, id: number) => {
+    try {
+      const responseData = await updateCompany(id, formData);
+
+      setSuccessTitle(`${responseData.status}`);
+      setSuccessMessage(`${responseData.message}`);
+      featchCompany();
+    } catch (error: any) {
+      console.error('Error editing company:', error);
+      setErrorTitle(`Error editing company`);
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
@@ -117,43 +140,20 @@ const Position: React.FC = () => {
     );
   };
 
-  // PUT position data
-  const handleEditPosition = async (formData: string, id: number) => {
+  // DELETE company data
+  const handleDeleteCompany = async (id: number) => {
     try {
-      const responseData = await updatePosition(id, formData);
-
+      const responseData = await deleteCompany(id);
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
-      featchPosition();
+      featchCompany();
     } catch (error: any) {
-      console.error('Error editing position:', error);
-      setErrorTitle(`Error editing position`);
-      const errorMessages = Object.values(error.response.data.errors).flat();
-      setErrorMessage(errorMessages.join('\n'));
-    }
-    ResetAlert(
-      setSuccessTitle,
-      setSuccessMessage,
-      setErrorTitle,
-      setErrorMessage
-    );
-  };
-
-  // DELETE position data
-  const handleDeletePosition = async (id: number) => {
-    try {
-      const responseData = await deletePosition(id);
-      setSuccessTitle(`${responseData.status}`);
-      setSuccessMessage(`${responseData.message}`);
-      featchPosition();
-    } catch (error: any) {
-      console.error('Error deleting position:', error);
-      setErrorTitle(`Error deleting position`);
+      console.error('Error deleting company:', error);
+      setErrorTitle(`Error deleting company`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
-
     ResetAlert(
       setSuccessTitle,
       setSuccessMessage,
@@ -167,18 +167,24 @@ const Position: React.FC = () => {
       if (inputSearch.trim() === '') {
         setSearchResults([]);
       } else {
-        const responseData = await searchPosition(inputSearch);
+        const responseData = await searchCompany(inputSearch);
         console.log(responseData);
         if (responseData.data.length === 0) {
           setErrorTitle('No Results');
           setErrorMessage(`No results found for ${inputSearch}`);
+          ResetAlert(
+            setSuccessTitle,
+            setSuccessMessage,
+            setErrorTitle,
+            setErrorMessage
+          );
         } else {
           setSearchResults(responseData.data);
         }
       }
     } catch (error: any) {
-      console.error('Error search position:', error);
-      setErrorTitle('Error search position');
+      console.error('Error search company:', error);
+      setErrorTitle('Error search company');
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
@@ -191,12 +197,12 @@ const Position: React.FC = () => {
   };
 
   useEffect(() => {
-    featchPosition();
+    featchCompany();
   }, []);
 
   return (
     <>
-      <h1 className="px-4">Position Page</h1>
+      <h1 className="px-4">Company Page</h1>
       {successMessage && successTitle && (
         <SuccessAlert title={successTitle} text={successMessage} />
       )}
@@ -204,22 +210,22 @@ const Position: React.FC = () => {
         <ErrorAlert title={errorTitle} text={errorMessage} />
       )}
       <TabelHeader
-        addButtonText="Add Position"
-        title="Add Position"
+        addButtonText="Add Company"
+        title="Add Company"
         filterOptions={filterOptions}
         inputFields={inputField}
-        onSubmit={handleAddPosition}
+        onSubmit={handleAddCompany}
         onSearch={handleSearchPostion}
       />
       <TabelBody
-        title="Edit Position"
+        title="Edit Company"
         colCells={colCells}
-        data={searchResults.length > 0 ? searchResults : currentPositionData}
+        data={searchResults.length > 0 ? searchResults : currentCompanyData}
         inputFields={inputField}
-        onSubmit={handleEditPosition}
-        onDelete={handleDeletePosition}
+        onSubmit={handleEditCompany}
+        onDelete={handleDeleteCompany}
         detailedData={detailedData}
-        fetchDetailedData={featchDetailPosition}
+        fetchDetailedData={featchDetailCompany}
       />
       <TabelFooter
         currentPage={currentPage}
@@ -234,4 +240,4 @@ const Position: React.FC = () => {
   );
 };
 
-export default Position;
+export default Company;

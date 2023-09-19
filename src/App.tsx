@@ -6,25 +6,25 @@ import MainLayout from './layout/MainLayout';
 import PrivateRoute from './middleware/PrivateRoutes';
 
 //  Import Pages
-import Login from './pages/Login';
-import Dashboard from './pages/Dashboard';
-import Employee from './pages/Employee';
-import Reports from './pages/Reports';
+import Login from './pages/Auth/Login';
+import Dashboard from './pages/Dashboard/Dashboard';
+import Employee from './pages/Employee/Employee';
+import Reports from './pages/Reports/Reports';
 
-import Position from './pages/Position';
-import Grade from './pages/Grade';
+import Position from './pages/Position/Position';
+import Grade from './pages/Salary/Grade';
 
-import Company from './pages/Company';
-import Directorate from './pages/Directorate';
-import Division from './pages/Division';
-import Section from './pages/Section';
-import Location from './pages/Location';
+import Company from './pages/Company/Company';
+import Directorate from './pages/Company/Directorate';
+import Division from './pages/Company/Division';
+import Section from './pages/Company/Section';
+import Location from './pages/Company/Location';
 
-import Setting from './pages/Setting';
+import Setting from './pages/Profile/Setting';
 
-import NotFound from './pages/NotFound';
-import PermissionDenied from './pages/PermissionDenied';
-import Unauthenticated from './pages/Unauthorized';
+import NotFound from './pages/Auth/NotFound';
+import PermissionDenied from './pages/Auth/PermissionDenied';
+import Unauthenticated from './pages/Auth/Unauthorized';
 
 // Import Components
 import AddModal from './components/modals/AddModal';

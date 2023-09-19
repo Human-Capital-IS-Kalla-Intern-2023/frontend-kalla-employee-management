@@ -1,34 +1,38 @@
 // Import Library & Package
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { Outlet } from 'react-router-dom';
 // Import Component
-import TabelHeader from '../components/tabels/TabelHeader';
-import TabelFooter from '../components/tabels/TabelFooter';
-import TabelBody from '../components/tabels/TabelBody';
-import { SuccessAlert, ErrorAlert } from '../components/alerts/CustomAlert';
-import { ResetAlert } from '../helpers/ResetAlert';
+import TabelHeader from '../../components/tabels/TabelHeader';
+import TabelFooter from '../../components/tabels/TabelFooter';
+import TabelBody from '../../components/tabels/TabelBody';
+import { SuccessAlert, ErrorAlert } from '../../components/alerts/CustomAlert';
+import { ResetAlert } from '../../helpers/ResetAlert';
 
 // Import API
 import {
-  getGrade,
-  getDetailGrade,
-  addGrade,
-  updateGrade,
-  deleteGrade,
-  searchGrade,
-} from '../api/GradeAPI';
+  getDirectorat,
+  addDirectorat,
+  updateDirectorat,
+  deleteDirectorat,
+  getDetailDirectorat,
+  searchDirectorate,
+} from '../../api/DirectoratAPI';
 
-import { colCells, filterOptions, inputField } from '../assets/data/GradeData';
+import {
+  colCells,
+  filterOptions,
+  inputField,
+} from '../../assets/data/DirectoratData';
 
-const Grade: React.FC = () => {
+const Directorate: React.FC = () => {
   // Alert State
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successTitle, setSuccessTitle] = useState<string | null>(null);
   const [errorTitle, setErrorTitle] = useState<string | null>(null);
 
-  // Grade State
-  const [grade, setGrade] = useState<string[]>([]);
+  // Directorate State
+  const [directorate, setDirectorate] = useState<string[]>([]);
   const [detailedData, setDetailedData] = useState<string | null>(null);
 
   // Search
@@ -38,28 +42,26 @@ const Grade: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 10;
 
-  const navigate = useNavigate();
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
 
   const totalDataCount =
-    searchResults.length > 0 ? searchResults.length : grade.length;
+    searchResults.length > 0 ? searchResults.length : directorate.length;
   const totalPages = Math.ceil(totalDataCount / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage + 1;
   const endIndex =
     currentPage === totalPages ? totalDataCount : startIndex + itemsPerPage - 1;
-  const currentGradeData = grade.slice(startIndex - 1, endIndex);
+  const currentDirectorateData = directorate.slice(startIndex - 1, endIndex);
 
-  // GET all grade data
-  const featchGrade = async () => {
+  // GET all directorate data
+  const featchAllDirecorateData = async () => {
     try {
-      const reponseData = await getGrade();
-      setGrade(reponseData.data);
+      const responseData = await getDirectorat();
+      setDirectorate(responseData.data);
     } catch (error: any) {
-      console.error('Error featch all grade:', error);
-      setErrorTitle(`Error featch all grade`);
-
+      console.error('Error featch directorate:', error);
+      setErrorTitle('Error featch directorate data');
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
@@ -71,18 +73,18 @@ const Grade: React.FC = () => {
     );
   };
 
-  // GET detail grade data by id
-  const featchDetailGrade = async (id: number) => {
+  // GET detail directorate data by id
+  const featchDirectorateDetail = async (id: number) => {
     try {
-      const responseData = await getDetailGrade(id);
+      const responseData = await getDetailDirectorat(id);
       setDetailedData(responseData.data);
     } catch (error: any) {
-      console.error('Error featch detail grade:', error);
-      setErrorTitle(`Error featch detail grade`);
-      navigate('/notfound');
+      console.error('Error featch directorate:', error);
+      setErrorTitle('Error featch directorate detail');
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
+
     ResetAlert(
       setSuccessTitle,
       setSuccessMessage,
@@ -91,18 +93,17 @@ const Grade: React.FC = () => {
     );
   };
 
-  // POST new grade data
-  const handleAddGrade = async (formData: string) => {
+  // POST new directorat data
+  const handleAddDirectorat = async (formData: string) => {
     try {
-      const responseData = await addGrade(formData);
+      const responseData = await addDirectorat(formData);
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
 
-      featchGrade();
+      featchAllDirecorateData();
     } catch (error: any) {
-      console.error('Error adding grade:', error);
-      setErrorTitle(`Error adding grade`);
-
+      console.error('Error adding directorate:', error);
+      setErrorTitle('Error adding directorate');
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
@@ -114,20 +115,20 @@ const Grade: React.FC = () => {
     );
   };
 
-  // PUT grade data
-  const handleEditGrade = async (formData: string, id: number) => {
+  // PUT directorate data
+  const handleEditDirectorat = async (formData: string, id: number) => {
     try {
-      const responseData = await updateGrade(id, formData);
-
+      const responseData = await updateDirectorat(id, formData);
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
-      featchGrade();
+      featchAllDirecorateData();
     } catch (error: any) {
-      console.error('Error editing grade:', error);
-      setErrorTitle(`Error editing grade`);
+      console.error('Error editing directorate:', error);
+      setErrorTitle('Error editing directorate');
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
+
     ResetAlert(
       setSuccessTitle,
       setSuccessMessage,
@@ -136,17 +137,17 @@ const Grade: React.FC = () => {
     );
   };
 
-  // DELETE grade data
-  const handleDeleteGrade = async (id: number) => {
+  // DELETE directorat data
+  const handleDeleteDirectorat = async (id: number) => {
     try {
-      const responseData = await deleteGrade(id);
+      const responseData = await deleteDirectorat(id);
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
-      featchGrade();
-    } catch (error: any) {
-      console.error('Error deleting grade:', error);
-      setErrorTitle(`Error deleting grade`);
 
+      featchAllDirecorateData();
+    } catch (error: any) {
+      console.error('Error deleting directorate:', error);
+      setErrorTitle('Error deleting directorate');
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
@@ -158,23 +159,29 @@ const Grade: React.FC = () => {
     );
   };
 
-  const handleSearchGrade = async (inputSearch: string) => {
+  const handleSearchDirectorat = async (inputSearch: string) => {
     try {
       if (inputSearch.trim() === '') {
         setSearchResults([]);
       } else {
-        const responseData = await searchGrade(inputSearch);
+        const responseData = await searchDirectorate(inputSearch);
         console.log(responseData);
         if (responseData.data.length === 0) {
           setErrorTitle('No Results');
           setErrorMessage(`No results found for ${inputSearch}`);
+          ResetAlert(
+            setSuccessTitle,
+            setSuccessMessage,
+            setErrorTitle,
+            setErrorMessage
+          );
         } else {
           setSearchResults(responseData.data);
         }
       }
     } catch (error: any) {
-      console.error('Error search grade:', error);
-      setErrorTitle('Error search grade');
+      console.error('Error search directorate:', error);
+      setErrorTitle('Error search directorate');
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
@@ -187,35 +194,36 @@ const Grade: React.FC = () => {
   };
 
   useEffect(() => {
-    featchGrade();
+    featchAllDirecorateData();
   }, []);
 
   return (
     <>
-      <h1 className="px-4">Job Grade Page</h1>
+      <h1 className="px-4">Directorate Page</h1>
       {successMessage && successTitle && (
         <SuccessAlert title={successTitle} text={successMessage} />
       )}
       {errorMessage && errorTitle && (
         <ErrorAlert title={errorTitle} text={errorMessage} />
       )}
+
       <TabelHeader
-        addButtonText="Add Grade"
-        title="Add Grade"
+        addButtonText="Add Directorate"
+        title="Add Directorate"
         filterOptions={filterOptions}
         inputFields={inputField}
-        onSubmit={handleAddGrade}
-        onSearch={handleSearchGrade}
+        onSubmit={handleAddDirectorat}
+        onSearch={handleSearchDirectorat}
       />
       <TabelBody
-        title="Edit Grade"
+        title="Edit Directorate"
         colCells={colCells}
-        data={searchResults.length > 0 ? searchResults : currentGradeData}
+        data={searchResults.length > 0 ? searchResults : currentDirectorateData}
         inputFields={inputField}
-        onSubmit={handleEditGrade}
-        onDelete={handleDeleteGrade}
+        onSubmit={handleEditDirectorat}
+        onDelete={handleDeleteDirectorat}
         detailedData={detailedData}
-        fetchDetailedData={featchDetailGrade}
+        fetchDetailedData={featchDirectorateDetail}
       />
       <TabelFooter
         currentPage={currentPage}
@@ -230,4 +238,4 @@ const Grade: React.FC = () => {
   );
 };
 
-export default Grade;
+export default Directorate;
