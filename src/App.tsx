@@ -10,6 +10,7 @@ import Login from './pages/Auth/Login';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Employee from './pages/Employee/Employee';
 import Reports from './pages/Reports/Reports';
+import ProfileEmployee from './pages/Employee/ProfileEmployee';
 
 import Position from './pages/Position/Position';
 import Grade from './pages/Salary/Grade';
