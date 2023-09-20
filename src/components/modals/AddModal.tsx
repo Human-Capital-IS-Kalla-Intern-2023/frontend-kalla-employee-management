@@ -1,26 +1,18 @@
 // Library & Package Import
 import { useState, useEffect, useRef } from 'react';
 import ReactLoading from 'react-loading';
+import Select from 'react-select';
 
 // Import Assets
 import { CloseButtonIcon } from '../../assets/icons/icon';
 
 const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
-  const saveFormDataToLocalStorage = (data: any) => {
-    localStorage.setItem('formData', JSON.stringify(data));
-  };
-
-  const loadFormDataFromLocalStorage = () => {
-    const storedData = localStorage.getItem('formData');
-    return storedData ? JSON.parse(storedData) : {};
-  };
-
-  const [formData, setFormData] = useState(() =>
-    loadFormDataFromLocalStorage()
-  );
+  const [formData, setFormData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const firstInputRef = useRef<HTMLInputElement | null>(null);
   const selectRef = useRef<HTMLSelectElement | null>(null);
+
+  console.log('Form Data', formData);
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -31,19 +23,26 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
         locations_id: value,
       }));
     } else {
+      let parsedValue = value;
+      if (name === 'id_main_position' || name === 'id_additional_position') {
+        parsedValue = parseInt(value, 10) || null;
+      }
+
       setFormData((prevData: any) => ({
         ...prevData,
-        [name]: value,
+        [name]: Array.isArray(value)
+          ? value.map((option) => option.value)
+          : parsedValue,
       }));
     }
-    saveFormDataToLocalStorage(formData);
   };
-
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
     try {
       setIsLoading(true);
+
+      console.log('lah', formData);
 
       await onSubmit(formData);
 
@@ -70,7 +69,6 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
         selectRef.current.focus();
       }
     }
-    setFormData(loadFormDataFromLocalStorage());
   }, [isOpen]);
 
   return (
@@ -113,21 +111,35 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
                   {field.label}
                 </label>
                 {field.type === 'select' ? (
-                  <select
-                    id={field.id}
-                    name={field.name}
-                    className="w-full px-3 py-2 border rounded"
-                    onChange={handleChange}
-                    value={formData[field.name] || ''}
-                    ref={index === 0 ? selectRef : null}
-                  >
-                    <option value="">Select {field.label}</option>
-                    {field.options.map((option: any) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
+                  field.isMulti ? (
+                    <Select
+                      id={field.id}
+                      name={field.name}
+                      isMulti
+                      className="w-full"
+                      options={field.options}
+                      onChange={(selectedOptions) =>
+                        handleChange({
+                          target: { name: field.name, value: selectedOptions },
+                        })
+                      }
+                    />
+                  ) : (
+                    <select
+                      id={field.id}
+                      name={field.name}
+                      className="w-full px-3 py-2 border rounded"
+                      onChange={handleChange}
+                      ref={index === 0 ? selectRef : null}
+                    >
+                      <option value="">Select {field.label}</option>
+                      {field.options.map((option: any) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                  )
                 ) : (
                   <input
                     type={field.type || 'text'}
@@ -136,7 +148,6 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
                     placeholder={`Input ${field.label}`}
                     className="w-full px-3 py-2 border rounded"
                     onChange={handleChange}
-                    value={formData[field.name] || ''}
                     ref={index === 0 ? firstInputRef : null}
                   />
                 )}
