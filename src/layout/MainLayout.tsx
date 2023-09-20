@@ -12,6 +12,7 @@ function MainLayout({ children }: any) {
     '/company',
     '/setting',
     '/position',
+    '/salary',
   ];
 
   const isAuthenticated = !!Cookies.get('access_token');

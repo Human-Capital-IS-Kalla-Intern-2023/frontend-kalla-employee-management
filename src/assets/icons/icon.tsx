@@ -33,13 +33,13 @@ const CloseEyeIcon: React.FC<SvgIconProps> = ({ className, onClick }) => (
 
 const ThreeDotIcon: React.FC<SvgIconProps> = ({ className }) => (
   <svg
-    className={className}
-    aria-hidden="true"
     fill="currentColor"
-    viewBox="0 0 20 20"
-    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 16 16"
+    height="1em"
+    width="1em"
+    className={className}
   >
-    <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+    <path d="M9.5 13a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm0-5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm0-5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
   </svg>
 );
 const EditIcon: React.FC<SvgIconProps> = ({ className }) => (
@@ -310,6 +310,25 @@ const PositionIcon: React.FC<SvgIconProps> = ({ className }) => (
   </svg>
 );
 
+const SalaryIcon: React.FC<SvgIconProps> = ({ className }) => (
+  <svg
+    fill="none"
+    stroke="currentColor"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    strokeWidth={2}
+    viewBox="0 0 24 24"
+    height="1em"
+    width="1em"
+    className={className}
+  >
+    <path stroke="none" d="M0 0h24v24H0z" />
+    <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" />
+    <path d="M11 3 H13 A2 2 0 0 1 15 5 V5 A2 2 0 0 1 13 7 H11 A2 2 0 0 1 9 5 V5 A2 2 0 0 1 11 3 z" />
+    <path d="M14 11h-2.5a1.5 1.5 0 000 3h1a1.5 1.5 0 010 3H10M12 17v1m0-8v1" />
+  </svg>
+);
+
 export {
   ThreeDotIcon,
   EditIcon,
@@ -333,4 +352,5 @@ export {
   DropdownSidebarMenuIcon,
   CloseButtonIcon,
   PositionIcon,
+  SalaryIcon,
 };

@@ -70,7 +70,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
 
   const navigate = useNavigate();
   const location = useLocation();
-
+  console.log(activeDropdown);
   const openEditModal = useCallback(
     async (id: number) => {
       if (data) {
@@ -162,23 +162,78 @@ const TabelBody: React.FC<TabelBodyProps> = ({
     setActiveDropdown(false);
   };
 
-  const truncateText = (text : string, maxLength : number) => {
-    return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+  const truncateText = (text: string, maxLength: number) => {
+    return text.length > maxLength
+      ? text.substring(0, maxLength) + '...'
+      : text;
   };
-  
+
   interface TableCell {
     key: string;
   }
-  const renderTableCell = (cell: TableCell, customCell: Record<string, any>, locationPathname: string) => {
+  const renderTableCell = (
+    cell: TableCell,
+    customCell: Record<string, any>,
+    locationPathname: string
+  ) => {
+    // Check if the cell key is "type" and if the value is "fixed pay" or "deductions"
+    if (
+      cell.key === 'type' &&
+      (customCell.type === 'fixed pay' || customCell.type === 'deductions')
+    ) {
+      const bgColorClass =
+        customCell.type === 'fixed pay' ? 'bg-red-300' : 'bg-blue-300';
+      return (
+        <span className={`px-4 py-2 rounded-md ${bgColorClass}`}>
+          {customCell.type}
+        </span>
+      );
+    }
+    if (['is_hide', 'is_edit'].includes(cell.key)) {
+      const bgColorClass =
+        customCell[cell.key] === 1 ? 'bg-green-300' : 'bg-red-300';
+      const textContent = customCell[cell.key] === 1 ? 'Yes' : 'No';
+      return (
+        <span className={`px-4 py-2 rounded-md ${bgColorClass}`}>
+          {textContent}
+        </span>
+      );
+    }
+
+    if (cell.key === 'is_active') {
+      return (
+        <label className="relative inline-flex items-center cursor-pointer">
+          <input
+            type="checkbox"
+            value=""
+            className="sr-only peer"
+            checked={customCell[cell.key] === 1}
+            // onChange={() => {
+            //   // Toggle the value of is_active here based on your logic
+            //   const updatedValue = customCell[cell.key] === 1 ? 0 : 1;
+            //   // You should have a function to handle the update
+            //   // For example: onUpdateIsActive(customCell.id, updatedValue);
+            // }}
+          />
+          <div
+            className={`w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600`}
+          ></div>
+        </label>
+      );
+    }
+
     if (cell.key === 'location[0].location_name') {
       return customCell.location[0].location_name;
-    } else if (
-      ['fullname', 'company_email', 'main_position', 'second_position', 'position_name'].includes(cell.key)
-    ) {
+    } else if (['fullname', 'company_email'].includes(cell.key)) {
       return truncateText(customCell[cell.key], 16);
     } else if (
       locationPathname.includes('/position/posisi') &&
-      ['division_name', 'section_name', 'directorat_name'].includes(cell.key)
+      [
+        'division_name',
+        'section_name',
+        'directorat_name',
+        'main_position',
+      ].includes(cell.key)
     ) {
       return truncateText(customCell[cell.key], 18);
     } else {
@@ -202,7 +257,6 @@ const TabelBody: React.FC<TabelBodyProps> = ({
         setActiveDropdown(null);
       }
     };
-    
 
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('keydown', handleEscapeKey);
@@ -281,6 +335,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
             <table className="w-full text-sm text-left">
               <thead className="text-xs uppercase">
                 <tr>
+                  <th scope="col" className="px-2 py-4 text-center"></th>
                   {colCells.map((cell, index) => (
                     <th
                       key={index}
@@ -305,18 +360,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                       }`}
                       key={index}
                     >
-                      {colCells.map((cell, cellIndex) => (
-                        <td
-                        key={cellIndex}
-                        className={`px-2 py-4 font-medium ${
-                          cellIndex === 0 ? 'text-center' : ''
-                        } text-black whitespace-nowrap`}
-                      >
-                        {renderTableCell(cell, customCell, location.pathname)}
-                      </td>
-                    ))}
-
-                      <td className="flex items-center justify-end px-2 py-3">
+                      <td className="flex items-center px-2 py-4 font-medium text-center text-black whitespace-nowrap">
                         <button
                           id={`dropdown-button-${index}`}
                           className="inline-flex items-center text-sm font-medium rounded-lg hover:text-center"
@@ -328,7 +372,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                         </button>
                         {activeDropdown === customCell.id && (
                           <div
-                            className={`absolute right-0 z-10 mr-10 bg-white divide-y rounded shadow-2xl w-44 ${
+                            className={`absolute left-0 z-10 ml-10 bg-white divide-y rounded shadow-2xl w-44 ${
                               index === data.length - 1 ? 'mb-20' : ''
                             }`}
                           >
@@ -400,6 +444,16 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                           </div>
                         )}
                       </td>
+                      {colCells.map((cell, cellIndex) => (
+                        <td
+                          key={cellIndex}
+                          className={`px-2 py-4 font-medium ${
+                            cellIndex === 0 ? 'text-center' : ''
+                          } text-black whitespace-nowrap`}
+                        >
+                          {renderTableCell(cell, customCell, location.pathname)}
+                        </td>
+                      ))}
                     </tr>
                   ))
                 ) : (

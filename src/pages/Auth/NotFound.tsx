@@ -1,4 +1,4 @@
-import ErrorCard404 from '../components/cards/ErrorCard404';
+import ErrorCard404 from '../../components/cards/ErrorCard404';
 
 const NotFound = () => {
   return (

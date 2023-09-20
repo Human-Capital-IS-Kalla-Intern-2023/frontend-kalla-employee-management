@@ -2,37 +2,37 @@
 import React, { useEffect, useState } from 'react';
 
 // Import Component
-import TabelHeader from '../components/tabels/TabelHeader';
-import TabelFooter from '../components/tabels/TabelFooter';
-import TabelBody from '../components/tabels/TabelBody';
-import { SuccessAlert, ErrorAlert } from '../components/alerts/CustomAlert';
-import { ResetAlert } from '../helpers/ResetAlert';
+import TabelHeader from '../../components/tabels/TabelHeader';
+import TabelFooter from '../../components/tabels/TabelFooter';
+import TabelBody from '../../components/tabels/TabelBody';
+import { SuccessAlert, ErrorAlert } from '../../components/alerts/CustomAlert';
+import { ResetAlert } from '../../helpers/ResetAlert';
 
 // Import API
 import {
-  getDivision,
-  addDivision,
-  updateDivision,
-  deleteDivision,
-  getDetailDivision,
-  searchDivision,
-} from '../api/DivisionAPI';
+  getPosition,
+  getDetailPosition,
+  addPosition,
+  updatePosition,
+  deletePosition,
+  searchPosition,
+} from '../../api/PositionAPI';
 
 import {
   colCells,
   filterOptions,
   inputField,
-} from '../assets/data/DivisionData';
+} from '../../assets/data/PositionData';
 
-const Division: React.FC = () => {
+const Position: React.FC = () => {
   // Alert State
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successTitle, setSuccessTitle] = useState<string | null>(null);
   const [errorTitle, setErrorTitle] = useState<string | null>(null);
 
-  // Division State
-  const [division, setDivision] = useState<string[]>([]);
+  // Position State
+  const [position, setPosition] = useState<string[]>([]);
   const [detailedData, setDetailedData] = useState<string | null>(null);
 
   // Search
@@ -46,26 +46,26 @@ const Division: React.FC = () => {
     setCurrentPage(pageNumber);
   };
 
-  const totalDataCount =
-    searchResults.length > 0 ? searchResults.length : division.length;
+  const totalDataCount = position.length;
   const totalPages = Math.ceil(totalDataCount / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage + 1;
   const endIndex =
     currentPage === totalPages ? totalDataCount : startIndex + itemsPerPage - 1;
-  const currentDivisionData = division.slice(startIndex - 1, endIndex);
+  const currentPositionData = position.slice(startIndex - 1, endIndex);
 
-  // GET all division data
-  const featchAllDivision = async () => {
+  // GET all position data
+  const featchPosition = async () => {
     try {
-      const responseData = await getDivision();
-      setDivision(responseData.data);
+      const reponseData = await getPosition();
+      setPosition(reponseData.data);
     } catch (error: any) {
-      console.error('Error featch all division:', error);
-      setErrorTitle(`Error featch all division`);
+      console.error('Error featch all position:', error);
+      setErrorTitle(`Error featch all position`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
+
     ResetAlert(
       setSuccessTitle,
       setSuccessMessage,
@@ -74,14 +74,14 @@ const Division: React.FC = () => {
     );
   };
 
-  // GET detail division data by id
-  const featchDetailDivision = async (id: number) => {
+  // GET detail position data by id
+  const featchDetailPosition = async (id: number) => {
     try {
-      const responseData = await getDetailDivision(id);
+      const responseData = await getDetailPosition(id);
       setDetailedData(responseData.data);
     } catch (error: any) {
-      console.error('Error featch detail division:', error);
-      setErrorTitle(`Error featch detail division`);
+      console.error('Error featch detail position:', error);
+      setErrorTitle(`Error featch detail position`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
@@ -94,17 +94,17 @@ const Division: React.FC = () => {
     );
   };
 
-  // POST new division data
-  const handleAddDivision = async (formData: string) => {
+  // POST new position data
+  const handleAddPosition = async (formData: string) => {
     try {
-      const responseData = await addDivision(formData);
+      const responseData = await addPosition(formData);
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
 
-      featchAllDivision();
+      featchPosition();
     } catch (error: any) {
-      console.error('Error adding division:', error);
-      setErrorTitle(`Error adding division`);
+      console.error('Error adding position:', error);
+      setErrorTitle(`Error adding position`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
@@ -117,17 +117,17 @@ const Division: React.FC = () => {
     );
   };
 
-  // PUT division data
-  const handleEditDivision = async (formData: string, id: number) => {
+  // PUT position data
+  const handleEditPosition = async (formData: string, id: number) => {
     try {
-      const responseData = await updateDivision(id, formData);
+      const responseData = await updatePosition(id, formData);
 
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
-      featchAllDivision();
+      featchPosition();
     } catch (error: any) {
-      console.error('Error editing division:', error);
-      setErrorTitle(``);
+      console.error('Error editing position:', error);
+      setErrorTitle(`Error editing position`);
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
@@ -139,16 +139,16 @@ const Division: React.FC = () => {
     );
   };
 
-  // DELETE division data
-  const handleDeleteDivision = async (id: number) => {
+  // DELETE position data
+  const handleDeletePosition = async (id: number) => {
     try {
-      const responseData = await deleteDivision(id);
+      const responseData = await deletePosition(id);
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
-      featchAllDivision();
+      featchPosition();
     } catch (error: any) {
-      console.error('Error deleting division:', error);
-      setErrorTitle(`Error deleting division`);
+      console.error('Error deleting position:', error);
+      setErrorTitle(`Error deleting position`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
@@ -162,12 +162,12 @@ const Division: React.FC = () => {
     );
   };
 
-  const handleSearchDivision = async (inputSearch: string) => {
+  const handleSearchPostion = async (inputSearch: string) => {
     try {
       if (inputSearch.trim() === '') {
         setSearchResults([]);
       } else {
-        const responseData = await searchDivision(inputSearch);
+        const responseData = await searchPosition(inputSearch);
         console.log(responseData);
         if (responseData.data.length === 0) {
           setErrorTitle('No Results');
@@ -177,8 +177,8 @@ const Division: React.FC = () => {
         }
       }
     } catch (error: any) {
-      console.error('Error search division:', error);
-      setErrorTitle('Error search division');
+      console.error('Error search position:', error);
+      setErrorTitle('Error search position');
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
@@ -191,12 +191,12 @@ const Division: React.FC = () => {
   };
 
   useEffect(() => {
-    featchAllDivision();
+    featchPosition();
   }, []);
 
   return (
     <>
-      <h1 className="px-4">Division Page</h1>
+      <h1 className="px-4">Position Page</h1>
       {successMessage && successTitle && (
         <SuccessAlert title={successTitle} text={successMessage} />
       )}
@@ -204,22 +204,22 @@ const Division: React.FC = () => {
         <ErrorAlert title={errorTitle} text={errorMessage} />
       )}
       <TabelHeader
-        addButtonText="Add Division"
-        title="Add Division"
+        addButtonText="Add Position"
+        title="Add Position"
         filterOptions={filterOptions}
         inputFields={inputField}
-        onSubmit={handleAddDivision}
-        onSearch={handleSearchDivision}
+        onSubmit={handleAddPosition}
+        onSearch={handleSearchPostion}
       />
       <TabelBody
-        title="Edit Division"
+        title="Edit Position"
         colCells={colCells}
-        data={searchResults.length > 0 ? searchResults : currentDivisionData}
+        data={searchResults.length > 0 ? searchResults : currentPositionData}
         inputFields={inputField}
-        onSubmit={handleEditDivision}
-        onDelete={handleDeleteDivision}
+        onSubmit={handleEditPosition}
+        onDelete={handleDeletePosition}
         detailedData={detailedData}
-        fetchDetailedData={featchDetailDivision}
+        fetchDetailedData={featchDetailPosition}
       />
       <TabelFooter
         currentPage={currentPage}
@@ -234,4 +234,4 @@ const Division: React.FC = () => {
   );
 };
 
-export default Division;
+export default Position;
