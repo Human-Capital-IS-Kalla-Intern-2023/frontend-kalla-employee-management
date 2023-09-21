@@ -7,7 +7,7 @@ const colCells = [
   { key: 'company_email', text: 'Email' },
   { key: 'hire_date', text: 'Hire Date' },
   { key: 'main_position', text: 'Jabatan Utama' },
-  { key: 'second_position', text: 'Jabatan Lainnya' },
+  // { key: 'second_position', text: 'Jabatan Lainnya' },
 ];
 
 const filterOptions = [{ id: 'Location', label: 'Location' }];
@@ -56,6 +56,7 @@ const inputField = [
     name: 'id_additional_position',
     type: 'select',
     options: [],
+    isMulti: true,
   },
 ];
 

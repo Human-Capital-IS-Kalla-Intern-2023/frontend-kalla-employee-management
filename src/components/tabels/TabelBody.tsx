@@ -224,7 +224,9 @@ const TabelBody: React.FC<TabelBodyProps> = ({
 
     if (cell.key === 'location[0].location_name') {
       return customCell.location[0].location_name;
-    } else if (['fullname', 'company_email'].includes(cell.key)) {
+    } else if (
+      ['fullname', 'company_email', 'main_position'].includes(cell.key)
+    ) {
       return truncateText(customCell[cell.key], 16);
     } else if (
       locationPathname.includes('/position/posisi') &&
