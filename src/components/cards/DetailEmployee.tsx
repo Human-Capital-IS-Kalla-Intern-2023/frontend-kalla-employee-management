@@ -1,6 +1,6 @@
 import React from 'react';
 
-const EmployeeDetail = () => {
+const DetailEmployee = () => {
   const employeeData = {
     name: 'John Doe',
     employeeId: 'EMP12345',
@@ -12,7 +12,10 @@ const EmployeeDetail = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
+    <section className="py-3 antialiased sm:py-2 overlay">
+      <div className="max-w-screen-xl px-4 mx-auto">
+        <div className="relative overflow-hidden bg-white shadow-custom sm:rounded-lg">
+          <div className="overflow-x-auto">
       <img
         src={employeeData.profileImageUrl}
         alt={employeeData.name}
@@ -22,16 +25,16 @@ const EmployeeDetail = () => {
       <h2 className="text-2xl font-semibold mt-4 text-center">
         {employeeData.name}
       </h2>
-      <p className="text-gray-600 text-center">Nomor Induk: {employeeData.employeeId}</p>
+      <p className="text-gray-600 text-center">NIP: {employeeData.employeeId}</p>
 
       <div className="mt-6">
         <div className="bg-blue-100 p-4 rounded-lg mb-4">
-          <h3 className="text-lg font-semibold">Perusahaan</h3>
+          <h3 className="text-lg font-semibold">Company Name</h3>
           <p>{employeeData.company}</p>
         </div>
 
         <div className="bg-green-100 p-4 rounded-lg mb-4">
-          <h3 className="text-lg font-semibold">Divisi</h3>
+          <h3 className="text-lg font-semibold">Division</h3>
           <p>{employeeData.division}</p>
         </div>
 
@@ -46,7 +49,10 @@ const EmployeeDetail = () => {
         </div>
       </div>
     </div>
+    </div>
+    </div>
+    </section>
   );
 };
 
-export default EmployeeDetail;
+export default DetailEmployee;

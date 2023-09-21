@@ -14,6 +14,7 @@ import {
   EditIcon,
   DetailIcon,
   TrashIcon,
+  UserIcon
 } from '../../assets/icons/icon';
 
 interface ColCells {
@@ -161,6 +162,18 @@ const TabelBody: React.FC<TabelBodyProps> = ({
   const closeFilterDropdown = () => {
     setActiveDropdown(false);
   };
+  const [showProfileButton, setShowProfileButton] = useState<boolean>(false);
+
+  useEffect(() => {
+    // Mendapatkan path URL saat ini
+    const currentPath = location.pathname;
+
+    // Menentukan apakah tombol "Profile" harus ditampilkan
+    const shouldShowProfileButton = currentPath === '/employee';
+
+    // Set state berdasarkan hasil pengecekan
+    setShowProfileButton(shouldShowProfileButton);
+  }, [location.pathname]);
 
   const truncateText = (text: string, maxLength: number) => {
     return text.length > maxLength
@@ -224,9 +237,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
 
     if (cell.key === 'location[0].location_name') {
       return customCell.location[0].location_name;
-    } else if (
-      ['fullname', 'company_email', 'main_position'].includes(cell.key)
-    ) {
+    } else if (['fullname', 'company_email'].includes(cell.key)) {
       return truncateText(customCell[cell.key], 16);
     } else if (
       locationPathname.includes('/position/posisi') &&
@@ -442,6 +453,18 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                                   />
                                 )}
                               </li>
+                              {showProfileButton && (
+                                <li>
+                                  <Link
+                                    to={`profile/${customCell.id}`}
+                                    type="button"
+                                    className="flex items-center w-full px-4 py-2 duration-200 hover: hover:text-white hover:bg-primary"
+                                  >
+                                    <UserIcon className="w-4 h-4 mr-2" />
+                                    Profile
+                                  </Link>
+                                </li>
+                              )}
                             </ul>
                           </div>
                         )}

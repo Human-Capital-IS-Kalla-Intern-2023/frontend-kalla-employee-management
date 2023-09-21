@@ -57,6 +57,7 @@ const App = () => {
             <Route path="edit/:modalEditId" element={<EditModal />} />
             <Route path="detail/:modalDetailId" element={<DetailModal />} />
             <Route path="delete/:modalDeleteId" element={<DeleteModal />} />
+            <Route path="profile/:employeeId" element={<ProfileEmployee />} />
           </Route>
 
           <Route
