@@ -1,12 +1,11 @@
-// Library & Package Import
-import { useEffect, useState, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import ReactLoading from 'react-loading';
+import Select from 'react-select';
 
-// Import Assets
 import { CloseButtonIcon } from '../../assets/icons/icon';
 
 interface FormData {
-  [key: string]: string;
+  [key: string]: string | string[];
 }
 
 const EditModal = ({
@@ -25,11 +24,23 @@ const EditModal = ({
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+
+    if (name === 'locations_id') {
+      setFormData((prevData: any) => ({
+        ...prevData,
+        locations_id: value,
+      }));
+    } else {
+      setFormData((prevData: any) => ({
+        ...prevData,
+        [name]: Array.isArray(value)
+          ? value.map((option) => option.value)
+          : value,
+      }));
+    }
   };
+
+  console.log('Form Data', formData);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -37,7 +48,6 @@ const EditModal = ({
     try {
       setIsLoading(true);
       await onSubmit(formData, idToEdit);
-
       onClose();
     } catch (error) {
       console.error('Error:', error);
@@ -50,8 +60,20 @@ const EditModal = ({
     if (isOpen) {
       const initialData: FormData = {};
       inputFields.forEach((field: any) => {
-        initialData[field.name] = initialFormData[field.name] || '';
+        if (field.type === 'select' && field.isMulti) {
+          // Pastikan initialFormData[field.name] adalah array
+          initialData[field.name] = initialFormData[field.name] || [];
+        } else {
+          initialData[field.name] = initialFormData[field.name] || '';
+        }
       });
+
+      // Periksa apakah 'id_additional_position' ada dalam initialFormData
+      if ('id_additional_position' in initialFormData) {
+        initialData['id_additional_position'] =
+          initialFormData['id_additional_position'];
+      }
+
       setFormData(initialData);
     }
   }, [isOpen, initialFormData, inputFields]);
@@ -92,21 +114,37 @@ const EditModal = ({
                 {field.label}
               </label>
               {field.type === 'select' ? (
-                <select
-                  id={field.id}
-                  name={field.name}
-                  className="w-full px-3 py-2 border rounded"
-                  onChange={handleChange}
-                  ref={index === 0 ? selectRef : null}
-                  value={formData[field.name] || ''}
-                >
-                  <option value="">Select {field.label}</option>
-                  {field.options.map((option: any) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
+                field.isMulti ? (
+                  <Select
+                    id={field.id}
+                    name={field.name}
+                    isMulti={field.isMulti}
+                    className="w-full"
+                    options={field.options}
+                    // value={formData[field.name] || (field.isMulti ? [] : '')}
+                    onChange={(selectedOptions) =>
+                      handleChange({
+                        target: { name: field.name, value: selectedOptions },
+                      })
+                    }
+                  />
+                ) : (
+                  <select
+                    id={field.id}
+                    name={field.name}
+                    className="w-full px-3 py-2 border rounded"
+                    onChange={handleChange}
+                    ref={index === 0 ? selectRef : null}
+                    value={formData[field.name] || ''}
+                  >
+                    <option value="">Select {field.label}</option>
+                    {field.options.map((option: any) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                )
               ) : (
                 <input
                   type={field.type || 'text'}
@@ -121,7 +159,6 @@ const EditModal = ({
               )}
             </div>
           ))}
-
           <button
             type="submit"
             className={`col-span-2 px-4 py-2 text-lg text-white duration-200 border rounded hover:bg-secondary hover:text-pureBlack hover:border-pureBlack ${
