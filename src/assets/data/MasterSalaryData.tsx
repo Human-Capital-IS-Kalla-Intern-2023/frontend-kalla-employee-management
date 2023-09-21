@@ -21,9 +21,30 @@ const inputField = [
     name: 'type',
     type: 'select',
     options: [
-      { label: 'fixed pay', value: 1 },
-      { label: 'deductions', value: 2 },
+      { label: 'fixed pay', value: 'fixed pay' },
+      { label: 'deductions', value: 'deductions' },
     ],
+  },
+  {
+    id: 'is_hide',
+    label: 'Hide',
+    name: 'is_hide',
+    type: 'checkbox',
+    checked: 1,
+  },
+  {
+    id: 'is_edit',
+    label: 'Edit',
+    name: 'is_edit',
+    type: 'checkbox',
+    checked: 1,
+  },
+  {
+    id: 'is_active',
+    label: 'Active',
+    name: 'is_active',
+    type: 'checkbox',
+    checked: 1,
   },
 ];
 
