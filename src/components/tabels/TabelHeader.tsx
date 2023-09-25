@@ -23,8 +23,9 @@ interface TabelHeaderProps {
   title: string;
   filterOptions: FilterOption[];
   inputFields: InputField[];
-  onSubmit: any;
-  onSearch: any;
+  onSubmit?: any;
+  onSearch?: any;
+  onNavigate?: any;
 }
 
 const TabelHeader: React.FC<TabelHeaderProps> = ({
@@ -33,6 +34,7 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
   inputFields,
   onSubmit,
   onSearch,
+  onNavigate,
 }) => {
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -47,7 +49,12 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
   const location = useLocation();
 
   const openModal = () => {
-    setModalOpen(true);
+    if (onNavigate) {
+      navigate(onNavigate);
+    } else {
+      onNavigate = 'add';
+      setModalOpen(true);
+    }
   };
 
   const closeModal = useCallback(() => {
@@ -94,7 +101,7 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
       setSearchInput(searchValue);
     }
 
-    if (location.pathname.endsWith('/add')) {
+    if (location.pathname.endsWith('/add') && !onNavigate) {
       setModalOpen(true);
     }
     const handleEscapeKey = (event: any) => {
@@ -162,7 +169,7 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
             </div>
             <div className="flex flex-col items-stretch justify-end flex-shrink-0 w-full space-y-2 md:w-auto md:flex-row md:space-y-0 md:items-center">
               <Link
-                to="add"
+                to={onNavigate}
                 onClick={openModal}
                 className="flex items-center justify-center px-4 py-2 mr-3 text-sm font-medium duration-300 rounded-lg text-pureBlack bg-secondary focus:ring-4 bg-primary-600 hover:bg-yellow"
               >
