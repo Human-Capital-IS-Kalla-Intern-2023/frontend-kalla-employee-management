@@ -15,18 +15,19 @@ function MainLayout({ children }: any) {
     '/salary',
   ];
 
+  const hiddenSidebarPaths = ['/salary/configures/payroll_component'];
+
   const isAuthenticated = !!Cookies.get('access_token');
 
   const shouldShowSidebar =
     isAuthenticated &&
-    sidebarPaths.some((path) => location.pathname.startsWith(path));
+    sidebarPaths.some((path) => location.pathname.startsWith(path)) &&
+    !hiddenSidebarPaths.some((path) => location.pathname.startsWith(path));
 
   return (
     <div className="flex gap-5 ">
       {shouldShowSidebar && <Sidebar />}
-      <main
-        className={shouldShowSidebar ? 'flex-1 py-4 mx-auto' : 'py-4 mx-auto'}
-      >
+      <main className={shouldShowSidebar ? 'flex-1 py-4 mx-auto' : 'w-full'}>
         {children}
       </main>
     </div>
