@@ -54,15 +54,14 @@ const DetailModal = ({ isOpen, onClose, data }: any) => {
                           <ul>
                             {data[key].map((arrayData: any, index: number) => (
                               <li key={index}>
-                                <strong>ID:</strong> {arrayData.id} <br />
-                                <strong>Location Name:</strong>{' '}
-                                {arrayData.location_name} <br />
-                                <strong>Created At:</strong>{' '}
-                                {arrayData.created_at} <br />
-                                <strong>Updated At:</strong>{' '}
-                                {arrayData.updated_at} <br />
-                                <strong>Deleted At:</strong>{' '}
-                                {arrayData.deleted_at} <br />
+                                {Object.keys(arrayData).map(
+                                  (arrayKey: string) => (
+                                    <div key={arrayKey}>
+                                      <strong>{arrayKey}:</strong>{' '}
+                                      {arrayData[arrayKey]} <br />
+                                    </div>
+                                  )
+                                )}
                               </li>
                             ))}
                           </ul>
