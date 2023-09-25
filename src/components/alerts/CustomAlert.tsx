@@ -8,6 +8,12 @@ interface CustomAlertProps {
   duration?: number;
 }
 
+interface ConfirmationAlertProps {
+  title: string;
+  text: string;
+  onConfirm: () => void;
+}
+
 const ErrorAlert: React.FC<CustomAlertProps> = ({ title, text }) => {
   useEffect(() => {
     Swal.fire({
@@ -44,4 +50,23 @@ const WarningAlert: React.FC<CustomAlertProps> = ({ title, text }) => {
   return null;
 };
 
-export { ErrorAlert, SuccessAlert, WarningAlert };
+const ConfirmationAlert: React.FC<ConfirmationAlertProps> = ({
+  title,
+  text,
+  onConfirm,
+}) => {
+  // Tampilkan SweetAlert konfirmasi OK dan navigasi saat OK dikonfirmasi
+  Swal.fire({
+    icon: 'success',
+    title: title,
+    text: text,
+  }).then((result: any) => {
+    if (result.isConfirmed) {
+      onConfirm(); // Panggil fungsi onConfirm saat tombol OK diklik
+    }
+  });
+
+  return null;
+};
+
+export { ErrorAlert, SuccessAlert, WarningAlert, ConfirmationAlert };

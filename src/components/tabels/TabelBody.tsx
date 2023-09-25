@@ -18,15 +18,15 @@ import {
 } from '../../assets/icons/icon';
 
 interface ColCells {
-  key: string;
-  text: string;
+  key: any;
+  text: any;
 }
 
 interface InputField {
-  id: string;
-  label: string;
-  name: string;
-  type?: string;
+  id: any;
+  label: any;
+  name: any;
+  type?: any;
 }
 
 interface TabelBodyProps {
@@ -192,7 +192,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
       (customCell.type === 'fixed pay' || customCell.type === 'deductions')
     ) {
       const bgColorClass =
-        customCell.type === 'fixed pay' ? 'bg-red-300' : 'bg-blue-300';
+        customCell.type === 'fixed pay' ? 'bg-blue-300' : 'bg-red-300';
       return (
         <span className={`px-4 py-2 rounded-md ${bgColorClass}`}>
           {customCell.type}
@@ -217,14 +217,16 @@ const TabelBody: React.FC<TabelBodyProps> = ({
             type="checkbox"
             value=""
             className="sr-only peer"
+            defaultChecked
             checked={customCell[cell.key] === 1}
-            // onChange={() => {
-            //   // Toggle the value of is_active here based on your logic
-            //   const updatedValue = customCell[cell.key] === 1 ? 0 : 1;
-            //   // You should have a function to handle the update
-            //   // For example: onUpdateIsActive(customCell.id, updatedValue);
-            // }}
+            onChange={() => {
+              // const newValue = customCell[cell.key] === 1 ? 0 : 1; // Toggle between 0 and 1
+              // Ubah nilai customCell.key
+              // customCell[cell.key] = newValue;
+              // Anda juga bisa menjalankan tindakan lain yang Anda butuhkan di sini
+            }}
           />
+
           <div
             className={`w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600`}
           ></div>

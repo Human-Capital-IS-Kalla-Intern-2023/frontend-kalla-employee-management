@@ -6,19 +6,32 @@ import Select from 'react-select';
 // Import Assets
 import { CloseButtonIcon } from '../../assets/icons/icon';
 
+interface FormData {
+  [key: string]: string | number | boolean | null | undefined;
+}
 const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
-  const [formData, setFormData] = useState({});
+  const initialFormData: FormData = {};
+  inputFields.forEach((field: any) => {
+    if (field.type === 'checkbox') {
+      initialFormData[field.name] = 1;
+    }
+  });
+  const [formData, setFormData] = useState<FormData>(initialFormData);
   const [isLoading, setIsLoading] = useState(false);
   const firstInputRef = useRef<HTMLInputElement | null>(null);
   const selectRef = useRef<HTMLSelectElement | null>(null);
 
   console.log('Form Data', formData);
-
   const handleChange = (e: any) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
 
-    if (name === 'locations_id') {
-      setFormData((prevData: any) => ({
+    if (type === 'checkbox') {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: checked ? 1 : 0,
+      }));
+    } else if (name === 'locations_id') {
+      setFormData((prevData) => ({
         ...prevData,
         locations_id: value,
       }));
@@ -28,7 +41,7 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
         parsedValue = parseInt(value, 10) || null;
       }
 
-      setFormData((prevData: any) => ({
+      setFormData((prevData) => ({
         ...prevData,
         [name]: Array.isArray(value)
           ? value.map((option) => option.value)
@@ -140,6 +153,17 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
                       ))}
                     </select>
                   )
+                ) : field.type === 'checkbox' ? (
+                  <input
+                    type="checkbox"
+                    id={field.id}
+                    name={field.name}
+                    onChange={handleChange}
+                    ref={index === 0 ? firstInputRef : null}
+                    defaultChecked={
+                      formData[field.name as keyof FormData] === 1
+                    }
+                  />
                 ) : (
                   <input
                     type={field.type || 'text'}

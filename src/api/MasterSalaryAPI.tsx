@@ -61,7 +61,7 @@ const addMasterSalary = async (formData: any) => {
 
     const reponseAddMasterSalary = await RequestApi(
       'POST',
-      'masterSalary',
+      'salary-component',
       formData,
       headerToken,
       'Membuat masterSalary'

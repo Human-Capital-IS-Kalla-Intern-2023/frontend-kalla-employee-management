@@ -5,7 +5,7 @@ import Select from 'react-select';
 import { CloseButtonIcon } from '../../assets/icons/icon';
 
 interface FormData {
-  [key: string]: string | string[];
+  [key: string]: any;
 }
 
 const EditModal = ({
@@ -23,24 +23,32 @@ const EditModal = ({
   const selectRef = useRef<HTMLSelectElement | null>(null);
 
   const handleChange = (e: any) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
 
-    if (name === 'locations_id') {
-      setFormData((prevData: any) => ({
+    if (type === 'checkbox') {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: checked,
+      }));
+    } else if (name === 'locations_id') {
+      setFormData((prevData) => ({
         ...prevData,
         locations_id: value,
       }));
     } else {
-      setFormData((prevData: any) => ({
+      let parsedValue = value;
+      if (name === 'id_main_position' || name === 'id_additional_position') {
+        parsedValue = parseInt(value, 10) || null;
+      }
+
+      setFormData((prevData) => ({
         ...prevData,
         [name]: Array.isArray(value)
           ? value.map((option) => option.value)
-          : value,
+          : parsedValue,
       }));
     }
   };
-
-  console.log('Form Data', formData);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -63,12 +71,20 @@ const EditModal = ({
         if (field.type === 'select' && field.isMulti) {
           // Pastikan initialFormData[field.name] adalah array
           initialData[field.name] = initialFormData[field.name] || [];
+        } else if (field.type === 'checkbox') {
+          // Initialize checkboxes based on initialFormData
+          initialData[field.name] = initialFormData[field.name] === 1 ? 1 : 0;
         } else {
           initialData[field.name] = initialFormData[field.name] || '';
         }
       });
 
-      // Periksa apakah 'id_additional_position' ada dalam initialFormData
+      // Check checkboxes based on initial values
+      initialData['is_hide'] = initialFormData['is_hide'] === 1 ? 1 : 0;
+      initialData['is_active'] = initialFormData['is_active'] === 1 ? 1 : 0;
+      initialData['is_edit'] = initialFormData['is_edit'] === 1 ? 1 : 0;
+
+      // Check 'id_additional_position' if it exists in initialFormData
       if ('id_additional_position' in initialFormData) {
         initialData['id_additional_position'] =
           initialFormData['id_additional_position'];
@@ -78,6 +94,7 @@ const EditModal = ({
     }
   }, [isOpen, initialFormData, inputFields]);
 
+  console.log(formData);
   useEffect(() => {
     if (isOpen && firstInputRef.current) {
       firstInputRef.current.focus();
@@ -121,7 +138,6 @@ const EditModal = ({
                     isMulti={field.isMulti}
                     className="w-full"
                     options={field.options}
-                    // value={formData[field.name] || (field.isMulti ? [] : '')}
                     onChange={(selectedOptions) =>
                       handleChange({
                         target: { name: field.name, value: selectedOptions },
@@ -145,6 +161,16 @@ const EditModal = ({
                     ))}
                   </select>
                 )
+              ) : field.type === 'checkbox' ? (
+                <div className="flex items-center">
+                  <input
+                    type="checkbox"
+                    id={field.id}
+                    name={field.name}
+                    checked={formData[field.name] || false}
+                    onChange={handleChange}
+                  />
+                </div>
               ) : (
                 <input
                   type={field.type || 'text'}
