@@ -13,11 +13,13 @@ const getConfigureSalary = async () => {
 
     const responseGetConfigureSalary = await RequestApi(
       'GET',
-      'salary-component',
+      'salary',
       {},
       headerToken,
       'Mengambil configureSalary'
     );
+
+    console.log(responseGetConfigureSalary);
 
     return responseGetConfigureSalary;
   } catch (error) {
@@ -40,7 +42,7 @@ const getDetailConfigureSalary = async (id: any) => {
 
     const reponseGetDetailConfigureSalary = await RequestApi(
       'GET',
-      `salary-component/${id}`,
+      `salary/${id}`,
       {},
       headerToken,
       'Mengambil detail configureSalary'
@@ -67,15 +69,15 @@ const addConfigureSalary = async (formData: any) => {
 
     const reponseAddConfigureSalary = await RequestApi(
       'POST',
-      'configureSalary',
+      'salary',
       formData,
       headerToken,
-      'Membuat configureSalary'
+      'Membuat salary'
     );
 
     return reponseAddConfigureSalary;
   } catch (error) {
-    console.error('Kesalahan saat membuat configureSalary:', error);
+    console.error('Kesalahan saat membuat salary:', error);
     throw error;
   }
 };
@@ -91,7 +93,7 @@ const updateConfigureSalary = async (id: any, configureSalaryData: any) => {
 
     const reponseUpdateConfigureSalary = await RequestApi(
       'PUT',
-      `salary-component/${id}`,
+      `salary/${id}`,
       configureSalaryData,
       headerToken,
       'Memperbarui configureSalary'
@@ -115,7 +117,7 @@ const deleteConfigureSalary = async (id: any) => {
 
     const reponseDeleteConfigureSalary = await RequestApi(
       'DELETE',
-      `salary-component/${id}`,
+      `salary/${id}`,
       null,
       headerToken,
       'Menghapus configureSalary'
@@ -139,7 +141,7 @@ const searchConfigureSalary = async (searchInput: any) => {
 
     const responseSearchConfigureSalary = await RequestApi(
       'GET',
-      `salary-component?search=${searchInput}`,
+      `salary?search=${searchInput}`,
       null,
       headerToken,
       'Mencari configureSalary'

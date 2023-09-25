@@ -213,6 +213,7 @@ const ConfigureSalary: React.FC = () => {
         inputFields={inputField}
         onSubmit={handleAddConfigureSalary}
         onSearch={handleSearchConfigureSalary}
+        onNavigate="payroll_component"
       />
       <TabelBody
         title="Edit Master Salary"

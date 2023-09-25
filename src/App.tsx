@@ -36,6 +36,7 @@ import DeleteModal from './components/modals/DeleteModal';
 // Import CSS
 import './App.css';
 import ConfigureSalary from './pages/Salary/ConfigureSalary';
+import AddConfigureSalary from './pages/Salary/AddConfigureSalary';
 
 const App = () => {
   return (
@@ -175,11 +176,20 @@ const App = () => {
               />
             }
           >
-            <Route path="add" element={<AddModal />} />
             <Route path="edit/:modalEditId" element={<EditModal />} />
             <Route path="detail/:modalDetailId" element={<DetailModal />} />
             <Route path="delete/:modalDeleteId" element={<DeleteModal />} />
           </Route>
+
+          <Route
+            path="/salary/configures/payroll_component"
+            element={
+              <PrivateRoute
+                path="/salary/configures/payroll_component"
+                element={<AddConfigureSalary />}
+              />
+            }
+          ></Route>
 
           <Route
             path="/setting/:settingId"
