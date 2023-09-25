@@ -55,7 +55,7 @@ const ButtonLogout = () => {
               title: 'Confirm Logout',
               text: 'Are you sure you want to log out?',
               showCancelButton: true,
-              confirmButtonText: 'Logout',
+              confirmButtonText: 'Log Out',
               cancelButtonText: 'Cancel',
             }).then((result) => {
               if (result.isConfirmed) {
@@ -68,7 +68,7 @@ const ButtonLogout = () => {
           <div className="flex items-center">
             <LogoutIcon className="min-w-max" />
             <motion.div variants={textAnimation} className="ml-2 link">
-              Logout
+              Log Out
             </motion.div>
           </div>
         </button>

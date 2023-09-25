@@ -10,6 +10,7 @@ import Login from './pages/Auth/Login';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Employee from './pages/Employee/Employee';
 import Reports from './pages/Reports/Reports';
+import ProfileEmployee from './pages/Employee/ProfileEmployee';
 
 import Position from './pages/Position/Position';
 import Grade from './pages/Salary/Grade';
@@ -57,6 +58,11 @@ const App = () => {
             <Route path="detail/:modalDetailId" element={<DetailModal />} />
             <Route path="delete/:modalDeleteId" element={<DeleteModal />} />
           </Route>
+
+          <Route
+            path="/employee/profile"
+            element={<PrivateRoute path="/employee/profile" element={<ProfileEmployee />} />}
+          />
 
           <Route
             path="/reports"
