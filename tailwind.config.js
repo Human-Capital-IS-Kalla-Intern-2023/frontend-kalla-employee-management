@@ -19,6 +19,7 @@ export default {
 
       boxShadow: {
         custom: '0 0 30px 2px  rgba(0, 0, 0, 0.3)',
+        profile: '0 0 12px 2px  rgba(0, 0, 0, 0.3)',
       },
       fontFamily: {
         poppins: ['Poppins'],

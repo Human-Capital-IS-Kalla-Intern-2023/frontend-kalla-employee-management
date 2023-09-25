@@ -164,14 +164,11 @@ const TabelBody: React.FC<TabelBodyProps> = ({
   };
   const [showProfileButton, setShowProfileButton] = useState<boolean>(false);
 
+
+      // Menentukan apakah tombol "Profile" harus ditampilkan
   useEffect(() => {
-    // Mendapatkan path URL saat ini
     const currentPath = location.pathname;
-
-    // Menentukan apakah tombol "Profile" harus ditampilkan
     const shouldShowProfileButton = currentPath === '/employee';
-
-    // Set state berdasarkan hasil pengecekan
     setShowProfileButton(shouldShowProfileButton);
   }, [location.pathname]);
 
@@ -455,14 +452,14 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                               </li>
                               {showProfileButton && (
                                 <li>
-                                  <Link
-                                    to={`profile/${customCell.id}`}
-                                    type="button"
-                                    className="flex items-center w-full px-4 py-2 duration-200 hover: hover:text-white hover:bg-primary"
-                                  >
-                                    <UserIcon className="w-4 h-4 mr-2" />
-                                    Profile
-                                  </Link>
+                                  <button
+                                      type="button"
+                                      className="flex items-center w-full px-4 py-2 duration-200 hover: hover:text-white hover:bg-primary"
+                                      onClick={() => navigate(`profile/${customCell.id}`)}
+                                    >
+                                      <UserIcon className="w-4 h-4 mr-2" />
+                                      Profile
+                                    </button>
                                 </li>
                               )}
                             </ul>
