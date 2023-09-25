@@ -1,7 +1,14 @@
+import React, { useState } from 'react';
+
 import { ArrowButtonIcon} from '../../assets/icons/icon';
 
+const DetailEmployee = ({ employeeData } : any) => {
+  const [showPrimaryAssignment, setShowPrimaryAssignment] = useState(true);
 
-  const DetailEmployee = ({ employeeData }: any) => {
+  const togglePrimaryAssignment = () => {
+    setShowPrimaryAssignment(!showPrimaryAssignment);
+  };
+
     return (
       <section className="py-3 antialiased sm:py-2 overlay">
         <div className="max-w-screen-xl px-4 mx-auto">
@@ -58,61 +65,62 @@ import { ArrowButtonIcon} from '../../assets/icons/icon';
                 </div>
 
               </div>
+                <div className='px-5'>
+                  <div className="bg-white rounded-lg pt-2 shadow-md my-4">
+                    <table className="table-auto p-5 w-full">
+                      <thead>
+                        <tr>
+                          <th className="px-4 py-2 text-left border-b-2 w-1/2">
+                            <h2 className="text-ml font-bold ">Primary Assignment</h2>
+                          </th>
+                          <th className="px-4 py-2 text-right border-b-2 w-1/2">
+                            <button onClick={togglePrimaryAssignment}>
+                              {showPrimaryAssignment ? 'Hide' : 'Show'}
+                            </button>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {showPrimaryAssignment && (
+                          <tr>
+                            {/* Kolom 1 */}
+                            <td className="px-4 py-2 text-left align-top ">
+                              <div>
+                                <h2 className="text-base ">Positional Allowance</h2>
+                                <p className="pl-7 text-sm border-b pb-1">Entitled</p>
+                              </div>
+                              <div>
+                                <h2 className="text-base pt-3">Communication Allowance</h2>
+                                <p className="pl-7 text-sm">Entitled</p>
+                                <p className="pl-7 text-sm border-b pb-1">Regulation</p>
+                              </div>
+                              <div>
+                                <h2 className="text-base pt-3 ">Transportation Allowance</h2>
+                                <p className="pl-7 text-sm border-b pb-1">Entitled</p>
+                              </div>
+                            </td>
 
-              <div className='px-5'>
-                <div className="bg-white rounded-lg pt-2 shadow-md my-4">
-                  <table className="table-auto p-5 w-full">
-                    <thead>
-                      <tr>
-                        <th className="px-4 py-2 text-left border-b-2 w-1/2">
-                          <h2 className="text-ml font-bold ">Primary Assignment</h2>
-                        </th>
-                        <th className="px-4 py-2 text-left border-b-2 w-1/2">
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        {/* Kolom 1 */}
-                        <td className="px-4 py-2 text-left align-top ">
-                          <div>
-                            <h2 className="text-base ">Positional Allowance</h2>
-                            <p className="pl-7 text-sm border-b pb-1">Entitled</p>
-                          </div>
-                          <div>
-                            <h2 className="text-base pt-3">Communication Allowance</h2>
-                            <p className="pl-7 text-sm">Entitled</p>
-                            <p className="pl-7 text-sm border-b pb-1">Regulation</p>
-                          </div>
-                          <div>
-                            <h2 className="text-base pt-3 ">Transportation Allowance</h2>
-                            <p className="pl-7 text-sm border-b pb-1">Entitled</p>
-                          </div>
-                        </td>
-                        
-                        {/* Kolom 1 */}
-
-
-                        {/* Kolom 2 */}
-                        <td className="px-4 py-2 text-left align-top">
-                          <div>
-                            <h2 className="text-base">Functional Allowance</h2>
-                            <p className="pl-7 text-sm border-b pb-1">Entitled</p>
-                          </div>
-                          <div>
-                            <h2 className="text-base pt-3">Meals Allowance</h2>
-                            <p className="pl-7 text-sm border-b pb-3">Entitled</p>
-                          </div>
-                        </td>
-
-
-                        {/* Kolom 2 */}
-                      </tr>
-                    </tbody>
-                  </table>
+                            {/* Kolom 2 */}
+                            <td className="px-4 py-2 text-left align-top">
+                              <div>
+                                <h2 className="text-base">Functional Allowance</h2>
+                                <p className="pl-7 text-sm border-b pb-1">Entitled</p>
+                              </div>
+                              <div>
+                                <h2 className="text-base pt-3">Meals Allowance</h2>
+                                <p className="pl-7 text-sm border-b pb-6">Entitled</p>
+                              </div>
+                              <div>
+                                <h2 className="text-base pt-3">Parking Allowance</h2>
+                                <p className="pl-7 text-sm border-b pb-1">Entitled</p>
+                              </div>
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
-              </div>
-
             </div>
           </div>
         </div>
