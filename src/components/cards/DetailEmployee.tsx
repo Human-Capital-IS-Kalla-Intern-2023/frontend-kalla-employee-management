@@ -8,6 +8,11 @@ const DetailEmployee = ({ employeeData } : any) => {
   const togglePrimaryAssignment = () => {
     setShowPrimaryAssignment(!showPrimaryAssignment);
   };
+  const [showSecondaryAssignment, setShowSecondaryAssignment] = useState(true);
+
+  const toggleSecondaryAssignment = () => {
+    setShowSecondaryAssignment(!showSecondaryAssignment);
+  };
 
     return (
       <section className="py-3 antialiased sm:py-2 overlay">
@@ -33,45 +38,109 @@ const DetailEmployee = ({ employeeData } : any) => {
               </h2>
               <p className="font-medium text-center">{employeeData.employeeId}</p>
   
-              <div className="mt-6 grid grid-cols-1 px-5 pb-5 pt-4 md:grid-cols-3 gap-8">
-                <div className="bg-white p-4 rounded-lg">
-                  <h3 className="text-md font-semibold mb-2">Company</h3>
-                  <p>{employeeData.company}</p>
+              <div className='px-5'>
+                  <div className="bg-white rounded-lg pt-2 shadow-md my-4">
+                    <table className="table-auto p-5 w-full">
+                      <thead>
+                        <tr>
+                          <th className="px-4 py-2 text-left border-b-2 w-1/2">
+                            <h2 className="text-base font-bold ">Main Information</h2>
+                          </th>
+                          <th className="px-4 py-2 text-right border-b-2 w-1/2">
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                            {/* Kolom 1 */}
+                            <td className="px-4 py-2 text-left align-top ">
+                              <div>
+                                <h2 className="text-lg font-medium">Company Name</h2>
+                                <p className="text-base border-b pb-1">{employeeData.company}</p>
+                              </div>
+                              <div>
+                                <h2 className="text-lg font-medium pt-3">Directorate</h2>
+                                <p className="text-base border-b pb-1">{employeeData.directorate}</p>
+                              </div>
+                              <div>
+                                <h2 className="text-lg font-medium pt-3 ">Division</h2>
+                                <p className="text-base border-b pb-1">{employeeData.division}</p>
+                              </div>
+                            </td>
+
+                            {/* Kolom 2 */}
+                            <td className="px-4 py-2 text-left align-top">
+                              <div>
+                                <h2 className="text-lg font-medium">Section</h2>
+                                <p className="text-base border-b pb-1">{employeeData.section}</p>
+                              </div>
+                              <div>
+                                <h2 className="text-lg font-medium pt-3">Main Position</h2>
+                                <p className="text-base border-b pb-1">{employeeData.mainPosition}</p>
+                              </div>
+                            </td>
+                          </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
 
-                <div className="bg-white p-4 rounded-lg">
-                  <h3 className="text-md font-semibold mb-2">Directorate</h3>
-                  <p>{employeeData.directorate}</p>
-                </div>
-  
-                <div className="bg-white p-4 rounded-lg">
-                  <h3 className="text-md font-semibold mb-2">Division</h3>
-                  <p>{employeeData.division}</p>
-                </div>
-
-                <div className="bg-white p-4 rounded-lg">
-                  <h3 className="text-md font-semibold mb-2">Section</h3>
-                  <p>{employeeData.section}</p>
-                </div>
-  
-                <div className="bg-white p-4 rounded-lg">
-                  <h3 className="text-md font-semibold mb-2">Main Position</h3>
-                  <p>{employeeData.mainPosition}</p>
-                </div>
-  
-                <div className="bg-white p-4 rounded-lg">
-                  <h3 className="text-md font-semibold mb-2">Secondary Position</h3>
-                  <p>{employeeData.secondaryPosition}</p>
-                </div>
-
-              </div>
+                {/*Secondary Position*/}
                 <div className='px-5'>
                   <div className="bg-white rounded-lg pt-2 shadow-md my-4">
                     <table className="table-auto p-5 w-full">
                       <thead>
                         <tr>
                           <th className="px-4 py-2 text-left border-b-2 w-1/2">
-                            <h2 className="text-ml font-bold ">Primary Assignment</h2>
+                            <h2 className="text-base font-bold ">Secondary Position</h2>
+                          </th>
+                          <th className="px-4 py-2 text-right border-b-2 w-1/2">
+                            <button onClick={toggleSecondaryAssignment}>
+                              {showSecondaryAssignment ? 'Hide' : 'Show'}
+                            </button>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {showSecondaryAssignment && (
+                          <tr>
+                            {/* Kolom 1 */}
+                            <td className="px-4 py-2 text-left align-top ">
+                              <div>
+                                <p className="text-base border-b pb-1">{employeeData.secondaryPosition}</p>
+                              </div>
+                            </td>
+
+                            {/* Kolom 2 */}
+                            {/* <td className="px-4 py-2 text-left align-top">
+                              <div>
+                                <h2 className="text-base">Functional Allowance</h2>
+                                <p className="pl-7 text-sm border-b pb-1">Entitled</p>
+                              </div>
+                              <div>
+                                <h2 className="text-base pt-3">Meals Allowance</h2>
+                                <p className="pl-7 text-sm border-b pb-6">Entitled</p>
+                              </div>
+                              <div>
+                                <h2 className="text-base pt-3">Parking Allowance</h2>
+                                <p className="pl-7 text-sm border-b pb-1">Entitled</p>
+                              </div>
+                            </td> */}
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+
+                <div className='px-5'>
+                  <div className="bg-white rounded-lg pt-2 shadow-md my-4">
+                    <table className="table-auto p-5 w-full">
+                      <thead>
+                        <tr>
+                          <th className="px-4 py-2 text-left border-b-2 w-1/2">
+                            <h2 className="text-ml font-bold ">Allowance Information</h2>
                           </th>
                           <th className="px-4 py-2 text-right border-b-2 w-1/2">
                             <button onClick={togglePrimaryAssignment}>
