@@ -14,7 +14,7 @@ import {
   EditIcon,
   DetailIcon,
   TrashIcon,
-  UserIcon
+  UserIcon,
 } from '../../assets/icons/icon';
 
 interface ColCells {
@@ -38,6 +38,8 @@ interface TabelBodyProps {
   fetchDetailedData?: (id: any) => void;
   onSubmit: (formData: any, id: any) => void;
   onDelete: (id: any) => void;
+  onEditNavigate?: string;
+  onDetailNavigate?: string;
 }
 
 const TabelBody: React.FC<TabelBodyProps> = ({
@@ -49,6 +51,8 @@ const TabelBody: React.FC<TabelBodyProps> = ({
   onDelete,
   detailedData,
   fetchDetailedData,
+  onEditNavigate,
+  onDetailNavigate,
 }) => {
   const [activeDropdown, setActiveDropdown] = useState<number | null | boolean>(
     null
@@ -71,20 +75,32 @@ const TabelBody: React.FC<TabelBodyProps> = ({
 
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(activeDropdown);
+
   const openEditModal = useCallback(
     async (id: number) => {
       if (data) {
         const dataToEdit = await data.find((item: any) => item.id === id);
+        console.log(dataToEdit);
         if (dataToEdit) {
           setEditId(id);
           setEditedData(dataToEdit);
           setEditModalOpen(true);
+
+          // Extract the salaryId from the onEditNavigate prop
+          const salaryId = dataToEdit.id;
+          if (onEditNavigate) {
+            const navigateUrl = onEditNavigate.replace(
+              '{salaryId}',
+              salaryId.toString()
+            );
+            navigate(navigateUrl);
+          }
         }
       }
     },
-    [data]
+    [data, onEditNavigate, navigate]
   );
+
   const { modalEditId, modalDetailId, modalDeleteId } = useParams();
 
   const closeEditModal = useCallback(() => {
@@ -111,12 +127,24 @@ const TabelBody: React.FC<TabelBodyProps> = ({
         try {
           fetchDetailedData(id);
           setIsDetailModalOpen(true);
+
+          const employeeId = id;
+          console.log('detail', id);
+
+          if (onDetailNavigate) {
+            const navigateUrl = onDetailNavigate.replace(
+              '{employeeId}',
+              employeeId.toString()
+            );
+            console.log(navigateUrl);
+            navigate(navigateUrl);
+          }
         } catch (error) {
           console.error('Error fetching detailed data:', error);
         }
       }
     },
-    [fetchDetailedData]
+    [fetchDetailedData, navigate, onDetailNavigate]
   );
 
   const closeDetailModal = useCallback(() => {
@@ -164,8 +192,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
   };
   const [showProfileButton, setShowProfileButton] = useState<boolean>(false);
 
-
-      // Menentukan apakah tombol "Profile" harus ditampilkan
+  // Menentukan apakah tombol "Profile" harus ditampilkan
   useEffect(() => {
     const currentPath = location.pathname;
     const shouldShowProfileButton = currentPath === '/employee';
@@ -455,13 +482,15 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                               {showProfileButton && (
                                 <li>
                                   <button
-                                      type="button"
-                                      className="flex items-center w-full px-4 py-2 duration-200 hover: hover:text-white hover:bg-primary"
-                                      onClick={() => navigate(`profile/${customCell.id}`)}
-                                    >
-                                      <UserIcon className="w-4 h-4 mr-2" />
-                                      Profile
-                                    </button>
+                                    type="button"
+                                    className="flex items-center w-full px-4 py-2 duration-200 hover: hover:text-white hover:bg-primary"
+                                    onClick={() =>
+                                      navigate(`profile/${customCell.id}`)
+                                    }
+                                  >
+                                    <UserIcon className="w-4 h-4 mr-2" />
+                                    Profile
+                                  </button>
                                 </li>
                               )}
                             </ul>
