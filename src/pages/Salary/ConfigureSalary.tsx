@@ -213,7 +213,7 @@ const ConfigureSalary: React.FC = () => {
         inputFields={inputField}
         onSubmit={handleAddConfigureSalary}
         onSearch={handleSearchConfigureSalary}
-        onNavigate="payroll_component"
+        onNavigate="payroll_component/add"
       />
       <TabelBody
         title="Edit Master Salary"
@@ -226,6 +226,7 @@ const ConfigureSalary: React.FC = () => {
         onDelete={handleDeleteConfigureSalary}
         detailedData={detailedData}
         fetchDetailedData={featchDetailConfigureSalary}
+        onEditNavigate="payroll_component/edit/{salaryId}"
       />
       <TabelFooter
         currentPage={currentPage}
