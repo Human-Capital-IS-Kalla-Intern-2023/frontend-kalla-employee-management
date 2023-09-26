@@ -3,15 +3,15 @@ import React, { useState } from 'react';
 import { ArrowButtonIcon} from '../../assets/icons/icon';
 
 const DetailEmployee = ({ employeeData } : any) => {
-  const [showPrimaryAssignment, setShowPrimaryAssignment] = useState(true);
+  const [showPrimaryAssignment, setShowPrimaryAssignment] = useState(false);
+  const [selectedSecondaryPosition, setSelectedSecondaryPosition] = useState<string>('');
 
   const togglePrimaryAssignment = () => {
     setShowPrimaryAssignment(!showPrimaryAssignment);
   };
-  const [showSecondaryAssignment, setShowSecondaryAssignment] = useState(true);
 
-  const toggleSecondaryAssignment = () => {
-    setShowSecondaryAssignment(!showSecondaryAssignment);
+  const handleSecondaryPositionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedSecondaryPosition(event.target.value);
   };
 
     return (
@@ -86,52 +86,91 @@ const DetailEmployee = ({ employeeData } : any) => {
                 </div>
 
                 {/*Secondary Position*/}
-                <div className='px-5'>
-                  <div className="bg-white rounded-lg pt-2 shadow-md my-4">
-                    <table className="table-auto p-5 w-full">
-                      <thead>
-                        <tr>
-                          <th className="px-4 py-2 text-left border-b-2 w-1/2">
-                            <h2 className="text-base font-bold ">Secondary Position</h2>
-                          </th>
-                          <th className="px-4 py-2 text-right border-b-2 w-1/2">
-                            <button onClick={toggleSecondaryAssignment}>
-                              {showSecondaryAssignment ? 'Hide' : 'Show'}
-                            </button>
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {showSecondaryAssignment && (
-                          <tr>
+                <div className="px-5">
+              <div className="bg-white rounded-lg pt-2 shadow-md my-4">
+                <table className="table-auto p-5 w-full">
+                  <thead>
+                    <tr>
+                      <th className="px-4 py-2 text-left border-b-2 w-1/2">
+                        <h2 className="text-base font-bold">Secondary Position</h2>
+                      </th>
+                      <th className="px-4 py-2 text-right border-b-2 w-1/2">
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                        {/* Kolom 1 */}
+                        <td className="px-4 py-2 text-left align-top">
+                          <div>
+                            <select
+                              value={selectedSecondaryPosition}
+                              onChange={handleSecondaryPositionChange}
+                              className="border-2 border-black  rounded-lg p-1"
+                            >
+                              {employeeData.secondaryPosition.map((position: { position: string; }) => (
+                                <option key={position.position} value={position.position}>
+                                  {position.position}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        </td>
+                      </tr>
+                    
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {selectedSecondaryPosition && (
+              <div className="px-5">
+                <div className="bg-white rounded-lg pt-2 shadow-md my-4">
+                  <table className="table-auto p-5 w-full">
+                    <thead>
+                      <tr>
+                        <th className="px-4 py-2 text-left border-b-2 w-1/2">
+                          <h2 className="text-base font-bold">Secondary Position Details</h2>
+                        </th>
+                        <th className="px-4 py-2 text-right border-b-2 w-1/2"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {employeeData.secondaryPosition
+                        .filter((position: { position: string; }) => position.position === selectedSecondaryPosition)
+                        .map((selectedPosition: { position: React.Key | null | undefined; company: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; directorate: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; division: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; section: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }) => (
+                          <tr key={selectedPosition.position}>
                             {/* Kolom 1 */}
-                            <td className="px-4 py-2 text-left align-top ">
+                            <td className="px-4 py-2 text-left align-top">
                               <div>
-                                <p className="text-base border-b pb-1">{employeeData.secondaryPosition}</p>
+                                <h2 className="text-lg font-medium">Company Name</h2>
+                                <p className="text-base border-b pb-1">{selectedPosition.company}</p>
+                              </div>
+                              <div>
+                                <h2 className="text-lg font-medium pt-3">Directorate</h2>
+                                <p className="text-base border-b pb-1">{selectedPosition.directorate}</p>
+                              </div>
+                              <div>
+                                <h2 className="text-lg font-medium pt-3">Division</h2>
+                                <p className="text-base border-b pb-1">{selectedPosition.division}</p>
                               </div>
                             </td>
 
                             {/* Kolom 2 */}
-                            {/* <td className="px-4 py-2 text-left align-top">
+                            <td className="px-4 py-2 text-left align-top">
                               <div>
-                                <h2 className="text-base">Functional Allowance</h2>
-                                <p className="pl-7 text-sm border-b pb-1">Entitled</p>
+                                <h2 className="text-lg font-medium">Section</h2>
+                                <p className="text-base border-b pb-1">{selectedPosition.section}</p>
                               </div>
-                              <div>
-                                <h2 className="text-base pt-3">Meals Allowance</h2>
-                                <p className="pl-7 text-sm border-b pb-6">Entitled</p>
-                              </div>
-                              <div>
-                                <h2 className="text-base pt-3">Parking Allowance</h2>
-                                <p className="pl-7 text-sm border-b pb-1">Entitled</p>
-                              </div>
-                            </td> */}
+                              {/* Add more details here */}
+                            </td>
                           </tr>
-                        )}
-                      </tbody>
-                    </table>
-                  </div>
+                        ))}
+                    </tbody>
+                  </table>
                 </div>
+              </div>
+            )}
 
 
                 <div className='px-5'>
