@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { ArrowButtonIcon} from '../../assets/icons/icon';
 
@@ -13,6 +13,14 @@ const DetailEmployee = ({ employeeData } : any) => {
   const handleSecondaryPositionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedSecondaryPosition(event.target.value);
   };
+
+  useEffect(() => {
+    // Simulate a change event to trigger the display of details when the component mounts.
+    const initialOption = employeeData.secondaryPosition[0]?.position; // Use the first option as the initial value.
+    if (initialOption) {
+      setSelectedSecondaryPosition(initialOption);
+    }
+  }, [employeeData.secondaryPosition]);
 
     return (
       <section className="py-3 antialiased sm:py-2 overlay">
