@@ -1,8 +1,8 @@
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 import DetailEmployee from '../../components/cards/DetailEmployee';
 
 const ProfileEmployee = () => {
-  const { employeeId } = useParams();
+  // const { employeeId } = useParams();
 
   const employeeData = {
     name: 'John Doe',
