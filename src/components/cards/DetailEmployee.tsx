@@ -15,8 +15,7 @@ const DetailEmployee = ({ employeeData } : any) => {
   };
 
   useEffect(() => {
-    // Simulate a change event to trigger the display of details when the component mounts.
-    const initialOption = employeeData.secondaryPosition[0]?.position; // Use the first option as the initial value.
+    const initialOption = employeeData.secondaryPosition[0]?.position;
     if (initialOption) {
       setSelectedSecondaryPosition(initialOption);
     }
