@@ -5,9 +5,12 @@ import { ArrowButtonIcon} from '../../assets/icons/icon';
 const DetailEmployee = ({ employeeData } : any) => {
   const [showPrimaryAssignment, setShowPrimaryAssignment] = useState(false);
   const [selectedSecondaryPosition, setSelectedSecondaryPosition] = useState<string>('');
+  const [isArrowRotated, setIsArrowRotated] = useState(false);
 
   const togglePrimaryAssignment = () => {
     setShowPrimaryAssignment(!showPrimaryAssignment);
+    setIsArrowRotated(!isArrowRotated);
+
   };
 
   const handleSecondaryPositionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -182,9 +185,11 @@ const DetailEmployee = ({ employeeData } : any) => {
             )}
 
 
+            {/*Allowance Information*/}
                 <div className='px-5'>
                   <div className="bg-white rounded-lg pt-2 shadow-md my-4 cursor-pointer"
                 onClick={togglePrimaryAssignment} >
+                  
                     <table className="table-auto p-5 w-full">
                       <thead>
                         <tr>
@@ -193,8 +198,12 @@ const DetailEmployee = ({ employeeData } : any) => {
                           </th>
                           <th className="px-4 py-2 text-right border-b-2 w-1/2">
                             <button onClick={togglePrimaryAssignment}>
-                              {showPrimaryAssignment}
+                            <span
+                              className={`transform ${isArrowRotated ? 'rotate-180' : ''}`}
+                              style={{ display: 'inline-block', transition: 'transform 0.3s ease' }}
+                              >
                               <ArrowButtonIcon className="h-6 w-6 ml-1" />
+                            </span>
                             </button>
                           </th>
                         </tr>
@@ -203,35 +212,35 @@ const DetailEmployee = ({ employeeData } : any) => {
                         {showPrimaryAssignment && (
                           <tr>
                             {/* Kolom 1 */}
-                            <td className="px-4 py-2 text-left align-top ">
+                            <td className="px-4 py-3 text-left align-top ">
                               <div>
-                                <h2 className="text-base font-semibold">Positional Allowance</h2>
-                                <p className="pl-7 text-sm border-b pb-1">Entitled</p>
+                                <h2 className="text-base font-semibold pb-1">Positional Allowance</h2>
+                                <p className="pl-7 text-base border-b pb-2">Entitled</p>
                               </div>
                               <div>
-                                <h2 className="text-base font-semibold pt-3">Communication Allowance</h2>
-                                <p className="pl-7 text-sm">Entitled</p>
-                                <p className="pl-7 text-sm border-b pb-1">Regulation</p>
+                                <h2 className="text-base font-semibold pt-3 pb-1">Communication Allowance</h2>
+                                <p className="pl-7 text-base pb-1">Entitled</p>
+                                <p className="pl-7 text-base border-b pb-2">Regulation</p>
                               </div>
                               <div>
-                                <h2 className="text-base font-semibold pt-3 ">Transportation Allowance</h2>
-                                <p className="pl-7 text-sm border-b pb-1">Entitled</p>
+                                <h2 className="text-base font-semibold pt-3 pb-1">Transportation Allowance</h2>
+                                <p className="pl-7 text-base border-b pb-2">Entitled</p>
                               </div>
                             </td>
 
                             {/* Kolom 2 */}
-                            <td className="px-4 py-2 text-left align-top">
+                            <td className="px-4 py-3 text-left align-top">
                               <div>
-                                <h2 className="text-base font-semibold">Functional Allowance</h2>
-                                <p className="pl-7 text-sm border-b pb-1">Entitled</p>
+                                <h2 className="text-base font-semibold pb-1">Functional Allowance</h2>
+                                <p className="pl-7 text-base border-b pb-2">Entitled</p>
                               </div>
                               <div>
-                                <h2 className="text-base font-semibold pt-3">Meals Allowance</h2>
-                                <p className="pl-7 text-sm border-b pb-6">Entitled</p>
+                                <h2 className="text-base font-semibold pt-3 pb-1">Meals Allowance</h2>
+                                <p className="pl-7 text-base border-b pb-9">Entitled</p>
                               </div>
                               <div>
-                                <h2 className="text-base font-semibold pt-3">Parking Allowance</h2>
-                                <p className="pl-7 text-sm border-b pb-1">Entitled</p>
+                                <h2 className="text-base font-semibold pt-3 pb-1">Parking Allowance</h2>
+                                <p className="pl-7 text-base border-b pb-2">Entitled</p>
                               </div>
                             </td>
                           </tr>
