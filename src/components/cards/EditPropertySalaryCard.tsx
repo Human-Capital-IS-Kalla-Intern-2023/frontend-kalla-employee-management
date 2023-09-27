@@ -15,7 +15,7 @@ interface FieldOptions {
   value: number;
 }
 
-const PropertySalaryCard = () => {
+const EditPropertySalaryCard = () => {
   const [companyDropdownValue, setCompanyDropdownValue] = useState<
     number | string
   >('');
@@ -503,4 +503,4 @@ const PropertySalaryCard = () => {
   );
 };
 
-export default PropertySalaryCard;
+export default EditPropertySalaryCard;

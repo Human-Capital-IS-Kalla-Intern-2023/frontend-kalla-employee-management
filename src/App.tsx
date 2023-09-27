@@ -38,6 +38,7 @@ import DeleteModal from './components/modals/DeleteModal';
 import './App.css';
 import ConfigureSalary from './pages/Salary/ConfigureSalary';
 import AddConfigureSalary from './pages/Salary/AddConfigureSalary';
+import EditPropertySalaryCard from './components/cards/EditPropertySalaryCard';
 
 const App = () => {
   return (
@@ -56,13 +57,28 @@ const App = () => {
           >
             <Route path="add" element={<AddModal />} />
             <Route path="edit/:modalEditId" element={<EditModal />} />
-            <Route path="detail/:modalDetailId" element={<DetailModal />} />
+            <Route path="detail/:employeeId" element={<ProfileEmployee />} />
             <Route path="delete/:modalDeleteId" element={<DeleteModal />} />
           </Route>
 
           <Route
+            path="/employee/profile/detail/:employeeId"
+            element={
+              <PrivateRoute
+                path="/employee/profile/detail/:employeeId"
+                element={<ProfileEmployee />}
+              />
+            }
+          ></Route>
+
+          <Route
             path="/employee/profile"
-            element={<PrivateRoute path="/employee/profile" element={<ProfileEmployee />} />}
+            element={
+              <PrivateRoute
+                path="/employee/profile"
+                element={<ProfileEmployee />}
+              />
+            }
           />
 
           <Route
@@ -188,11 +204,21 @@ const App = () => {
           </Route>
 
           <Route
-            path="/salary/configures/payroll_component"
+            path="/salary/configures/payroll_component/add"
             element={
               <PrivateRoute
-                path="/salary/configures/payroll_component"
+                path="/salary/configures/payroll_component/add"
                 element={<AddConfigureSalary />}
+              />
+            }
+          ></Route>
+
+          <Route
+            path="/salary/configures/payroll_component/edit/:salaryId"
+            element={
+              <PrivateRoute
+                path="/salary/configures/payroll_component/edit/:salaryId"
+                element={<EditPropertySalaryCard />}
               />
             }
           ></Route>
