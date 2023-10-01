@@ -15,7 +15,10 @@ function MainLayout({ children }: any) {
     '/salary',
   ];
 
-  const hiddenSidebarPaths = ['/salary/configures/payroll_component'];
+  const hiddenSidebarPaths = [
+    '/salary/configures/payroll_component',
+    '/employee/detail',
+  ];
 
   const isAuthenticated = !!Cookies.get('access_token');
 
