@@ -14,7 +14,7 @@ import {
   EditIcon,
   DetailIcon,
   TrashIcon,
-  UserIcon,
+  // UserIcon,
 } from '../../assets/icons/icon';
 
 interface ColCells {
@@ -190,14 +190,14 @@ const TabelBody: React.FC<TabelBodyProps> = ({
   const closeFilterDropdown = () => {
     setActiveDropdown(false);
   };
-  const [showProfileButton, setShowProfileButton] = useState<boolean>(false);
+  // const [showProfileButton, setShowProfileButton] = useState<boolean>(false);
 
   // Menentukan apakah tombol "Profile" harus ditampilkan
-  useEffect(() => {
-    const currentPath = location.pathname;
-    const shouldShowProfileButton = currentPath === '/employee';
-    setShowProfileButton(shouldShowProfileButton);
-  }, [location.pathname]);
+  // useEffect(() => {
+  //   const currentPath = location.pathname;
+  //   const shouldShowProfileButton = currentPath === '/employee';
+  //   setShowProfileButton(shouldShowProfileButton);
+  // }, [location.pathname]);
 
   const truncateText = (text: string, maxLength: number) => {
     return text.length > maxLength
@@ -379,9 +379,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                     <th
                       key={index}
                       scope="col"
-                      className={`px-2 py-4 ${
-                        index === 0 ? 'text-center' : ''
-                      }`}
+                      className={`px-2 py-4`}
                     >
                       {cell.text}
                     </th>
@@ -479,7 +477,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                                   />
                                 )}
                               </li>
-                              {showProfileButton && (
+                              {/* {showProfileButton && (
                                 <li>
                                   <button
                                     type="button"
@@ -491,8 +489,8 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                                     <UserIcon className="w-4 h-4 mr-2" />
                                     Profile
                                   </button>
-                                </li>
-                              )}
+                                </li> */}
+                              {/* )} */}
                             </ul>
                           </div>
                         )}
@@ -500,9 +498,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                       {colCells.map((cell, cellIndex) => (
                         <td
                           key={cellIndex}
-                          className={`px-2 py-4 font-medium ${
-                            cellIndex === 0 ? 'text-center' : ''
-                          } text-black whitespace-nowrap`}
+                          className={`px-2 py-4 font-medium  text-black whitespace-nowrap`}
                         >
                           {renderTableCell(cell, customCell, location.pathname)}
                         </td>
