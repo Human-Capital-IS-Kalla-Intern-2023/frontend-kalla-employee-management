@@ -199,7 +199,7 @@ const ConfigureSalary: React.FC = () => {
 
   return (
     <>
-      <h1 className="px-4">Master Salary Page</h1>
+      <h1 className="px-4">Salary Page</h1>
       {successMessage && successTitle && (
         <SuccessAlert title={successTitle} text={successMessage} />
       )}
@@ -207,8 +207,8 @@ const ConfigureSalary: React.FC = () => {
         <ErrorAlert title={errorTitle} text={errorMessage} />
       )}
       <TabelHeader
-        addButtonText="Add Master Salary"
-        title="Add Master Salary"
+        addButtonText="Add SBU Salary"
+        title="Add SBU Salary"
         filterOptions={filterOptions}
         inputFields={inputField}
         onSubmit={handleAddConfigureSalary}
@@ -216,7 +216,7 @@ const ConfigureSalary: React.FC = () => {
         onNavigate="payroll_component/add"
       />
       <TabelBody
-        title="Edit Master Salary"
+        title="Edit SBU Salary"
         colCells={colCells}
         data={
           searchResults.length > 0 ? searchResults : currentConfigureSalaryData
