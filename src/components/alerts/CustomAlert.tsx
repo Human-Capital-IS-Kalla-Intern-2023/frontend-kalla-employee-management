@@ -5,12 +5,20 @@ import Swal from 'sweetalert2';
 interface CustomAlertProps {
   title: string;
   text: string;
-  duration?: number;
+  timer?: number;
 }
 
 interface ConfirmationAlertProps {
   title: string;
   text: string;
+  onConfirm: () => void;
+  timer?: number;
+}
+
+interface DeleteConfimationAlert {
+  title: string;
+  text: string;
+  detail: string;
   onConfirm: () => void;
 }
 
@@ -53,20 +61,51 @@ const WarningAlert: React.FC<CustomAlertProps> = ({ title, text }) => {
 const ConfirmationAlert: React.FC<ConfirmationAlertProps> = ({
   title,
   text,
+  timer,
   onConfirm,
 }) => {
-  // Tampilkan SweetAlert konfirmasi OK dan navigasi saat OK dikonfirmasi
   Swal.fire({
     icon: 'success',
     title: title,
     text: text,
+    timer: timer,
   }).then((result: any) => {
     if (result.isConfirmed) {
-      onConfirm(); // Panggil fungsi onConfirm saat tombol OK diklik
+      onConfirm();
     }
   });
 
   return null;
 };
 
-export { ErrorAlert, SuccessAlert, WarningAlert, ConfirmationAlert };
+const DeleteConfimationAlert: React.FC<DeleteConfimationAlert> = ({
+  title,
+  text,
+  detail,
+  onConfirm,
+}) => {
+  Swal.fire({
+    title: title,
+    text: text,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#DA4445',
+    cancelButtonColor: '#8388A4',
+    confirmButtonText: 'Yes, delete it!',
+  }).then((result: any) => {
+    if (result.isConfirmed) {
+      onConfirm();
+      Swal.fire('Deleted!', detail, 'success');
+    }
+  });
+
+  return null;
+};
+
+export {
+  ErrorAlert,
+  SuccessAlert,
+  WarningAlert,
+  ConfirmationAlert,
+  DeleteConfimationAlert,
+};
