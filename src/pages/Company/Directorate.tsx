@@ -165,7 +165,6 @@ const Directorate: React.FC = () => {
         setSearchResults([]);
       } else {
         const responseData = await searchDirectorate(inputSearch);
-        console.log(responseData);
         if (responseData.data.length === 0) {
           setErrorTitle('No Results');
           setErrorMessage(`No results found for ${inputSearch}`);

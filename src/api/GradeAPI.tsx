@@ -133,7 +133,7 @@ const searchGrade = async (searchInput: any) => {
 
     const responseSearchGrade = await RequestApi(
       'GET',
-      `grade?search=${searchInput}`,
+      `job-grade?search=${searchInput}`,
       null,
       headerToken,
       'Mencari grade'

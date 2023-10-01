@@ -57,15 +57,15 @@ const App = () => {
           >
             <Route path="add" element={<AddModal />} />
             <Route path="edit/:modalEditId" element={<EditModal />} />
-            <Route path="detail/:employeeId" element={<ProfileEmployee />} />
+            {/* <Route path="detail/:employeeId" element={<ProfileEmployee />} /> */}
             <Route path="delete/:modalDeleteId" element={<DeleteModal />} />
           </Route>
 
           <Route
-            path="/employee/profile/detail/:employeeId"
+            path="/employee/detail/:employeeId"
             element={
               <PrivateRoute
-                path="/employee/profile/detail/:employeeId"
+                path="/employee/detail/:employeeId"
                 element={<ProfileEmployee />}
               />
             }
