@@ -271,10 +271,10 @@ const TabelBody: React.FC<TabelBodyProps> = ({
         'division_name',
         'section_name',
         'directorat_name',
-        'main_position',
+        'position_name',
       ].includes(cell.key)
     ) {
-      return truncateText(customCell[cell.key], 18);
+      return truncateText(customCell[cell.key], 14);
     } else {
       return customCell[cell.key];
     }
@@ -369,7 +369,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
   return (
     <section className="py-3 antialiased sm:py-2 overlay">
       <div className="max-w-screen-xl px-4 mx-auto">
-        <div className="relative overflow-hidden bg-white shadow-custom sm:rounded-lg">
+        <div className="relative overflow-x-auto bg-white shadow-custom sm:rounded-lg">
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left">
               <thead className="text-xs uppercase">
@@ -494,7 +494,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                       {colCells.map((cell, cellIndex) => (
                         <td
                           key={cellIndex}
-                          className={`px-2 py-4 font-medium  text-black whitespace-nowrap`}
+                          className={`px-2 py-4 font-medium text-black whitespace-nowrap sm:text-sm md:text-base lg:text-base`}
                         >
                           {renderTableCell(cell, customCell, location.pathname)}
                         </td>
