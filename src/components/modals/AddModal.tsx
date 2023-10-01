@@ -21,7 +21,6 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
   const firstInputRef = useRef<HTMLInputElement | null>(null);
   const selectRef = useRef<HTMLSelectElement | null>(null);
 
-  console.log('Form Data', formData);
   const handleChange = (e: any) => {
     const { name, value, type, checked } = e.target;
 
@@ -54,8 +53,6 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
 
     try {
       setIsLoading(true);
-
-      console.log('lah', formData);
 
       await onSubmit(formData);
 

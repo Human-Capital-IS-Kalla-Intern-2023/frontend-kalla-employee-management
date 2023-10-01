@@ -236,12 +236,10 @@ const AddPropertySalaryCard = () => {
 
     // Update the formData and save to local storage
     const updatedComponents = [...formData.components];
-    console.log('list', list_id);
-    console.log(updatedComponents);
+
     const componentIndex = updatedComponents.findIndex(
       (component) => component.list_id === list_id
     );
-    console.log(componentIndex);
 
     if (componentIndex !== -1) {
       updatedComponents[componentIndex].is_hide = isChecked ? 1 : 0;
@@ -320,8 +318,6 @@ const AddPropertySalaryCard = () => {
   };
 
   const handleDeleteComponent = (listIdToRemove: any) => {
-    console.log('listIdToRemove: ', listIdToRemove);
-
     // Cari indeks komponen yang akan dihapus berdasarkan list_id
     const indexToRemove = formData.components.findIndex(
       (component) => component.list_id === listIdToRemove
@@ -346,7 +342,6 @@ const AddPropertySalaryCard = () => {
   };
 
   const showDeleteConfirmation = (index: number, componentName: string) => {
-    console.log('index: ', index);
     DeleteConfimationAlert({
       title: 'Delete Component',
       text: `Are you sure you want to delete "${componentName}"?`,
@@ -472,7 +467,6 @@ const AddPropertySalaryCard = () => {
       );
 
       setMaxList(maxList + 1);
-      console.log('maxList', maxList);
       const newComponent = {
         list_id: maxList,
         order: maxOrder + 1,

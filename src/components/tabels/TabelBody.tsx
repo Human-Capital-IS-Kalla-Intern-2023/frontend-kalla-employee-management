@@ -80,7 +80,6 @@ const TabelBody: React.FC<TabelBodyProps> = ({
     async (id: number) => {
       if (data) {
         const dataToEdit = await data.find((item: any) => item.id === id);
-        console.log(dataToEdit);
         if (dataToEdit) {
           setEditId(id);
           setEditedData(dataToEdit);
@@ -129,14 +128,12 @@ const TabelBody: React.FC<TabelBodyProps> = ({
           setIsDetailModalOpen(true);
 
           const employeeId = id;
-          console.log('detail', id);
 
           if (onDetailNavigate) {
             const navigateUrl = onDetailNavigate.replace(
               '{employeeId}',
               employeeId.toString()
             );
-            console.log(navigateUrl);
             navigate(navigateUrl);
           }
         } catch (error) {
@@ -376,11 +373,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                 <tr>
                   <th scope="col" className="px-2 py-4 text-center"></th>
                   {colCells.map((cell, index) => (
-                    <th
-                      key={index}
-                      scope="col"
-                      className={`px-2 py-4`}
-                    >
+                    <th key={index} scope="col" className={`px-2 py-4`}>
                       {cell.text}
                     </th>
                   ))}

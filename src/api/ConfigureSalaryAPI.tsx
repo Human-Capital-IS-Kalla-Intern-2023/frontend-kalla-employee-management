@@ -19,8 +19,6 @@ const getConfigureSalary = async () => {
       'Mengambil configureSalary'
     );
 
-    console.log(responseGetConfigureSalary);
-
     return responseGetConfigureSalary;
   } catch (error) {
     console.error(

@@ -94,7 +94,6 @@ const EditModal = ({
     }
   }, [isOpen, initialFormData, inputFields]);
 
-  console.log(formData);
   useEffect(() => {
     if (isOpen && firstInputRef.current) {
       firstInputRef.current.focus();
