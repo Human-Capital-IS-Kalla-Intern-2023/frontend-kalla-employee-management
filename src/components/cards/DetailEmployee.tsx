@@ -3,24 +3,24 @@ import profileImg from '../../assets/img/profileImg.png';
 import { useNavigate } from 'react-router-dom';
 import ReactLoading from 'react-loading';
 import EditModal from '../modals/EditModal';
-import { updateEmployee } from '../../api/EmployeeAPI';
 import { inputField } from '../../assets/data/EmployeeData';
-import { ResetAlert } from '../../helpers/ResetAlert';
-import { SuccessAlert, ErrorAlert } from '../alerts/CustomAlert';
 
-const DetailEmployee = ({ employeeData }: any) => {
+type DetailEmployeeProps = {
+  employeeData: any;
+  onUpdateEmployee: (formData: string, id: number) => void;
+};
+
+const DetailEmployee = ({
+  employeeData,
+  onUpdateEmployee,
+}: DetailEmployeeProps) => {
+  console.log('inputField 1', inputField);
   const [showPrimaryAssignment, setShowPrimaryAssignment] = useState(false);
   const [selectedSecondaryPosition, setSelectedSecondaryPosition] =
     useState<string>('');
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [editedData, setEditedData] = useState(employeeData);
-
-  // Alert State
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [successTitle, setSuccessTitle] = useState<string | null>(null);
-  const [errorTitle, setErrorTitle] = useState<string | null>(null);
 
   const toggleEditModal = () => {
     setShowEditModal(!showEditModal);
@@ -29,25 +29,6 @@ const DetailEmployee = ({ employeeData }: any) => {
   const handleEdit = () => {
     toggleEditModal();
     setEditedData(employeeData);
-  };
-
-  const handleEditEmployee = async (formData: string, id: number) => {
-    try {
-      const responseData = await updateEmployee(id, formData);
-      setSuccessTitle(`${responseData.status}`);
-      setSuccessMessage(`${responseData.message}`);
-    } catch (error: any) {
-      console.error('Error editing employee:', error);
-      setErrorTitle(`Error editing employee`);
-      const errorMessages = Object.values(error.response.data.errors).flat();
-      setErrorMessage(errorMessages.join('\n'));
-    }
-    ResetAlert(
-      setSuccessTitle,
-      setSuccessMessage,
-      setErrorTitle,
-      setErrorMessage
-    );
   };
 
   const togglePrimaryAssignment = () => {
@@ -102,16 +83,10 @@ const DetailEmployee = ({ employeeData }: any) => {
           title="Edit Employee"
           inputFields={inputField}
           initialFormData={editedData}
-          onSubmit={handleEditEmployee} // Define a function to handle the edit submission
+          onSubmit={onUpdateEmployee}
         />
       )}
 
-      {successMessage && successTitle && (
-        <SuccessAlert title={successTitle} text={successMessage} />
-      )}
-      {errorMessage && errorTitle && (
-        <ErrorAlert title={errorTitle} text={errorMessage} />
-      )}
       <div className="max-w-screen-xl px-4 pt-6 mx-auto">
         <div className="relative overflow-hidden sm:rounded-lg">
           <div className="pt-4 overflow-x-auto">
@@ -269,54 +244,10 @@ const DetailEmployee = ({ employeeData }: any) => {
                         .map(
                           (selectedPosition: {
                             position: React.Key | null | undefined;
-                            company:
-                              | string
-                              | number
-                              | boolean
-                              | React.ReactElement<
-                                  any,
-                                  string | React.JSXElementConstructor<any>
-                                >
-                              | Iterable<React.ReactNode>
-                              | React.ReactPortal
-                              | null
-                              | undefined;
-                            directorate:
-                              | string
-                              | number
-                              | boolean
-                              | React.ReactElement<
-                                  any,
-                                  string | React.JSXElementConstructor<any>
-                                >
-                              | Iterable<React.ReactNode>
-                              | React.ReactPortal
-                              | null
-                              | undefined;
-                            division:
-                              | string
-                              | number
-                              | boolean
-                              | React.ReactElement<
-                                  any,
-                                  string | React.JSXElementConstructor<any>
-                                >
-                              | Iterable<React.ReactNode>
-                              | React.ReactPortal
-                              | null
-                              | undefined;
-                            section:
-                              | string
-                              | number
-                              | boolean
-                              | React.ReactElement<
-                                  any,
-                                  string | React.JSXElementConstructor<any>
-                                >
-                              | Iterable<React.ReactNode>
-                              | React.ReactPortal
-                              | null
-                              | undefined;
+                            company: any;
+                            directorate: any;
+                            division: any;
+                            section: any;
                           }) => (
                             <tr key={selectedPosition.position}>
                               {/* Kolom 1 */}
@@ -357,7 +288,6 @@ const DetailEmployee = ({ employeeData }: any) => {
                                     {selectedPosition.section}
                                   </p>
                                 </div>
-                                {/* Add more details here */}
                               </td>
                             </tr>
                           )

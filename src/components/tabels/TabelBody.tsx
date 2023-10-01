@@ -54,6 +54,8 @@ const TabelBody: React.FC<TabelBodyProps> = ({
   onEditNavigate,
   onDetailNavigate,
 }) => {
+  console.log('inputField 2', inputFields);
+
   const [activeDropdown, setActiveDropdown] = useState<number | null | boolean>(
     null
   );
@@ -79,6 +81,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
   const openEditModal = useCallback(
     async (id: number) => {
       if (data) {
+        console.log('data', data);
         const dataToEdit = await data.find((item: any) => item.id === id);
         if (dataToEdit) {
           setEditId(id);
