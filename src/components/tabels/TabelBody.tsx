@@ -40,6 +40,7 @@ interface TabelBodyProps {
   onDelete: (id: any) => void;
   onEditNavigate?: string;
   onDetailNavigate?: string;
+  changeIsActive?: (idIsActive: any, newIsActive: any) => Promise<any>;
 }
 
 const TabelBody: React.FC<TabelBodyProps> = ({
@@ -53,9 +54,8 @@ const TabelBody: React.FC<TabelBodyProps> = ({
   fetchDetailedData,
   onEditNavigate,
   onDetailNavigate,
+  changeIsActive,
 }) => {
-  console.log('inputField 2', inputFields);
-
   const [activeDropdown, setActiveDropdown] = useState<number | null | boolean>(
     null
   );
@@ -81,7 +81,6 @@ const TabelBody: React.FC<TabelBodyProps> = ({
   const openEditModal = useCallback(
     async (id: number) => {
       if (data) {
-        console.log('data', data);
         const dataToEdit = await data.find((item: any) => item.id === id);
         if (dataToEdit) {
           setEditId(id);
@@ -130,9 +129,8 @@ const TabelBody: React.FC<TabelBodyProps> = ({
           fetchDetailedData(id);
           setIsDetailModalOpen(true);
 
-          const employeeId = id;
-
           if (onDetailNavigate) {
+            const employeeId = id;
             const navigateUrl = onDetailNavigate.replace(
               '{employeeId}',
               employeeId.toString()
@@ -244,18 +242,21 @@ const TabelBody: React.FC<TabelBodyProps> = ({
             type="checkbox"
             value=""
             className="sr-only peer"
-            defaultChecked
-            checked={customCell[cell.key] === 1}
-            onChange={() => {
-              // const newValue = customCell[cell.key] === 1 ? 0 : 1; // Toggle between 0 and 1
-              // Ubah nilai customCell.key
-              // customCell[cell.key] = newValue;
-              // Anda juga bisa menjalankan tindakan lain yang Anda butuhkan di sini
+            defaultChecked={customCell[cell.key] === 1}
+            onChange={async () => {
+              const newValue = customCell[cell.key] === 1 ? 0 : 1;
+              try {
+                if (changeIsActive) {
+                  await changeIsActive(customCell.id, newValue);
+                }
+              } catch (error) {
+                console.error('Error changing is_active:', error);
+              }
             }}
           />
 
           <div
-            className={`w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600`}
+            className={`w-11 h-6 bg-red-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-white dark:peer-focus:ring-gray-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600`}
           ></div>
         </label>
       );
@@ -263,7 +264,9 @@ const TabelBody: React.FC<TabelBodyProps> = ({
 
     if (cell.key === 'location[0].location_name') {
       return customCell.location[0].location_name;
-    } else if (['fullname', 'company_email'].includes(cell.key)) {
+    } else if (
+      ['fullname', 'company_email', 'main_position'].includes(cell.key)
+    ) {
       return truncateText(customCell[cell.key], 16);
     } else if (
       locationPathname.includes('/position/posisi') &&
@@ -374,7 +377,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
             <table className="w-full text-sm text-left">
               <thead className="text-xs uppercase">
                 <tr>
-                  <th scope="col" className="px-2 py-4 text-center"></th>
+                  <th scope="col" className="px-2 py-4 w-14"></th>
                   {colCells.map((cell, index) => (
                     <th key={index} scope="col" className={`px-2 py-4`}>
                       {cell.text}
