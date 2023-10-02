@@ -28,9 +28,9 @@ function MainLayout({ children }: any) {
     !hiddenSidebarPaths.some((path) => location.pathname.startsWith(path));
 
   return (
-    <div className="flex gap-5 ">
+    <div className="flex md:flex-row flex-col ">
       {shouldShowSidebar && <Sidebar />}
-      <main className={shouldShowSidebar ? 'flex-1 py-4 mx-auto' : 'w-full'}>
+      <main className={shouldShowSidebar ? 'flex-1 py-2 mx-auto max-w-sm md:max-w-none' : 'w-full'}>
         {children}
       </main>
     </div>

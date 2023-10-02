@@ -244,7 +244,7 @@ const Sidebar = () => {
             <CloseSidebarIcon />
           </motion.div>
         </motion.div>
-        <div className="m-3 md:hidden " onClick={() => setOpen(true)}>
+        <div className="m-3 md:hidden" onClick={() => setOpen(true)}>
           <ReponsiveSidebarIcon />
         </div>
       </div>
