@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { CloseButtonIcon, PlusIcon } from '../../assets/icons/icon';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getCompany } from '../../api/CompanyAPI';
+import ReactLoading from 'react-loading';
+
 import {
   ErrorAlert,
   SuccessAlert,
@@ -52,8 +54,8 @@ const EditPropertySalaryCard = () => {
     company_id: string | number;
     salary_name: string;
     is_active: number;
-    component: {
-      list_id: number;
+    components: {
+      component_id: number;
       order: number;
       component_name: string;
       type: string;
@@ -65,7 +67,7 @@ const EditPropertySalaryCard = () => {
     company_id: '',
     salary_name: '',
     is_active: 1,
-    component: [],
+    components: [],
   });
 
   // Alert State
@@ -78,6 +80,8 @@ const EditPropertySalaryCard = () => {
   // Checkbox State
   const [leftActiveCheckbox, setLeftActiveCheckbox] = useState(true);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const navigate = useNavigate();
 
   //* LOCAL STORAGE SECTION
@@ -89,7 +93,7 @@ const EditPropertySalaryCard = () => {
     const savedData = localStorage.getItem('salaryData');
     if (savedData) {
       const parsedData = JSON.parse(savedData);
-      return parsedData.component || [];
+      return parsedData.components || [];
     }
     return [];
   };
@@ -140,12 +144,6 @@ const EditPropertySalaryCard = () => {
       if (savedData) {
         // Parse objek JSON dari data yang diambil dari localStorage
         const parsedData = JSON.parse(savedData);
-
-        // Ubah nama atribut 'component' menjadi 'components' jika ada
-        if (parsedData.component) {
-          parsedData.components = parsedData.component;
-          delete parsedData.component;
-        }
 
         // Simpan kembali objek yang telah diubah
         localStorage.setItem('salaryData', JSON.stringify(parsedData));
@@ -218,51 +216,73 @@ const EditPropertySalaryCard = () => {
     saveDataToLocalStorage(updatedFormData);
   };
 
-  const handleOrderChange = (e: any, index: number) => {
-    const newOrder = parseInt(e.target.value, 10);
+  const handleOrderChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    componentId: number
+  ) => {
+    const inputValue = e.target.value;
+    const newOrder = parseInt(inputValue, 10);
 
     // Update the formData and save to local storage
-    const updatedComponents = [...formData.component];
-    updatedComponents[index].order = newOrder;
+    const updatedComponents = [...formData.components];
+    const componentIndex = updatedComponents.findIndex(
+      (component) => component.component_id === componentId
+    );
 
-    const updatedFormData = {
-      ...formData,
-      component: updatedComponents,
-    };
+    if (componentIndex !== -1) {
+      updatedComponents[componentIndex].order = newOrder;
+      const updatedFormData = {
+        ...formData,
+        components: updatedComponents,
+      };
 
-    // Update tableData state
-    const updatedTableData = [...tableData];
-    updatedTableData[index].order = newOrder;
-    setTabelData(updatedTableData);
+      // Update tableData state
+      const updatedTableData = [...tableData];
+      const tableDataIndex = updatedTableData.findIndex(
+        (row) => row.component_id === componentId
+      );
 
-    // Save data to local storage
-    setFormData(updatedFormData);
-    saveDataToLocalStorage(updatedFormData);
+      if (tableDataIndex !== -1) {
+        updatedTableData[tableDataIndex].order = newOrder;
+        setTabelData(updatedTableData);
+      }
+
+      // Save data to local storage
+      setFormData(updatedFormData);
+      saveDataToLocalStorage(updatedFormData);
+    }
   };
 
   ///* RIGHT CARD SECTION
 
   // Handle Hide Checkbox
-  const handleIsHideCheckboxChange = (e: any, list_id: any) => {
+  const handleIsHideCheckboxChange = (e: any, component_id: any) => {
     const isChecked = e.target.checked;
+    console.log('is check', isChecked);
 
     // Update the formData and save to local storage
-    const updatedComponents = [...formData.component];
+    const updatedComponents = [...formData.components];
+    console.log('updatedComponents', updatedComponents);
 
     const componentIndex = updatedComponents.findIndex(
-      (compo) => compo.list_id === list_id
+      (component) => component.component_id === component_id
     );
+    console.log('componentIndex', componentIndex);
 
     if (componentIndex !== -1) {
       updatedComponents[componentIndex].is_hide = isChecked ? 1 : 0;
+      console.log('lah', updatedComponents[componentIndex].is_hide);
 
       const updatedFormData = {
         ...formData,
-        component: updatedComponents,
+        components: updatedComponents,
       };
 
       // Update tableData state
+      console.log('tabelData', tableData);
       const updatedTableData = [...tableData];
+      console.log('updatedTabelData', updatedTableData);
+
       updatedTableData[componentIndex].is_hide = isChecked ? 1 : 0;
       setTabelData(updatedTableData);
 
@@ -272,13 +292,13 @@ const EditPropertySalaryCard = () => {
     }
   };
 
-  const handleIsEditCheckboxChange = (e: any, list_id: any) => {
+  const handleIsEditCheckboxChange = (e: any, component_id: any) => {
     const isChecked = e.target.checked;
 
     // Update the formData and save to local storage
-    const updatedComponents = [...formData.component];
+    const updatedComponents = [...formData.components];
     const componentIndex = updatedComponents.findIndex(
-      (compo) => compo.list_id === list_id
+      (component) => component.component_id === component_id
     );
 
     if (componentIndex !== -1) {
@@ -286,7 +306,7 @@ const EditPropertySalaryCard = () => {
 
       const updatedFormData = {
         ...formData,
-        component: updatedComponents,
+        components: updatedComponents,
       };
 
       // Update tableData state
@@ -301,13 +321,13 @@ const EditPropertySalaryCard = () => {
   };
 
   // Handle Right Is Active Checkbox
-  const handleRightActiveChecboxChange = (e: any, list_id: any) => {
+  const handleRightActiveChecboxChange = (e: any, component_id: any) => {
     const isChecked = e.target.checked;
 
     // Update the formData and save to local storage
-    const updatedComponents = [...formData.component];
+    const updatedComponents = [...formData.components];
     const componentIndex = updatedComponents.findIndex(
-      (compo) => compo.list_id === list_id
+      (component) => component.component_id === component_id
     );
 
     if (componentIndex !== -1) {
@@ -315,7 +335,7 @@ const EditPropertySalaryCard = () => {
 
       const updatedFormData = {
         ...formData,
-        component: updatedComponents,
+        components: updatedComponents,
       };
 
       // Update tableData state
@@ -330,13 +350,13 @@ const EditPropertySalaryCard = () => {
   };
 
   const handleDeleteComponent = (listIdToRemove: any) => {
-    // Cari indeks komponen yang akan dihapus berdasarkan list_id
-    const indexToRemove = formData.component.findIndex(
-      (compo) => compo.list_id === listIdToRemove
+    // Cari indeks komponen yang akan dihapus berdasarkan component_id
+    const indexToRemove = formData.components.findIndex(
+      (component) => component.component_id === listIdToRemove
     );
 
     if (indexToRemove !== -1) {
-      const updatedComponents = [...formData.component];
+      const updatedComponents = [...formData.components];
       updatedComponents.splice(indexToRemove, 1);
 
       const updatedTableData = [...tableData];
@@ -344,7 +364,7 @@ const EditPropertySalaryCard = () => {
 
       const updatedFormData = {
         ...formData,
-        component: updatedComponents,
+        components: updatedComponents,
       };
 
       setFormData(updatedFormData);
@@ -361,6 +381,7 @@ const EditPropertySalaryCard = () => {
       onConfirm: () => handleDeleteComponent(index),
     });
   };
+
   ///* TABEL HEADER SECTION
   // Handler Open Modal
   const openModalAdd = () => {
@@ -376,7 +397,7 @@ const EditPropertySalaryCard = () => {
     // Menghapus semua komponen dari state formData dan tableData
     const clearedFormData = {
       ...formData,
-      component: [],
+      components: [],
     };
 
     setFormData(clearedFormData);
@@ -457,8 +478,8 @@ const EditPropertySalaryCard = () => {
         );
       }
 
-      const componentExists = formData.component.some(
-        (compo) => compo.component_name === newComponentId
+      const componentExists = formData.components.some(
+        (component) => component.component_name === newComponentId
       );
 
       if (componentExists) {
@@ -472,7 +493,7 @@ const EditPropertySalaryCard = () => {
       }
 
       // Calculate the next order value by finding the maximum order value among existing component
-      const maxOrder = formData.component.reduce(
+      const maxOrder = formData.components.reduce(
         (max, component) => Math.max(max, component.order),
         0
       );
@@ -480,7 +501,7 @@ const EditPropertySalaryCard = () => {
       setMaxList(maxList + 1);
 
       const newComponent = {
-        list_id: maxList,
+        component_id: maxList,
         order: maxOrder + 1,
         component_name: newComponentId,
         type: newComponentType,
@@ -489,14 +510,14 @@ const EditPropertySalaryCard = () => {
         is_active: 1,
       };
 
-      const updatedComponents = Array.isArray(formData.component)
-        ? [...formData.component, newComponent]
+      const updatedComponents = Array.isArray(formData.components)
+        ? [...formData.components, newComponent]
         : [newComponent];
 
       // Update the formData with the new component
       const newFormData = {
         ...formData,
-        component: updatedComponents,
+        components: updatedComponents,
       };
 
       // Set the updated form data
@@ -535,8 +556,11 @@ const EditPropertySalaryCard = () => {
   //* USE EFFECT SECTION
   const fetchData = useCallback(async () => {
     try {
+      setIsLoading(true);
+
       const response = await getDetailConfigureSalary(salaryId);
       const configureSalaryData = response.data;
+      console.log(';aj', configureSalaryData);
 
       setCompanyDropdownValue(configureSalaryData.company_id);
       setSalaryNameValue(configureSalaryData.salary_name);
@@ -546,8 +570,14 @@ const EditPropertySalaryCard = () => {
       setFormData(configureSalaryData);
 
       saveDataToLocalStorage(configureSalaryData);
+
+      const updatedTableData = getLocalStorageData();
+      console.log('updated', updatedTableData);
+      setTabelData(updatedTableData);
     } catch (error: any) {
       console.error('Error fetching data:', error);
+    } finally {
+      setIsLoading(false);
     }
   }, [salaryId]);
 
@@ -587,19 +617,19 @@ const EditPropertySalaryCard = () => {
   }, [fetchData, fetchTypeOptions]);
 
   const componentByType: { [key: string]: any[] } = {};
-  formData.component.forEach((compo: any) => {
-    const type = compo.type;
+  formData.components.forEach((component: any) => {
+    const type = component.type;
     if (!componentByType[type]) {
       componentByType[type] = [];
     }
-    componentByType[type].push(compo);
+    componentByType[type].push(component);
   });
   return (
     <>
       {/* Header Design  */}
       <header className="flex items-center justify-between p-5 shadow-lg ">
         <h1 className="p-2 text-lg font-medium border-b-2 border-primary ">
-          Add Configure Salary Page
+          Edit Configure Salary Page
         </h1>
         <div className="text-sm font-medium ">
           <button
@@ -616,6 +646,12 @@ const EditPropertySalaryCard = () => {
           </button>
         </div>
       </header>
+
+      {isLoading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <ReactLoading type="spin" color="green" height={50} width={50} />
+        </div>
+      )}
 
       {/* Left Card Design  */}
       <div className="flex h-screen m-8">
@@ -673,7 +709,7 @@ const EditPropertySalaryCard = () => {
                     onChange={handleLeftActiveCheckboxChange}
                   />
                   <div
-                    className={`w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600`}
+                    className={`w-11 h-6 bg-red-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-white dark:peer-focus:ring-gray-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600`}
                   ></div>
                 </label>
               </div>
@@ -726,7 +762,7 @@ const EditPropertySalaryCard = () => {
                           <button
                             onClick={() =>
                               showDeleteConfirmation(
-                                row.list_id,
+                                row.component_id,
                                 row.component_name
                               )
                             }
@@ -738,7 +774,9 @@ const EditPropertySalaryCard = () => {
                           <input
                             type="number"
                             value={row.order}
-                            onChange={(e) => handleOrderChange(e, row.list_id)}
+                            onChange={(e) =>
+                              handleOrderChange(e, row.component_id)
+                            }
                             className="w-24 bg-white border-b focus:outline-none"
                           />
                         </td>
@@ -755,7 +793,7 @@ const EditPropertySalaryCard = () => {
                             className="w-5 h-5 rounded focus:ring-primary"
                             checked={row.is_hide === 1}
                             onChange={(e) =>
-                              handleIsHideCheckboxChange(e, row.list_id)
+                              handleIsHideCheckboxChange(e, row.component_id)
                             }
                           />
                         </td>
@@ -765,7 +803,7 @@ const EditPropertySalaryCard = () => {
                             className="w-5 h-5 rounded focus:ring-primary"
                             checked={row.is_edit === 1}
                             onChange={(e) =>
-                              handleIsEditCheckboxChange(e, row.list_id)
+                              handleIsEditCheckboxChange(e, row.component_id)
                             }
                           />
                         </td>
@@ -777,11 +815,14 @@ const EditPropertySalaryCard = () => {
                               className="sr-only peer"
                               checked={row.is_active === 1}
                               onChange={(e) =>
-                                handleRightActiveChecboxChange(e, row.list_id)
+                                handleRightActiveChecboxChange(
+                                  e,
+                                  row.component_id
+                                )
                               }
                             />
                             <div
-                              className={`w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600`}
+                              className={`w-11 h-6 bg-red-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-white dark:peer-focus:ring-gray-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600`}
                             ></div>
                           </label>
                         </td>
