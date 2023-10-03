@@ -16,6 +16,7 @@ import {
   updateMasterSalary,
   deleteMasterSalary,
   searchMasterSalary,
+  changeIsActiveMasterComponent,
 } from '../../api/MasterSalaryAPI';
 
 import {
@@ -190,6 +191,25 @@ const MasterSalary: React.FC = () => {
     );
   };
 
+  const handleChangeIsActiveMasterComponent = async (
+    idIsActive: any,
+    newIsActive: any
+  ) => {
+    try {
+      await changeIsActiveMasterComponent(idIsActive, newIsActive);
+    } catch (error: any) {
+      console.error('Error change is active configureSalary:', error);
+      const errorMessages = Object.values(error.response.data.errors).flat();
+      setErrorMessage(errorMessages.join('\n'));
+    }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
+  };
+
   useEffect(() => {
     featchMasterSalary();
   }, []);
@@ -222,6 +242,7 @@ const MasterSalary: React.FC = () => {
         onDelete={handleDeleteMasterSalary}
         detailedData={detailedData}
         fetchDetailedData={featchDetailMasterSalary}
+        changeIsActive={handleChangeIsActiveMasterComponent}
       />
       <TabelFooter
         currentPage={currentPage}
