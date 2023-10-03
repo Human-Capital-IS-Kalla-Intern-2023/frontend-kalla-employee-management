@@ -133,7 +133,7 @@ const DetailEmployee = ({ employeeData }: any) => {
             <h2 className="mt-4 text-2xl text-center">
               {employeeData.fullname}
             </h2>
-            <p className="font-medium text-center">{employeeData.employeeId}</p>
+            <p className="mt-2 font-lg text-center">{employeeData.nip}</p>
 
             <div className="px-5">
               <div className="my-4 bg-white rounded-t-lg shadow-md ">
@@ -403,7 +403,7 @@ const DetailEmployee = ({ employeeData }: any) => {
                               Communication Allowance
                             </h2>
                             <p className="text-sm pl-7">Entitled</p>
-                            <p className="pb-1 text-sm border-b pl-7">
+                            <p className="pb-1 text-sm border-b pl-7 pt-2">
                               Regulation
                             </p>
                           </div>
@@ -427,7 +427,7 @@ const DetailEmployee = ({ employeeData }: any) => {
                           </div>
                           <div>
                             <h2 className="pt-3 text-base">Meals Allowance</h2>
-                            <p className="pb-6 text-sm border-b pl-7">
+                            <p className="pb-8 text-sm border-b pl-7">
                               Entitled
                             </p>
                           </div>
