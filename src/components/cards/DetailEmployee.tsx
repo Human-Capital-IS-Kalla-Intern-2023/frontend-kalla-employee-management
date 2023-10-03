@@ -21,6 +21,7 @@ const DetailEmployee = ({
   const [showEditModal, setShowEditModal] = useState(false);
   const [editedData, setEditedData] = useState(employeeData);
 
+  console.log('edited data');
   const toggleEditModal = () => {
     setShowEditModal(!showEditModal);
   };
@@ -38,7 +39,6 @@ const DetailEmployee = ({
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     setSelectedSecondaryPosition(event.target.value);
-    console.log(event.target.value);
   };
 
   const navigate = useNavigate();
@@ -207,7 +207,7 @@ const DetailEmployee = ({
                               {employeeData.additional_position.map(
                                 (position: any) => (
                                   <option
-                                    key={position.id_position_name}
+                                    key={position.id_additional_position}
                                     value={position.position_name}
                                   >
                                     {position.position_name}
