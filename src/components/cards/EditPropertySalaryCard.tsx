@@ -674,7 +674,9 @@ const EditPropertySalaryCard = () => {
                 onChange={handleCompanyChange}
                 className="block w-full px-3 py-2 mt-1 text-sm bg-white border rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
               >
-                <option value="">Select an option</option>
+                <option value="" disabled>
+                  Select an option
+                </option>
                 {companyOptions.map((option) => (
                   <option key={option.label} value={option.value}>
                     {option.label}
@@ -747,6 +749,14 @@ const EditPropertySalaryCard = () => {
               <th className="w-1/12 px-4 py-6 text-left">Active</th>
             </tr>
           </thead>
+
+          {Object.keys(componentByType).length === 0 && (
+            <div className="my-2 text-center">
+              <p className="py-4 mx-2 text-gray-500 rounded-md bg-slate-200">
+                No Data Avalaible
+              </p>
+            </div>
+          )}
           {Object.keys(componentByType).map((type, outerIndex) => (
             <div className="mt-2">
               <div key={outerIndex}>
@@ -909,7 +919,9 @@ const EditPropertySalaryCard = () => {
                     onChange={handleMasterComponentChange}
                     className="block w-full px-3 py-2 text-sm bg-white border rounded-md shadow-sm mt- focus:outline-none focus:ring-primary focus:border-primary"
                   >
-                    <option value="">Select an option</option>
+                    <option value="" disabled>
+                      Select an option
+                    </option>
                     {masterComponentOptions.map((option) => (
                       <option key={option.label} value={option.value}>
                         {option.label}
@@ -940,7 +952,7 @@ const EditPropertySalaryCard = () => {
                     id="type-dropdown"
                     name="type-dropdown"
                     value={typeMasterComponentOptions}
-                    disabled={!componentDropdownValue}
+                    disabled={!componentDropdownValue.id}
                     onChange={handleTypeChange}
                     className="block w-full px-3 py-2 mt-2 text-sm bg-white border rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
                   >
