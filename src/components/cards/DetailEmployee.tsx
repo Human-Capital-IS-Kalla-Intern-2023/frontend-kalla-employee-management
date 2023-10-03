@@ -14,7 +14,6 @@ const DetailEmployee = ({
   employeeData,
   onUpdateEmployee,
 }: DetailEmployeeProps) => {
-  console.log('inputField 1', inputField);
   const [showPrimaryAssignment, setShowPrimaryAssignment] = useState(false);
   const [selectedSecondaryPosition, setSelectedSecondaryPosition] =
     useState<string>('');
@@ -39,6 +38,7 @@ const DetailEmployee = ({
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     setSelectedSecondaryPosition(event.target.value);
+    console.log(event.target.value);
   };
 
   const navigate = useNavigate();
@@ -192,22 +192,25 @@ const DetailEmployee = ({
                     <tr>
                       {/* Kolom 1 */}
                       <td className="px-4 py-2 text-left align-top">
-                        {employeeData.secondaryPosition === undefined ? (
+                        {employeeData.additional_position.length === 0 ? (
                           <p>No Secondary Position</p>
                         ) : (
                           <div>
                             <select
                               value={selectedSecondaryPosition}
                               onChange={handleSecondaryPositionChange}
-                              className="p-1 border-2 border-black rounded-lg"
+                              className="w-full p-1 border-2 border-black rounded-lg"
                             >
-                              {employeeData.secondaryPosition.map(
-                                (position: { position: string }) => (
+                              <option value="" disabled>
+                                Select Additional Position
+                              </option>
+                              {employeeData.additional_position.map(
+                                (position: any) => (
                                   <option
-                                    key={position.position}
-                                    value={position.position}
+                                    key={position.id_position_name}
+                                    value={position.position_name}
                                   >
-                                    {position.position}
+                                    {position.position_name}
                                   </option>
                                 )
                               )}
@@ -236,20 +239,20 @@ const DetailEmployee = ({
                       </tr>
                     </thead>
                     <tbody>
-                      {employeeData.secondaryPosition
+                      {employeeData.additional_position
                         .filter(
-                          (position: { position: string }) =>
-                            position.position === selectedSecondaryPosition
+                          (position: any) =>
+                            position.position_name === selectedSecondaryPosition
                         )
                         .map(
                           (selectedPosition: {
-                            position: React.Key | null | undefined;
-                            company: any;
-                            directorate: any;
-                            division: any;
-                            section: any;
+                            position_name: any;
+                            company_name: any;
+                            directorate_name: any;
+                            division_name: any;
+                            section_name: any;
                           }) => (
-                            <tr key={selectedPosition.position}>
+                            <tr key={selectedPosition.position_name}>
                               {/* Kolom 1 */}
                               <td className="px-4 py-2 text-left align-top">
                                 <div>
@@ -257,7 +260,7 @@ const DetailEmployee = ({
                                     Company Name
                                   </h2>
                                   <p className="pb-1 text-base border-b">
-                                    {selectedPosition.company}
+                                    {selectedPosition.company_name}
                                   </p>
                                 </div>
                                 <div>
@@ -265,7 +268,7 @@ const DetailEmployee = ({
                                     Directorate
                                   </h2>
                                   <p className="pb-1 text-base border-b">
-                                    {selectedPosition.directorate}
+                                    {selectedPosition.directorate_name}
                                   </p>
                                 </div>
                                 <div>
@@ -273,7 +276,7 @@ const DetailEmployee = ({
                                     Division
                                   </h2>
                                   <p className="pb-1 text-base border-b">
-                                    {selectedPosition.division}
+                                    {selectedPosition.division_name}
                                   </p>
                                 </div>
                               </td>
@@ -285,7 +288,7 @@ const DetailEmployee = ({
                                     Section
                                   </h2>
                                   <p className="pb-1 text-base border-b">
-                                    {selectedPosition.section}
+                                    {selectedPosition.section_name}
                                   </p>
                                 </div>
                               </td>
