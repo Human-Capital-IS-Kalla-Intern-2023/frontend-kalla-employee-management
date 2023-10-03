@@ -127,10 +127,10 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
 
   return (
     <section
-      className="py-3 antialiased sm:py-3 overlay"
+      className="py-3 antialiased sm:py-3 overlay "
       onClick={handleOverlayClick}
     >
-      <div className="max-w-screen-xl px-4 mx-auto">
+      <div className="px-4 mx-auto">
         <div className="relative overflow-hidden bg-white shadow-md sm:rounded-lg">
           <div className="flex flex-col items-center justify-between p-3 space-y-3 rounded-md shadow-md md:flex-row md:space-y-0 md:space-x-4 bg-primary">
             <div className="w-full md:w-1/2">
@@ -171,7 +171,7 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
               <Link
                 to={onNavigate}
                 onClick={openModal}
-                className="flex items-center justify-center px-4 py-2 mr-3 text-sm font-medium duration-300 rounded-lg text-pureBlack bg-secondary focus:ring-4 bg-primary-600 hover:bg-yellow"
+                className="flex items-center justify-center px-4 py-2  text-sm font-medium duration-300 rounded-lg text-pureBlack bg-secondary focus:ring-4 bg-primary-600 hover:bg-yellow"
               >
                 <PlusIcon className="h-3.5 w-3.5 mr-2" />
                 {addButtonText}

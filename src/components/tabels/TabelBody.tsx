@@ -372,7 +372,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
   return (
     <section className="py-3 antialiased sm:py-2 overlay">
       <div className="max-w-screen-xl px-4 mx-auto">
-        <div className="relative overflow-x-auto bg-white shadow-custom sm:rounded-lg">
+        <div className="relative bg-white shadow-custom sm:rounded-lg">
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left">
               <thead className="text-xs uppercase">
