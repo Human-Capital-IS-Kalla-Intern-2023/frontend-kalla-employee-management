@@ -188,8 +188,6 @@ const Employee: React.FC = () => {
     featchEmployee();
   }, []);
 
-  console.log('inputField 3', inputField);
-
   return (
     <>
       <h1 className="px-4">Employee Page</h1>

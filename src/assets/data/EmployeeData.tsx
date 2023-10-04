@@ -51,7 +51,7 @@ const inputField = [
     options: [],
   },
   {
-    id: 'second_position',
+    id: 'additional_position',
     label: 'Posisi Lainnya',
     name: 'id_additional_position',
     type: 'select',

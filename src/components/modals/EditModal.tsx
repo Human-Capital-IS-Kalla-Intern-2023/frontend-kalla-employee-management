@@ -37,8 +37,25 @@ const EditModal = ({
       }));
     } else {
       let parsedValue = value;
-      if (name === 'id_main_position' || name === 'id_additional_position') {
+      if (name === 'id_main_position') {
         parsedValue = parseInt(value, 10) || null;
+      }
+
+      if (name === 'id_additional_position') {
+        const selectedOptions = Array.isArray(value)
+          ? value.map((option) => option.value)
+          : [parseInt(value, 10) || null];
+
+        // Hapus posisi tambahan yang dipilih sebelumnya dari formData
+        const updatedAdditionalPositions = formData[
+          'id_additional_position'
+        ].filter((position: any) => !selectedOptions.includes(position));
+
+        setFormData((prevData) => ({
+          ...prevData,
+          [name]: selectedOptions,
+          id_additional_position: updatedAdditionalPositions,
+        }));
       }
 
       setFormData((prevData) => ({
@@ -69,7 +86,7 @@ const EditModal = ({
       const initialData: FormData = {};
       inputFields.forEach((field: any) => {
         if (field.type === 'select' && field.isMulti) {
-          // Pastikan initialFormData[field.name] adalah array
+          // Handle multi-select fields
           initialData[field.name] = initialFormData[field.name] || [];
         } else if (field.type === 'checkbox') {
           // Initialize checkboxes based on initialFormData
@@ -85,9 +102,13 @@ const EditModal = ({
       initialData['is_edit'] = initialFormData['is_edit'] === 1 ? 1 : 0;
 
       // Check 'id_additional_position' if it exists in initialFormData
-      if ('id_additional_position' in initialFormData) {
-        initialData['id_additional_position'] =
-          initialFormData['id_additional_position'];
+      if ('additional_position' in initialFormData) {
+        initialData['id_additional_position'] = initialFormData[
+          'additional_position'
+        ].map((position: any) => position.id_additional_position);
+      } else {
+        // Handle the case when 'additional_position' is not present
+        initialData['id_additional_position'] = [];
       }
 
       setFormData(initialData);
@@ -101,6 +122,8 @@ const EditModal = ({
   }, [isOpen]);
 
   if (!isOpen) return null;
+
+  console.log('formData', formData);
 
   return (
     <div className="fixed inset-0 z-20 flex items-center justify-center bg-black bg-opacity-50 overlay">
@@ -132,9 +155,16 @@ const EditModal = ({
               {field.type === 'select' ? (
                 field.isMulti ? (
                   <Select
+                    key={field.name}
                     id={field.id}
                     name={field.name}
                     isMulti={field.isMulti}
+                    value={formData[field.name]?.map(
+                      (selectedValue: any) =>
+                        field.options.find(
+                          (option: any) => option.value === selectedValue
+                        ) || null
+                    )}
                     className="w-full"
                     options={field.options}
                     onChange={(selectedOptions) =>
@@ -154,7 +184,7 @@ const EditModal = ({
                   >
                     <option value="">Select {field.label}</option>
                     {field.options.map((option: any) => (
-                      <option key={option.value} value={option.value}>
+                      <option key={option.label} value={option.value}>
                         {option.label}
                       </option>
                     ))}
