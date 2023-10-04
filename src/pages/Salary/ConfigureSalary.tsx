@@ -16,6 +16,7 @@ import {
   updateConfigureSalary,
   deleteConfigureSalary,
   searchConfigureSalary,
+  changeIsActiveSalarySBU,
 } from '../../api/ConfigureSalaryAPI';
 
 import {
@@ -193,6 +194,25 @@ const ConfigureSalary: React.FC = () => {
     );
   };
 
+  const handleChangeIsActiveSalarySBU = async (
+    idIsActive: any,
+    newIsActive: any
+  ) => {
+    try {
+      await changeIsActiveSalarySBU(idIsActive, newIsActive);
+    } catch (error: any) {
+      console.error('Error change is active configureSalary:', error);
+      const errorMessages = Object.values(error.response.data.errors).flat();
+      setErrorMessage(errorMessages.join('\n'));
+    }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
+  };
+
   useEffect(() => {
     featchConfigureSalary();
   }, []);
@@ -227,6 +247,7 @@ const ConfigureSalary: React.FC = () => {
         detailedData={detailedData}
         fetchDetailedData={featchDetailConfigureSalary}
         onEditNavigate="payroll_component/edit/{salaryId}"
+        changeIsActive={handleChangeIsActiveSalarySBU}
       />
       <TabelFooter
         currentPage={currentPage}

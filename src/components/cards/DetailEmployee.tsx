@@ -3,23 +3,24 @@ import profileImg from '../../assets/img/profileImg.png';
 import { useNavigate } from 'react-router-dom';
 import ReactLoading from 'react-loading';
 import EditModal from '../modals/EditModal';
-import { updateEmployee } from '../../api/EmployeeAPI';
 import { inputField } from '../../assets/data/EmployeeData';
-import { ResetAlert } from '../../helpers/ResetAlert';
-import { SuccessAlert, ErrorAlert } from '../alerts/CustomAlert';
 
 const DetailEmployee = ({ employeeData }: any) => {
+type DetailEmployeeProps = {
+  employeeData: any;
+  onUpdateEmployee: (formData: string, id: number) => void;
+};
+
+const DetailEmployee = ({
+  employeeData,
+  onUpdateEmployee,
+}: DetailEmployeeProps) => {
+  const [showPrimaryAssignment, setShowPrimaryAssignment] = useState(false);
   const [selectedSecondaryPosition, setSelectedSecondaryPosition] =
     useState<string>('');
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [editedData, setEditedData] = useState(employeeData);
-
-  // Alert State
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [successTitle, setSuccessTitle] = useState<string | null>(null);
-  const [errorTitle, setErrorTitle] = useState<string | null>(null);
 
   const toggleEditModal = () => {
     setShowEditModal(!showEditModal);
@@ -29,6 +30,7 @@ const DetailEmployee = ({ employeeData }: any) => {
     toggleEditModal();
     setEditedData(employeeData);
   };
+
 
   const handleEditEmployee = async (formData: string, id: number) => {
     try {
@@ -49,11 +51,11 @@ const DetailEmployee = ({ employeeData }: any) => {
     );
   };
 
-
   const handleSecondaryPositionChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     setSelectedSecondaryPosition(event.target.value);
+    console.log(event.target.value);
   };
 
   const navigate = useNavigate();
@@ -98,16 +100,10 @@ const DetailEmployee = ({ employeeData }: any) => {
           title="Edit Employee"
           inputFields={inputField}
           initialFormData={editedData}
-          onSubmit={handleEditEmployee} // Define a function to handle the edit submission
+          onSubmit={onUpdateEmployee}
         />
       )}
 
-      {successMessage && successTitle && (
-        <SuccessAlert title={successTitle} text={successMessage} />
-      )}
-      {errorMessage && errorTitle && (
-        <ErrorAlert title={errorTitle} text={errorMessage} />
-      )}
       <div className="max-w-screen-xl px-4 pt-6 mx-auto">
         <div className="relative overflow-hidden sm:rounded-lg">
           <div className="pt-4 overflow-x-auto">
@@ -213,22 +209,25 @@ const DetailEmployee = ({ employeeData }: any) => {
                     <tr>
                       {/* Kolom 1 */}
                       <td className="px-4 py-2 text-left align-top">
-                        {employeeData.secondaryPosition === undefined ? (
+                        {employeeData.additional_position.length === 0 ? (
                           <p>No Secondary Position</p>
                         ) : (
                           <div>
                             <select
                               value={selectedSecondaryPosition}
                               onChange={handleSecondaryPositionChange}
-                              className="p-1 border-2 border-black rounded-lg"
+                              className="w-full p-1 border-2 border-black rounded-lg"
                             >
-                              {employeeData.secondaryPosition.map(
-                                (position: { position: string }) => (
+                              <option value="" disabled>
+                                Select Additional Position
+                              </option>
+                              {employeeData.additional_position.map(
+                                (position: any) => (
                                   <option
-                                    key={position.position}
-                                    value={position.position}
+                                    key={position.id_position_name}
+                                    value={position.position_name}
                                   >
-                                    {position.position}
+                                    {position.position_name}
                                   </option>
                                 )
                               )}
@@ -257,64 +256,20 @@ const DetailEmployee = ({ employeeData }: any) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {employeeData.secondaryPosition
+                      {employeeData.additional_position
                         .filter(
-                          (position: { position: string }) =>
-                            position.position === selectedSecondaryPosition
+                          (position: any) =>
+                            position.position_name === selectedSecondaryPosition
                         )
                         .map(
                           (selectedPosition: {
-                            position: React.Key | null | undefined;
-                            company:
-                              | string
-                              | number
-                              | boolean
-                              | React.ReactElement<
-                                  any,
-                                  string | React.JSXElementConstructor<any>
-                                >
-                              | Iterable<React.ReactNode>
-                              | React.ReactPortal
-                              | null
-                              | undefined;
-                            directorate:
-                              | string
-                              | number
-                              | boolean
-                              | React.ReactElement<
-                                  any,
-                                  string | React.JSXElementConstructor<any>
-                                >
-                              | Iterable<React.ReactNode>
-                              | React.ReactPortal
-                              | null
-                              | undefined;
-                            division:
-                              | string
-                              | number
-                              | boolean
-                              | React.ReactElement<
-                                  any,
-                                  string | React.JSXElementConstructor<any>
-                                >
-                              | Iterable<React.ReactNode>
-                              | React.ReactPortal
-                              | null
-                              | undefined;
-                            section:
-                              | string
-                              | number
-                              | boolean
-                              | React.ReactElement<
-                                  any,
-                                  string | React.JSXElementConstructor<any>
-                                >
-                              | Iterable<React.ReactNode>
-                              | React.ReactPortal
-                              | null
-                              | undefined;
+                            position_name: any;
+                            company_name: any;
+                            directorate_name: any;
+                            division_name: any;
+                            section_name: any;
                           }) => (
-                            <tr key={selectedPosition.position}>
+                            <tr key={selectedPosition.position_name}>
                               {/* Kolom 1 */}
                               <td className="px-4 py-2 text-left align-top">
                                 <div>
@@ -322,7 +277,7 @@ const DetailEmployee = ({ employeeData }: any) => {
                                     Company Name
                                   </h2>
                                   <p className="pb-1 text-base border-b">
-                                    {selectedPosition.company}
+                                    {selectedPosition.company_name}
                                   </p>
                                 </div>
                                 <div>
@@ -330,7 +285,7 @@ const DetailEmployee = ({ employeeData }: any) => {
                                     Directorate
                                   </h2>
                                   <p className="pb-1 text-base border-b">
-                                    {selectedPosition.directorate}
+                                    {selectedPosition.directorate_name}
                                   </p>
                                 </div>
                                 <div>
@@ -338,7 +293,7 @@ const DetailEmployee = ({ employeeData }: any) => {
                                     Division
                                   </h2>
                                   <p className="pb-1 text-base border-b">
-                                    {selectedPosition.division}
+                                    {selectedPosition.division_name}
                                   </p>
                                 </div>
                               </td>
@@ -350,10 +305,9 @@ const DetailEmployee = ({ employeeData }: any) => {
                                     Section
                                   </h2>
                                   <p className="pb-1 text-base border-b">
-                                    {selectedPosition.section}
+                                    {selectedPosition.section_name}
                                   </p>
                                 </div>
-                                {/* Add more details here */}
                               </td>
                             </tr>
                           )

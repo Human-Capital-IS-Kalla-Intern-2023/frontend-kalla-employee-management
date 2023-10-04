@@ -47,7 +47,7 @@ const AddPropertySalaryCard = () => {
     salary_name: string;
     is_active: number;
     components: {
-      list_id: number;
+      component_id: number;
       order: number;
       component_name: string;
       type: string;
@@ -207,7 +207,7 @@ const AddPropertySalaryCard = () => {
   };
 
   const handleOrderChange = (e: any, index: number) => {
-    const newOrder = parseInt(e.target.value, 10);
+    const newOrder = e.target.value;
 
     // Update the formData and save to local storage
     const updatedComponents = [...formData.components];
@@ -231,18 +231,22 @@ const AddPropertySalaryCard = () => {
   ///* RIGHT CARD SECTION
 
   // Handle Hide Checkbox
-  const handleIsHideCheckboxChange = (e: any, list_id: any) => {
+  const handleIsHideCheckboxChange = (e: any, component_id: any) => {
     const isChecked = e.target.checked;
+    console.log('is check', isChecked);
 
     // Update the formData and save to local storage
     const updatedComponents = [...formData.components];
+    console.log('updatedComponents', updatedComponents);
 
     const componentIndex = updatedComponents.findIndex(
-      (component) => component.list_id === list_id
+      (component) => component.component_id === component_id
     );
+    console.log('componentIndex', componentIndex);
 
     if (componentIndex !== -1) {
       updatedComponents[componentIndex].is_hide = isChecked ? 1 : 0;
+      console.log('lah', updatedComponents[componentIndex].is_hide);
 
       const updatedFormData = {
         ...formData,
@@ -250,7 +254,11 @@ const AddPropertySalaryCard = () => {
       };
 
       // Update tableData state
+      console.log('tabelData', tableData);
+
       const updatedTableData = [...tableData];
+      console.log('updatedTabelData', updatedTableData);
+
       updatedTableData[componentIndex].is_hide = isChecked ? 1 : 0;
       setTabelData(updatedTableData);
 
@@ -260,13 +268,13 @@ const AddPropertySalaryCard = () => {
     }
   };
 
-  const handleIsEditCheckboxChange = (e: any, list_id: any) => {
+  const handleIsEditCheckboxChange = (e: any, component_id: any) => {
     const isChecked = e.target.checked;
 
     // Update the formData and save to local storage
     const updatedComponents = [...formData.components];
     const componentIndex = updatedComponents.findIndex(
-      (component) => component.list_id === list_id
+      (component) => component.component_id === component_id
     );
 
     if (componentIndex !== -1) {
@@ -289,13 +297,13 @@ const AddPropertySalaryCard = () => {
   };
 
   // Handle Right Is Active Checkbox
-  const handleRightActiveChecboxChange = (e: any, list_id: any) => {
+  const handleRightActiveChecboxChange = (e: any, component_id: any) => {
     const isChecked = e.target.checked;
 
     // Update the formData and save to local storage
     const updatedComponents = [...formData.components];
     const componentIndex = updatedComponents.findIndex(
-      (component) => component.list_id === list_id
+      (component) => component.component_id === component_id
     );
 
     if (componentIndex !== -1) {
@@ -318,9 +326,9 @@ const AddPropertySalaryCard = () => {
   };
 
   const handleDeleteComponent = (listIdToRemove: any) => {
-    // Cari indeks komponen yang akan dihapus berdasarkan list_id
+    // Cari indeks komponen yang akan dihapus berdasarkan component_id
     const indexToRemove = formData.components.findIndex(
-      (component) => component.list_id === listIdToRemove
+      (component) => component.component_id === listIdToRemove
     );
 
     if (indexToRemove !== -1) {
@@ -468,7 +476,7 @@ const AddPropertySalaryCard = () => {
 
       setMaxList(maxList + 1);
       const newComponent = {
-        list_id: maxList,
+        component_id: maxList,
         order: maxOrder + 1,
         component_name: newComponentId,
         type: newComponentType,
@@ -610,7 +618,9 @@ const AddPropertySalaryCard = () => {
                 onChange={handleCompanyChange}
                 className="block w-full px-3 py-2 mt-1 text-sm bg-white border rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
               >
-                <option value="">Select an option</option>
+                <option value="" disabled>
+                  Select an option
+                </option>
                 {companyOptions.map((option) => (
                   <option key={option.label} value={option.value}>
                     {option.label}
@@ -645,7 +655,7 @@ const AddPropertySalaryCard = () => {
                     onChange={handleLeftActiveCheckboxChange}
                   />
                   <div
-                    className={`w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600`}
+                    className={`w-11 h-6 bg-red-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-white dark:peer-focus:ring-gray-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600`}
                   ></div>
                 </label>
               </div>
@@ -683,6 +693,14 @@ const AddPropertySalaryCard = () => {
               <th className="w-1/12 px-4 py-6 text-left">Active</th>
             </tr>
           </thead>
+
+          {Object.keys(componentsByType).length === 0 && (
+            <div className="my-2 text-center">
+              <p className="py-4 mx-2 text-gray-500 rounded-md bg-slate-200">
+                No Data Avalaible
+              </p>
+            </div>
+          )}
           {Object.keys(componentsByType).map((type, outerIndex) => (
             <div className="mt-2" key={outerIndex}>
               <div>
@@ -698,7 +716,7 @@ const AddPropertySalaryCard = () => {
                           <button
                             onClick={() =>
                               showDeleteConfirmation(
-                                row.list_id,
+                                row.component_id,
                                 row.component_name
                               )
                             }
@@ -710,7 +728,9 @@ const AddPropertySalaryCard = () => {
                           <input
                             type="number"
                             value={row.order}
-                            onChange={(e) => handleOrderChange(e, row.list_id)}
+                            onChange={(e) =>
+                              handleOrderChange(e, row.component_id)
+                            }
                             className="w-24 bg-white border-b focus:outline-none"
                           />
                         </td>
@@ -726,7 +746,7 @@ const AddPropertySalaryCard = () => {
                             className="w-5 h-5 rounded focus:ring-primary"
                             checked={row.is_hide === 1}
                             onChange={(e) =>
-                              handleIsHideCheckboxChange(e, row.list_id)
+                              handleIsHideCheckboxChange(e, row.component_id)
                             }
                           />
                         </td>
@@ -736,7 +756,7 @@ const AddPropertySalaryCard = () => {
                             className="w-5 h-5 rounded focus:ring-primary"
                             checked={row.is_edit === 1}
                             onChange={(e) =>
-                              handleIsEditCheckboxChange(e, row.list_id)
+                              handleIsEditCheckboxChange(e, row.component_id)
                             }
                           />
                         </td>
@@ -748,7 +768,10 @@ const AddPropertySalaryCard = () => {
                               className="sr-only peer"
                               checked={row.is_active === 1}
                               onChange={(e) =>
-                                handleRightActiveChecboxChange(e, row.list_id)
+                                handleRightActiveChecboxChange(
+                                  e,
+                                  row.component_id
+                                )
                               }
                             />
                             <div
@@ -851,7 +874,9 @@ const AddPropertySalaryCard = () => {
                     onChange={handleMasterComponentChange}
                     className="block w-full px-3 py-2 text-sm bg-white border rounded-md shadow-sm mt- focus:outline-none focus:ring-primary focus:border-primary"
                   >
-                    <option value="">Select an option</option>
+                    <option value="" disabled>
+                      Select an option
+                    </option>
                     {masterComponentOptions.map((option) => (
                       <option key={option.label} value={option.value}>
                         {option.label}
@@ -883,7 +908,7 @@ const AddPropertySalaryCard = () => {
                     id="type-dropdown"
                     name="type-dropdown"
                     value={typeMasterComponentOptions}
-                    disabled={!componentDropdownValue}
+                    disabled={!componentDropdownValue.id}
                     onChange={handleTypeChange}
                     className="block w-full px-3 py-2 mt-2 text-sm bg-white border rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
                   >

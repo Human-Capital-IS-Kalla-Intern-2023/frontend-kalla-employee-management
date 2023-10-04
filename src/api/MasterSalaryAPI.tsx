@@ -146,6 +146,36 @@ const searchMasterSalary = async (searchInput: any) => {
   }
 };
 
+// Change Is Active MasterSalary
+const changeIsActiveMasterComponent = async (
+  idIsActive: any,
+  newIsActive: any
+) => {
+  try {
+    const token = TokenHelper();
+
+    const headerToken = {
+      Authorization: `Bearer ${token}`,
+    };
+    const sendData = { is_active: newIsActive };
+
+    const responseIsActiveChange = await RequestApi(
+      'PUT',
+      `salary-component/is_active/${idIsActive}`,
+      sendData,
+      headerToken,
+      'Mengubah Active Master'
+    );
+
+    console.log('response', responseIsActiveChange);
+
+    return responseIsActiveChange;
+  } catch (error) {
+    console.error('Kesalahan saat mengubah Active Master:', error);
+    throw error;
+  }
+};
+
 export {
   getMasterSalary,
   getDetailMasterSalary,
@@ -153,4 +183,5 @@ export {
   updateMasterSalary,
   deleteMasterSalary,
   searchMasterSalary,
+  changeIsActiveMasterComponent,
 };

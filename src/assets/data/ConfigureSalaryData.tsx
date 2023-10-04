@@ -3,7 +3,7 @@ import { getMasterSalary } from '../../api/MasterSalaryAPI';
 const colCells = [
   { key: 'salary_name', text: 'Name' },
   { key: 'company_name', text: 'Legal Employee' },
-  { key: 'component', text: 'Components' },
+  { key: 'components', text: 'Components' },
   { key: 'is_active', text: 'Active' },
 ];
 
