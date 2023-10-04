@@ -5,6 +5,7 @@ import ReactLoading from 'react-loading';
 import EditModal from '../modals/EditModal';
 import { inputField } from '../../assets/data/EmployeeData';
 
+const DetailEmployee = ({ employeeData }: any) => {
 type DetailEmployeeProps = {
   employeeData: any;
   onUpdateEmployee: (formData: string, id: number) => void;
@@ -30,8 +31,24 @@ const DetailEmployee = ({
     setEditedData(employeeData);
   };
 
-  const togglePrimaryAssignment = () => {
-    setShowPrimaryAssignment(!showPrimaryAssignment);
+
+  const handleEditEmployee = async (formData: string, id: number) => {
+    try {
+      const responseData = await updateEmployee(id, formData);
+      setSuccessTitle(`${responseData.status}`);
+      setSuccessMessage(`${responseData.message}`);
+    } catch (error: any) {
+      console.error('Error editing employee:', error);
+      setErrorTitle(`Error editing employee`);
+      const errorMessages = Object.values(error.response.data.errors).flat();
+      setErrorMessage(errorMessages.join('\n'));
+    }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   const handleSecondaryPositionChange = (
@@ -108,7 +125,7 @@ const DetailEmployee = ({
             <h2 className="mt-4 text-2xl text-center">
               {employeeData.fullname}
             </h2>
-            <p className="font-medium text-center">{employeeData.employeeId}</p>
+            <p className="mt-2 font-lg text-center">{employeeData.nip}</p>
 
             <div className="px-5">
               <div className="my-4 bg-white rounded-t-lg shadow-md ">
@@ -312,16 +329,11 @@ const DetailEmployee = ({
                         </h2>
                       </th>
                       <th className="w-1/2 px-4 py-2 text-right border-b-2">
-                        <button onClick={togglePrimaryAssignment}>
-                          <div className="font-medium text-white">
-                            {showPrimaryAssignment ? 'Hide' : 'Show'}
-                          </div>
-                        </button>
+                        
                       </th>
                     </tr>
                   </thead>
                   <tbody>
-                    {showPrimaryAssignment && (
                       <tr>
                         {/* Kolom 1 */}
                         <td className="px-4 py-2 text-left align-top ">
@@ -331,23 +343,7 @@ const DetailEmployee = ({
                               Entitled
                             </p>
                           </div>
-                          <div>
-                            <h2 className="pt-3 text-base">
-                              Communication Allowance
-                            </h2>
-                            <p className="text-sm pl-7">Entitled</p>
-                            <p className="pb-1 text-sm border-b pl-7">
-                              Regulation
-                            </p>
-                          </div>
-                          <div>
-                            <h2 className="pt-3 text-base ">
-                              Transportation Allowance
-                            </h2>
-                            <p className="pb-1 text-sm border-b pl-7">
-                              Entitled
-                            </p>
-                          </div>
+                          
                         </td>
 
                         {/* Kolom 2 */}
@@ -358,23 +354,9 @@ const DetailEmployee = ({
                               Entitled
                             </p>
                           </div>
-                          <div>
-                            <h2 className="pt-3 text-base">Meals Allowance</h2>
-                            <p className="pb-6 text-sm border-b pl-7">
-                              Entitled
-                            </p>
-                          </div>
-                          <div>
-                            <h2 className="pt-3 text-base">
-                              Parking Allowance
-                            </h2>
-                            <p className="pb-1 text-sm border-b pl-7">
-                              Entitled
-                            </p>
-                          </div>
+                          
                         </td>
                       </tr>
-                    )}
                   </tbody>
                 </table>
               </div>
