@@ -192,9 +192,9 @@ const TabelBody: React.FC<TabelBodyProps> = ({
 
   //Menentukan apakah tombol "Profile" harus ditampilkan
   useEffect(() => {
-  const currentPath = location.pathname;
-  const shouldShowProfileButton = currentPath === '/employee';
-  setShowProfileButton(shouldShowProfileButton);
+    const currentPath = location.pathname;
+    const shouldShowProfileButton = currentPath === '/employee';
+    setShowProfileButton(shouldShowProfileButton);
   }, [location.pathname]);
 
   const truncateText = (text: string, maxLength: number) => {
@@ -490,7 +490,6 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                                   />
                                 )}
                               </li>
-                              
                             </ul>
                           </div>
                         )}

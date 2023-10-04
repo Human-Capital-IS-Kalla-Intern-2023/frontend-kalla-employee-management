@@ -41,13 +41,20 @@ const EditModal = ({
         parsedValue = parseInt(value, 10) || null;
       }
 
-      if (name === 'id_main_position') {
+      if (name === 'id_additional_position') {
         const selectedOptions = Array.isArray(value)
           ? value.map((option) => option.value)
           : [parseInt(value, 10) || null];
+
+        // Hapus posisi tambahan yang dipilih sebelumnya dari formData
+        const updatedAdditionalPositions = formData[
+          'id_additional_position'
+        ].filter((position: any) => !selectedOptions.includes(position));
+
         setFormData((prevData) => ({
           ...prevData,
           [name]: selectedOptions,
+          id_additional_position: updatedAdditionalPositions,
         }));
       }
 

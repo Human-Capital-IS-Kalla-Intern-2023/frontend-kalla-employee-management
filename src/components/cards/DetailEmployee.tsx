@@ -5,7 +5,6 @@ import ReactLoading from 'react-loading';
 import EditModal from '../modals/EditModal';
 import { inputField } from '../../assets/data/EmployeeData';
 
-const DetailEmployee = ({ employeeData }: any) => {
 type DetailEmployeeProps = {
   employeeData: any;
   onUpdateEmployee: (formData: string, id: number) => void;
@@ -15,14 +14,12 @@ const DetailEmployee = ({
   employeeData,
   onUpdateEmployee,
 }: DetailEmployeeProps) => {
-  const [showPrimaryAssignment, setShowPrimaryAssignment] = useState(false);
   const [selectedSecondaryPosition, setSelectedSecondaryPosition] =
     useState<string>('');
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [editedData, setEditedData] = useState(employeeData);
 
-  console.log('edited data');
   const toggleEditModal = () => {
     setShowEditModal(!showEditModal);
   };
@@ -30,26 +27,6 @@ const DetailEmployee = ({
   const handleEdit = () => {
     toggleEditModal();
     setEditedData(employeeData);
-  };
-
-
-  const handleEditEmployee = async (formData: string, id: number) => {
-    try {
-      const responseData = await updateEmployee(id, formData);
-      setSuccessTitle(`${responseData.status}`);
-      setSuccessMessage(`${responseData.message}`);
-    } catch (error: any) {
-      console.error('Error editing employee:', error);
-      setErrorTitle(`Error editing employee`);
-      const errorMessages = Object.values(error.response.data.errors).flat();
-      setErrorMessage(errorMessages.join('\n'));
-    }
-    ResetAlert(
-      setSuccessTitle,
-      setSuccessMessage,
-      setErrorTitle,
-      setErrorMessage
-    );
   };
 
   const handleSecondaryPositionChange = (
@@ -125,7 +102,7 @@ const DetailEmployee = ({
             <h2 className="mt-4 text-2xl text-center">
               {employeeData.fullname}
             </h2>
-            <p className="mt-2 font-lg text-center">{employeeData.nip}</p>
+            <p className="font-medium text-center">{employeeData.nip}</p>
 
             <div className="px-5">
               <div className="my-4 bg-white rounded-t-lg shadow-md ">
@@ -224,7 +201,7 @@ const DetailEmployee = ({
                               {employeeData.additional_position.map(
                                 (position: any) => (
                                   <option
-                                    key={position.id_additional_position}
+                                    key={position.id_position_name}
                                     value={position.position_name}
                                   >
                                     {position.position_name}
@@ -317,50 +294,6 @@ const DetailEmployee = ({
                 </div>
               </div>
             )}
-
-            <div className="px-5">
-              <div className="my-4 bg-white rounded-lg shadow-xl ">
-                <table className="w-full p-5 table-auto">
-                  <thead>
-                    <tr className="bg-primary">
-                      <th className="w-1/2 px-4 py-2 text-left border-b-2">
-                        <h2 className="text-lg font-medium text-white">
-                          Allowance Information
-                        </h2>
-                      </th>
-                      <th className="w-1/2 px-4 py-2 text-right border-b-2">
-                        
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                      <tr>
-                        {/* Kolom 1 */}
-                        <td className="px-4 py-2 text-left align-top ">
-                          <div>
-                            <h2 className="text-base ">Positional Allowance</h2>
-                            <p className="pb-1 text-sm border-b pl-7">
-                              Entitled
-                            </p>
-                          </div>
-                          
-                        </td>
-
-                        {/* Kolom 2 */}
-                        <td className="px-4 py-2 text-left align-top">
-                          <div>
-                            <h2 className="text-base">Functional Allowance</h2>
-                            <p className="pb-1 text-sm border-b pl-7">
-                              Entitled
-                            </p>
-                          </div>
-                          
-                        </td>
-                      </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
           </div>
         </div>
       </div>
