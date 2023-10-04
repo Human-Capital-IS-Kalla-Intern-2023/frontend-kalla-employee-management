@@ -14,7 +14,7 @@ import {
   EditIcon,
   DetailIcon,
   TrashIcon,
-  // UserIcon,
+  UserIcon,
 } from '../../assets/icons/icon';
 
 interface ColCells {
@@ -187,14 +187,14 @@ const TabelBody: React.FC<TabelBodyProps> = ({
   const closeFilterDropdown = () => {
     setActiveDropdown(false);
   };
-  // const [showProfileButton, setShowProfileButton] = useState<boolean>(false);
+  const [showProfileButton, setShowProfileButton] = useState<boolean>(false);
 
-  // Menentukan apakah tombol "Profile" harus ditampilkan
-  // useEffect(() => {
-  //   const currentPath = location.pathname;
-  //   const shouldShowProfileButton = currentPath === '/employee';
-  //   setShowProfileButton(shouldShowProfileButton);
-  // }, [location.pathname]);
+  //Menentukan apakah tombol "Profile" harus ditampilkan
+  useEffect(() => {
+  const currentPath = location.pathname;
+  const shouldShowProfileButton = currentPath === '/employee';
+  setShowProfileButton(shouldShowProfileButton);
+  }, [location.pathname]);
 
   const truncateText = (text: string, maxLength: number) => {
     return text.length > maxLength
@@ -447,6 +447,20 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                                   />
                                 )}
                               </li>
+                              {showProfileButton && (
+                                <li>
+                                  <button
+                                    type="button"
+                                    className="flex items-center w-full px-4 py-2 duration-200 hover: hover:text-white hover:bg-primary"
+                                    onClick={() =>
+                                      navigate(`eligible/${customCell.id}`)
+                                    }
+                                  >
+                                    <UserIcon className="w-4 h-4 mr-2" />
+                                    Eligible
+                                  </button>
+                                </li>
+                              )}
                               <li>
                                 <Link
                                   to={`delete/${customCell.id}`}
@@ -470,20 +484,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                                   />
                                 )}
                               </li>
-                              {/* {showProfileButton && (
-                                <li>
-                                  <button
-                                    type="button"
-                                    className="flex items-center w-full px-4 py-2 duration-200 hover: hover:text-white hover:bg-primary"
-                                    onClick={() =>
-                                      navigate(`profile/${customCell.id}`)
-                                    }
-                                  >
-                                    <UserIcon className="w-4 h-4 mr-2" />
-                                    Profile
-                                  </button>
-                                </li> */}
-                              {/* )} */}
+                              
                             </ul>
                           </div>
                         )}

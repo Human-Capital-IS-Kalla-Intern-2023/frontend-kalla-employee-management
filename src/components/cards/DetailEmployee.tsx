@@ -9,7 +9,6 @@ import { ResetAlert } from '../../helpers/ResetAlert';
 import { SuccessAlert, ErrorAlert } from '../alerts/CustomAlert';
 
 const DetailEmployee = ({ employeeData }: any) => {
-  const [showPrimaryAssignment, setShowPrimaryAssignment] = useState(false);
   const [selectedSecondaryPosition, setSelectedSecondaryPosition] =
     useState<string>('');
 
@@ -50,9 +49,6 @@ const DetailEmployee = ({ employeeData }: any) => {
     );
   };
 
-  const togglePrimaryAssignment = () => {
-    setShowPrimaryAssignment(!showPrimaryAssignment);
-  };
 
   const handleSecondaryPositionChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -379,16 +375,11 @@ const DetailEmployee = ({ employeeData }: any) => {
                         </h2>
                       </th>
                       <th className="w-1/2 px-4 py-2 text-right border-b-2">
-                        <button onClick={togglePrimaryAssignment}>
-                          <div className="font-medium text-white">
-                            {showPrimaryAssignment ? 'Hide' : 'Show'}
-                          </div>
-                        </button>
+                        
                       </th>
                     </tr>
                   </thead>
                   <tbody>
-                    {showPrimaryAssignment && (
                       <tr>
                         {/* Kolom 1 */}
                         <td className="px-4 py-2 text-left align-top ">
@@ -398,23 +389,7 @@ const DetailEmployee = ({ employeeData }: any) => {
                               Entitled
                             </p>
                           </div>
-                          <div>
-                            <h2 className="pt-3 text-base">
-                              Communication Allowance
-                            </h2>
-                            <p className="text-sm pl-7">Entitled</p>
-                            <p className="pb-1 text-sm border-b pl-7 pt-2">
-                              Regulation
-                            </p>
-                          </div>
-                          <div>
-                            <h2 className="pt-3 text-base ">
-                              Transportation Allowance
-                            </h2>
-                            <p className="pb-1 text-sm border-b pl-7">
-                              Entitled
-                            </p>
-                          </div>
+                          
                         </td>
 
                         {/* Kolom 2 */}
@@ -425,23 +400,9 @@ const DetailEmployee = ({ employeeData }: any) => {
                               Entitled
                             </p>
                           </div>
-                          <div>
-                            <h2 className="pt-3 text-base">Meals Allowance</h2>
-                            <p className="pb-8 text-sm border-b pl-7">
-                              Entitled
-                            </p>
-                          </div>
-                          <div>
-                            <h2 className="pt-3 text-base">
-                              Parking Allowance
-                            </h2>
-                            <p className="pb-1 text-sm border-b pl-7">
-                              Entitled
-                            </p>
-                          </div>
+                          
                         </td>
                       </tr>
-                    )}
                   </tbody>
                 </table>
               </div>

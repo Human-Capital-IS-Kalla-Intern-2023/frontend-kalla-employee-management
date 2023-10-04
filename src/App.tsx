@@ -11,6 +11,8 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import Employee from './pages/Employee/Employee';
 import Reports from './pages/Reports/Reports';
 import ProfileEmployee from './pages/Employee/ProfileEmployee';
+import EligiblesEmployee from './pages/Employee/EligiblesEmployee';
+import EditEligibles from './pages/Employee/EditEligibles';
 
 import Position from './pages/Position/Position';
 import Grade from './pages/Salary/Grade';
@@ -72,11 +74,20 @@ const App = () => {
           ></Route>
 
           <Route
-            path="/employee/profile"
+            path="/employee/eligibles"
             element={
               <PrivateRoute
-                path="/employee/profile"
-                element={<ProfileEmployee />}
+                path="/employee/eligibles"
+                element={<EligiblesEmployee />}
+              />
+            }
+          />
+          <Route
+            path="/employee/editeligibles"
+            element={
+              <PrivateRoute
+                path="/employee/editeligibles"
+                element={<EditEligibles />}
               />
             }
           />
