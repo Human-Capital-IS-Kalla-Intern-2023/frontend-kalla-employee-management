@@ -83,10 +83,6 @@ const TabelBody: React.FC<TabelBodyProps> = ({
       if (data) {
         const dataToEdit = await data.find((item: any) => item.id === id);
         if (dataToEdit) {
-          setEditId(id);
-          setEditedData(dataToEdit);
-          setEditModalOpen(true);
-
           // Extract the salaryId from the onEditNavigate prop
           const salaryId = dataToEdit.id;
           if (onEditNavigate) {
@@ -94,7 +90,12 @@ const TabelBody: React.FC<TabelBodyProps> = ({
               '{salaryId}',
               salaryId.toString()
             );
-            navigate(navigateUrl);
+            // Use the `navigate` function with the correct URL
+            navigate(navigateUrl, { replace: true });
+          } else {
+            setEditId(id);
+            setEditedData(dataToEdit);
+            setEditModalOpen(true);
           }
         }
       }
@@ -127,22 +128,16 @@ const TabelBody: React.FC<TabelBodyProps> = ({
       if (fetchDetailedData) {
         try {
           fetchDetailedData(id);
-          setIsDetailModalOpen(true);
 
-          if (onDetailNavigate) {
-            const employeeId = id;
-            const navigateUrl = onDetailNavigate.replace(
-              '{employeeId}',
-              employeeId.toString()
-            );
-            navigate(navigateUrl);
+          if (!onDetailNavigate) {
+            setIsDetailModalOpen(true);
           }
         } catch (error) {
           console.error('Error fetching detailed data:', error);
         }
       }
     },
-    [fetchDetailedData, navigate, onDetailNavigate]
+    [fetchDetailedData, onDetailNavigate]
   );
 
   const closeDetailModal = useCallback(() => {
@@ -320,7 +315,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
             (item: any) => item.id === modalEditIdNumber
           );
 
-          if (dataToEdit) {
+          if (dataToEdit && !onEditNavigate) {
             setActiveDropdown(dataToEdit.id);
             setEditId(modalEditIdNumber);
             setEditedData(dataToEdit);
@@ -331,7 +326,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
         }
       }
     }
-  }, [data, modalEditId, navigate, openEditModal]);
+  }, [data, modalEditId, navigate, onEditNavigate, openEditModal]);
 
   useEffect(() => {
     if (modalDetailId !== undefined) {
@@ -340,7 +335,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
       if (!isNaN(modalDetailNumber)) {
         setActiveDropdown(modalDetailNumber);
 
-        if (!detailedData) {
+        if (!detailedData && !onDetailNavigate) {
           if (fetchDetailedData) {
             setIsDetailModalOpen(true);
             fetchDetailedData(modalDetailNumber);
@@ -348,7 +343,13 @@ const TabelBody: React.FC<TabelBodyProps> = ({
         }
       }
     }
-  }, [modalDetailId, navigate, detailedData, fetchDetailedData]);
+  }, [
+    modalDetailId,
+    navigate,
+    detailedData,
+    fetchDetailedData,
+    onDetailNavigate,
+  ]);
 
   useEffect(() => {
     if (modalDeleteId) {
@@ -415,14 +416,19 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                             <ul className="py-1 text-sm">
                               <li>
                                 <Link
-                                  to={`edit/${customCell.id}`}
+                                  to={
+                                    onEditNavigate
+                                      ? onEditNavigate
+                                      : `edit/${customCell.id}`
+                                  }
                                   onClick={() => openEditModal(customCell.id)}
                                   type="button"
-                                  className="flex items-center w-full px-4 py-2 duration-200 hover: hover:text-white hover:bg-primary"
+                                  className="flex items-center w-full px-4 py-2 duration-200 hover:text-white hover:bg-primary"
                                 >
                                   <EditIcon className="w-4 h-4 mr-2" />
                                   Edit
                                 </Link>
+
                                 {editModalOpen && (
                                   <EditModal
                                     isOpen={editModalOpen}
@@ -437,7 +443,14 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                               </li>
                               <li>
                                 <Link
-                                  to={`detail/${customCell.id}`}
+                                  to={
+                                    onDetailNavigate
+                                      ? onDetailNavigate.replace(
+                                          '{employeeId}',
+                                          customCell.id
+                                        )
+                                      : `detail/${customCell.id}`
+                                  }
                                   onClick={() => openDetailModal(customCell.id)}
                                   type="button"
                                   className="flex items-center w-full px-4 py-2 duration-200 hover: hover:text-white hover:bg-primary"
@@ -445,6 +458,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                                   <DetailIcon className="w-4 h-4 mr-2" />
                                   Detail
                                 </Link>
+
                                 {detailModalOpen && (
                                   <DetailModal
                                     isOpen={detailModalOpen}
@@ -456,11 +470,13 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                               {showProfileButton && (
                                 <li>
                                   <Link
-                                  to={`eligibles/${customCell.id}`}
+                                    to={`detail/eligibles/${customCell.id}`}
                                     type="button"
                                     className="flex items-center w-full px-4 py-2 duration-200 hover: hover:text-white hover:bg-primary"
                                     onClick={() =>
-                                      navigate(`eligibles/${customCell.id}`)
+                                      navigate(
+                                        `detail/eligibles/${customCell.id}`
+                                      )
                                     }
                                   >
                                     <UserIcon className="w-4 h-4 mr-2" />
