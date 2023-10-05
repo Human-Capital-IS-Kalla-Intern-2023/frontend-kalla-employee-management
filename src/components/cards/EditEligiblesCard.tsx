@@ -35,11 +35,14 @@ const EditEligiblesCard = ({
       <div className="relative overflow-hidden bg-green-500 shadow-profile sm:rounded-lg">
         <div className="overflow-x-auto pb-4 pt-4 px-5">   
         <div className="flex justify-end  pb-5">
-
+            <div className="flex gap-2 flex-row">
             {/* Button Manage untuk edit Eligible */}
-              <button className="flex items-center justify-center px-3 py-2 text-sm font-medium duration-300 rounded-lg text-pureBlack bg-secondary focus:ring-4 bg-primary-600 hover:bg-yellow">Manage
+              <button className="flex items-center justify-center px-3 py-2 text-sm font-medium duration-300 rounded-lg text-pureBlack bg-red focus:ring-4 bg-red-600 hover:bg-red-500">Back
+              </button>
+              <button className="flex items-center justify-center px-3 py-2 text-sm font-medium duration-300 rounded-lg text-pureBlack bg-secondary focus:ring-4 bg-primary-600 hover:bg-yellow">Save
                 <ArrowButtonIcon className="h-3.5 w-3.5 ml-1" />
               </button>
+            </div>
             </div>
           {/* Button Manage */}
           
