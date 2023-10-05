@@ -1,149 +1,108 @@
 // import React from "react";
 
-import employeeIcon from '../../assets/img/employee.png';
-import companyIcon from '../../assets/img/companyIcon.png';
-import divisionIcon from '../../assets/img/divisionIcon.png';
-import sectionIcon from '../../assets/img/sectionIcon.png';
-import directorateIcon from '../../assets/img/directorateIcon.png';
-
+import {
+  CompanyIcon2,
+  DivisionIcon,
+  EmployeeIcon,
+  SectionIcon,
+  DirectorateIcon,
+} from '../../assets/icons/icon';
 
 const Dashboard = () => {
-
   return (
-    
     <section className="py-3 antialiased sm:py-2 overlay">
       <div className="max-w-screen-xl px-4 mx-auto">
-        <div className="relative min-h-[90vh] bg-red-50 shadow-profile sm:rounded-lg">
+        <div className="relative min-h-[90vh]  shadow-profile sm:rounded-lg">
           <div className="overflow-x-auto">
-            
-            <div
-              className='flex sm:flex-row p-6 sm:space-x-2 flex-row w-full min-h-full items-center justify-center'>
-
-            <div
-                className='flex flex-wrap flex-row sm:flex-col justify-center items-center w-full sm:w-1/4 p-5 bg-white rounded-md shadow-lg border-l-4 border-blue-400'>
-
+            <div className="flex flex-row items-center justify-center w-full min-h-full p-6 sm:flex-row sm:space-x-2">
+              <div className="flex flex-row flex-wrap items-center justify-center w-full p-5 bg-white border-l-4 rounded-md shadow-lg border-primary sm:flex-col sm:w-1/4">
                 <div className="flex justify-center w-full">
                   <div>
-                    <div className="p-2 flex justify-center items-center">
-                      <img src={employeeIcon} className="w-14 h-14 " alt="Employee">
-                          </img>
+                    <div className="flex items-center justify-center p-2">
+                      <EmployeeIcon className="w-14 h-14" />
                     </div>
-                    <div className="font-bold text-base pb-2">
-                    Employee
-                    </div>
+                    <div className="pb-2 text-base font-bold">Employee</div>
                   </div>
-                  
                 </div>
                 <div>
-                  <div className="font-bold text-2xl flex justify-center items-center">
+                  <div className="flex items-center justify-center text-2xl font-bold">
                     500
                   </div>
-                  <div className="font-bold text-sm flex justify-center items-center">
+                  <div className="flex items-center justify-center text-sm font-bold">
                     Total
                   </div>
                 </div>
               </div>
 
-
-              <div
-                className='flex flex-wrap flex-row sm:flex-col justify-center items-center w-full sm:w-1/4 p-5 pt-4 bg-white rounded-md shadow-lg border-l-4 border-purple-400'>
+              <div className="flex flex-row flex-wrap items-center justify-center w-full p-5 pt-4 bg-white border-l-4 rounded-md shadow-lg border-secondary sm:flex-col sm:w-1/4">
                 <div className="flex justify-center w-full">
                   <div>
-                    <div className="p-2 flex justify-center items-center">
-                      <img src={companyIcon} className="w-14 h-14 ">
-                          </img>
+                    <div className="flex items-center justify-center p-2">
+                      <CompanyIcon2 className="w-14 h-14" />
                     </div>
-                    <div className="font-bold text-base pb-2">
-                    Business Unit
+                    <div className="pb-2 text-base font-bold">
+                      Business Unit
                     </div>
                   </div>
-                  
                 </div>
-                <div >
-                  <div className="font-bold text-2xl text-center">
-                    4
-                  </div>
-                  <div className="font-bold text-sm flex justify-center items-center">
+                <div>
+                  <div className="text-2xl font-bold text-center">4</div>
+                  <div className="flex items-center justify-center text-sm font-bold">
                     Total
                   </div>
                 </div>
               </div>
 
-              <div
-                className='flex flex-wrap flex-row sm:flex-col justify-center items-center w-full sm:w-1/4 p-5 pt-4 bg-white rounded-md shadow-lg border-l-4 border-red-500'>
+              <div className="flex flex-row flex-wrap items-center justify-center w-full p-5 pt-4 bg-white border-l-4 rounded-md shadow-lg border-primary sm:flex-col sm:w-1/4">
                 <div className="flex justify-center w-full">
                   <div>
-                    <div className="p-2 flex justify-center items-center">
-                      <img src={directorateIcon} className="w-14 h-14 ">
-                          </img>
+                    <div className="flex items-center justify-center p-2">
+                      <DirectorateIcon className="w-14 h-14" />
                     </div>
-                    <div className="font-bold text-base pb-2">
-                    Directorate
-                    </div>
+                    <div className="pb-2 text-base font-bold">Directorate</div>
                   </div>
-                  
                 </div>
-                <div >
-                  <div className="font-bold text-2xl text-center">
-                    7
-                  </div>
-                  <div className="font-bold text-sm flex justify-center items-center">
+                <div>
+                  <div className="text-2xl font-bold text-center">7</div>
+                  <div className="flex items-center justify-center text-sm font-bold">
                     Total
                   </div>
                 </div>
               </div>
 
-
-              <div
-                className='flex flex-wrap flex-row sm:flex-col justify-center items-center w-full sm:w-1/4 p-5 bg-white rounded-md shadow-lg border-l-4 border-purple-400'>
+              <div className="flex flex-row flex-wrap items-center justify-center w-full p-5 bg-white border-l-4 rounded-md shadow-lg border-secondary sm:flex-col sm:w-1/4">
                 <div className="flex justify-center w-full">
                   <div>
-                    <div className="p-2 flex justify-center items-center">
-                      <img src={divisionIcon} className="w-14 h-14 ">
-                         </img>
+                    <div className="flex items-center justify-center p-2">
+                      <DivisionIcon className="w-14 h-14" />
                     </div>
-                    <div className="font-bold text-base pb-2">
-                    Division
-                    </div>
+                    <div className="pb-2 text-base font-bold">Division</div>
                   </div>
-                  
                 </div>
-                <div >
-                  <div className="font-bold text-2xl text-center">
-                    15
-                  </div>
-                  <div className="font-bold text-sm flex justify-center items-center">
+                <div>
+                  <div className="text-2xl font-bold text-center">15</div>
+                  <div className="flex items-center justify-center text-sm font-bold">
                     Total
                   </div>
                 </div>
               </div>
 
-              
-              <div
-                className='flex flex-wrap flex-row sm:flex-col justify-center items-center w-full sm:w-1/4 p-5 bg-white rounded-md shadow-lg border-l-4 border-slate-500'>
+              <div className="flex flex-row flex-wrap items-center justify-center w-full p-5 bg-white border-l-4 rounded-md shadow-lg sm:flex-col sm:w-1/4 border-primary">
                 <div className="flex justify-center w-full">
                   <div>
-                    <div className="p-2 flex justify-center items-center">
-                      <img src={sectionIcon} className="w-14 h-14 ">
-                         </img>
+                    <div className="flex items-center justify-center p-2">
+                      <SectionIcon className="w-14 h-14" />
                     </div>
-                    <div className="font-bold text-base pb-2">
-                    Section
-                    </div>
+                    <div className="pb-2 text-base font-bold">Section</div>
                   </div>
-                  
                 </div>
-                <div >
-                  <div className="font-bold text-2xl text-center">
-                    30
-                  </div>
-                  <div className="font-bold text-sm flex justify-center items-center">
+                <div>
+                  <div className="text-2xl font-bold text-center">30</div>
+                  <div className="flex items-center justify-center text-sm font-bold">
                     Total
                   </div>
                 </div>
               </div>
-
-
             </div>
           </div>
         </div>

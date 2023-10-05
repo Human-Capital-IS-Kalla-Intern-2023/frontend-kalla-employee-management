@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import profileImg from '../../assets/img/profileImg.png';
+import profileImg from '../../assets/img/profileImg.webp';
 import { useNavigate } from 'react-router-dom';
 import ReactLoading from 'react-loading';
 import EditModal from '../modals/EditModal';
