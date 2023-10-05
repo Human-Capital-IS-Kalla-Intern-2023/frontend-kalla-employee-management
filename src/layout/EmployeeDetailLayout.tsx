@@ -1,24 +1,15 @@
 import { useLocation } from 'react-router-dom';
-import Sidebar from './sidebar/SideBar';
+import EmployeeSideBar from './employeeSideBar//EmployeeSideBar';
 import Cookies from 'js-cookie';
+import { useParams } from 'react-router-dom';
 
-function MainLayout({ children }: any) {
+function EmployeeDetailLayout({ children }: any) {
   const location = useLocation();
+  const { employeeId } = useParams();
+  console.log('lah', employeeId);
+  const sidebarPaths = ['/employee/detail'];
 
-  const sidebarPaths = [
-    '/dashboard',
-    '/employee',
-    '/reports',
-    '/company',
-    '/setting',
-    '/position',
-    '/salary',
-  ];
-
-  const hiddenSidebarPaths = [
-    '/salary/configures/payroll_component',
-    '/employee/detail',
-  ];
+  const hiddenSidebarPaths = ['lah'];
 
   const isAuthenticated = !!Cookies.get('access_token');
 
@@ -29,12 +20,10 @@ function MainLayout({ children }: any) {
 
   return (
     <div className="flex flex-col md:flex-row ">
-      {shouldShowSidebar && <Sidebar />}
+      {shouldShowSidebar && <EmployeeSideBar employeeId={employeeId} />}
       <main
         className={
-          shouldShowSidebar
-            ? 'flex-1 py-2 mx-auto max-w-sm md:max-w-none'
-            : 'w-full'
+          shouldShowSidebar ? 'flex-1 mx-auto max-w-sm md:max-w-none' : 'w-full'
         }
       >
         {children}
@@ -43,4 +32,4 @@ function MainLayout({ children }: any) {
   );
 }
 
-export default MainLayout;
+export default EmployeeDetailLayout;
