@@ -224,12 +224,12 @@ const DetailEmployee = ({
                   <table className="w-full p-5 table-auto">
                     <thead>
                       <tr>
-                        <th className="w-1/2 px-4 py-2 text-left border-b-2">
-                          <h2 className="text-base font-bold">
+                        <th className="w-1/2 px-4 py-2 text-left border-b-2 text-white bg-primary">
+                          <h2 className="text-lg font-medium">
                             Secondary Position Details
                           </h2>
                         </th>
-                        <th className="w-1/2 px-4 py-2 text-right border-b-2"></th>
+                        <th className="w-1/2 px-4 py-2 text-right border-b-2 text-white bg-primary"></th>
                       </tr>
                     </thead>
                     <tbody>
