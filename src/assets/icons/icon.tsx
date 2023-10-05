@@ -389,6 +389,88 @@ const CompanyIcon2: React.FC<SvgIconProps> = ({ className }) => (
     <path d="M12 19h2V6l6.394 2.74a1 1 0 01.606.92V19h2v2H1v-2h2V5.65a1 1 0 01.594-.914l7.703-3.424A.5.5 0 0112 1.77V19z" />
   </svg>
 );
+
+const AssigmentIcon: React.FC<SvgIconProps> = ({ className }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    height="23"
+    width="23"
+    className={className}
+  >
+    <path d="M20 8h-3V6c0-1.1-.9-2-2-2H9c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v10h20V10c0-1.1-.9-2-2-2M9 6h6v2H9V6m11 12H4v-3h2v1h2v-1h8v1h2v-1h2v3m-2-5v-1h-2v1H8v-1H6v1H4v-3h16v3h-2z" />
+  </svg>
+);
+
+const EligiblesIcon: React.FC<SvgIconProps> = ({ className }) => (
+  <svg
+    fill="none"
+    stroke="currentColor"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    strokeWidth={2}
+    viewBox="0 0 24 24"
+    height="23"
+    width="23"
+    className={className}
+  >
+    <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+    <path d="M12.5 7 A4 4 0 0 1 8.5 11 A4 4 0 0 1 4.5 7 A4 4 0 0 1 12.5 7 z" />
+    <path d="M17 11l2 2 4-4" />
+  </svg>
+);
+
+const TeamIcon: React.FC<SvgIconProps> = ({ className }) => (
+  <svg
+    fill="none"
+    stroke="currentColor"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    strokeWidth={2}
+    viewBox="0 0 24 24"
+    height="23"
+    width="23"
+    className={className}
+  >
+    <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+    <path d="M13 7 A4 4 0 0 1 9 11 A4 4 0 0 1 5 7 A4 4 0 0 1 13 7 z" />
+    <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
+  </svg>
+);
+
+const UserGear: React.FC<SvgIconProps> = ({ className }) => (
+  <svg
+    fill="none"
+    stroke="currentColor"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    strokeWidth={2}
+    viewBox="0 0 24 24"
+    height="23"
+    width="23"
+    className={className}
+  >
+    <path stroke="none" d="M0 0h24v24H0z" />
+    <path d="M21 17 A4 4 0 0 1 17 21 A4 4 0 0 1 13 17 A4 4 0 0 1 21 17 z" />
+    <path d="M17 13v4h4M12 3v4a1 1 0 001 1h4" />
+    <path d="M11.5 21H5a2 2 0 01-2-2V5a2 2 0 012-2h7l5 5v2m0 3v4" />
+  </svg>
+);
+
+const LeftArrowIcon2: React.FC<SvgIconProps> = ({ className }) => (
+  <svg
+    fill="currentColor"
+    viewBox="0 0 16 16"
+    height="1em"
+    width="1em"
+    className={className}
+  >
+    <path
+      fillRule="evenodd"
+      d="M12 8a.5.5 0 01-.5.5H5.707l2.147 2.146a.5.5 0 01-.708.708l-3-3a.5.5 0 010-.708l3-3a.5.5 0 11.708.708L5.707 7.5H11.5a.5.5 0 01.5.5z"
+    />
+  </svg>
+);
 export {
   EmployeeIcon,
   SectionIcon,
@@ -418,4 +500,9 @@ export {
   CloseButtonIcon,
   PositionIcon,
   SalaryIcon,
+  AssigmentIcon,
+  EligiblesIcon,
+  TeamIcon,
+  UserGear,
+  LeftArrowIcon2,
 };

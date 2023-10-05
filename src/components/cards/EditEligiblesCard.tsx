@@ -1,8 +1,10 @@
-import { useState } from "react";
-import { ArrowButtonIcon, PlusIcon } from "../../assets/icons/icon";
-import profileImg from "../../assets/img/profileImg.webp";
-import { useNavigate } from "react-router-dom";
-import ReactLoading from "react-loading";
+
+import { useState } from 'react';
+import { ArrowButtonIcon } from '../../assets/icons/icon';
+import profileImg from '../../assets/img/profileImg.webp';
+import { useNavigate } from 'react-router-dom';
+import ReactLoading from 'react-loading';
+
 
 type EligiblesProps = {
   employeeData: any;
@@ -23,26 +25,14 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
     setChecked(val);
   };
 
-  const navigate = useNavigate();
-
-  const handleBack = async () => {
-    navigate("/employee");
-  };
-
   return (
     <section className="py-3 antialiased sm:py-2 overlay">
       <div className="max-w-screen-xl px-4 mx-auto">
         <div className="relative overflow-hidden bg-green-500 shadow-profile sm:rounded-lg">
+
           <div className="overflow-x-auto pb-4 pt-4 px-5">
             <div className="flex justify-end  pb-5">
               <div className="flex gap-2 flex-row">
-                {/* Button Manage untuk edit Eligible */}
-                <button
-                  className="flex items-center justify-center px-3 py-2 text-sm font-medium duration-300 rounded-lg text-white bg-red focus:ring-4 bg-red-600 hover:bg-red-500"
-                  onClick={handleBack}
-                >
-                  BACK
-                </button>
                 <button className="flex items-center justify-center px-3 py-2 text-sm font-medium duration-300 rounded-lg text-pureBlack bg-secondary focus:ring-4 bg-primary-600 hover:bg-yellow">
                   SAVE
                   <ArrowButtonIcon className="h-3.5 w-3.5 ml-1" />
@@ -52,6 +42,7 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
             {/* Button Manage */}
 
             {/* card 1 */}
+
             <div className="flex w-full rounded-lg overflow-hidden bg-green-100 shadow-lg px-2 py-2 pb-2">
               <div className="flex items-center px-4 pb-2 pt-4">
                 <img src={profileImg} className="w-28 h-28 rounded-2xl mr-4" />
@@ -84,10 +75,6 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
               </div>
             </div>
             {/* card 1 */}
-
-            {/* card 2 */}
-
-            {/* card 2 */}
 
             {/* card 3 */}
             <div className="pt-3 flex-row flex">

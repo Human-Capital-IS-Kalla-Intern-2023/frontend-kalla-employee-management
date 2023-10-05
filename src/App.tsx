@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // Import Layout
 import MainLayout from './layout/MainLayout';
+import EmployeeDetailLayout from './layout/EmployeeDetailLayout';
 import PrivateRoute from './middleware/PrivateRoutes';
 
 //  Import Pages
@@ -59,36 +60,34 @@ const App = () => {
           >
             <Route path="add" element={<AddModal />} />
             <Route path="edit/:modalEditId" element={<EditModal />} />
-            {/* <Route path="detail/:employeeId" element={<ProfileEmployee />} /> */}
             <Route path="delete/:modalDeleteId" element={<DeleteModal />} />
           </Route>
 
           <Route
-            path="/employee/detail/:employeeId"
+            path="/employee/detail/personal-data/:employeeId"
             element={
-              <PrivateRoute
-                path="/employee/detail/:employeeId"
-                element={<ProfileEmployee />}
-              />
+              <EmployeeDetailLayout>
+                <ProfileEmployee />
+              </EmployeeDetailLayout>
             }
-          ></Route>
-
+          >
+            <Route path="edit" element={<EditModal />} />
+          </Route>
           <Route
-            path="/employee/eligibles/:employeeId"
+            path="/employee/detail/eligibles/:employeeId"
             element={
-              <PrivateRoute
-                path="/employee/eligibles/:employeeId"
-                element={<EligiblesEmployee />}
-              />
+              <EmployeeDetailLayout>
+                <EligiblesEmployee />
+              </EmployeeDetailLayout>
             }
           />
+
           <Route
             path="/employee/eligibles/edit/:employeeId"
             element={
-              <PrivateRoute
-                path="/employee/eligibles/edit/:employeeId"
-                element={<EditEligibles />}
-              />
+              <EmployeeDetailLayout>
+                <EditEligibles />
+              </EmployeeDetailLayout>
             }
           />
 
@@ -209,7 +208,7 @@ const App = () => {
               />
             }
           >
-            <Route path="edit/:modalEditId" element={<EditModal />} />
+            {/* <Route path="edit/:modalEditId" element={<EditModal />} /> */}
             <Route path="detail/:modalDetailId" element={<DetailModal />} />
             <Route path="delete/:modalDeleteId" element={<DeleteModal />} />
           </Route>

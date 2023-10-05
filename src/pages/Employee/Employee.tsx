@@ -214,7 +214,7 @@ const Employee: React.FC = () => {
         onDelete={handleDeleteEmployee}
         detailedData={detailedData}
         fetchDetailedData={featchDetailEmployee}
-        onDetailNavigate="/employee/profile/detail/{employeeId}"
+        onDetailNavigate="detail/personal-data/{employeeId}"
       />
       <TabelFooter
         currentPage={currentPage}
