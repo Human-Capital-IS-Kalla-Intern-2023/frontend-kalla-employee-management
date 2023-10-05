@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import profileImg from '../../assets/img/profileImg.webp';
-import { useNavigate } from 'react-router-dom';
-import ReactLoading from 'react-loading';
-import EditModal from '../modals/EditModal';
-import { inputField } from '../../assets/data/EmployeeData';
+import React, { useState } from "react";
+import profileImg from "../../assets/img/profileImg.webp";
+import { useNavigate } from "react-router-dom";
+import ReactLoading from "react-loading";
+import EditModal from "../modals/EditModal";
+import { inputField } from "../../assets/data/EmployeeData";
 
 type DetailEmployeeProps = {
   employeeData: any;
@@ -15,7 +15,7 @@ const DetailEmployee = ({
   onUpdateEmployee,
 }: DetailEmployeeProps) => {
   const [selectedSecondaryPosition, setSelectedSecondaryPosition] =
-    useState<string>('');
+    useState<string>("");
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [editedData, setEditedData] = useState(employeeData);
@@ -38,7 +38,7 @@ const DetailEmployee = ({
   const navigate = useNavigate();
 
   const handleBack = async () => {
-    navigate('/employee');
+    navigate("/employee");
   };
 
   if (!employeeData) {
@@ -102,7 +102,7 @@ const DetailEmployee = ({
             <h2 className="mt-4 text-2xl text-center">
               {employeeData.fullname}
             </h2>
-            <p className="font-medium text-center">{employeeData.nip}</p>
+            <p className="font-medium text-center pt-2">{employeeData.nip}</p>
 
             <div className="px-5">
               <div className="my-4 bg-white rounded-t-lg shadow-md ">
