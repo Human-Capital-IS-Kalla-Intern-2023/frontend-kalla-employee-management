@@ -74,19 +74,19 @@ const App = () => {
           ></Route>
 
           <Route
-            path="/employee/eligibles"
+            path="/employee/eligibles/:employeeId"
             element={
               <PrivateRoute
-                path="/employee/eligibles"
+                path="/employee/eligibles/:employeeId"
                 element={<EligiblesEmployee />}
               />
             }
           />
           <Route
-            path="/employee/editeligibles"
+            path="/employee/editeligibles/:employeeId"
             element={
               <PrivateRoute
-                path="/employee/editeligibles"
+                path="/employee/editeligibles/:employeeId"
                 element={<EditEligibles />}
               />
             }

@@ -1,7 +1,26 @@
 import { useState } from 'react';
 import { ArrowButtonIcon } from '../../assets/icons/icon';
+import profileImg from '../../assets/img/ProfilePicture.jpg';
+import { useNavigate } from 'react-router-dom';
+import ReactLoading from 'react-loading';
 
-const EditEligiblesCard = ({ employeeData }: any) => {
+
+type EligiblesProps = {
+  employeeData: any;
+};
+
+const EditEligiblesCard = ({
+  employeeData,
+}: EligiblesProps) => {
+  
+  
+    if (!employeeData) {
+      return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <ReactLoading type="spin" color="green" height={50} width={50} />
+        </div>
+      );
+    }
 
   
   const [checked, setChecked] = useState(true);
@@ -28,28 +47,28 @@ const EditEligiblesCard = ({ employeeData }: any) => {
             <div className="flex w-full rounded-lg overflow-hidden bg-red-100 shadow-lg px-2 py-2 pb-2">
             <div className="flex items-center px-4 pb-2 pt-4">
             <img
-              src={employeeData.profileImageUrl}
+              src={profileImg}
               className="w-28 h-28 rounded-2xl mr-4"
             />
             <div className="mb-2 px-4 pl-0">
                 
-                <p className="text-lg font-bold">{employeeData.name}</p>
+                <p className="text-lg font-bold">{employeeData.fullname}</p>
                 
                 <h3 className="text-md  mt-4">NIK</h3>
-                <p className="text-md font-semibold">{employeeData.employeeId}</p>
+                <p className="text-md font-semibold">{employeeData.nip}</p>
             </div>
             <div className="flex flex-row items-start px-6 py-1 pt-12">
                 <div className="mb-2 px-4">
                     <h3 className="text-md ">Job Grade</h3>
-                    <p className="text-md font-semibold">{employeeData.jobGrade}</p>
+                    <p className="text-md font-semibold">{employeeData.grade_name}</p>
                 </div>
                 <div className="mb-2 px-4">
                     <h3 className="text-md ">Main Position</h3>
-                    <p className="text-md font-semibold">{employeeData.mainPosition}</p>
+                    <p className="text-md font-semibold">{employeeData.main_position}</p>
                 </div>
                 <div className="mb-2 px-4">
                     <h3 className="text-md ">Company Name</h3>
-                    <p className="text-md font-semibold">{employeeData.company}</p>
+                    <p className="text-md font-semibold">{employeeData.company_main}</p>
                 </div>
             </div>
         </div>
