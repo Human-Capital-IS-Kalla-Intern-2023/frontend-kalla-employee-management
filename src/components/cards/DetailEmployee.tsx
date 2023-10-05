@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import profileImg from '../../assets/img/profileImg.webp';
 // import { useNavigate } from 'react-router-dom';
@@ -5,6 +6,7 @@ import ReactLoading from 'react-loading';
 import EditModal from '../modals/EditModal';
 import { inputField } from '../../assets/data/EmployeeData';
 import { Link, useNavigate } from 'react-router-dom';
+
 type DetailEmployeeProps = {
   employeeData: any;
   onUpdateEmployee: (formData: string, id: number) => void;
@@ -15,7 +17,7 @@ const DetailEmployee = ({
   onUpdateEmployee,
 }: DetailEmployeeProps) => {
   const [selectedSecondaryPosition, setSelectedSecondaryPosition] =
-    useState<string>('');
+    useState<string>("");
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [editedData, setEditedData] = useState(employeeData);
@@ -108,7 +110,7 @@ const DetailEmployee = ({
             <h2 className="mt-4 text-2xl font-semibold text-center">
               {employeeData.fullname}
             </h2>
-            <p className="font-medium text-center">{employeeData.nip}</p>
+            <p className="font-medium text-center pt-2">{employeeData.nip}</p>
 
             <div className="px-3">
               <div className="my-4 bg-white rounded-t-lg shadow-md ">
@@ -235,7 +237,7 @@ const DetailEmployee = ({
                             Secondary Position Details
                           </h2>
                         </th>
-                        <th className="w-1/2 px-4 py-2 text-right border-b-2"></th>
+                        <th className="w-1/2 px-4 py-2 text-right border-b-2 text-white bg-primary"></th>
                       </tr>
                     </thead>
                     <tbody>

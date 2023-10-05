@@ -1,7 +1,9 @@
-import { ArrowButtonIcon } from '../../assets/icons/icon';
-import profileImg from '../../assets/img/profileImg.webp';
 
-import ReactLoading from 'react-loading';
+import { useState } from "react";
+import { ArrowButtonIcon } from "../../assets/icons/icon";
+import profileImg from "../../assets/img/profileImg.webp";
+import ReactLoading from "react-loading";
+
 
 type EligiblesProps = {
   employeeData: any;
@@ -15,6 +17,13 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
       </div>
     );
   }
+
+
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+
+  const handleManageClick = () => {
+    setIsDropdownVisible(!isDropdownVisible);
+  };
 
   return (
     <section className="antialiased overlay bg-slate-100">
@@ -32,10 +41,18 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
           <div className="">
             <div className="">
               {/* Button Manage untuk edit Eligible */}
-              <button className="flex items-center justify-center px-3 py-2 text-sm font-medium duration-300 rounded-lg text-pureBlack bg-secondary focus:ring-4 bg-primary-600 hover:bg-yellow">
+              <button    onClick={handleManageClick} className="flex items-center justify-center px-3 py-2 text-sm font-medium duration-300 rounded-lg text-pureBlack bg-secondary focus:ring-4 bg-primary-600 hover:bg-yellow">
                 Manage
                 <ArrowButtonIcon className="h-3.5 w-3.5 ml-1" />
               </button>
+              {isDropdownVisible && (
+                <div className="absolute top-14 right-3 bg-white border rounded px-1 py-1">
+                  <button className="block px-2 py-1 text-sm hover:text-white hover:bg-primary">
+                    Edit Eligibles
+                  </button>
+                  {/* Tambahkan opsi dropdown lainnya jika diperlukan */}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -93,16 +110,16 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                           Bank Information
                         </h2>
                       </th>
-                      <th className="w-1/2 px-4 py-2 text-right border-b-2 rounded-tr-lg"></th>
+                      <th className="w-1/2 px-4 py-2 text-right rounded-tr-lg border-b-2"></th>
                     </tr>
                   </thead>
                   <tbody>
-                    <div className="flex items-center px-4 pb-2">
+                    <div className="flex items-center pb-2 px-4">
                       {/* Kolom 1 */}
                       <td className="px-4 py-2 pl-0 text-left align-top border-b ">
                         <div className="flex items-center ">
-                          <h2 className="mr-5 text-base ">Bank Account</h2>
-                          <button className="px-4 py-0 rounded bg-secondary text-pureBlack hover:bg-yellow">
+                          <h2 className="text-base mr-5 ">Bank Account</h2>
+                          <button className="bg-secondary text-pureBlack px-4 py-0 rounded hover:bg-yellow">
                             Account
                           </button>
                         </div>
@@ -119,12 +136,12 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                   <table className="w-full p-5 table-auto">
                     <thead>
                       <tr className="bg-primary">
-                        <th className="w-1/2 px-4 py-2 text-left border-b-2 rounded-tl-lg">
+                        <th className="w-1/2 px-4 py-2 text-left rounded-tl-lg border-b-2">
                           <h2 className="text-lg font-medium text-white">
                             Allowance Information
                           </h2>
                         </th>
-                        <th className="w-1/2 px-4 py-2 text-right border-b-2 rounded-tr-lg"></th>
+                        <th className="w-1/2 px-4 py-2 text-right rounded-tr-lg border-b-2"></th>
                       </tr>
                     </thead>
                     <tbody>

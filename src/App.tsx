@@ -83,7 +83,7 @@ const App = () => {
           />
 
           <Route
-            path="/employee/editeligibles/:employeeId"
+            path="/employee/eligibles/edit/:employeeId"
             element={
               <EmployeeDetailLayout>
                 <EditEligibles />
