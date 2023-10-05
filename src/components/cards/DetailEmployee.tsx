@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import profileImg from '../../assets/img/profileImg.webp';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import ReactLoading from 'react-loading';
 import EditModal from '../modals/EditModal';
 import { inputField } from '../../assets/data/EmployeeData';
-
+import { Link, useNavigate } from 'react-router-dom';
 type DetailEmployeeProps = {
   employeeData: any;
   onUpdateEmployee: (formData: string, id: number) => void;
@@ -20,8 +20,12 @@ const DetailEmployee = ({
   const [showEditModal, setShowEditModal] = useState(false);
   const [editedData, setEditedData] = useState(employeeData);
 
+  const navigate = useNavigate();
   const toggleEditModal = () => {
     setShowEditModal(!showEditModal);
+    if (showEditModal) {
+      navigate(`/employee/detail/personal-data/${employeeData.id}`);
+    }
   };
 
   const handleEdit = () => {
@@ -35,11 +39,11 @@ const DetailEmployee = ({
     setSelectedSecondaryPosition(event.target.value);
   };
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const handleBack = async () => {
-    navigate('/employee');
-  };
+  // const handleBack = async () => {
+  //   navigate('/employee');
+  // };
 
   if (!employeeData) {
     return (
@@ -50,24 +54,26 @@ const DetailEmployee = ({
   }
 
   return (
-    <section className="py-3 antialiased sm:py-2 overlay bg-slate-100">
-      <header className="flex items-center justify-between p-3 shadow-lg ">
-        <h1 className="p-2 text-lg font-medium border-b-2 border-primary ">
-          Detail Employee Page
+    <section className="antialiased overlay bg-slate-100">
+      <header className="flex items-center justify-between px-3 py-5 shadow-lg ">
+        <h1 className="p-2 ml-2.5 text-lg font-medium border-b-2 border-primary ">
+          Personal Data Page
         </h1>
         <div className="text-sm font-medium ">
-          <button
+          {/* <button
             className="px-4 py-2 mr-4 text-white duration-300 bg-red-500 rounded-md hover:bg-gray"
             onClick={handleBack}
           >
             BACK
-          </button>
-          <button
-            className="px-4 py-2 duration-300 rounded-md text-pureBlack bg-secondary hover:bg-gray"
-            onClick={handleEdit}
-          >
-            EDIT
-          </button>
+          </button> */}
+          <Link to={`edit`} type="button">
+            <button
+              className="px-8 py-2 text-base duration-300 rounded-md text-pureBlack bg-secondary hover:bg-gray hover:text-white"
+              onClick={handleEdit}
+            >
+              EDIT
+            </button>
+          </Link>
         </div>
       </header>
       {showEditModal && (
@@ -99,19 +105,19 @@ const DetailEmployee = ({
               className="w-40 h-40 mx-auto rounded-2xl"
             />
 
-            <h2 className="mt-4 text-2xl text-center">
+            <h2 className="mt-4 text-2xl font-semibold text-center">
               {employeeData.fullname}
             </h2>
             <p className="font-medium text-center">{employeeData.nip}</p>
 
-            <div className="px-5">
+            <div className="px-3">
               <div className="my-4 bg-white rounded-t-lg shadow-md ">
                 <table className="w-full p-5 table-auto">
                   <thead>
                     <tr className="bg-primary">
                       <th className="w-1/2 px-4 py-2 text-left border-b-2">
                         <h2 className="text-lg font-medium text-white ">
-                          Main Information
+                          Main Position
                         </h2>
                       </th>
                       <th className="w-1/2 px-4 py-2 text-right border-b-2"></th>
@@ -121,6 +127,14 @@ const DetailEmployee = ({
                     <tr>
                       {/* Kolom 1 */}
                       <td className="px-4 py-2 text-left align-top ">
+                        <div>
+                          <h2 className="pt-3 text-lg font-medium">
+                            Position Name
+                          </h2>
+                          <p className="pb-1 text-base border-b">
+                            {employeeData.main_position}
+                          </p>
+                        </div>
                         <div>
                           <h2 className="text-lg font-medium">Company Name</h2>
                           <p className="pb-1 text-base border-b">
@@ -135,6 +149,10 @@ const DetailEmployee = ({
                             {employeeData.directorate_main}
                           </p>
                         </div>
+                      </td>
+
+                      {/* Kolom 2 */}
+                      <td className="px-4 py-2 text-left align-top">
                         <div>
                           <h2 className="pt-3 text-lg font-medium ">
                             Division
@@ -143,22 +161,10 @@ const DetailEmployee = ({
                             {employeeData.division_main}
                           </p>
                         </div>
-                      </td>
-
-                      {/* Kolom 2 */}
-                      <td className="px-4 py-2 text-left align-top">
                         <div>
                           <h2 className="text-lg font-medium">Section</h2>
                           <p className="pb-1 text-base border-b">
                             {employeeData.section_main}
-                          </p>
-                        </div>
-                        <div>
-                          <h2 className="pt-3 text-lg font-medium">
-                            Main Position
-                          </h2>
-                          <p className="pb-1 text-base border-b">
-                            {employeeData.main_position}
                           </p>
                         </div>
                       </td>
@@ -169,7 +175,7 @@ const DetailEmployee = ({
             </div>
 
             {/*Secondary Position*/}
-            <div className="px-5">
+            <div className="px-3">
               <div className="my-4 bg-white rounded-lg shadow-md ">
                 <table className="w-full p-5 table-auto">
                   <thead>
@@ -219,13 +225,13 @@ const DetailEmployee = ({
             </div>
 
             {selectedSecondaryPosition && (
-              <div className="px-5">
+              <div className="px-3">
                 <div className="my-4 bg-white rounded-lg shadow-md ">
                   <table className="w-full p-5 table-auto">
                     <thead>
-                      <tr>
-                        <th className="w-1/2 px-4 py-2 text-left border-b-2">
-                          <h2 className="text-base font-bold">
+                      <tr className="bg-primary">
+                        <th className="w-1/2 px-4 py-2 text-left border-b-2 ">
+                          <h2 className="text-lg font-medium text-white">
                             Secondary Position Details
                           </h2>
                         </th>
@@ -251,6 +257,14 @@ const DetailEmployee = ({
                               <td className="px-4 py-2 text-left align-top">
                                 <div>
                                   <h2 className="text-lg font-medium">
+                                    Position Name
+                                  </h2>
+                                  <p className="pb-1 text-base border-b">
+                                    {selectedPosition.position_name}
+                                  </p>
+                                </div>
+                                <div>
+                                  <h2 className="text-lg font-medium">
                                     Company Name
                                   </h2>
                                   <p className="pb-1 text-base border-b">
@@ -265,6 +279,10 @@ const DetailEmployee = ({
                                     {selectedPosition.directorate_name}
                                   </p>
                                 </div>
+                              </td>
+
+                              {/* Kolom 2 */}
+                              <td className="px-4 py-2 text-left align-top">
                                 <div>
                                   <h2 className="pt-3 text-lg font-medium">
                                     Division
@@ -273,10 +291,6 @@ const DetailEmployee = ({
                                     {selectedPosition.division_name}
                                   </p>
                                 </div>
-                              </td>
-
-                              {/* Kolom 2 */}
-                              <td className="px-4 py-2 text-left align-top">
                                 <div>
                                   <h2 className="text-lg font-medium">
                                     Section
