@@ -1,16 +1,36 @@
-
 import { useState } from 'react';
-import { ArrowButtonIcon } from '../../assets/icons/icon';
+import {
+  ArrowButtonIcon,
+  PlusIcon,
+  CloseButtonIcon,
+} from '../../assets/icons/icon';
 import profileImg from '../../assets/img/profileImg.webp';
-import { useNavigate } from 'react-router-dom';
 import ReactLoading from 'react-loading';
-
+// import { useNavigate } from 'react-router-dom';
 
 type EligiblesProps = {
   employeeData: any;
 };
 
 const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleAddBank = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  // const navigate = useNavigate();
+
+  // const [checked, setChecked] = useState(true);
+
+  // const handleChange = (val: any) => {
+  //   setChecked(val);
+  // };
+
   if (!employeeData) {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
@@ -18,21 +38,13 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
       </div>
     );
   }
-
-  const [checked, setChecked] = useState(true);
-
-  const handleChange = (val: any) => {
-    setChecked(val);
-  };
-
   return (
     <section className="py-3 antialiased sm:py-2 overlay">
       <div className="max-w-screen-xl px-4 mx-auto">
         <div className="relative overflow-hidden bg-green-500 shadow-profile sm:rounded-lg">
-
-          <div className="overflow-x-auto pb-4 pt-4 px-5">
-            <div className="flex justify-end  pb-5">
-              <div className="flex gap-2 flex-row">
+          <div className="px-5 pt-4 pb-4 overflow-x-auto">
+            <div className="flex justify-end pb-5">
+              <div className="flex flex-row gap-2">
                 <button className="flex items-center justify-center px-3 py-2 text-sm font-medium duration-300 rounded-lg text-pureBlack bg-secondary focus:ring-4 bg-primary-600 hover:bg-yellow">
                   SAVE
                   <ArrowButtonIcon className="h-3.5 w-3.5 ml-1" />
@@ -43,31 +55,31 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
 
             {/* card 1 */}
 
-            <div className="flex w-full rounded-lg overflow-hidden bg-green-100 shadow-lg px-2 py-2 pb-2">
-              <div className="flex items-center px-4 pb-2 pt-4">
-                <img src={profileImg} className="w-28 h-28 rounded-2xl mr-4" />
-                <div className="mb-2 px-4 pl-0">
+            <div className="flex w-full px-2 py-2 pb-2 overflow-hidden bg-green-100 rounded-lg shadow-lg">
+              <div className="flex items-center px-4 pt-4 pb-2">
+                <img src={profileImg} className="mr-4 w-28 h-28 rounded-2xl" />
+                <div className="px-4 pl-0 mb-2">
                   <p className="text-lg font-bold">{employeeData.fullname}</p>
 
-                  <h3 className="text-md  mt-4">NIK</h3>
-                  <p className="text-md font-semibold">{employeeData.nip}</p>
+                  <h3 className="mt-4 text-md">NIK</h3>
+                  <p className="font-semibold text-md">{employeeData.nip}</p>
                 </div>
                 <div className="flex flex-row items-start px-6 py-1 pt-12">
-                  <div className="mb-2 px-4">
+                  <div className="px-4 mb-2">
                     <h3 className="text-md ">Job Grade</h3>
-                    <p className="text-md font-semibold">
+                    <p className="font-semibold text-md">
                       {employeeData.grade_name}
                     </p>
                   </div>
-                  <div className="mb-2 px-4">
+                  <div className="px-4 mb-2">
                     <h3 className="text-md ">Main Position</h3>
-                    <p className="text-md font-semibold">
+                    <p className="font-semibold text-md">
                       {employeeData.main_position}
                     </p>
                   </div>
-                  <div className="mb-2 px-4">
+                  <div className="px-4 mb-2">
                     <h3 className="text-md ">Company Name</h3>
-                    <p className="text-md font-semibold">
+                    <p className="font-semibold text-md">
                       {employeeData.company_main}
                     </p>
                   </div>
@@ -77,11 +89,11 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
             {/* card 1 */}
 
             {/* card 3 */}
-            <div className="pt-3 flex-row flex">
-              <div className="my-6 w-4/6 bg-white rounded-t-lg shadow-xl ">
+            <div className="flex flex-row pt-3">
+              <div className="w-4/6 my-6 bg-white rounded-t-lg shadow-xl ">
                 <div className="w-full">
-                  <div className="bg-primary rounded-t-lg">
-                    <div className="w-full px-4 py-2 text-left  border-b-2">
+                  <div className="rounded-t-lg bg-primary">
+                    <div className="w-full px-4 py-2 text-left border-b-2">
                       <h2 className="text-lg font-medium text-white">
                         Allowance Information
                       </h2>
@@ -90,8 +102,8 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
                   <div className="w-full border-b">
                     <div className="flex flex-row w-full">
                       {/* Kolom 1 */}
-                      <div className="px-4 py-2 text-left align-top flex items-center">
-                        <h2 className="text-base mr-4 w-48 mt-2">
+                      <div className="flex items-center px-4 py-2 text-left align-top">
+                        <h2 className="w-48 mt-2 mr-4 text-base">
                           Positional Allowance
                         </h2>
                         <label className="relative inline-flex items-center mt-2 cursor-pointer">
@@ -110,8 +122,8 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
                       </div>
 
                       {/* Kolom 2 */}
-                      <div className="flex px-6 py-2 mr-4 text-left align-top flex-row">
-                        <h2 className="text-base mr-2 ml-16 w-48 mt-2">
+                      <div className="flex flex-row px-6 py-2 mr-4 text-left align-top">
+                        <h2 className="w-48 mt-2 ml-16 mr-2 text-base">
                           Functional Allowance
                         </h2>
                         <label className="relative inline-flex flex-col items-center mt-2 cursor-pointer">
@@ -133,8 +145,8 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
                   <div className="w-full border-b">
                     <div className="flex flex-row">
                       {/* Kolom 1 */}
-                      <div className="px-4 py-2 text-left align-top flex items-center">
-                        <h2 className="text-base mr-4 w-48 mt-2">
+                      <div className="flex items-center px-4 py-2 text-left align-top">
+                        <h2 className="w-48 mt-2 mr-4 text-base">
                           Positional Allowance
                         </h2>
                         <label className="relative inline-flex items-center mt-2 cursor-pointer">
@@ -154,8 +166,8 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
 
                       {/* Kolom 2 */}
 
-                      <div className="flex px-6 py-2 mr-4 text-left align-top flex-row">
-                        <h2 className="text-base mr-2 ml-16 w-48 mt-2">
+                      <div className="flex flex-row px-6 py-2 mr-4 text-left align-top">
+                        <h2 className="w-48 mt-2 ml-16 mr-2 text-base">
                           Functional Allowance
                         </h2>
                         <label className="relative inline-flex flex-col items-center mt-2 cursor-pointer">
@@ -177,8 +189,8 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
                   <div className="w-full border-b">
                     <div className="flex flex-row">
                       {/* Kolom 1 */}
-                      <div className="px-4 py-2 text-left align-top flex items-center">
-                        <h2 className="text-base mr-4 w-48 mt-2">
+                      <div className="flex items-center px-4 py-2 text-left align-top">
+                        <h2 className="w-48 mt-2 mr-4 text-base">
                           Positional Allowance
                         </h2>
                         <label className="relative inline-flex items-center mt-2 cursor-pointer">
@@ -197,8 +209,8 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
                       </div>
 
                       {/* Kolom 2 */}
-                      <div className="flex px-6 py-2 mr-4 text-left align-top flex-row">
-                        <h2 className="text-base mr-2 ml-16 w-48 mt-2">
+                      <div className="flex flex-row px-6 py-2 mr-4 text-left align-top">
+                        <h2 className="w-48 mt-2 ml-16 mr-2 text-base">
                           Functional Allowance
                         </h2>
                         <label className="relative inline-flex flex-col items-center mt-2 cursor-pointer">
@@ -219,37 +231,123 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
                   </div>
                 </div>
               </div>
-              <div className="pl-4 flex-grow py-6">
-                <div className="bg-primary rounded-lg">
-                  <div className=" w-full px-4 pt-2 flew-row flex text-left justify-between rounded-t-lg border-b-2">
-                    <h2 className="text-lg font-medium flex-row text-white">
+              <div className="flex-grow py-6 pl-4">
+                <div className="rounded-lg bg-primary">
+                  <div className="flex justify-between w-full px-4 pt-2 text-left border-b-2 rounded-t-lg flew-row">
+                    <h2 className="flex-row text-lg font-medium text-white">
                       Bank
                     </h2>
                     <div className="flex pl-6">
                       <div className="flex flex-row pb-2">
-                        {/* Button Manage untuk edit Eligible */}
-                        <button className="flex items-center justify-center px-3 py-1 text-sm font-medium duration-300 rounded-lg text-pureBlack bg-secondary focus:ring-4 bg-primary-600 hover:bg-yellow">
+                        <button
+                          className="flex items-center justify-center px-3 py-1 text-sm font-medium duration-300 rounded-lg text-pureBlack bg-secondary focus:ring-4 bg-primary-600 hover:bg-yellow"
+                          onClick={handleAddBank}
+                        >
                           Add
-                          <PlusIcon className="h-3 w-3 ml-1" />
+                          <PlusIcon className="w-3 h-3 ml-1" />
                         </button>
                       </div>
                     </div>
                   </div>
-                  {/* Kolom 1 */}
-                  <div className="px-4 py-2 text-left bg-white align-top flex items-center">
-                    <h2 className="text-base mr-4 w-full mt-1 mb-1 text-slate-700">
+                  <div className="flex items-center px-4 py-2 text-left align-top bg-white">
+                    <h2 className="w-full mt-1 mb-1 mr-4 text-base text-slate-700">
                       Nama Bank
                     </h2>
                   </div>
-
-                  {/* Kolom 2 */}
-                  {/* <td className="flex px-4 py-2 mr-4 text-left align-top flex-row">
-                      <h2 className="text-base mr-2 ml-16 w-48 mt-2"></h2>
-                    </td> */}
                 </div>
-
-                {/* card 3 */}
               </div>
+
+              {isModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 ">
+                  <div className="w-2/5 bg-white rounded-md shadow-md">
+                    <header className="flex items-center justify-between p-4">
+                      <h2 className="p-2 text-lg font-medium border-b-2 border-primary ">
+                        Add Eligibles
+                      </h2>
+                      <button
+                        className="text-gray-500 hover:text-gray-700"
+                        onClick={handleCloseModal}
+                      >
+                        <CloseButtonIcon className="w-8 h-8 p-1 duration-200 rounded-md overlay hover:bg-red-500 hover:text-white" />
+                      </button>
+                    </header>
+                    <div className="px-4 py-2">
+                      <label
+                        htmlFor="input"
+                        className="block font-medium text-gray-700"
+                      >
+                        Employee Name
+                      </label>
+                      <input
+                        type="text"
+                        id="input"
+                        name="input"
+                        placeholder="Employee Name"
+                        // value={salaryNameValue}
+                        // onChange={handleSalaryNameInput}
+                        className="block w-full px-3 py-2 mt-1 text-sm bg-white border rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                      />
+                    </div>
+                    <div className="px-4 py-2">
+                      <label
+                        htmlFor="input"
+                        className="block font-medium text-gray-700"
+                      >
+                        Rekening Number
+                      </label>
+                      <input
+                        type="number"
+                        id="input"
+                        name="input"
+                        placeholder="Input Rekening Number"
+                        // value={salaryNameValue}
+                        // onChange={handleSalaryNameInput}
+                        className="block w-full px-3 py-2 mt-1 text-sm bg-white border rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                      />
+                    </div>
+                    <div className="px-4 py-2">
+                      {/* Konten modal */}
+                      <div className="mb-4">
+                        <label
+                          htmlFor="dropdown"
+                          className="block font-medium text-gray-700"
+                        >
+                          Select Bank
+                        </label>
+
+                        <select
+                          id="type-dropdown"
+                          name="type-dropdown"
+                          // value={typeMasterComponentOptions}
+                          // onChange={handleTypeChange}
+                          className="block w-full px-3 py-2 mt-2 text-sm bg-white border rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                        >
+                          <option value="" disabled>
+                            Select Bank Name
+                          </option>
+                          <option value="bank mandiri">Bank Mandiri </option>
+                          <option value="bank bri">Bank BRI</option>
+                          <option value="bank bni">Bank BNI</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className="flex justify-end w-full p-4 rounded-t-none shadow-inner rounded-b-md border-gray bg-slate-200">
+                      <button
+                        className="px-4 py-2 mx-2 text-white duration-300 bg-red-500 rounded-md hover:bg-gray"
+                        onClick={handleCloseModal}
+                      >
+                        CANCEL
+                      </button>
+                      <button
+                        className="px-4 py-2 text-white duration-300 rounded-md bg-primary hover:bg-gray"
+                        // onClick={handleAdd}
+                      >
+                        ADD
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
