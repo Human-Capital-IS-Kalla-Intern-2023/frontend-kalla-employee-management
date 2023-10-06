@@ -80,10 +80,12 @@ const App = () => {
                 <EligiblesEmployee />
               </EmployeeDetailLayout>
             }
-          />
+          >
+            <Route path="add" element={<AddModal />} />
+          </Route>
 
           <Route
-            path="/employee/eligibles/edit/:employeeId"
+            path="/employee/detail/eligibles/edit/:employeeId"
             element={
               <EmployeeDetailLayout>
                 <EditEligibles />

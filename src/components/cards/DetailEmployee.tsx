@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import profileImg from '../../assets/img/profileImg.webp';
 // import { useNavigate } from 'react-router-dom';
@@ -17,7 +16,7 @@ const DetailEmployee = ({
   onUpdateEmployee,
 }: DetailEmployeeProps) => {
   const [selectedSecondaryPosition, setSelectedSecondaryPosition] =
-    useState<string>("");
+    useState<string>('');
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [editedData, setEditedData] = useState(employeeData);
@@ -110,7 +109,27 @@ const DetailEmployee = ({
             <h2 className="mt-4 text-2xl font-semibold text-center">
               {employeeData.fullname}
             </h2>
-            <p className="font-medium text-center pt-2">{employeeData.nip}</p>
+            <p className="pt-2 font-medium text-center">{employeeData.nip}</p>
+
+            <div className="px-3">
+              <div className="my-4 rounded-t-lg ">
+                <div className="grid grid-cols-3 gap-5">
+                  <div className="p-4 bg-white rounded-lg shadow-md">
+                    <h2 className="mb-2 text-lg font-semibold">Nickname</h2>
+                    <p className="text-base">{employeeData.nickname}</p>
+                  </div>
+
+                  <div className="p-4 bg-white rounded-lg shadow-md">
+                    <h2 className="mb-2 text-lg font-semibold">Email</h2>
+                    <p className="text-base">{employeeData.company_email}</p>
+                  </div>
+                  <div className="p-4 bg-white rounded-lg shadow-md">
+                    <h2 className="mb-2 text-lg font-semibold">Hire Date</h2>
+                    <p className="text-base">{employeeData.hire_date}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
 
             <div className="px-3">
               <div className="my-4 bg-white rounded-t-lg shadow-md ">
@@ -237,7 +256,7 @@ const DetailEmployee = ({
                             Secondary Position Details
                           </h2>
                         </th>
-                        <th className="w-1/2 px-4 py-2 text-right border-b-2 text-white bg-primary"></th>
+                        <th className="w-1/2 px-4 py-2 text-right text-white border-b-2 bg-primary"></th>
                       </tr>
                     </thead>
                     <tbody>
