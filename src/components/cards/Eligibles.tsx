@@ -1,9 +1,7 @@
-
 import { useState } from "react";
 import { ArrowButtonIcon } from "../../assets/icons/icon";
 import profileImg from "../../assets/img/profileImg.webp";
 import ReactLoading from "react-loading";
-
 
 type EligiblesProps = {
   employeeData: any;
@@ -17,7 +15,6 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
       </div>
     );
   }
-
 
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
@@ -41,7 +38,10 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
           <div className="">
             <div className="">
               {/* Button Manage untuk edit Eligible */}
-              <button    onClick={handleManageClick} className="flex items-center justify-center px-3 py-2 text-sm font-medium duration-300 rounded-lg text-pureBlack bg-secondary focus:ring-4 bg-primary-600 hover:bg-yellow">
+              <button
+                onClick={handleManageClick}
+                className="flex items-center justify-center px-3 py-2 text-sm font-medium duration-300 rounded-lg text-pureBlack bg-secondary focus:ring-4 bg-primary-600 hover:bg-yellow"
+              >
                 Manage
                 <ArrowButtonIcon className="h-3.5 w-3.5 ml-1" />
               </button>
