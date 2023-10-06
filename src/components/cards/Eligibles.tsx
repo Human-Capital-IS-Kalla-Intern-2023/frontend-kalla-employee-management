@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { ArrowButtonIcon, CloseButtonIcon } from '../../assets/icons/icon';
 import profileImg from '../../assets/img/profileImg.webp';

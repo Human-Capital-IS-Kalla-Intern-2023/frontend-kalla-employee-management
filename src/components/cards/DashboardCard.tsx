@@ -12,6 +12,7 @@ const Dashboard = () => {
   return (
     <section className="py-3 antialiased sm:py-2 overlay">
       <div className="max-w-screen-xl px-4 mx-auto">
+
         <div className="relative min-h-[90vh] bg-slate-100  shadow-profile sm:rounded-lg">
           <div className="overflow-x-auto">
             <div className="flex flex-row items-center justify-center w-full min-h-full p-6 sm:flex-row sm:space-x-2">
