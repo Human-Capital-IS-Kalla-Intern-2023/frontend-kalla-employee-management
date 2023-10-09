@@ -146,6 +146,36 @@ const searchEmployee = async (searchInput: any) => {
   }
 };
 
+const getDetailEligiblesEmployee = async (employeeId: any, positionId: any) => {
+  try {
+    const token = TokenHelper();
+
+    const headerToken = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const responseGetDetailEligiblesEmployee = await RequestApi(
+      'GET',
+      `eligibles/${employeeId}/${positionId}`,
+      {},
+      headerToken,
+      'Mengambil detail eligibles employee'
+    );
+
+    console.log(
+      'responseGetDetailEligiblesEmployee',
+      responseGetDetailEligiblesEmployee
+    );
+    return responseGetDetailEligiblesEmployee;
+  } catch (error) {
+    console.error(
+      'Terjadi kesalahan saat mengambil data eligbles employee:',
+      error
+    );
+    return false;
+  }
+};
+
 export {
   getEmployee,
   getDetailEmployee,
@@ -153,4 +183,5 @@ export {
   updateEmployee,
   deleteEmployee,
   searchEmployee,
+  getDetailEligiblesEmployee,
 };

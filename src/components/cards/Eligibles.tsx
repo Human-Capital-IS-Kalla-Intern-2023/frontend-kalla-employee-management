@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { ArrowButtonIcon, CloseButtonIcon } from '../../assets/icons/icon';
 import profileImg from '../../assets/img/profileImg.webp';
@@ -159,16 +158,16 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                 <div className="grid grid-cols-3 gap-5">
                   <div className="p-4 bg-white rounded-lg shadow-md">
                     <h2 className="mb-2 text-lg font-semibold">Company Name</h2>
-                    <p className="text-base">{employeeData.company_main}</p>
+                    <p className="text-base">{employeeData.company_name}</p>
                   </div>
 
                   <div className="p-4 bg-white rounded-lg shadow-md">
                     <h2 className="mb-2 text-lg font-semibold">Directorate</h2>
-                    <p className="text-base">{employeeData.directorate_main}</p>
+                    <p className="text-base">{employeeData.directorate_name}</p>
                   </div>
                   <div className="p-4 bg-white rounded-lg shadow-md">
                     <h2 className="mb-2 text-lg font-semibold">Division</h2>
-                    <p className="text-base">{employeeData.division_main}</p>
+                    <p className="text-base">{employeeData.division_name}</p>
                   </div>
                 </div>
               </div>
@@ -198,7 +197,7 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                             Main Postion Name :
                           </h2>
                           <div className="px-4 py-1 text-pureBlack">
-                            {employeeData.main_position}
+                            {employeeData.position_name}
                           </div>
                         </div>
                       </td>

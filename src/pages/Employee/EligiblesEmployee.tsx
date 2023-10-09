@@ -1,11 +1,12 @@
 import Eligibles from '../../components/cards/Eligibles';
 import { useParams } from 'react-router-dom';
-import { getDetailEmployee} from '../../api/EmployeeAPI';
+import { getDetailEligiblesEmployee } from '../../api/EmployeeAPI';
 import { useEffect, useState } from 'react';
 import { SuccessAlert, ErrorAlert } from '../../components/alerts/CustomAlert';
 
 const EligiblesEmployee = () => {
   const { employeeId } = useParams();
+  const { positionId } = useParams();
   const [detailedData, setDetailedData] = useState<string | null>(null);
 
   // Alert State
@@ -14,9 +15,12 @@ const EligiblesEmployee = () => {
   const [successTitle] = useState<string | null>(null);
   const [errorTitle] = useState<string | null>(null);
 
-  const featchDetailEmployee = async (id: any) => {
+  const featchDetailEmployee = async (employeeId: any, positionId: any) => {
     try {
-      const responseData = await getDetailEmployee(id);
+      const responseData = await getDetailEligiblesEmployee(
+        employeeId,
+        positionId
+      );
       setDetailedData(responseData.data);
     } catch (error: any) {
       console.error('Error featch detail employee:', error);
@@ -24,8 +28,8 @@ const EligiblesEmployee = () => {
   };
 
   useEffect(() => {
-    featchDetailEmployee(employeeId);
-  }, [employeeId]);
+    featchDetailEmployee(employeeId, positionId);
+  }, [employeeId, positionId]);
 
   return (
     <>
@@ -35,9 +39,7 @@ const EligiblesEmployee = () => {
       {errorMessage && errorTitle && (
         <ErrorAlert title={errorTitle} text={errorMessage} />
       )}
-      <Eligibles
-        employeeData={detailedData}
-      />
+      <Eligibles employeeData={detailedData} />
     </>
   );
 };
