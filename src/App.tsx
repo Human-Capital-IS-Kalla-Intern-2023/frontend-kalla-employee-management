@@ -64,7 +64,7 @@ const App = () => {
           </Route>
 
           <Route
-            path="/employee/detail/personal-data/:employeeId"
+            path="/employee/detail/personal-data/:employeeId/:positionId"
             element={
               <EmployeeDetailLayout>
                 <ProfileEmployee />
@@ -74,7 +74,7 @@ const App = () => {
             <Route path="edit" element={<EditModal />} />
           </Route>
           <Route
-            path="/employee/detail/eligibles/:employeeId"
+            path="/employee/detail/eligibles/:employeeId/:positionId"
             element={
               <EmployeeDetailLayout>
                 <EligiblesEmployee />
@@ -85,7 +85,7 @@ const App = () => {
           </Route>
 
           <Route
-            path="/employee/detail/eligibles/edit/:employeeId"
+            path="/employee/detail/eligibles/edit/:employeeId/:positionId"
             element={
               <EmployeeDetailLayout>
                 <EditEligibles />

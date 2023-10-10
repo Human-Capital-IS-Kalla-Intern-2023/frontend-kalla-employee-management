@@ -20,8 +20,10 @@ import {
   LeftArrowIcon2,
 } from '../../assets/icons/icon';
 
-const EmployeeSideBar = (employeeId: any) => {
-  const employeeIdValue = employeeId.employeeId;
+const EmployeeSideBar = (employeeData: any) => {
+  const employeeId = employeeData.employeeId;
+  const employeePositionId = employeeData.positionId;
+
   const isTabletMid = useMediaQuery({ query: '(max-width: 768px)' });
   const [open, setOpen] = useState(isTabletMid ? false : true);
   const { pathname } = useLocation();
@@ -124,7 +126,7 @@ const EmployeeSideBar = (employeeId: any) => {
                 }`}
               >
                 <NavLink
-                  to={`/employee/detail/personal-data/${employeeIdValue}`}
+                  to={`/employee/detail/personal-data/${employeeId}/${employeePositionId}`}
                 >
                   <div className="flex items-center">
                     <UserIcon className="min-w-max" />
@@ -145,7 +147,7 @@ const EmployeeSideBar = (employeeId: any) => {
                     : 'hover:text-white'
                 }`}
               >
-                <NavLink to={`/employee/detail/assigements/${employeeIdValue}`}>
+                <NavLink to={`/employee/detail/assigements/${employeeId}`}>
                   <div className="flex items-center">
                     <AssigmentIcon className="min-w-max" />
                     <motion.div
@@ -165,7 +167,9 @@ const EmployeeSideBar = (employeeId: any) => {
                     : 'hover:text-white'
                 }`}
               >
-                <NavLink to={`/employee/detail/eligibles/${employeeIdValue}`}>
+                <NavLink
+                  to={`/employee/detail/eligibles/${employeeId}/${employeePositionId}`}
+                >
                   <div className="flex items-center">
                     <EligiblesIcon className="min-w-max" />
                     <motion.div
@@ -185,7 +189,7 @@ const EmployeeSideBar = (employeeId: any) => {
                     : 'hover:text-white'
                 }`}
               >
-                <NavLink to={`/employee/detail/teams/${employeeIdValue}`}>
+                <NavLink to={`/employee/detail/teams/${employeeId}`}>
                   <div className="flex items-center">
                     <TeamIcon className="min-w-max" />
                     <motion.div
@@ -205,7 +209,7 @@ const EmployeeSideBar = (employeeId: any) => {
                     : 'hover:text-white'
                 }`}
               >
-                <NavLink to={`/employee/detail/attendence/${employeeIdValue}`}>
+                <NavLink to={`/employee/detail/attendence/${employeeId}`}>
                   <div className="flex items-center">
                     <UserGear className="min-w-max" />
                     <motion.div

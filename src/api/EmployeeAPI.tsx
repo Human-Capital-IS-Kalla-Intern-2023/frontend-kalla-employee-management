@@ -146,6 +146,96 @@ const searchEmployee = async (searchInput: any) => {
   }
 };
 
+const getDetailEligiblesEmployee = async (employeeId: any, positionId: any) => {
+  try {
+    const token = TokenHelper();
+
+    const headerToken = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const responseGetDetailEligiblesEmployee = await RequestApi(
+      'GET',
+      `eligibles/${employeeId}/${positionId}`,
+      {},
+      headerToken,
+      'Mengambil detail eligibles employee'
+    );
+
+    console.log(
+      'responseGetDetailEligiblesEmployee',
+      responseGetDetailEligiblesEmployee
+    );
+    return responseGetDetailEligiblesEmployee;
+  } catch (error) {
+    console.error(
+      'Terjadi kesalahan saat mengambil data eligbles employee:',
+      error
+    );
+    return false;
+  }
+};
+
+const getDetailSalaryEmployee = async (employeeId: any, positionId: any) => {
+  try {
+    const token = TokenHelper();
+
+    const headerToken = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const responseGetDetailSalaryEmployee = await RequestApi(
+      'GET',
+      `eligibles/get-components/${employeeId}/${positionId}`,
+      {},
+      headerToken,
+      'Mengambil detail salary eligibles employee'
+    );
+
+    console.log(
+      'responseGetDetailSalaryEmployee',
+      responseGetDetailSalaryEmployee
+    );
+    return responseGetDetailSalaryEmployee;
+  } catch (error) {
+    console.error(
+      'Terjadi kesalahan saat mengambil data salary eligbles employee:',
+      error
+    );
+    return false;
+  }
+};
+
+const addDetailSalaryEmployee = async (employeeSalaryData: any) => {
+  try {
+    const token = TokenHelper();
+
+    const headerToken = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const responseAddDetailSalaryEmployee = await RequestApi(
+      'POST',
+      `eligibles`,
+      employeeSalaryData,
+      headerToken,
+      'menambahkan detail salary eligibles employee'
+    );
+
+    console.log(
+      'responseAddDetailSalaryEmployee',
+      responseAddDetailSalaryEmployee
+    );
+    return responseAddDetailSalaryEmployee;
+  } catch (error) {
+    console.error(
+      'Terjadi kesalahan saat menambahkan data salary eligbles employee:',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   getEmployee,
   getDetailEmployee,
@@ -153,4 +243,7 @@ export {
   updateEmployee,
   deleteEmployee,
   searchEmployee,
+  getDetailEligiblesEmployee,
+  getDetailSalaryEmployee,
+  addDetailSalaryEmployee,
 };

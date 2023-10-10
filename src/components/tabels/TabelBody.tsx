@@ -445,10 +445,15 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                                 <Link
                                   to={
                                     onDetailNavigate
-                                      ? onDetailNavigate.replace(
-                                          '{employeeId}',
-                                          customCell.id
-                                        )
+                                      ? onDetailNavigate
+                                          .replace(
+                                            '{employeeId}',
+                                            customCell.id
+                                          )
+                                          .replace(
+                                            '{positionId}',
+                                            customCell.id_main_position
+                                          )
                                       : `detail/${customCell.id}`
                                   }
                                   onClick={() => openDetailModal(customCell.id)}
@@ -470,7 +475,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                               {showProfileButton && (
                                 <li>
                                   <Link
-                                    to={`detail/eligibles/${customCell.id}`}
+                                    to={`detail/eligibles/${customCell.id}/${customCell.id_main_position}`}
                                     type="button"
                                     className="flex items-center w-full px-4 py-2 duration-200 hover: hover:text-white hover:bg-primary"
                                     onClick={() =>

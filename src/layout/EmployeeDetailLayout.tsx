@@ -6,10 +6,11 @@ import { useParams } from 'react-router-dom';
 function EmployeeDetailLayout({ children }: any) {
   const location = useLocation();
   const { employeeId } = useParams();
-  console.log('lah', employeeId);
+  const { positionId } = useParams();
+
   const sidebarPaths = ['/employee/detail'];
 
-  const hiddenSidebarPaths = ['lah'];
+  const hiddenSidebarPaths = ['/dummy'];
 
   const isAuthenticated = !!Cookies.get('access_token');
 
@@ -20,7 +21,9 @@ function EmployeeDetailLayout({ children }: any) {
 
   return (
     <div className="flex flex-col md:flex-row ">
-      {shouldShowSidebar && <EmployeeSideBar employeeId={employeeId} />}
+      {shouldShowSidebar && (
+        <EmployeeSideBar employeeId={employeeId} positionId={positionId} />
+      )}
       <main
         className={
           shouldShowSidebar ? 'flex-1 mx-auto max-w-sm md:max-w-none' : 'w-full'
