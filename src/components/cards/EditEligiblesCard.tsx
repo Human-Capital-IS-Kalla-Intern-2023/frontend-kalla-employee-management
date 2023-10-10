@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { PlusIcon, CloseButtonIcon } from '../../assets/icons/icon';
-import profileImg from '../../assets/img/profileImg.webp';
-import ReactLoading from 'react-loading';
+import { useState } from "react";
+import { PlusIcon, CloseButtonIcon } from "../../assets/icons/icon";
+import profileImg from "../../assets/img/profileImg.webp";
+import ReactLoading from "react-loading";
 // import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 type EligiblesProps = {
   employeeData: any;
@@ -75,7 +75,7 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
                   <div className="px-4 mb-2">
                     <h3 className="text-md ">Job Grade</h3>
                     <p className="font-semibold text-md">
-                      {employeeData.grade_name}
+                      {employeeData.job_grade_main}
                     </p>
                   </div>
                   <div className="px-4 mb-2">
