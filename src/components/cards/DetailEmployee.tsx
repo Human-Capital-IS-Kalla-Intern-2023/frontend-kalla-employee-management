@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import profileImg from "../../assets/img/profileImg.webp";
+import React, { useState } from 'react';
+import profileImg from '../../assets/img/profileImg.webp';
 // import { useNavigate } from 'react-router-dom';
-import ReactLoading from "react-loading";
-import EditModal from "../modals/EditModal";
-import { inputField } from "../../assets/data/EmployeeData";
-import { Link, useNavigate } from "react-router-dom";
+import ReactLoading from 'react-loading';
+import EditModal from '../modals/EditModal';
+import { inputField } from '../../assets/data/EmployeeData';
+import { Link, useNavigate } from 'react-router-dom';
 
 type DetailEmployeeProps = {
   employeeData: any;
@@ -15,8 +15,9 @@ const DetailEmployee = ({
   employeeData,
   onUpdateEmployee,
 }: DetailEmployeeProps) => {
+  console.log('first, employee data', employeeData);
   const [selectedSecondaryPosition, setSelectedSecondaryPosition] =
-    useState<string>("");
+    useState<string>('');
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [editedData, setEditedData] = useState(employeeData);
@@ -25,7 +26,9 @@ const DetailEmployee = ({
   const toggleEditModal = () => {
     setShowEditModal(!showEditModal);
     if (showEditModal) {
-      navigate(`/employee/detail/personal-data/${employeeData.id}`);
+      navigate(
+        `/employee/detail/personal-data/${employeeData.id}/${employeeData.id_main_position}`
+      );
     }
   };
 
@@ -157,7 +160,7 @@ const DetailEmployee = ({
                           </p>
                         </div>
                         <div>
-                          <h2 className="text-lg pt-2 font-medium">
+                          <h2 className="pt-2 text-lg font-medium">
                             Company Name
                           </h2>
                           <p className="pb-1 text-base border-b">
@@ -185,7 +188,7 @@ const DetailEmployee = ({
                           </p>
                         </div>
                         <div>
-                          <h2 className="text-lg pt-2 font-medium">Section</h2>
+                          <h2 className="pt-2 text-lg font-medium">Section</h2>
                           <p className="pb-1 text-base border-b">
                             {employeeData.section_main}
                           </p>
@@ -258,7 +261,7 @@ const DetailEmployee = ({
                             Secondary Position Details
                           </h2>
                         </th>
-                        <th className="w-1/2 px-4 py-2 text-right  border-b-2 bg-primary"></th>
+                        <th className="w-1/2 px-4 py-2 text-right border-b-2 bg-primary"></th>
                       </tr>
                     </thead>
                     <tbody>
