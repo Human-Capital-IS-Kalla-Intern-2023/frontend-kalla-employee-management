@@ -11,10 +11,13 @@ type EligiblesProps = {
 const Eligibles = ({ employeeData }: EligiblesProps) => {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const { employeeId } = useParams();
+  const { positionId } = useParams();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleAddEligiblesClick = () => {
+  // const [selectedPosition, setSelectedPosition] = useState('');
+
+  const handleOpenModal = () => {
     setIsModalOpen(true);
   };
 
@@ -24,8 +27,10 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
 
   const navigate = useNavigate();
 
+  const handleAddEligbles = () => {};
+
   const handleEditClick = () => {
-    navigate(`/employee/detail/eligibles/edit/${employeeId}`);
+    navigate(`/employee/detail/eligibles/edit/${employeeId}/${positionId}`);
   };
 
   const handleManageClick = () => {
@@ -40,6 +45,9 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
     );
   }
 
+  const positions = [
+    ...employeeData.additional_position.map((pos: any) => pos.position_name),
+  ];
   return (
     <section className="antialiased overlay bg-slate-100">
       <header className="flex items-center justify-between px-3 py-5 shadow-lg ">
@@ -47,12 +55,6 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
           Eligibles Employee Page
         </h1>
         <div className="text-sm font-medium ">
-          {/* <button
-            className="px-4 py-2 mr-4 text-white duration-300 bg-red-500 rounded-md hover:bg-gray"
-            onClick={handleBack}
-          >
-            BACK
-          </button> */}
           <div className="">
             <div className="">
               {/* Button Manage untuk edit Eligible */}
@@ -69,7 +71,7 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                 <div className="absolute px-1 py-1 bg-white rounded-b-lg top-12.5 border border-secondary right-3 z-50">
                   <button
                     className="block px-3 py-3 text-sm hover:text-white hover:bg-primary"
-                    onClick={handleAddEligiblesClick}
+                    onClick={handleOpenModal}
                   >
                     Add Eligibles
                   </button>
@@ -113,14 +115,19 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                 <select
                   id="type-dropdown"
                   name="type-dropdown"
-                  // value={typeMasterComponentOptions}
-                  // onChange={handleTypeChange}
+                  // onChange={(e) => setSelectedPosition(e.target.value)}
+                  // value={positionOption}
+                  // onChange={handlePositionChange}
                   className="block w-full px-3 py-2 mt-2 text-sm bg-white border rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
                 >
-                  <option value="">Select position</option>
-                  <option value="1">Position 1 </option>
-                  <option value="2">Position 2</option>
-                  <option value="3">Position 3</option>
+                  <option value="" disabled>
+                    Select position
+                  </option>
+                  {positions.map((pos: any, index: any) => (
+                    <option key={index} value={pos}>
+                      {pos}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -133,7 +140,7 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
               </button>
               <button
                 className="px-4 py-2 text-white duration-300 rounded-md bg-primary hover:bg-gray"
-                // onClick={handleAdd}
+                onClick={handleAddEligbles}
               >
                 ADD
               </button>
@@ -210,7 +217,8 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                             Bank Account :
                           </h2>
                           <button className="px-4 py-0 rounded bg-secondary text-pureBlack ">
-                            Rekening Number
+                            {employeeData.type_bank} -{' '}
+                            {employeeData.account_number}
                           </button>
                         </div>
                       </td>
@@ -219,10 +227,9 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                 </table>
               </div>
               {/* Tabel 1*/}
-
-              {/* Tabel 2*/}
+              {/* Salary Datail */}
               <div className="">
-                <div className="my-4 bg-white rounded-lg shadow-xl ">
+                <div className="my-4 bg-white rounded-lg shadow-xl">
                   <table className="w-full p-5 table-auto">
                     <thead>
                       <tr className="bg-primary">
@@ -235,30 +242,37 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        {/* Kolom 1 */}
-                        <td className="px-4 py-2 text-left align-top ">
-                          <div>
-                            <h2 className="text-base ">Positional Allowance</h2>
-                            <p className="pb-1 text-sm border-b pl-7">
-                              Entitled
-                            </p>
-                          </div>
-                        </td>
-                        {/* Kolom 2 */}
-                        <td className="px-4 py-2 text-left align-top">
-                          <div>
-                            <h2 className="text-base">Functional Allowance</h2>
-                            <p className="pb-1 text-sm border-b pl-7">
-                              Entitled
-                            </p>
-                          </div>
-                        </td>
-                      </tr>
+                      {employeeData.salary_detail
+                        .reduce((rows: any, item: any, index: any) => {
+                          if (index % 2 === 0) {
+                            rows.push([item]);
+                          } else {
+                            rows[rows.length - 1].push(item);
+                          }
+                          return rows;
+                        }, [])
+                        .map((row: any, rowIndex: any) => (
+                          <tr key={rowIndex}>
+                            {row.map((item: any, itemIndex: any) => (
+                              <td
+                                key={itemIndex}
+                                className="px-4 py-2 text-left align-top"
+                              >
+                                <div>
+                                  <h2 className="text-base">
+                                    {item.component_name}
+                                  </h2>
+                                  <p className="pt-2 pb-1 text-sm border-b">
+                                    {item.is_status === 1 ? 'Yes' : 'No'}
+                                  </p>
+                                </div>
+                              </td>
+                            ))}
+                          </tr>
+                        ))}
                     </tbody>
                   </table>
                 </div>
-                {/* Tabel 2*/}
               </div>
             </div>
           </div>
