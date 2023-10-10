@@ -3,7 +3,11 @@ import { ArrowButtonIcon, CloseButtonIcon } from '../../assets/icons/icon';
 import profileImg from '../../assets/img/profileImg.webp';
 import ReactLoading from 'react-loading';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { WarningAlert } from '../alerts/CustomAlert';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 type EligiblesProps = {
   employeeData: any;
 };
@@ -22,6 +26,7 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
   const { positionId } = useParams();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [showWarningAlert, setShowWarningAlert] = useState(false);
 
   // const [selectedPosition, setSelectedPosition] = useState('');
 
@@ -38,7 +43,14 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
   const handleAddEligbles = () => {};
 
   const handleEditClick = () => {
-    navigate(`/employee/detail/eligibles/edit/${employeeId}/${positionId}`);
+    if (employeeData.salary_detail === null) {
+      // Display the warning alert
+      toast.error(
+        `No salary component for ${employeeData.company_name} employee!`
+      );
+    } else {
+      navigate(`/employee/detail/eligibles/edit/${employeeId}/${positionId}`);
+    }
   };
 
   const handleManageClick = () => {
@@ -58,6 +70,7 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
   ];
   return (
     <section className="antialiased overlay bg-slate-100">
+      {/* Header Section Start */}
       <header className="flex items-center justify-between px-3 py-5 shadow-lg ">
         <h1 className="p-2 ml-2.5 text-lg font-medium border-b-2 border-primary ">
           Eligibles Employee Page
@@ -69,7 +82,7 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
               <button
                 onClick={handleManageClick}
                 className={`flex items-center justify-center px-6 py-2 text-sm font-medium duration-100 ${
-                  isDropdownVisible ? "rounded-t-lg" : "rounded-lg"
+                  isDropdownVisible ? 'rounded-t-lg' : 'rounded-lg'
                 } text-pureBlack bg-secondary focus:outline-none bg-primary-600 hover:bg-gray hover:text-white`}
               >
                 Manage
@@ -95,7 +108,18 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
           </div>
         </div>
       </header>
+      {/* Header Section End */}
 
+      {employeeData.salary_detail === null && (
+        <WarningAlert
+          title="Warning"
+          text={`There is no salary component at this employee's company.
+          Add Salary First for "${employeeData.company_name}"`}
+        />
+      )}
+
+      <ToastContainer />
+      {/* Modal Add Eligibles Section Start */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 ">
           <div className="w-1/3 bg-white rounded-md shadow-md">
@@ -156,6 +180,7 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
           </div>
         </div>
       )}
+      {/* Modal Add Eligibles Section Start */}
 
       <div className="max-w-screen-xl px-4 pt-6 mx-auto">
         <div className="relative overflow-hidden ">
@@ -204,37 +229,45 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                     </tr>
                   </thead>
                   <tbody>
-                    <div className="flex items-center px-4 pb-2">
-                      {/* Kolom 1 */}
-                      <td className="px-4 py-2 pl-0 text-left align-top ">
-                        <div className="flex items-center ">
-                          <h2 className="flex-shrink-0 mr-5 text-base">
-                            Main Postion Name :
-                          </h2>
-                          <div className="px-4 py-1 text-pureBlack">
-                            {employeeData.position_name}
+                    <div className="flex flex-wrap w-full">
+                      <div className="flex items-center w-full px-4 py-3">
+                        <div className="w-5/12">
+                          <p className="text-base">Main Postion Name :</p>
+                        </div>
+                        <label className="relative inline-flex items-center w-7/12 cursor-pointer">
+                          {employeeData.position_name}
+                        </label>
+                      </div>
+                      {employeeData.type_bank && employeeData.account_number ? (
+                        <div className="flex items-center w-full px-4 py-3">
+                          <div className="w-5/12">
+                            <p className="text-base"> Bank Account:</p>
                           </div>
+                          <label className="relative inline-flex items-center w-7/12 cursor-pointer">
+                            <div className="p-1 rounded-md bg-secondary">
+                              {employeeData.type_bank} -{' '}
+                              {employeeData.account_number}
+                            </div>
+                          </label>
                         </div>
-                      </td>
-                    </div>
-                    <div className="flex items-center px-4 pb-2">
-                      {/* Kolom 1 */}
-                      <td className="px-4 py-2 pl-0 text-left align-top">
-                        <div className="flex items-center ">
-                          <h2 className="flex-shrink-0 mr-5 text-base">
-                            Bank Account :
-                          </h2>
-                          <button className="px-4 py-0 rounded bg-secondary text-pureBlack ">
-                            {employeeData.type_bank} -{' '}
-                            {employeeData.account_number}
-                          </button>
+                      ) : (
+                        <div className="flex items-center w-full px-4 py-3">
+                          <div className="w-5/12">
+                            <p className="text-base"> Bank Account:</p>
+                          </div>
+                          <label className="relative inline-flex items-center w-7/12 cursor-pointer">
+                            <div className="p-1 rounded-md bg-secondary">
+                              No Bank Data
+                            </div>
+                          </label>
                         </div>
-                      </td>
+                      )}
                     </div>
                   </tbody>
                 </table>
               </div>
               {/* Tabel 1*/}
+
               {/* Salary Datail */}
               <div className="">
                 <div className="my-4 bg-white rounded-lg shadow-xl">
@@ -250,34 +283,52 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {employeeData.salary_detail
-                        .reduce((rows: any, item: any, index: any) => {
-                          if (index % 2 === 0) {
-                            rows.push([item]);
-                          } else {
-                            rows[rows.length - 1].push(item);
-                          }
-                          return rows;
-                        }, [])
-                        .map((row: any, rowIndex: any) => (
-                          <tr key={rowIndex}>
-                            {row.map((item: any, itemIndex: any) => (
-                              <td
-                                key={itemIndex}
-                                className="px-4 py-2 text-left align-top"
-                              >
-                                <div>
-                                  <h2 className="text-base">
-                                    {item.component_name}
-                                  </h2>
-                                  <p className="pt-2 pb-1 text-sm border-b">
-                                    {item.is_status === 1 ? 'Yes' : 'No'}
-                                  </p>
-                                </div>
-                              </td>
-                            ))}
-                          </tr>
-                        ))}
+                      {employeeData.salary_detail &&
+                      employeeData.salary_detail.length > 0 ? (
+                        employeeData.salary_detail
+                          .reduce((rows: any, item: any, index: any) => {
+                            if (index % 2 === 0) {
+                              rows.push([item]);
+                            } else {
+                              rows[rows.length - 1].push(item);
+                            }
+                            return rows;
+                          }, [])
+                          .map((row: any, rowIndex: any) => (
+                            <tr key={rowIndex}>
+                              {row.map((item: any, itemIndex: any) => (
+                                <td
+                                  key={itemIndex}
+                                  className="px-4 py-2 text-left align-top"
+                                >
+                                  <div>
+                                    <h2 className="text-base">
+                                      {item.component_name}
+                                    </h2>
+                                    <p className="pt-2 pb-1 text-sm border-b">
+                                      {item.is_status === 1 ? 'Yes' : 'No'}
+                                    </p>
+                                  </div>
+                                </td>
+                              ))}
+                            </tr>
+                          ))
+                      ) : (
+                        <td
+                          className="px-4 py-4 text-center bg-zinc-300"
+                          colSpan={2}
+                        >
+                          No salary componets for{' '}
+                          <span className="italic">
+                            {employeeData.company_name}
+                          </span>{' '}
+                          , add
+                          <Link to={`/salary/configures`}>
+                            <span className="text-blue-700"> here</span>
+                          </Link>
+                          .
+                        </td>
+                      )}
                     </tbody>
                   </table>
                 </div>
@@ -307,7 +358,7 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                                   <tr key={index}>
                                     {/* Kolom 1 */}
                                     <div>
-                                      <p className="pb-1 pt-2 text-base border-b">
+                                      <p className="pt-2 pb-1 text-base border-b">
                                         {position.position_name}
                                       </p>
                                     </div>
