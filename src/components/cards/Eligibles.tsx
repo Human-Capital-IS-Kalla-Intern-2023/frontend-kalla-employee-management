@@ -8,6 +8,14 @@ type EligiblesProps = {
   employeeData: any;
 };
 
+type PositionType = {
+  position_name: string[];
+  company_name: string;
+  directorate_name: string;
+  division_name: string;
+  section_name: string;
+};
+
 const Eligibles = ({ employeeData }: EligiblesProps) => {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const { employeeId } = useParams();
@@ -61,7 +69,7 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
               <button
                 onClick={handleManageClick}
                 className={`flex items-center justify-center px-6 py-2 text-sm font-medium duration-100 ${
-                  isDropdownVisible ? 'rounded-t-lg' : 'rounded-lg'
+                  isDropdownVisible ? "rounded-t-lg" : "rounded-lg"
                 } text-pureBlack bg-secondary focus:outline-none bg-primary-600 hover:bg-gray hover:text-white`}
               >
                 Manage
@@ -273,6 +281,78 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                     </tbody>
                   </table>
                 </div>
+                {/* Tabel 2*/}
+
+                {/* Tabel 3 */}
+                <div className="">
+                  <div className="my-4 bg-white rounded-lg shadow-xl ">
+                    <table className="w-full p-5 table-auto">
+                      <thead>
+                        <tr className="bg-primary">
+                          <th className="w-1/2 px-4 py-2 text-left border-b-2 rounded-tl-lg">
+                            <h2 className="text-lg font-medium text-white">
+                              Secondary Information
+                            </h2>
+                          </th>
+                          <th className="w-1/2 px-4 py-2 text-right border-b-2 rounded-tr-lg"></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          {/* Kolom 1 */}
+                          <td className="px-4 py-1 text-left align-top ">
+                            <div>
+                              {employeeData.additional_position.map(
+                                (position: PositionType, index: number) => (
+                                  <tr key={index}>
+                                    {/* Kolom 1 */}
+                                    <div>
+                                      <p className="pb-1 pt-2 text-base border-b">
+                                        {position.position_name}
+                                      </p>
+                                    </div>
+
+                                    {/* Kolom 2 */}
+                                    {/* <td className="px-4 py-2 text-left align-top">
+                                      <div>
+                                        <h2 className="pt-2 text-lg font-medium">
+                                          Division
+                                        </h2>
+                                        <p className="pb-1 text-base border-b">
+                                          {position.division_name}
+                                        </p>
+                                      </div>
+                                      <div>
+                                        <h2 className="text-lg font-medium">
+                                          Section
+                                        </h2>
+                                        <p className="pb-1 text-base border-b">
+                                          {position.section_name}
+                                        </p>
+                                      </div>
+                                    </td> */}
+                                  </tr>
+                                )
+                              )}
+                            </div>
+                          </td>
+                          {/* Kolom 2 */}
+                          {/* <td className="px-4 py-2 text-left align-top">
+                            <div>
+                              <h2 className="text-base">
+                                Functional Allowance
+                              </h2>
+                              <p className="pb-1 text-sm border-b pl-7">
+                                Entitled
+                              </p>
+                            </div>
+                          </td> */}
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                {/* Tabel 3 */}
               </div>
             </div>
           </div>

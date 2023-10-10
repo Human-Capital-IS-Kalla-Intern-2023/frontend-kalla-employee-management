@@ -11,6 +11,7 @@ import {
 } from '../../components/alerts/CustomAlert';
 import { ResetAlert } from '../../helpers/ResetAlert';
 
+
 type EligiblesProps = {
   employeeData: any;
 };
@@ -222,7 +223,6 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
                   />
                   <div className="px-4 pl-0 mb-2">
                     <p className="text-lg font-bold">{employeeData.fullname}</p>
-
                     <h3 className="mt-4 text-md">NIK</h3>
                     <p className="font-semibold text-md">{employeeData.nip}</p>
                   </div>
