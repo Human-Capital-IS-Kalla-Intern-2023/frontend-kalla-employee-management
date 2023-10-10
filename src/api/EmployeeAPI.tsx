@@ -176,6 +176,66 @@ const getDetailEligiblesEmployee = async (employeeId: any, positionId: any) => {
   }
 };
 
+const getDetailSalaryEmployee = async (employeeId: any, positionId: any) => {
+  try {
+    const token = TokenHelper();
+
+    const headerToken = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const responseGetDetailSalaryEmployee = await RequestApi(
+      'GET',
+      `eligibles/get-components/${employeeId}/${positionId}`,
+      {},
+      headerToken,
+      'Mengambil detail salary eligibles employee'
+    );
+
+    console.log(
+      'responseGetDetailSalaryEmployee',
+      responseGetDetailSalaryEmployee
+    );
+    return responseGetDetailSalaryEmployee;
+  } catch (error) {
+    console.error(
+      'Terjadi kesalahan saat mengambil data salary eligbles employee:',
+      error
+    );
+    return false;
+  }
+};
+
+const addDetailSalaryEmployee = async (employeeSalaryData: any) => {
+  try {
+    const token = TokenHelper();
+
+    const headerToken = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const responseAddDetailSalaryEmployee = await RequestApi(
+      'POST',
+      `eligibles`,
+      employeeSalaryData,
+      headerToken,
+      'menambahkan detail salary eligibles employee'
+    );
+
+    console.log(
+      'responseAddDetailSalaryEmployee',
+      responseAddDetailSalaryEmployee
+    );
+    return responseAddDetailSalaryEmployee;
+  } catch (error) {
+    console.error(
+      'Terjadi kesalahan saat menambahkan data salary eligbles employee:',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   getEmployee,
   getDetailEmployee,
@@ -184,4 +244,6 @@ export {
   deleteEmployee,
   searchEmployee,
   getDetailEligiblesEmployee,
+  getDetailSalaryEmployee,
+  addDetailSalaryEmployee,
 };
