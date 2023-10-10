@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import profileImg from '../../assets/img/profileImg.webp';
+import React, { useState } from "react";
+import profileImg from "../../assets/img/profileImg.webp";
 // import { useNavigate } from 'react-router-dom';
-import ReactLoading from 'react-loading';
-import EditModal from '../modals/EditModal';
-import { inputField } from '../../assets/data/EmployeeData';
-import { Link, useNavigate } from 'react-router-dom';
+import ReactLoading from "react-loading";
+import EditModal from "../modals/EditModal";
+import { inputField } from "../../assets/data/EmployeeData";
+import { Link, useNavigate } from "react-router-dom";
 
 type DetailEmployeeProps = {
   employeeData: any;
@@ -15,9 +15,9 @@ const DetailEmployee = ({
   employeeData,
   onUpdateEmployee,
 }: DetailEmployeeProps) => {
-  console.log('first, employee data', employeeData);
+  console.log("first, employee data", employeeData);
   const [selectedSecondaryPosition, setSelectedSecondaryPosition] =
-    useState<string>('');
+    useState<string>("");
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [editedData, setEditedData] = useState(employeeData);
@@ -72,7 +72,7 @@ const DetailEmployee = ({
           </button> */}
           <Link to={`edit`} type="button">
             <button
-              className="px-8 py-2 text-base duration-300 rounded-md text-pureBlack bg-secondary hover:bg-gray hover:text-white"
+              className="px-5 py-2 text-base duration-300 rounded-md text-pureBlack bg-secondary hover:bg-gray hover:text-white"
               onClick={handleEdit}
             >
               EDIT
@@ -135,16 +135,16 @@ const DetailEmployee = ({
             </div>
 
             <div className="px-3">
-              <div className="my-4 bg-white rounded-t-lg shadow-md ">
+              <div className="my-4 bg-white rounded-lg shadow-md ">
                 <table className="w-full p-5 table-auto">
                   <thead>
-                    <tr className="bg-primary">
-                      <th className="w-1/2 px-4 py-2 text-left border-b-2">
+                    <tr className="bg-primary ">
+                      <th className="w-1/2 px-4 py-2 text-left rounded-tl-lg border-b-2">
                         <h2 className="text-lg font-medium text-white ">
                           Main Position
                         </h2>
                       </th>
-                      <th className="w-1/2 px-4 py-2 text-right border-b-2"></th>
+                      <th className="w-1/2 px-4 py-2 text-right rounded-tr-lg border-b-2"></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -152,7 +152,7 @@ const DetailEmployee = ({
                       {/* Kolom 1 */}
                       <td className="px-4 py-2 text-left align-top ">
                         <div>
-                          <h2 className="pt-2 text-lg font-medium">
+                          <h2 className="pt-1 text-lg font-medium">
                             Position Name
                           </h2>
                           <p className="pb-1 text-base border-b">
@@ -180,7 +180,7 @@ const DetailEmployee = ({
                       {/* Kolom 2 */}
                       <td className="px-4 py-2 text-left align-top">
                         <div>
-                          <h2 className="pt-2 text-lg font-medium ">
+                          <h2 className="pt-1 text-lg font-medium ">
                             Division
                           </h2>
                           <p className="pb-1 text-base border-b">
@@ -206,12 +206,12 @@ const DetailEmployee = ({
                 <table className="w-full p-5 table-auto">
                   <thead>
                     <tr className="bg-primary">
-                      <th className="w-1/2 px-4 py-2 text-left border-b-2">
+                      <th className="w-1/2 px-4 py-2 text-left rounded-tl-lg border-b-2">
                         <h2 className="text-lg font-medium text-white">
                           Secondary Position
                         </h2>
                       </th>
-                      <th className="w-1/2 px-4 py-2 text-right border-b-2"></th>
+                      <th className="w-1/2 px-4 py-2 text-right rounded-tr-lg border-b-2"></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -256,12 +256,12 @@ const DetailEmployee = ({
                   <table className="w-full p-5 table-auto">
                     <thead>
                       <tr className="bg-primary">
-                        <th className="w-1/2 px-4 py-2 text-left border-b-2 ">
+                        <th className="w-1/2 px-4 py-2 text-left rounded-tl-lg border-b-2 ">
                           <h2 className="text-lg font-medium text-white">
                             Secondary Position Details
                           </h2>
                         </th>
-                        <th className="w-1/2 px-4 py-2 text-right border-b-2 bg-primary"></th>
+                        <th className="w-1/2 px-4 py-2 text-right border-b-2 rounded-tr-lg bg-primary"></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -282,7 +282,7 @@ const DetailEmployee = ({
                               {/* Kolom 1 */}
                               <td className="px-4 py-2 text-left align-top">
                                 <div>
-                                  <h2 className="pt-2 text-lg font-medium">
+                                  <h2 className="pt-1 text-lg font-medium">
                                     Position Name
                                   </h2>
                                   <p className="pb-1 text-base border-b">
@@ -290,7 +290,7 @@ const DetailEmployee = ({
                                   </p>
                                 </div>
                                 <div>
-                                  <h2 className="text-lg font-medium">
+                                  <h2 className="text-lg pt-2 font-medium">
                                     Company Name
                                   </h2>
                                   <p className="pb-1 text-base border-b">
@@ -310,7 +310,7 @@ const DetailEmployee = ({
                               {/* Kolom 2 */}
                               <td className="px-4 py-2 text-left align-top">
                                 <div>
-                                  <h2 className="pt-2 text-lg font-medium">
+                                  <h2 className="pt-1 text-lg font-medium">
                                     Division
                                   </h2>
                                   <p className="pb-1 text-base border-b">
@@ -318,7 +318,7 @@ const DetailEmployee = ({
                                   </p>
                                 </div>
                                 <div>
-                                  <h2 className="text-lg font-medium">
+                                  <h2 className="text-lg pt-2 font-medium">
                                     Section
                                   </h2>
                                   <p className="pb-1 text-base border-b">
