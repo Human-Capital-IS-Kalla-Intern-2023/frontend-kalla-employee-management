@@ -42,6 +42,8 @@ import './App.css';
 import ConfigureSalary from './pages/Salary/ConfigureSalary';
 import AddConfigureSalary from './pages/Salary/AddConfigureSalary';
 import EditPropertySalaryCard from './components/cards/EditPropertySalaryCard';
+import SetEligiblesCard from './components/modals/SetEligiblesModal';
+import AddEligibles from './pages/Employee/AddEligibles';
 
 const App = () => {
   return (
@@ -81,11 +83,20 @@ const App = () => {
               </EmployeeDetailLayout>
             }
           >
-            <Route path="add" element={<AddModal />} />
+            <Route path="set" element={<SetEligiblesCard />} />
           </Route>
 
           <Route
-            path="/employee/detail/eligibles/edit/:employeeId/:positionId"
+            path="/employee/detail/eligibles/:employeeId/:positionId/add-eligibles"
+            element={
+              <EmployeeDetailLayout>
+                <AddEligibles />
+              </EmployeeDetailLayout>
+            }
+          />
+
+          <Route
+            path="/employee/detail/eligibles/:employeeId/:positionId/edit"
             element={
               <EmployeeDetailLayout>
                 <EditEligibles />
