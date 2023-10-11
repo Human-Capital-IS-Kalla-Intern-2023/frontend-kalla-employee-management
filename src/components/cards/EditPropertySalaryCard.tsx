@@ -258,20 +258,16 @@ const EditPropertySalaryCard = () => {
   // Handle Hide Checkbox
   const handleIsHideCheckboxChange = (e: any, component_id: any) => {
     const isChecked = e.target.checked;
-    console.log('is check', isChecked);
 
     // Update the formData and save to local storage
     const updatedComponents = [...formData.components];
-    console.log('updatedComponents', updatedComponents);
 
     const componentIndex = updatedComponents.findIndex(
       (component) => component.component_id === component_id
     );
-    console.log('componentIndex', componentIndex);
 
     if (componentIndex !== -1) {
       updatedComponents[componentIndex].is_hide = isChecked ? 1 : 0;
-      console.log('lah', updatedComponents[componentIndex].is_hide);
 
       const updatedFormData = {
         ...formData,
@@ -279,9 +275,7 @@ const EditPropertySalaryCard = () => {
       };
 
       // Update tableData state
-      console.log('tabelData', tableData);
       const updatedTableData = [...tableData];
-      console.log('updatedTabelData', updatedTableData);
 
       updatedTableData[componentIndex].is_hide = isChecked ? 1 : 0;
       setTabelData(updatedTableData);
@@ -560,7 +554,6 @@ const EditPropertySalaryCard = () => {
 
       const response = await getDetailConfigureSalary(salaryId);
       const configureSalaryData = response.data;
-      console.log(';aj', configureSalaryData);
 
       setCompanyDropdownValue(configureSalaryData.company_id);
       setSalaryNameValue(configureSalaryData.salary_name);
@@ -572,7 +565,6 @@ const EditPropertySalaryCard = () => {
       saveDataToLocalStorage(configureSalaryData);
 
       const updatedTableData = getLocalStorageData();
-      console.log('updated', updatedTableData);
       setTabelData(updatedTableData);
     } catch (error: any) {
       console.error('Error fetching data:', error);

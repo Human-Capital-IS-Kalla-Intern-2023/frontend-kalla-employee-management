@@ -167,8 +167,6 @@ const changeIsActiveMasterComponent = async (
       'Mengubah Active Master'
     );
 
-    console.log('response', responseIsActiveChange);
-
     return responseIsActiveChange;
   } catch (error) {
     console.error('Kesalahan saat mengubah Active Master:', error);
