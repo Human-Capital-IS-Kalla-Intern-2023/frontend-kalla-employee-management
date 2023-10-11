@@ -528,7 +528,12 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={colCells.length}> </td>
+                    <td
+                      colSpan={colCells.length + 1}
+                      className="p-6 text-center text-gray-500 bg-slate-200"
+                    >
+                      There are no records to display.
+                    </td>
                   </tr>
                 )}
               </tbody>
