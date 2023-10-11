@@ -1,16 +1,15 @@
 import { useState, useEffect, useMemo } from 'react';
 import { PlusIcon, CloseButtonIcon, TrashIcon } from '../../assets/icons/icon';
 import profileImg from '../../assets/img/profileImg.webp';
-import ReactLoading from 'react-loading';
-import { useNavigate, useParams } from 'react-router-dom';
-import { addDetailSalaryEmployee } from '../../api/EmployeeAPI';
+import { useNavigate, useParams, Link } from 'react-router-dom';
+import { updateDetailSalaryEmployee } from '../../api/EmployeeAPI';
 import {
   SuccessAlert,
   ErrorAlert,
   DeleteConfimationAlert,
+  WarningAlert,
 } from '../../components/alerts/CustomAlert';
 import { ResetAlert } from '../../helpers/ResetAlert';
-
 
 type EligiblesProps = {
   employeeData: any;
@@ -26,16 +25,18 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
   const [successTitle, setSuccessTitle] = useState<string | null>(null);
   const [errorTitle, setErrorTitle] = useState<string | null>(null);
 
+  const [employeeDatas, setEmployeeDatas] = useState(employeeData);
+
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [componentStatus, setComponentStatus] = useState(
-    () => employeeData?.components.map(() => true) || []
+  const [salaryStatus, setSalaryStatus] = useState(
+    employeeDatas.salary_detail.map((salary: any) => salary.is_status)
   );
 
   const [bankData, setBankData] = useState({
-    type_bank: '',
-    account_number: '',
-    account_name: '',
+    type_bank: employeeDatas.type_bank,
+    account_number: employeeDatas.account_number,
+    account_name: employeeDatas.fullname,
   });
 
   const handleOpenModalAddBank = () => {
@@ -49,10 +50,13 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
   const saveEmployeeDataToServer = async () => {
     try {
       const existingData = JSON.parse(
-        localStorage.getItem('employeeData') || '{}'
+        localStorage.getItem('employeeDatas') || '{}'
       );
 
-      const responseData = await addDetailSalaryEmployee(existingData);
+      const responseData = await updateDetailSalaryEmployee(
+        existingData,
+        employeeId
+      );
       if (responseData) {
         setSuccessTitle(`${responseData.status}`);
         setSuccessMessage(`${responseData.message}`);
@@ -79,6 +83,7 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
   const handleCancelButton = async () => {
     navigate(`/employee/detail/eligibles/${employeeId}/${positionId}`);
   };
+
   const handleAddBank = () => {
     if (
       !bankData.account_name ||
@@ -90,20 +95,30 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
       return;
     }
 
+    // Update bank data in the employeeData parameter
+    const updatedEmployeeData = {
+      ...employeeData,
+      account_name: bankData.account_name,
+      type_bank: bankData.type_bank,
+      account_number: bankData.account_number,
+    };
+
+    // Update the state with the new employeeData
+    setEmployeeDatas(updatedEmployeeData);
+
     // Update local storage with bank data
     const existingData = JSON.parse(
-      localStorage.getItem('employeeData') || '{}'
+      localStorage.getItem('employeeDatas') || '{}'
     );
     const updatedData = {
       ...existingData,
       type_bank: bankData.type_bank,
       account_number: bankData.account_number,
-      account_name: bankData.account_name,
     };
-    localStorage.setItem('employeeData', JSON.stringify(updatedData));
+    localStorage.setItem('employeeDatas', JSON.stringify(updatedData));
 
     setSuccessTitle(`Success Add Bank`);
-    setSuccessMessage(`Success Add Bank `);
+    setSuccessMessage(`Success Add Bank`);
 
     setIsModalOpen(false);
     ResetAlert(
@@ -127,9 +142,19 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
           account_number: '',
           account_name: '',
         });
+
+        const updatedEmployeeData = {
+          ...employeeData,
+          account_name: '',
+          type_bank: '',
+          account_number: '',
+        };
+
+        // Update the state with the new employeeData
+        setEmployeeDatas(updatedEmployeeData);
         // Hapus data bank dari localStorage
         const existingData = JSON.parse(
-          localStorage.getItem('employeeData') || '{}'
+          localStorage.getItem('employeeDatas') || '{}'
         );
 
         const updatedData = {
@@ -139,48 +164,35 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
           account_name: '',
         };
 
-        localStorage.setItem('employeeData', JSON.stringify(updatedData));
+        localStorage.setItem('employeeDatas', JSON.stringify(updatedData));
       },
     });
   };
 
   const updatedEmployeeData = useMemo(() => {
-    if (!employeeData) {
+    if (!employeeDatas) {
       return null;
     }
 
     const updatedData = {
-      ...employeeData,
-      employee_detail_id: employeeData.id,
-      salary_detail: employeeData.components.map(
-        (component: any, index: number) => ({
-          ...component,
-          component_id: component.component_id,
-          is_status: componentStatus[index] ? 1 : 0,
-        })
-      ),
+      ...employeeDatas,
+      employee_detail_id: employeeDatas.id,
     };
 
-    // Menghapus atribut components yang tidak diperlukan (jika perlu)
-    delete updatedData.components;
     delete updatedData.id;
 
     return updatedData;
-  }, [componentStatus, employeeData]);
+  }, [employeeDatas]);
 
   useEffect(() => {
     if (updatedEmployeeData) {
-      localStorage.setItem('employeeData', JSON.stringify(updatedEmployeeData));
+      localStorage.setItem(
+        'employeeDatas',
+        JSON.stringify(updatedEmployeeData)
+      );
     }
   }, [updatedEmployeeData]);
 
-  if (!employeeData) {
-    return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-        <ReactLoading type="spin" color="green" height={50} width={50} />
-      </div>
-    );
-  }
   return (
     <>
       {successMessage && successTitle && (
@@ -206,10 +218,18 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
               className="px-8 py-2 text-base duration-300 border border-transparent rounded-md text-pureBlack bg-secondary hover:bg-white hover:border-black hover:text-black"
               onClick={saveEmployeeDataToServer}
             >
-              SAVE
+              UPDATE
             </button>
           </div>
         </header>
+
+        {employeeDatas.salary_detail.length === 0 && (
+          <WarningAlert
+            title="Warning"
+            text={`There is no salary component at this employee's company.
+          Add Salary First for ${employeeDatas.company_name}`}
+          />
+        )}
         <div className="max-w-screen-xl px-4 pt-6 mx-auto">
           <div className="relative overflow-hidden bg-slate-100 ">
             <div className="px-5 pt-4 pb-4 overflow-x-auto">
@@ -222,27 +242,29 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
                     className="mr-4 w-28 h-28 rounded-2xl"
                   />
                   <div className="px-4 pl-0 mb-2">
-                    <p className="text-lg font-bold">{employeeData.fullname}</p>
+                    <p className="text-lg font-bold">
+                      {employeeDatas.fullname}
+                    </p>
                     <h3 className="mt-4 text-md">NIK</h3>
-                    <p className="font-semibold text-md">{employeeData.nip}</p>
+                    <p className="font-semibold text-md">{employeeDatas.nip}</p>
                   </div>
                   <div className="flex flex-row items-start px-6 py-1 pt-12">
                     <div className="px-4 mb-2">
                       <h3 className="text-md ">Job Grade</h3>
                       <p className="font-semibold text-md">
-                        {employeeData.grade_name}
+                        {employeeDatas.grade_name}
                       </p>
                     </div>
                     <div className="px-4 mb-2">
                       <h3 className="text-md ">Position</h3>
                       <p className="font-semibold text-md">
-                        {employeeData.position_name}
+                        {employeeDatas.position_name}
                       </p>
                     </div>
                     <div className="px-4 mb-2">
                       <h3 className="text-md ">Company Name</h3>
                       <p className="font-semibold text-md">
-                        {employeeData.company_name}
+                        {employeeDatas.company_name}
                       </p>
                     </div>
                   </div>
@@ -260,37 +282,50 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
                       </h2>
                     </div>
                   </div>
-                  <div className="flex flex-wrap w-full">
-                    {employeeData.components.map(
-                      (component: any, index: any) => (
-                        <div
-                          key={index}
-                          className="flex items-center w-1/2 px-4 py-4"
-                        >
-                          <div className="w-2/3">
-                            <p className="text-base">
-                              {component.component_name}
-                            </p>
+                  {employeeDatas.salary_detail.length !== 0 ? (
+                    <div className="flex flex-wrap w-full">
+                      {employeeDatas.salary_detail.map(
+                        (salary: any, index: any) => (
+                          <div
+                            key={index}
+                            className="flex items-center w-1/2 px-4 py-4"
+                          >
+                            <div className="w-2/3">
+                              <p className="text-base">
+                                {salary.component_name}
+                              </p>
+                            </div>
+                            {/* TODO: buat ini sesuai dengan data dari employeeDatas is status, jika is status dari salary tersebut 1 maka check jika 0 uncheck  */}
+                            <label className="relative inline-flex items-center w-1/3 ml-2 cursor-pointer">
+                              <input
+                                type="checkbox"
+                                checked={salaryStatus[index] === 1}
+                                className="sr-only peer"
+                                onChange={() => {
+                                  // Perbarui status komponen gaji
+                                  const updatedStatus = [...salaryStatus];
+                                  updatedStatus[index] =
+                                    salaryStatus[index] === 1 ? 0 : 1;
+                                  setSalaryStatus(updatedStatus);
+                                }}
+                              />
+                              <div
+                                className={`w-11 h-6 bg-red-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-white dark:peer-focus:ring-gray-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600`}
+                              ></div>
+                            </label>
                           </div>
-                          <label className="relative inline-flex items-center w-1/3 ml-2 cursor-pointer">
-                            <input
-                              type="checkbox"
-                              value={componentStatus[index]}
-                              className="sr-only peer"
-                              onChange={() => {
-                                const updatedStatus = [...componentStatus];
-                                updatedStatus[index] = !updatedStatus[index];
-                                setComponentStatus(updatedStatus);
-                              }}
-                            />
-                            <div
-                              className={`w-11 h-6 bg-red-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-white dark:peer-focus:ring-gray-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600`}
-                            ></div>
-                          </label>
-                        </div>
-                      )
-                    )}
-                  </div>
+                        )
+                      )}
+                    </div>
+                  ) : (
+                    <div className="px-4 py-5 text-center bg-zinc-300">
+                      No salary data available , add
+                      <Link to={`/salary/configures/payroll_component/add`}>
+                        <span className="text-blue-700"> here</span>
+                      </Link>
+                      .
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex-grow py-6 pl-4">
@@ -311,9 +346,8 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
                         </div>
                       </div>
                     </div>
-                    {bankData.type_bank !== '' &&
-                    bankData.account_number !== '' &&
-                    !isModalOpen ? (
+                    {employeeDatas.type_bank !== '' &&
+                    employeeDatas.account_number !== '' ? (
                       <div>
                         <div className="flex items-center px-2 py-2 text-left align-top bg-white">
                           <TrashIcon
@@ -321,7 +355,8 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
                             onClick={resetBankData}
                           />
                           <h2 className="w-full mt-1 mb-1 mr-4 text-base text-slate-700">
-                            {bankData.type_bank} - {bankData.account_number}
+                            {employeeDatas.type_bank} -{' '}
+                            {employeeDatas.account_number}
                           </h2>
                         </div>
                       </div>
@@ -377,7 +412,7 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
                           Account Number
                         </label>
                         <input
-                          type="number"
+                          type="text"
                           id="account_number"
                           name="account_number"
                           placeholder="Account Number"
