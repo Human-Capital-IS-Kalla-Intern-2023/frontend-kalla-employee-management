@@ -15,10 +15,10 @@ interface ConfirmationAlertProps {
   timer?: number;
 }
 
-interface DeleteConfimationAlert {
+interface ConfimationAlert {
   title: string;
   text: string;
-  detail: string;
+  detail?: string;
   onConfirm: () => void;
 }
 
@@ -34,14 +34,15 @@ const ErrorAlert: React.FC<CustomAlertProps> = ({ title, text }) => {
   return null;
 };
 
-const SuccessAlert: React.FC<CustomAlertProps> = ({ title, text }) => {
+const SuccessAlert: React.FC<CustomAlertProps> = ({ title, text, timer }) => {
   useEffect(() => {
     Swal.fire({
       icon: 'success',
       title: title,
       text: text,
+      timer: timer,
     });
-  }, [title, text]);
+  }, [title, text, timer]);
 
   return null;
 };
@@ -78,7 +79,7 @@ const ConfirmationAlert: React.FC<ConfirmationAlertProps> = ({
   return null;
 };
 
-const DeleteConfimationAlert: React.FC<DeleteConfimationAlert> = ({
+const DeleteConfimationAlert: React.FC<ConfimationAlert> = ({
   title,
   text,
   detail,
@@ -102,10 +103,35 @@ const DeleteConfimationAlert: React.FC<DeleteConfimationAlert> = ({
   return null;
 };
 
+const CancelConfirmationAlert: React.FC<ConfimationAlert> = ({
+  title,
+  text,
+  detail,
+  onConfirm,
+}) => {
+  Swal.fire({
+    title: title,
+    text: text,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#DA4445',
+    cancelButtonColor: '#8388A4',
+    confirmButtonText: 'Yes, cancel it!',
+  }).then((result: any) => {
+    if (result.isConfirmed) {
+      onConfirm();
+      Swal.fire('Cancelled!', detail, 'info');
+    }
+  });
+
+  return null;
+};
+
 export {
   ErrorAlert,
   SuccessAlert,
   WarningAlert,
   ConfirmationAlert,
   DeleteConfimationAlert,
+  CancelConfirmationAlert,
 };
