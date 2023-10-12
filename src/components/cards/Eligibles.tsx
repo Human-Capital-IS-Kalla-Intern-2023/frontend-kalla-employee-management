@@ -72,7 +72,7 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
     <section className="antialiased overlay bg-slate-100">
       {/* Header Section Start */}
       <header className="flex items-center justify-between px-3 py-5 shadow-lg ">
-        <h1 className="p-2 ml-2.5 text-lg font-medium border-b-2 border-primary ">
+        <h1 className="p-2 ml-2.5 text-md lg:text-lg font-medium border-b-2 border-primary ">
           Eligibles Employee Page
         </h1>
         <div className="text-sm font-medium ">
@@ -81,9 +81,9 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
               {/* Button Manage untuk edit Eligible */}
               <button
                 onClick={handleManageClick}
-                className={`flex items-center justify-center px-6 py-2 text-sm font-medium duration-100 ${
+                className={`flex items-center justify-center px-4 py-2 text-sm font-medium duration-100 ${
                   isDropdownVisible ? 'rounded-t-lg' : 'rounded-lg'
-                } text-pureBlack bg-secondary focus:outline-none bg-primary-600 hover:bg-gray hover:text-white`}
+                } text-pureBlack bg-secondary focus:outline-none bg-primary-600 hover:bg-gray hover:text-white lg:hover:scale-105`}
               >
                 Manage
                 <ArrowButtonIcon className="h-3.5 w-3.5 ml-1" />
@@ -182,32 +182,46 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
       )}
       {/* Modal Add Eligibles Section Start */}
 
-      <div className="max-w-screen-xl px-4 pt-6 mx-auto">
+      <div className="max-w-screen-xl px-1 pt-6 mx-auto">
         <div className="relative overflow-hidden ">
           <div className="px-3 pt-4 pb-4 overflow-x-auto">
             {/* card 1 */}
             <img src={profileImg} className="w-40 h-40 mx-auto rounded-2xl" />
 
-            <h2 className="mt-4 text-2xl font-semibold text-center">
+            <h2 className="mt-4 text-xl font-semibold sm:text-md md:text-lg lg:text-xl text-center">
               {employeeData.fullname}
             </h2>
-            <p className="mt-2 text-center font-lg">{employeeData.nip}</p>
+            <p className="mt-2 text-center text-md lg:text-lg">
+              {employeeData.nip}
+            </p>
 
-            <div className="pt-4 pb-1">
+            <div className="px-3">
               <div className="my-4 rounded-t-lg ">
-                <div className="grid grid-cols-3 gap-5">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
                   <div className="p-4 bg-white rounded-lg shadow-md">
-                    <h2 className="mb-2 text-lg font-semibold">Company Name</h2>
-                    <p className="text-base">{employeeData.company_name}</p>
+                    <h2 className="mb-2 text-base lg:text-lg font-semibold">
+                      Company Name
+                    </h2>
+                    <p className="text-sm lg:text-base">
+                      {employeeData.company_name}
+                    </p>
                   </div>
 
                   <div className="p-4 bg-white rounded-lg shadow-md">
-                    <h2 className="mb-2 text-lg font-semibold">Directorate</h2>
-                    <p className="text-base">{employeeData.directorate_name}</p>
+                    <h2 className="mb-2 text-base lg:text-lg font-semibold">
+                      Directorate
+                    </h2>
+                    <p className="lg:text-base text-sm">
+                      {employeeData.directorate_name}
+                    </p>
                   </div>
                   <div className="p-4 bg-white rounded-lg shadow-md">
-                    <h2 className="mb-2 text-lg font-semibold">Division</h2>
-                    <p className="text-base">{employeeData.division_name}</p>
+                    <h2 className="mb-2 text-base lg:text-lg font-semibold">
+                      Division
+                    </h2>
+                    <p className="text-sm lg:text-base">
+                      {employeeData.division_name}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -215,156 +229,139 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
             {/* card 1 */}
 
             {/* Tabel 1*/}
-            <div className="">
-              <div className="my-4 bg-white rounded-lg shadow-xl ">
-                <table className="w-full p-5 table-auto">
-                  <thead>
-                    <tr className="bg-primary">
-                      <th className="w-1/2 px-4 py-2 text-left border-b-2 rounded-tl-lg">
-                        <h2 className="text-lg font-medium text-white">
-                          Primary Information
-                        </h2>
-                      </th>
-                      <th className="w-1/2 px-4 py-2 text-right border-b-2 rounded-tr-lg"></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <div className="flex flex-wrap w-full">
+            <div className="px-3">
+              <div className="my-4 bg-white rounded-lg shadow-md overflow-x-auto">
+                <div className="bg-primary px-4 py-2 text-left rounded-tl-lg border-b-2">
+                  <h2 className="sm:text-md lg:text-lg font-medium text-white">
+                    Main Position
+                  </h2>
+                </div>
+                <div>
+                  <div className="flex-row lg:flex-col">
+                    <div className="flex items-center w-full px-4 py-3">
+                      <div className="w-5/12 lg:w-2/12">
+                        <p className="text-sm lg:text-base">Position Name :</p>
+                      </div>
+                      <label className="relative inline-flex items-center w-6/12 cursor-pointer">
+                        {employeeData.position_name}
+                      </label>
+                    </div>
+                    {employeeData.type_bank && employeeData.account_number ? (
                       <div className="flex items-center w-full px-4 py-3">
                         <div className="w-5/12">
-                          <p className="text-base">Main Postion Name :</p>
+                          <p className="text-base"> Bank Account:</p>
                         </div>
                         <label className="relative inline-flex items-center w-7/12 cursor-pointer">
-                          {employeeData.position_name}
+                          <div className="p-1 rounded-md bg-secondary">
+                            {employeeData.type_bank} -{' '}
+                            {employeeData.account_number}
+                          </div>
                         </label>
                       </div>
-                      {employeeData.type_bank && employeeData.account_number ? (
-                        <div className="flex items-center w-full px-4 py-3">
-                          <div className="w-5/12">
-                            <p className="text-base"> Bank Account:</p>
-                          </div>
-                          <label className="relative inline-flex items-center w-7/12 cursor-pointer">
-                            <div className="p-1 rounded-md bg-secondary">
-                              {employeeData.type_bank} -{' '}
-                              {employeeData.account_number}
-                            </div>
-                          </label>
+                    ) : (
+                      <div className="flex items-center w-full px-4 py-3">
+                        <div className="w-5/12 lg:w-2/12">
+                          <p className="text-sm lg:text-base"> Bank Account:</p>
                         </div>
-                      ) : (
-                        <div className="flex items-center w-full px-4 py-3">
-                          <div className="w-5/12">
-                            <p className="text-base"> Bank Account:</p>
+                        <label className="relative inline-flex items-center w-6/12 cursor-pointer">
+                          <div className="px-2 py-1 rounded-md bg-secondary">
+                            No Bank Data
                           </div>
-                          <label className="relative inline-flex items-center w-7/12 cursor-pointer">
-                            <div className="p-1 rounded-md bg-secondary">
-                              No Bank Data
-                            </div>
-                          </label>
-                        </div>
-                      )}
-                    </div>
-                  </tbody>
-                </table>
-              </div>
-              {/* Tabel 1*/}
-
-              {/* Salary Datail */}
-              <div className="">
-                <div className="my-4 bg-white rounded-lg shadow-xl">
-                  <table className="w-full p-5 table-auto">
-                    <thead>
-                      <tr className="bg-primary">
-                        <th className="w-1/2 px-4 py-2 text-left border-b-2 rounded-tl-lg">
-                          <h2 className="text-lg font-medium text-white">
-                            Allowance Information
-                          </h2>
-                        </th>
-                        <th className="w-1/2 px-4 py-2 text-right border-b-2 rounded-tr-lg"></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {employeeData.salary_detail &&
-                      employeeData.salary_detail.length > 0 ? (
-                        employeeData.salary_detail
-                          .reduce((rows: any, item: any, index: any) => {
-                            if (index % 2 === 0) {
-                              rows.push([item]);
-                            } else {
-                              rows[rows.length - 1].push(item);
-                            }
-                            return rows;
-                          }, [])
-                          .map((row: any, rowIndex: any) => (
-                            <tr key={rowIndex}>
-                              {row.map((item: any, itemIndex: any) => (
-                                <td
-                                  key={itemIndex}
-                                  className="px-4 py-2 text-left align-top"
-                                >
-                                  <div>
-                                    <h2 className="text-base">
-                                      {item.component_name}
-                                    </h2>
-                                    <p className="pt-2 pb-1 text-sm border-b">
-                                      {item.is_status === 1 ? 'Yes' : 'No'}
-                                    </p>
-                                  </div>
-                                </td>
-                              ))}
-                            </tr>
-                          ))
-                      ) : (
-                        <td
-                          className="px-4 py-4 text-center bg-zinc-300"
-                          colSpan={2}
-                        >
-                          No salary componets for{' '}
-                          <span className="italic">
-                            {employeeData.company_name}
-                          </span>{' '}
-                          , add
-                          <Link to={`/salary/configures`}>
-                            <span className="text-blue-700"> here</span>
-                          </Link>
-                          .
-                        </td>
-                      )}
-                    </tbody>
-                  </table>
+                        </label>
+                      </div>
+                    )}
+                  </div>
                 </div>
-                {/* Tabel 2*/}
+              </div>
+            </div>
+            {/* Tabel 1*/}
 
-                {/* Tabel 3 */}
-                <div className="">
-                  <div className="my-4 bg-white rounded-lg shadow-xl ">
-                    <table className="w-full p-5 table-auto">
-                      <thead>
-                        <tr className="bg-primary">
-                          <th className="w-1/2 px-4 py-2 text-left border-b-2 rounded-tl-lg">
-                            <h2 className="text-lg font-medium text-white">
-                              Secondary Information
-                            </h2>
-                          </th>
-                          <th className="w-1/2 px-4 py-2 text-right border-b-2 rounded-tr-lg"></th>
+            {/* Salary Datail */}
+            <div className="px-3">
+              <div className="my-4 bg-white rounded-lg shadow-md ">
+                <div className="bg-primary w-full table-auto rounded-t-lg">
+                  <div className="w-full px-4 py-2 text-left border-b-2">
+                    <h2 className="sm:text-md lg:text-lg font-medium text-white">
+                      Allowance Information
+                    </h2>
+                  </div>
+                </div>
+                <div>
+                  {employeeData.salary_detail &&
+                  employeeData.salary_detail.length > 0 ? (
+                    employeeData.salary_detail
+                      .reduce((rows: any, item: any, index: any) => {
+                        if (index % 2 === 0) {
+                          rows.push([item]);
+                        } else {
+                          rows[rows.length - 1].push(item);
+                        }
+                        return rows;
+                      }, [])
+                      .map((row: any, rowIndex: any) => (
+                        <tr key={rowIndex}>
+                          {row.map((item: any, itemIndex: any) => (
+                            <div
+                              key={itemIndex}
+                              className="px-4 py-2 text-left align-top"
+                            >
+                              <div>
+                                <h2 className="text-base">
+                                  {item.component_name}
+                                </h2>
+                                <p className="pt-2 pb-1 text-sm border-b">
+                                  {item.is_status === 1 ? 'Yes' : 'No'}
+                                </p>
+                              </div>
+                            </div>
+                          ))}
                         </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          {/* Kolom 1 */}
-                          <td className="px-4 py-1 text-left align-top ">
-                            <div>
-                              {employeeData.additional_position.map(
-                                (position: PositionType, index: number) => (
-                                  <tr key={index}>
-                                    {/* Kolom 1 */}
-                                    <div>
-                                      <p className="pt-2 pb-1 text-base border-b">
-                                        {position.position_name}
-                                      </p>
-                                    </div>
+                      ))
+                  ) : (
+                    <div className="px-4 py-4 text-center w-full bg-zinc-300 rounded-b-lg">
+                      No salary componets for{' '}
+                      <span className="italic">
+                        {employeeData.company_name}
+                      </span>{' '}
+                      , add
+                      <Link to={`/salary/configures`}>
+                        <span className="text-blue-700"> here</span>
+                      </Link>
+                      .
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+            {/* Tabel 2*/}
 
-                                    {/* Kolom 2 */}
-                                    {/* <td className="px-4 py-2 text-left align-top">
+            {/* Tabel 3 */}
+            <div className="px-3">
+              <div className="my-4 bg-white rounded-lg shadow-md ">
+                <div className="bg-primary w-full table-auto rounded-t-lg">
+                  <div className="w-full px-4 py-2 text-left border-b-2">
+                    <h2 className="sm:text-md lg:text-lg font-medium text-white">
+                      Secondary Position
+                    </h2>
+                  </div>
+                </div>
+                <div>
+                  <div>
+                    {/* Kolom 1 */}
+                    <div className="px-4 py-1 text-left align-top ">
+                      <div>
+                        {employeeData.additional_position.map(
+                          (position: PositionType, index: number) => (
+                            <div key={index}>
+                              {/* Kolom 1 */}
+                              <div>
+                                <p className="pt-2 pb-1 text-base border-b">
+                                  {position.position_name}
+                                </p>
+                              </div>
+
+                              {/* Kolom 2 */}
+                              {/* <td className="px-4 py-2 text-left align-top">
                                       <div>
                                         <h2 className="pt-2 text-lg font-medium">
                                           Division
@@ -382,13 +379,13 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                                         </p>
                                       </div>
                                     </td> */}
-                                  </tr>
-                                )
-                              )}
                             </div>
-                          </td>
-                          {/* Kolom 2 */}
-                          {/* <td className="px-4 py-2 text-left align-top">
+                          )
+                        )}
+                      </div>
+                    </div>
+                    {/* Kolom 2 */}
+                    {/* <td className="px-4 py-2 text-left align-top">
                             <div>
                               <h2 className="text-base">
                                 Functional Allowance
@@ -398,15 +395,12 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                               </p>
                             </div>
                           </td> */}
-                        </tr>
-                      </tbody>
-                    </table>
                   </div>
                 </div>
-                {/* Tabel 3 */}
               </div>
             </div>
           </div>
+          {/* Tabel 3 */}
         </div>
       </div>
     </section>
