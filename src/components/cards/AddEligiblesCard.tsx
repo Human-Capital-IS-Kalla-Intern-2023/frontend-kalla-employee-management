@@ -192,7 +192,6 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
 
     const updatedData = {
       ...employeeDatas,
-      employee_detail_id: employeeDatas.id,
       salary_detail: employeeDatas.components.map(
         (component: any, index: number) => ({
           ...component,

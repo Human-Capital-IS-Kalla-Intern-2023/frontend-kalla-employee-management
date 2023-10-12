@@ -204,8 +204,9 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                             : {employeeData.position_name}
                           </label>
                         </div>
-                        {employeeData.type_bank &&
-                        employeeData.account_number ? (
+                        {employeeData.type_bank !== 'Eligible Belum Dibuat' &&
+                        employeeData.account_number !==
+                          'Eligible Belum Dibuat' ? (
                           <div className="flex items-center w-full px-4 py-3">
                             <div className="w-5/12">
                               <p className="text-base">Bank Account</p>
@@ -252,7 +253,9 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                         </tr>
                       </thead>
                       <tbody>
-                        {employeeData.salary_detail &&
+                        {employeeData.salary_detail !==
+                          'Eligible Belum Dibuat' &&
+                        employeeData.salary_detail &&
                         employeeData.salary_detail.length > 0 ? (
                           employeeData.salary_detail
                             .reduce((rows: any, item: any, index: any) => {
@@ -308,18 +311,17 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                       <table className="w-full p-5 table-auto">
                         <thead>
                           <tr className="bg-primary">
-                            <th className="w-1/2 px-4 py-2 text-left border-b-2 rounded-tl-lg">
+                            <th className="w-full px-4 py-2 text-left border-b-2 rounded-tl-lg">
                               <h2 className="text-lg font-medium text-white">
                                 Secondary Information
                               </h2>
                             </th>
-                            <th className="w-1/2 px-4 py-2 text-right border-b-2 rounded-tr-lg"></th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr>
                             {/* Kolom 1 */}
-                            <td className="px-4 py-1 text-left align-top ">
+                            <td className="px-4 py-3 text-left align-top ">
                               <div>
                                 {employeeData.additional_position.map(
                                   (position: PositionType, index: number) => (
