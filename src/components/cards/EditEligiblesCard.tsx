@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { PlusIcon, CloseButtonIcon, TrashIcon } from '../../assets/icons/icon';
 import profileImg from '../../assets/img/profileImg.webp';
-import { useNavigate, useParams, Link } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { updateDetailSalaryEmployee } from '../../api/EmployeeAPI';
 import {
   SuccessAlert,
@@ -30,7 +30,7 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [salaryStatus, setSalaryStatus] = useState(
-    employeeDatas.salary_detail.map((salary: any) => salary.is_status)
+    employeeDatas?.salary_detail?.map((salary: any) => salary.is_status)
   );
 
   const [bankData, setBankData] = useState({
@@ -176,7 +176,6 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
 
     const updatedData = {
       ...employeeDatas,
-      employee_detail_id: employeeDatas.id,
     };
 
     delete updatedData.id;
@@ -223,7 +222,7 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
           </div>
         </header>
 
-        {employeeDatas.salary_detail.length === 0 && (
+        {employeeDatas?.salary_detail?.length === 0 && (
           <WarningAlert
             title="Warning"
             text={`There is no salary component at this employee's company.
@@ -282,9 +281,10 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
                       </h2>
                     </div>
                   </div>
-                  {employeeDatas.salary_detail.length !== 0 ? (
+                  {employeeDatas?.salary_detail?.length !== 0 &&
+                  employeeDatas?.salary_detail !== null ? (
                     <div className="flex flex-wrap w-full">
-                      {employeeDatas.salary_detail.map(
+                      {employeeDatas?.salary_detail?.map(
                         (salary: any, index: any) => (
                           <div
                             key={index}
@@ -295,7 +295,6 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
                                 {salary.component_name}
                               </p>
                             </div>
-                            {/* TODO: buat ini sesuai dengan data dari employeeDatas is status, jika is status dari salary tersebut 1 maka check jika 0 uncheck  */}
                             <label className="relative inline-flex items-center w-1/3 ml-2 cursor-pointer">
                               <input
                                 type="checkbox"
@@ -319,11 +318,7 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
                     </div>
                   ) : (
                     <div className="px-4 py-5 text-center bg-zinc-300">
-                      No salary data available , add
-                      <Link to={`/salary/configures/payroll_component/add`}>
-                        <span className="text-blue-700"> here</span>
-                      </Link>
-                      .
+                      No salary data available
                     </div>
                   )}
                 </div>
