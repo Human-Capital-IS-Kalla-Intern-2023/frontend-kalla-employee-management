@@ -196,7 +196,7 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
         (component: any, index: number) => ({
           ...component,
           component_id: component.component_id,
-          is_status: componentStatus[index] ? 1 : 0,
+          is_status: componentStatus[index] ? 0 : 1,
         })
       ),
     };
