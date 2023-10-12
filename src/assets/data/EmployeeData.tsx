@@ -88,6 +88,4 @@ const fetchPositions = async () => {
   }
 };
 
-fetchPositions();
-
-export { colCells, filterOptions, inputField };
+export { colCells, filterOptions, inputField, fetchPositions };

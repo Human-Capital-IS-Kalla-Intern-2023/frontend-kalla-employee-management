@@ -221,7 +221,7 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                             </div>
                             <label className="relative inline-flex items-center w-7/12">
                               :
-                              <div className="p-1 ml-1 rounded-md">
+                              <div className="p-1 rounded-md">
                                 {employeeData.type_bank} -{' '}
                                 {employeeData.account_number}
                               </div>
