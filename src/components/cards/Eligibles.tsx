@@ -15,6 +15,7 @@ import 'react-toastify/dist/ReactToastify.css';
 type EligiblesProps = {
   employeeData: any;
 };
+import { TrashIcon } from '../../assets/icons/icon';
 
 type PositionType = {
   position_name: string[];
@@ -22,6 +23,7 @@ type PositionType = {
   directorate_name: string;
   division_name: string;
   section_name: string;
+  id_additional_position: string;
 };
 
 const Eligibles = ({ employeeData }: EligiblesProps) => {
@@ -104,9 +106,9 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                 {/* Button Manage untuk edit Eligible */}
                 <button
                   onClick={handleManageClick}
-                  className={`flex items-center justify-center px-4 py-2 text-sm font-medium duration-100 ${
+                  className={`flex items-center justify-center px-6 py-2 text-sm font-medium duration-100 ${
                     isDropdownVisible ? 'rounded-t-lg' : 'rounded-lg'
-                  } text-pureBlack bg-secondary focus:outline-none bg-primary-600 hover:bg-gray hover:text-white lg:hover:scale-105`}
+                  } text-pureBlack bg-secondary focus:outline-none bg-primary-600 hover:bg-gray hover:text-white `}
                 >
                   Manage
                   <ArrowButtonIcon className="h-3.5 w-3.5 ml-1" />
@@ -219,7 +221,7 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                             </div>
                             <label className="relative inline-flex items-center w-7/12">
                               :
-                              <div className="p-1 ml-1 rounded-md bg-secondary">
+                              <div className="p-1 ml-1 rounded-md">
                                 {employeeData.type_bank} -{' '}
                                 {employeeData.account_number}
                               </div>
@@ -283,8 +285,16 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                                       <h2 className="text-base">
                                         {item.component_name}
                                       </h2>
-                                      <p className="pt-2 pb-1 text-sm border-b">
-                                        {item.is_status === 1 ? 'Yes' : 'No'}
+                                      <p className="pt-2 pb-1 text-sm border-b ">
+                                        <span
+                                          className={
+                                            item.is_status === 1
+                                              ? 'bg-blue-300 px-2 rounded-md mt-2 mb-2'
+                                              : 'bg-red-300 px-2 rounded-md mt-2 mb-2'
+                                          }
+                                        >
+                                          {item.is_status === 1 ? 'Yes' : 'No'}
+                                        </span>
                                       </p>
                                     </div>
                                   </td>
@@ -312,41 +322,48 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                   {/* Tabel 2*/}
 
                   {/* Tabel 3 */}
-                  <div className="">
-                    <div className="my-4 bg-white rounded-lg shadow-xl ">
-                      <table className="w-full p-5 table-auto">
-                        <thead>
-                          <tr className="bg-primary">
-                            <th className="w-full px-4 py-2 text-left border-b-2 rounded-tl-lg">
-                              <h2 className="text-lg font-medium text-white">
-                                Secondary Information
-                              </h2>
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            {/* Kolom 1 */}
-                            <td className="px-4 py-3 text-left align-top ">
-                              <div>
-                                {employeeData.additional_position.map(
-                                  (position: PositionType, index: number) => (
-                                    <tr key={index}>
-                                      {/* Kolom 1 */}
-                                      <div>
-                                        <p className="pt-2 pb-1 text-base border-b">
-                                          {position.position_name}
-                                        </p>
-                                      </div>
-                                    </tr>
-                                  )
-                                )}
-                              </div>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+                  <div className="w-full my-6 bg-white rounded-t-lg shadow-xl">
+                    <div className="rounded-t-lg bg-primary">
+                      <div className="w-full px-4 py-2 text-left border-b-2">
+                        <h2 className="text-lg font-medium text-white">
+                          Secondary Information
+                        </h2>
+                      </div>
                     </div>
+
+                    {employeeData.additional_position ? (
+                      <div className="flex flex-wrap w-full">
+                        {employeeData.additional_position.map(
+                          (position: PositionType, index: number) => (
+                            <div
+                              key={index}
+                              className="flex items-center w-1/2 px-4 py-4"
+                            >
+                              <div className="w-4/5 px-2 py-2 duration-200 rounded-md cursor-pointer hover:bg-gray hover:text-white bg-secondary">
+                                <Link
+                                  to={`/employee/detail/eligibles/${employeeId}/${position.id_additional_position}`}
+                                >
+                                  <p className="text-base ">
+                                    <span className="">
+                                      {position.position_name}
+                                    </span>
+                                  </p>
+                                </Link>
+                              </div>
+                              <div className="relative inline-flex items-center w-1/5 ml-2 cursor-pointer">
+                                <div className="px-2 py-2 text-white bg-black rounded-md hover:bg-red-300 hover:text-black">
+                                  <TrashIcon className="w-6 h-6" />
+                                </div>
+                              </div>
+                            </div>
+                          )
+                        )}
+                      </div>
+                    ) : (
+                      <div className="px-4 py-5 text-center bg-zinc-300">
+                        No salary data available
+                      </div>
+                    )}
                   </div>
                   {/* Tabel 3 */}
                 </div>
