@@ -1,19 +1,19 @@
-import { useState, useEffect } from 'react';
-import { CloseButtonIcon, PlusIcon } from '../../assets/icons/icon';
-import { useNavigate } from 'react-router-dom';
-import { getCompany } from '../../api/CompanyAPI';
+import { useState, useEffect } from "react";
+import { CloseButtonIcon, PlusIcon } from "../../assets/icons/icon";
+import { useNavigate } from "react-router-dom";
+import { getCompany } from "../../api/CompanyAPI";
 import {
   ErrorAlert,
   SuccessAlert,
   DeleteConfimationAlert,
   ConfirmationAlert,
-} from '../alerts/CustomAlert';
-import { ResetAlert } from '../../helpers/ResetAlert';
+} from "../alerts/CustomAlert";
+import { ResetAlert } from "../../helpers/ResetAlert";
 import {
   getMasterSalary,
   getDetailMasterSalary,
-} from '../../api/MasterSalaryAPI';
-import { addConfigureSalary } from '../../api/ConfigureSalaryAPI';
+} from "../../api/MasterSalaryAPI";
+import { addConfigureSalary } from "../../api/ConfigureSalaryAPI";
 
 interface FieldOptions {
   label: string;
@@ -23,14 +23,14 @@ interface FieldOptions {
 const AddPropertySalaryCard = () => {
   const [companyDropdownValue, setCompanyDropdownValue] = useState<
     number | string
-  >('');
+  >("");
   const [componentDropdownValue, setComponentDropdownValue] = useState<{
     id: any;
     name: any;
-  }>({ id: '', name: '' });
+  }>({ id: "", name: "" });
 
-  const [salaryNameValue, setSalaryNameValue] = useState('');
-  const [newComponentNameValue, setNewComponentNameValue] = useState('');
+  const [salaryNameValue, setSalaryNameValue] = useState("");
+  const [newComponentNameValue, setNewComponentNameValue] = useState("");
 
   const [getMasterChecboxValue, setGetMasterChecboxValue] = useState(true);
 
@@ -39,7 +39,7 @@ const AddPropertySalaryCard = () => {
     Array<FieldOptions>
   >([]);
   const [typeMasterComponentOptions, setTypeMasterComponentOptoins] =
-    useState('');
+    useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [formData, setFormData] = useState<{
@@ -56,8 +56,8 @@ const AddPropertySalaryCard = () => {
       is_active: number;
     }[];
   }>({
-    company_id: '',
-    salary_name: '',
+    company_id: "",
+    salary_name: "",
     is_active: 1,
     components: [],
   });
@@ -83,11 +83,11 @@ const AddPropertySalaryCard = () => {
 
   //* LOCAL STORAGE SECTION
   const saveDataToLocalStorage = (data: any) => {
-    localStorage.setItem('salaryData', JSON.stringify(data));
+    localStorage.setItem("salaryData", JSON.stringify(data));
   };
 
   const getLocalStorageData = () => {
-    const savedData = localStorage.getItem('salaryData');
+    const savedData = localStorage.getItem("salaryData");
     if (savedData) {
       const parsedData = JSON.parse(savedData);
       return parsedData.components || [];
@@ -107,7 +107,7 @@ const AddPropertySalaryCard = () => {
       }));
       setCompanyOptions(companyOptions);
     } catch (error) {
-      console.error('Error fetching companies:', error);
+      console.error("Error fetching companies:", error);
     }
   }
 
@@ -121,7 +121,7 @@ const AddPropertySalaryCard = () => {
 
       setMasterComponentOptions(masterComponentOptions);
     } catch (error) {
-      console.error('Error fetching companies:', error);
+      console.error("Error fetching companies:", error);
     }
   }
 
@@ -129,15 +129,15 @@ const AddPropertySalaryCard = () => {
 
   // Handler Cancel Navbar Button
   const cancelHandler = async () => {
-    localStorage.removeItem('salaryData');
+    localStorage.removeItem("salaryData");
 
-    navigate('/salary/configures');
+    navigate("/salary/configures");
   };
 
   // Handler Save and Close Navbar Button
   const handleSaveAndClose = async () => {
     try {
-      const savedData = localStorage.getItem('salaryData');
+      const savedData = localStorage.getItem("salaryData");
 
       // Panggil fungsi API untuk menambahkan gaji
       const responseData = await addConfigureSalary(savedData);
@@ -146,16 +146,16 @@ const AddPropertySalaryCard = () => {
         title: `${responseData.status}`,
         text: `${responseData.message}`,
         onConfirm: () => {
-          navigate('/salary/configures');
-          localStorage.removeItem('salaryData');
+          navigate("/salary/configures");
+          localStorage.removeItem("salaryData");
         },
       });
     } catch (error: any) {
-      console.error('Error adding salary:', error);
+      console.error("Error adding salary:", error);
       setErrorTitle(`Error adding salary`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
-      setErrorMessage(errorMessages.join('\n'));
+      setErrorMessage(errorMessages.join("\n"));
     }
     ResetAlert(
       setSuccessTitle,
@@ -233,20 +233,20 @@ const AddPropertySalaryCard = () => {
   // Handle Hide Checkbox
   const handleIsHideCheckboxChange = (e: any, component_id: any) => {
     const isChecked = e.target.checked;
-    console.log('is check', isChecked);
+    console.log("is check", isChecked);
 
     // Update the formData and save to local storage
     const updatedComponents = [...formData.components];
-    console.log('updatedComponents', updatedComponents);
+    console.log("updatedComponents", updatedComponents);
 
     const componentIndex = updatedComponents.findIndex(
       (component) => component.component_id === component_id
     );
-    console.log('componentIndex', componentIndex);
+    console.log("componentIndex", componentIndex);
 
     if (componentIndex !== -1) {
       updatedComponents[componentIndex].is_hide = isChecked ? 1 : 0;
-      console.log('lah', updatedComponents[componentIndex].is_hide);
+      console.log("lah", updatedComponents[componentIndex].is_hide);
 
       const updatedFormData = {
         ...formData,
@@ -254,10 +254,10 @@ const AddPropertySalaryCard = () => {
       };
 
       // Update tableData state
-      console.log('tabelData', tableData);
+      console.log("tabelData", tableData);
 
       const updatedTableData = [...tableData];
-      console.log('updatedTabelData', updatedTableData);
+      console.log("updatedTabelData", updatedTableData);
 
       updatedTableData[componentIndex].is_hide = isChecked ? 1 : 0;
       setTabelData(updatedTableData);
@@ -351,9 +351,9 @@ const AddPropertySalaryCard = () => {
 
   const showDeleteConfirmation = (index: number, componentName: string) => {
     DeleteConfimationAlert({
-      title: 'Delete Component',
+      title: "Delete Component",
       text: `Are you sure you want to delete "${componentName}"?`,
-      detail: 'Component successfully deleted',
+      detail: "Component successfully deleted",
       onConfirm: () => handleDeleteComponent(index),
     });
   };
@@ -383,9 +383,9 @@ const AddPropertySalaryCard = () => {
 
   const showDeleteAllConfirmation = () => {
     DeleteConfimationAlert({
-      title: 'Delete All Component',
-      text: 'Are you sure you want to delete all component?',
-      detail: 'AllComponent successfully deleted',
+      title: "Delete All Component",
+      text: "Are you sure you want to delete all component?",
+      detail: "AllComponent successfully deleted",
       onConfirm: () => handleClearAllComponents(),
     });
   };
@@ -400,7 +400,7 @@ const AddPropertySalaryCard = () => {
 
     setComponentDropdownValue({
       id: selectedComponentId,
-      name: masterComponentName || '',
+      name: masterComponentName || "",
     });
   };
 
@@ -419,8 +419,8 @@ const AddPropertySalaryCard = () => {
     setGetMasterChecboxValue(e.target.checked);
     // If the checkbox is checked, reset the componentDropdownValue and typeDropdownValue
     if (e.target.checked) {
-      setComponentDropdownValue({ id: '', name: '' });
-      setTypeMasterComponentOptoins('');
+      setComponentDropdownValue({ id: "", name: "" });
+      setTypeMasterComponentOptoins("");
     }
   };
 
@@ -429,8 +429,8 @@ const AddPropertySalaryCard = () => {
   // Handler to Add Component
   const handleAdd = async () => {
     try {
-      let newComponentId = '';
-      let newComponentType = '';
+      let newComponentId = "";
+      let newComponentType = "";
 
       if (getMasterChecboxValue) {
         newComponentId = componentDropdownValue.name;
@@ -440,7 +440,7 @@ const AddPropertySalaryCard = () => {
       }
 
       if (!newComponentId) {
-        throw new Error('Salary Component Name is required');
+        throw new Error("Salary Component Name is required");
       }
 
       // Check if the newComponentId already exists in the master components
@@ -450,7 +450,7 @@ const AddPropertySalaryCard = () => {
 
       if (!getMasterChecboxValue && componentExistsInMaster) {
         throw new Error(
-          'Salary Component Name already exists in master components'
+          "Salary Component Name already exists in master components"
         );
       }
 
@@ -459,11 +459,11 @@ const AddPropertySalaryCard = () => {
       );
 
       if (componentExists) {
-        throw new Error('Component with the same name already exists.');
+        throw new Error("Component with the same name already exists.");
       }
 
       if (!typeMasterComponentOptions) {
-        throw new Error('Type is required');
+        throw new Error("Type is required");
       } else {
         newComponentType = typeMasterComponentOptions;
       }
@@ -508,17 +508,17 @@ const AddPropertySalaryCard = () => {
       setTabelData(updatedTableData);
 
       // Reset Field
-      setTypeMasterComponentOptoins('');
+      setTypeMasterComponentOptoins("");
       if (getMasterChecboxValue) {
-        setComponentDropdownValue({ id: '', name: '' });
+        setComponentDropdownValue({ id: "", name: "" });
       } else {
-        setNewComponentNameValue('');
+        setNewComponentNameValue("");
       }
 
       setSuccessTitle(`Success`);
       setSuccessMessage(`Success Add New Component`);
     } catch (error: any) {
-      console.error('Error adding salary:', error);
+      console.error("Error adding salary:", error);
       setErrorTitle(`Error adding salary`);
 
       setErrorMessage(error.message);
@@ -533,7 +533,7 @@ const AddPropertySalaryCard = () => {
 
   //* USE EFFECT SECTION
   useEffect(() => {
-    const savedData = localStorage.getItem('salaryData');
+    const savedData = localStorage.getItem("salaryData");
     if (savedData) {
       const parsedData = JSON.parse(savedData);
       // Update your component state with the loaded data
@@ -560,7 +560,7 @@ const AddPropertySalaryCard = () => {
           setTypeMasterComponentOptoins(responseData.data.type);
         }
       } catch (error) {
-        console.error('Error fetching types:', error);
+        console.error("Error fetching types:", error);
       }
     }
     fetchTypeOptions();
@@ -577,19 +577,19 @@ const AddPropertySalaryCard = () => {
   return (
     <>
       {/* Header Design  */}
-      <header className="flex items-center justify-between p-5 shadow-lg ">
-        <h1 className="p-2 text-lg font-medium border-b-2 border-primary ">
+      <header className="flex items-center justify-between p-4 sm:p-5 shadow-lg ">
+        <h1 className="p-2 text-base sm:text-lg md:text-xl lg:text-2xl font-medium border-b-2 border-primary">
           Add Configure Salary Page
         </h1>
-        <div className="text-sm font-medium ">
+        <div className="text-xs flex sm:flex-row lg:text-sm font-medium ">
           <button
-            className="px-4 py-2 mr-4 text-white duration-300 bg-red-500 rounded-md hover:bg-gray"
+            className="px-1 py-2 mr-2 lg:px-4 lg:py-2 lg:mr-4 text-white duration-300 bg-red-500 rounded-md hover:bg-gray lg:hover:scale-105"
             onClick={cancelHandler}
           >
             CANCEL
           </button>
           <button
-            className="px-4 py-2 text-white duration-300 rounded-md bg-primary hover:bg-gray "
+            className="px-1 py-2 lg:px-4 lg:py-2 text-white duration-300 rounded-md bg-primary hover:bg-gray lg:hover:scale-105"
             onClick={handleSaveAndClose}
           >
             SAVE & CLOSE
@@ -598,16 +598,16 @@ const AddPropertySalaryCard = () => {
       </header>
 
       {/* Left Card Design  */}
-      <div className="flex h-screen m-8">
-        <div className="w-1/4 bg-gray-100 shadow-2xl ">
+      <div className="flex flex-col sm:flex-row m-4">
+        <div className="w-full sm:w-1/4 bg-gray-100 shadow-2xl mb-4 sm:mb-0">
           <div className="mb-4">
-            <h1 className="py-4 pl-4 shadow-lg border-gray bg-slate-300 rounded-t-md">
+            <h1 className="py-4 pl-4 shadow-lg lg:text-lg border-gray bg-slate-300 rounded-t-md">
               Property
             </h1>
             <div className="p-4">
               <label
                 htmlFor="dropdown"
-                className="block mt-6 font-medium text-gray-700"
+                className="block mt-3 font-medium text-gray-700"
               >
                 Legal Employer *
               </label>
@@ -664,25 +664,25 @@ const AddPropertySalaryCard = () => {
         </div>
 
         {/* Right Card Design  */}
-        <div className="w-3/4 ml-10 rounded-md shadow-2xl h-fit">
-          <h1 className="py-4 pl-4 shadow-lg border-gray bg-slate-300 rounded-t-md">
+        <div className="w-full sm:w-3/4 ml-0 sm:ml-10 rounded-md shadow-2xl">
+          <h1 className="sm:text-md lg:text-lg py-4 pl-4 shadow-lg border-gray bg-slate-300 rounded-t-md">
             COMPONENT
           </h1>
           <div className="flex my-6 ml-6 space-x-2">
             <button
-              className="flex items-center justify-center px-4 py-2 mr-3 text-sm font-medium text-white duration-300 rounded-lg bg-primary focus:ring-4 hover:bg-gray"
+              className="flex items-center justify-center px-4 py-2 mr-3 text-sm font-medium text-white duration-300 rounded-lg bg-primary focus:ring-4 hover:bg-gray lg:hover:scale-105"
               onClick={openModalAdd}
             >
               <PlusIcon className="h-3.5 w-3.5 mr-2" /> ADD COMPONENT
             </button>
             <button
-              className="px-2 py-2 text-sm font-medium text-white duration-300 bg-red-500 rounded-lg hover:bg-gray"
+              className="px-2 py-2 text-sm font-medium text-white duration-300 bg-red-500 rounded-lg hover:bg-gray lg:hover:scale-105"
               onClick={() => showDeleteAllConfirmation()}
             >
               CLEAR
             </button>
           </div>
-          <thead className="">
+          <thead className="overflow-auto ">
             <tr className="">
               <th className="w-1/12 px-4 py-6 text-left"></th>
               <th className="w-2/12 px-4 py-6 text-left">List Order</th>
@@ -807,7 +807,7 @@ const AddPropertySalaryCard = () => {
       {/* Modal Design */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 ">
-          <div className="w-1/2 bg-white rounded-md shadow-md">
+          <div className="w-full sm:w-1/2 bg-white rounded-md shadow-md">
             <header className="flex items-center justify-between p-4">
               <h2 className="p-2 text-lg font-medium border-b-2 border-primary ">
                 Add Component
@@ -840,7 +840,7 @@ const AddPropertySalaryCard = () => {
                     />
                     <label
                       htmlFor="component"
-                      className="block ml-2 text-gray-900"
+                      className="block ml-2  text-gray-900"
                     >
                       Get from master library
                     </label>
@@ -938,13 +938,13 @@ const AddPropertySalaryCard = () => {
             </div>
             <div className="flex justify-end w-full p-4 rounded-t-none shadow-inner rounded-b-md border-gray bg-slate-200">
               <button
-                className="px-4 py-2 mx-2 text-white duration-300 bg-red-500 rounded-md hover:bg-gray"
+                className="px-4 py-2 mx-2 text-white duration-300 bg-red-500 rounded-md hover:bg-gray lg:hover:scale-105"
                 onClick={closeModalAdd}
               >
                 CANCEL
               </button>
               <button
-                className="px-4 py-2 text-white duration-300 rounded-md bg-primary hover:bg-gray"
+                className="px-4 py-2 text-white duration-300 rounded-md bg-primary hover:bg-gray lg:hover:scale-105"
                 onClick={handleAdd}
               >
                 ADD
