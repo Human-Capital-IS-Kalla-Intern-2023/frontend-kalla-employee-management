@@ -47,12 +47,15 @@ const Employee: React.FC = () => {
   };
 
   const totalDataCount =
-    searchResults.length > 0 ? searchResults.length : employee.length;
+    searchResults && searchResults.length > 0
+      ? searchResults.length
+      : (employee && employee.length) || 0;
+
   const totalPages = Math.ceil(totalDataCount / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage + 1;
   const endIndex =
     currentPage === totalPages ? totalDataCount : startIndex + itemsPerPage - 1;
-  const currentEmployeeData = employee.slice(startIndex - 1, endIndex);
+  const currentEmployeeData = (employee || []).slice(startIndex - 1, endIndex);
 
   // GET all employee data
   const featchEmployee = async () => {

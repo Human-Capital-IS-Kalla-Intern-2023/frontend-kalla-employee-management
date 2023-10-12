@@ -3,10 +3,12 @@ import { useParams } from 'react-router-dom';
 import { getDetailEligiblesEmployee } from '../../api/EmployeeAPI';
 import { useEffect, useState } from 'react';
 import { SuccessAlert, ErrorAlert } from '../../components/alerts/CustomAlert';
+import ReactLoading from 'react-loading';
 
 const EligiblesEmployee = () => {
   const { employeeId } = useParams();
   const { positionId } = useParams();
+
   const [detailedData, setDetailedData] = useState<string | null>(null);
 
   // Alert State
@@ -31,6 +33,13 @@ const EligiblesEmployee = () => {
     featchDetailEmployee(employeeId, positionId);
   }, [employeeId, positionId]);
 
+  if (!detailedData) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <ReactLoading type="spin" color="green" height={50} width={50} />
+      </div>
+    );
+  }
   return (
     <>
       {successMessage && successTitle && (

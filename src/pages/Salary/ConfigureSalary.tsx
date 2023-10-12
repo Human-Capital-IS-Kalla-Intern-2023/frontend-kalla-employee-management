@@ -200,6 +200,7 @@ const ConfigureSalary: React.FC = () => {
   ) => {
     try {
       await changeIsActiveSalarySBU(idIsActive, newIsActive);
+      featchConfigureSalary();
     } catch (error: any) {
       console.error('Error change is active configureSalary:', error);
       const errorMessages = Object.values(error.response.data.errors).flat();

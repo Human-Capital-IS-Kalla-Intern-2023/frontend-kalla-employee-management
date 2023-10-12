@@ -15,7 +15,6 @@ const DetailEmployee = ({
   employeeData,
   onUpdateEmployee,
 }: DetailEmployeeProps) => {
-  console.log('first, employee data', employeeData);
   const [selectedSecondaryPosition, setSelectedSecondaryPosition] =
     useState<string>('');
 

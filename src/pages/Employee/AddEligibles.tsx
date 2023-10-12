@@ -1,15 +1,15 @@
-import EditEligiblesCard from '../../components/cards/EditEligiblesCard';
+import AddEligiblesCard from '../../components/cards/AddEligiblesCard';
 import { useParams } from 'react-router-dom';
-import { getEditSalaryEmployee } from '../../api/EmployeeAPI';
+import { getDetailSalaryEmployee } from '../../api/EmployeeAPI';
 import { useEffect, useState } from 'react';
 import { SuccessAlert, ErrorAlert } from '../../components/alerts/CustomAlert';
 import ReactLoading from 'react-loading';
 
-const EditEligibles = () => {
+const AddEligibles = () => {
   const { employeeId } = useParams();
   const { positionId } = useParams();
 
-  const [detailedData, setDetailedData] = useState<any | null>(null);
+  const [detailedData, setDetailedData] = useState<string | null>(null);
 
   // Alert State
   const [successMessage] = useState<string | null>(null);
@@ -19,13 +19,15 @@ const EditEligibles = () => {
 
   const featchDetailEmployee = async (employeeId: any, positionId: any) => {
     try {
-      const responseData = await getEditSalaryEmployee(employeeId, positionId);
+      const responseData = await getDetailSalaryEmployee(
+        employeeId,
+        positionId
+      );
       setDetailedData(responseData.data);
     } catch (error: any) {
-      console.error('Error featch detail edit employee:', error);
+      console.error('Error featch detail employee:', error);
     }
   };
-
   useEffect(() => {
     featchDetailEmployee(employeeId, positionId);
   }, [employeeId, positionId]);
@@ -37,6 +39,7 @@ const EditEligibles = () => {
       </div>
     );
   }
+
   return (
     <>
       {successMessage && successTitle && (
@@ -45,9 +48,9 @@ const EditEligibles = () => {
       {errorMessage && errorTitle && (
         <ErrorAlert title={errorTitle} text={errorMessage} />
       )}
-      <EditEligiblesCard employeeData={detailedData} />
+      <AddEligiblesCard employeeData={detailedData} />
     </>
   );
 };
 
-export default EditEligibles;
+export default AddEligibles;

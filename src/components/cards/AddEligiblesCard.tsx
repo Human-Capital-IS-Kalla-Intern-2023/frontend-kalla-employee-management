@@ -1,21 +1,23 @@
 import { useState, useEffect, useMemo } from 'react';
 import { PlusIcon, CloseButtonIcon, TrashIcon } from '../../assets/icons/icon';
 import profileImg from '../../assets/img/profileImg.webp';
-import { useNavigate, useParams } from 'react-router-dom';
-import { updateDetailSalaryEmployee } from '../../api/EmployeeAPI';
+import { useNavigate, useParams, Link } from 'react-router-dom';
+import { addDetailSalaryEmployee } from '../../api/EmployeeAPI';
 import {
   SuccessAlert,
   ErrorAlert,
   DeleteConfimationAlert,
   WarningAlert,
-} from '../../components/alerts/CustomAlert';
+  CancelConfirmationAlert,
+} from '../alerts/CustomAlert';
 import { ResetAlert } from '../../helpers/ResetAlert';
+import ReactLoading from 'react-loading';
 
 type EligiblesProps = {
   employeeData: any;
 };
 
-const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
+const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
   const { employeeId } = useParams();
   const { positionId } = useParams();
 
@@ -26,17 +28,19 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
   const [errorTitle, setErrorTitle] = useState<string | null>(null);
 
   const [employeeDatas, setEmployeeDatas] = useState(employeeData);
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [salaryStatus, setSalaryStatus] = useState(
-    employeeDatas?.salary_detail?.map((salary: any) => salary.is_status)
+
+  const [componentStatus, setComponentStatus] = useState(
+    () => employeeDatas?.components.map(() => true) || []
   );
 
   const [bankData, setBankData] = useState({
-    type_bank: employeeDatas.type_bank,
-    account_number: employeeDatas.account_number,
-    account_name: employeeDatas.fullname,
+    type_bank: '',
+    account_number: '',
+    account_name: '',
   });
 
   const handleOpenModalAddBank = () => {
@@ -49,15 +53,14 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
 
   const saveEmployeeDataToServer = async () => {
     try {
+      setIsLoading(true);
       const existingData = JSON.parse(
         localStorage.getItem('employeeDatas') || '{}'
       );
 
-      const responseData = await updateDetailSalaryEmployee(
-        existingData,
-        employeeId
-      );
+      const responseData = await addDetailSalaryEmployee(existingData);
       if (responseData) {
+        setIsLoading(false);
         setSuccessTitle(`${responseData.status}`);
         setSuccessMessage(`${responseData.message}`);
         setTimeout(() => {
@@ -71,6 +74,8 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
+    } finally {
+      setIsLoading(false);
     }
     ResetAlert(
       setSuccessTitle,
@@ -81,7 +86,18 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
   };
 
   const handleCancelButton = async () => {
-    navigate(`/employee/detail/eligibles/${employeeId}/${positionId}`);
+    // Show a confirmation dialog
+    CancelConfirmationAlert({
+      title: 'Cancel',
+      text: 'Are you sure you want to cancel?',
+      detail: `Adding  eligibles for ${employeeDatas.position_name} - ${employeeDatas.company_name} is cancelled`,
+      onConfirm: () => {
+        // Clear data from local storage
+        localStorage.removeItem('employeeDatas');
+        // Navigate to the desired page
+        navigate(`/employee/detail/eligibles/${employeeId}/${positionId}`);
+      },
+    });
   };
 
   const handleAddBank = () => {
@@ -145,9 +161,9 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
 
         const updatedEmployeeData = {
           ...employeeData,
-          account_name: '',
-          type_bank: '',
-          account_number: '',
+          account_name: undefined,
+          type_bank: undefined,
+          account_number: undefined,
         };
 
         // Update the state with the new employeeData
@@ -176,12 +192,21 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
 
     const updatedData = {
       ...employeeDatas,
+      salary_detail: employeeDatas.components.map(
+        (component: any, index: number) => ({
+          ...component,
+          component_id: component.component_id,
+          is_status: componentStatus[index] ? 1 : 0,
+        })
+      ),
     };
 
+    // Menghapus atribut components yang tidak diperlukan (jika perlu)
+    delete updatedData.components;
     delete updatedData.id;
 
     return updatedData;
-  }, [employeeDatas]);
+  }, [componentStatus, employeeDatas]);
 
   useEffect(() => {
     if (updatedEmployeeData) {
@@ -194,8 +219,13 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
 
   return (
     <>
+      {isLoading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <ReactLoading type="spin" color="green" height={50} width={50} />
+        </div>
+      )}
       {successMessage && successTitle && (
-        <SuccessAlert title={successTitle} text={successMessage} />
+        <SuccessAlert title={successTitle} timer={3000} text={successMessage} />
       )}
       {errorMessage && errorTitle && (
         <ErrorAlert title={errorTitle} text={errorMessage} />
@@ -203,7 +233,7 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
       <section className="h-screen py-3 antialiased sm:py-2 overlay bg-slate-100 ">
         <header className="z-50 flex items-center justify-between px-3 py-5 shadow-lg">
           <h1 className="p-2 ml-2.5 text-lg font-medium border-b-2 border-primary ">
-            Edit Eligibles Employee
+            Add Eligibles Employee
           </h1>
 
           <div className="text-sm font-medium ">
@@ -217,12 +247,12 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
               className="px-8 py-2 text-base duration-300 border border-transparent rounded-md text-pureBlack bg-secondary hover:bg-white hover:border-black hover:text-black"
               onClick={saveEmployeeDataToServer}
             >
-              UPDATE
+              SAVE
             </button>
           </div>
         </header>
 
-        {employeeDatas?.salary_detail?.length === 0 && (
+        {employeeDatas.components.length === 0 && (
           <WarningAlert
             title="Warning"
             text={`There is no salary component at this employee's company.
@@ -281,31 +311,28 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
                       </h2>
                     </div>
                   </div>
-                  {employeeDatas?.salary_detail?.length !== 0 &&
-                  employeeDatas?.salary_detail !== null ? (
+                  {employeeDatas.components.length !== 0 ? (
                     <div className="flex flex-wrap w-full">
-                      {employeeDatas?.salary_detail?.map(
-                        (salary: any, index: any) => (
+                      {employeeDatas.components.map(
+                        (component: any, index: any) => (
                           <div
                             key={index}
                             className="flex items-center w-1/2 px-4 py-4"
                           >
                             <div className="w-2/3">
                               <p className="text-base">
-                                {salary.component_name}
+                                {component.component_name}
                               </p>
                             </div>
                             <label className="relative inline-flex items-center w-1/3 ml-2 cursor-pointer">
                               <input
                                 type="checkbox"
-                                checked={salaryStatus[index] === 1}
+                                value={componentStatus[index]}
                                 className="sr-only peer"
                                 onChange={() => {
-                                  // Perbarui status komponen gaji
-                                  const updatedStatus = [...salaryStatus];
-                                  updatedStatus[index] =
-                                    salaryStatus[index] === 1 ? 0 : 1;
-                                  setSalaryStatus(updatedStatus);
+                                  const updatedStatus = [...componentStatus];
+                                  updatedStatus[index] = !updatedStatus[index];
+                                  setComponentStatus(updatedStatus);
                                 }}
                               />
                               <div
@@ -318,7 +345,11 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
                     </div>
                   ) : (
                     <div className="px-4 py-5 text-center bg-zinc-300">
-                      No salary data available
+                      No salary data available , add
+                      <Link to={`/salary/configures/payroll_component/add`}>
+                        <span className="text-blue-700"> here</span>
+                      </Link>
+                      .
                     </div>
                   )}
                 </div>
@@ -341,8 +372,8 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
                         </div>
                       </div>
                     </div>
-                    {employeeDatas.type_bank !== '' &&
-                    employeeDatas.account_number !== '' ? (
+                    {employeeDatas.type_bank !== undefined &&
+                    employeeDatas.account_number !== undefined ? (
                       <div>
                         <div className="flex items-center px-2 py-2 text-left align-top bg-white">
                           <TrashIcon
@@ -407,7 +438,7 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
                           Account Number
                         </label>
                         <input
-                          type="text"
+                          type="number"
                           id="account_number"
                           name="account_number"
                           placeholder="Account Number"
@@ -478,4 +509,4 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
   );
 };
 
-export default EditEligiblesCard;
+export default AddEligiblesCard;

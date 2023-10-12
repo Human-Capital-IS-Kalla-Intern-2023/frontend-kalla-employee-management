@@ -197,6 +197,7 @@ const MasterSalary: React.FC = () => {
   ) => {
     try {
       await changeIsActiveMasterComponent(idIsActive, newIsActive);
+      featchMasterSalary();
     } catch (error: any) {
       console.error('Error change is active configureSalary:', error);
       const errorMessages = Object.values(error.response.data.errors).flat();

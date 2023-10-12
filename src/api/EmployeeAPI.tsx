@@ -162,10 +162,6 @@ const getDetailEligiblesEmployee = async (employeeId: any, positionId: any) => {
       'Mengambil detail eligibles employee'
     );
 
-    console.log(
-      'responseGetDetailEligiblesEmployee',
-      responseGetDetailEligiblesEmployee
-    );
     return responseGetDetailEligiblesEmployee;
   } catch (error) {
     console.error(
@@ -192,17 +188,39 @@ const getDetailSalaryEmployee = async (employeeId: any, positionId: any) => {
       'Mengambil detail salary eligibles employee'
     );
 
-    console.log(
-      'responseGetDetailSalaryEmployee',
-      responseGetDetailSalaryEmployee
-    );
     return responseGetDetailSalaryEmployee;
   } catch (error) {
     console.error(
       'Terjadi kesalahan saat mengambil data salary eligbles employee:',
       error
     );
-    return false;
+    throw error;
+  }
+};
+
+const getEditSalaryEmployee = async (employeeId: any, positionId: any) => {
+  try {
+    const token = TokenHelper();
+
+    const headerToken = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const responseGetEditDataSalaryEmployee = await RequestApi(
+      'GET',
+      `eligibles/edit/${employeeId}/${positionId}`,
+      {},
+      headerToken,
+      'Mengambil detail edit salary eligibles employee'
+    );
+
+    return responseGetEditDataSalaryEmployee;
+  } catch (error) {
+    console.error(
+      'Terjadi kesalahan saat mengambil data edit salary eligbles employee:',
+      error
+    );
+    throw error;
   }
 };
 
@@ -222,10 +240,35 @@ const addDetailSalaryEmployee = async (employeeSalaryData: any) => {
       'menambahkan detail salary eligibles employee'
     );
 
-    console.log(
-      'responseAddDetailSalaryEmployee',
-      responseAddDetailSalaryEmployee
+    return responseAddDetailSalaryEmployee;
+  } catch (error) {
+    console.error(
+      'Terjadi kesalahan saat menambahkan data salary eligbles employee:',
+      error
     );
+    throw error;
+  }
+};
+
+const updateDetailSalaryEmployee = async (
+  employeeSalaryData: any,
+  employeeId: any
+) => {
+  try {
+    const token = TokenHelper();
+
+    const headerToken = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const responseAddDetailSalaryEmployee = await RequestApi(
+      'PUT',
+      `eligibles/${employeeId}`,
+      employeeSalaryData,
+      headerToken,
+      'menambahkan detail salary eligibles employee'
+    );
+
     return responseAddDetailSalaryEmployee;
   } catch (error) {
     console.error(
@@ -246,4 +289,6 @@ export {
   getDetailEligiblesEmployee,
   getDetailSalaryEmployee,
   addDetailSalaryEmployee,
+  getEditSalaryEmployee,
+  updateDetailSalaryEmployee,
 };

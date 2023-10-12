@@ -170,8 +170,6 @@ const changeIsActiveSalarySBU = async (idIsActive: any, newIsActive: any) => {
       'Mengubah Active Master'
     );
 
-    console.log('response', responseIsActiveChange);
-
     return responseIsActiveChange;
   } catch (error) {
     console.error('Kesalahan saat mengubah Active Master:', error);

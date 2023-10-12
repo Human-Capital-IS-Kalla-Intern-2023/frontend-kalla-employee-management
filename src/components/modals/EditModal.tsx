@@ -123,8 +123,6 @@ const EditModal = ({
 
   if (!isOpen) return null;
 
-  console.log('formData', formData);
-
   return (
     <div className="fixed inset-0 z-20 flex items-center justify-center bg-black bg-opacity-50 overlay">
       <div className="relative w-3/6 p-6 bg-white rounded shadow-lg overlay">
