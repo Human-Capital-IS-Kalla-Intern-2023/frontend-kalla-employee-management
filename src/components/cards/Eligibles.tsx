@@ -95,7 +95,7 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
       <section className="antialiased overlay bg-slate-100">
         {/* Header Section Start */}
         <header className="flex items-center justify-between px-3 py-5 shadow-lg ">
-          <h1 className="p-2 ml-2.5 text-lg font-medium border-b-2 border-primary ">
+          <h1 className="p-2 ml-2.5 text-md lg:text-lgfont-medium border-b-2 border-primary ">
             Eligibles Employee Page
           </h1>
           <div className="text-sm font-medium ">
@@ -104,9 +104,9 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                 {/* Button Manage untuk edit Eligible */}
                 <button
                   onClick={handleManageClick}
-                  className={`flex items-center justify-center px-6 py-2 text-sm font-medium duration-100 ${
+                  className={`flex items-center justify-center px-4 py-2 text-sm font-medium duration-100 ${
                     isDropdownVisible ? 'rounded-t-lg' : 'rounded-lg'
-                  } text-pureBlack bg-secondary focus:outline-none bg-primary-600 hover:bg-gray hover:text-white`}
+                  } text-pureBlack bg-secondary focus:outline-none bg-primary-600 hover:bg-gray hover:text-white lg:hover:scale-105`}
                 >
                   Manage
                   <ArrowButtonIcon className="h-3.5 w-3.5 ml-1" />
@@ -142,38 +142,44 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
           />
         )}
         {/* Modal Add Eligibles Section Start */}
-        <div className="max-w-screen-xl px-4 pt-6 mx-auto">
+        <div className="max-w-screen-xl px-1 pt-6 mx-auto">
           <div className="relative overflow-hidden ">
             <div className="px-3 pt-4 pb-4 overflow-x-auto">
               {/* card 1 */}
               <img src={profileImg} className="w-40 h-40 mx-auto rounded-2xl" />
 
-              <h2 className="mt-4 text-2xl font-semibold text-center">
+              <h2 className="mt-4 text-xl font-semibold text-center sm:text-md md:text-lg lg:text-xl">
                 {employeeData.fullname}
               </h2>
               <p className="mt-2 text-center font-lg">{employeeData.nip}</p>
 
-              <div className="pt-4 pb-1">
+              <div className="px-3">
                 <div className="my-4 rounded-t-lg ">
-                  <div className="grid grid-cols-3 gap-5">
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
                     <div className="p-4 bg-white rounded-lg shadow-md">
-                      <h2 className="mb-2 text-lg font-semibold">
+                      <h2 className="mb-2 text-base font-semibold lg:text-lg">
                         Company Name
                       </h2>
-                      <p className="text-base">{employeeData.company_name}</p>
+                      <p className="text-sm lg:text-base">
+                        {employeeData.company_name}
+                      </p>
                     </div>
 
                     <div className="p-4 bg-white rounded-lg shadow-md">
-                      <h2 className="mb-2 text-lg font-semibold">
+                      <h2 className="mb-2 text-base font-semibold lg:text-lg">
                         Directorate
                       </h2>
-                      <p className="text-base">
+                      <p className="text-sm lg:text-base">
                         {employeeData.directorate_name}
                       </p>
                     </div>
                     <div className="p-4 bg-white rounded-lg shadow-md">
-                      <h2 className="mb-2 text-lg font-semibold">Division</h2>
-                      <p className="text-base">{employeeData.division_name}</p>
+                      <h2 className="mb-2 text-base font-semibold lg:text-lg">
+                        Division
+                      </h2>
+                      <p className="text-sm lg:text-base">
+                        {employeeData.division_name}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -181,8 +187,8 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
               {/* card 1 */}
 
               {/* Tabel 1*/}
-              <div className="">
-                <div className="my-4 bg-white rounded-lg shadow-xl ">
+              <div className="px-3">
+                <div className="my-4 overflow-x-auto bg-white rounded-lg shadow-md">
                   <table className="w-full p-5 table-auto">
                     <thead>
                       <tr className="bg-primary">
@@ -332,42 +338,11 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                                           {position.position_name}
                                         </p>
                                       </div>
-
-                                      {/* Kolom 2 */}
-                                      {/* <td className="px-4 py-2 text-left align-top">
-                                      <div>
-                                        <h2 className="pt-2 text-lg font-medium">
-                                          Division
-                                        </h2>
-                                        <p className="pb-1 text-base border-b">
-                                          {position.division_name}
-                                        </p>
-                                      </div>
-                                      <div>
-                                        <h2 className="text-lg font-medium">
-                                          Section
-                                        </h2>
-                                        <p className="pb-1 text-base border-b">
-                                          {position.section_name}
-                                        </p>
-                                      </div>
-                                    </td> */}
                                     </tr>
                                   )
                                 )}
                               </div>
                             </td>
-                            {/* Kolom 2 */}
-                            {/* <td className="px-4 py-2 text-left align-top">
-                            <div>
-                              <h2 className="text-base">
-                                Functional Allowance
-                              </h2>
-                              <p className="pb-1 text-sm border-b pl-7">
-                                Entitled
-                              </p>
-                            </div>
-                          </td> */}
                           </tr>
                         </tbody>
                       </table>
