@@ -90,32 +90,31 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
         <div className="relative w-full md:w-3/6 p-6 bg-white rounded shadow-lg overlay">
           <div
             onClick={onClose}
-            className="absolute cursor-pointer top-4 right-5 focus:outline-none"
+            className="absolute cursor-pointer top-3 right-3 focus:outline-none"
           >
-            <CloseButtonIcon className="w-10 h-10 p-1 duration-200 rounded-full overlay hover:bg-primary hover:text-white" />
+            <CloseButtonIcon className="w-10 h-10 p-1 duration-200 rounded-full overlay hover:bg-primary hover:text-white lg:hover:scale-105" />
           </div>
           <div className="relative mt-8 mb-5 text-center">
-            <span className="relative z-10 px-8 py-2 text-2xl text-white border rounded-full bg-primary border-primaryColor">
+            <span className="relative z-10 px-6 py-2 text-md sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-white border rounded-full bg-primary border-primaryColor">
               {title}
             </span>
             <div className="absolute top-1/2 text-black bg-black left-0 transform -translate-y-1/2 w-full h-0.5 bg-primaryColor z-0"></div>
           </div>
-          <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-6 mt-8">
+          <form
+            onSubmit={handleSubmit}
+            className="sm:flex lg:grid grid-cols-1 sm:flex-row gap-5 mt-8"
+          >
             {inputFields.map((field: any, index: number) => (
               <div
                 key={field.id}
-                className={
-                  inputFields.length === 1
-                    ? 'col-span-2'
-                    : inputFields.length === 2
-                    ? 'col-span-2'
-                    : index === 0 && inputFields.length >= 3
-                    ? 'col-span-2'
+                className={`flex-1 ${
+                  index === 0 && inputFields.length >= 3
+                    ? 'sm:w-1/2 lg:w-full'
                     : ''
-                }
+                }`}
               >
                 <label
-                  className="flex justify-start mb-2 font-medium"
+                  className="flex mt-2 justify-start mb-1 font-medium text-sm sm:text-base"
                   htmlFor={field.id}
                 >
                   {field.label}
@@ -177,13 +176,13 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
 
             <button
               type="submit"
-              className={`col-span-2 px-4 py-2 text-lg text-white duration-200 border rounded hover:bg-green-600 hover:text-white  ${
+              className={`col-span-2 px-4 py-2 text-base sm:text-lg text-white duration-200 border rounded hover:bg-green-600 hover:text-white  ${
                 isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-800'
               }`}
               disabled={isLoading}
             >
               {isLoading && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                <div className="fixed inset-0 z-50flex items-center justify-center bg-black bg-opacity-50">
                   <ReactLoading
                     type="spin"
                     color="green"
