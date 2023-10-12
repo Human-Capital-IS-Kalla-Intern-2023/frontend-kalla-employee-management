@@ -40,7 +40,7 @@ const EditEligibles = () => {
   return (
     <>
       {successMessage && successTitle && (
-        <SuccessAlert title={successTitle} text={successMessage} />
+        <SuccessAlert title={successTitle} timer={3000} text={successMessage} />
       )}
       {errorMessage && errorTitle && (
         <ErrorAlert title={errorTitle} text={errorMessage} />
