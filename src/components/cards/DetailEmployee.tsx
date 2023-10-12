@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import profileImg from "../../assets/img/profileImg.webp";
+import React, { useState } from 'react';
+import profileImg from '../../assets/img/profileImg.webp';
 // import { useNavigate } from 'react-router-dom';
-import ReactLoading from "react-loading";
-import EditModal from "../modals/EditModal";
-import { inputField } from "../../assets/data/EmployeeData";
-import { Link, useNavigate } from "react-router-dom";
+import ReactLoading from 'react-loading';
+import EditModal from '../modals/EditModal';
+import { inputField } from '../../assets/data/EmployeeData';
+import { Link, useNavigate } from 'react-router-dom';
 
 type DetailEmployeeProps = {
   employeeData: any;
@@ -15,9 +15,9 @@ const DetailEmployee = ({
   employeeData,
   onUpdateEmployee,
 }: DetailEmployeeProps) => {
-  console.log("first, employee data", employeeData);
+  console.log('first, employee data', employeeData);
   const [selectedSecondaryPosition, setSelectedSecondaryPosition] =
-    useState<string>("");
+    useState<string>('');
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [editedData, setEditedData] = useState(employeeData);

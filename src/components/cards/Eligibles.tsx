@@ -1,13 +1,13 @@
-import { useState } from "react";
-import { ArrowButtonIcon, CloseButtonIcon } from "../../assets/icons/icon";
-import profileImg from "../../assets/img/profileImg.webp";
-import ReactLoading from "react-loading";
-import { useNavigate, useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { WarningAlert } from "../alerts/CustomAlert";
+import { useState } from 'react';
+import { ArrowButtonIcon, CloseButtonIcon } from '../../assets/icons/icon';
+import profileImg from '../../assets/img/profileImg.webp';
+import ReactLoading from 'react-loading';
+import { useNavigate, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { WarningAlert } from '../alerts/CustomAlert';
 
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 type EligiblesProps = {
   employeeData: any;
 };
@@ -82,7 +82,7 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
               <button
                 onClick={handleManageClick}
                 className={`flex items-center justify-center px-4 py-2 text-sm font-medium duration-100 ${
-                  isDropdownVisible ? "rounded-t-lg" : "rounded-lg"
+                  isDropdownVisible ? 'rounded-t-lg' : 'rounded-lg'
                 } text-pureBlack bg-secondary focus:outline-none bg-primary-600 hover:bg-gray hover:text-white lg:hover:scale-105`}
               >
                 Manage
@@ -253,7 +253,7 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                         </div>
                         <label className="relative inline-flex items-center w-7/12 cursor-pointer">
                           <div className="p-1 rounded-md bg-secondary">
-                            {employeeData.type_bank} -{" "}
+                            {employeeData.type_bank} -{' '}
                             {employeeData.account_number}
                           </div>
                         </label>
@@ -310,7 +310,7 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                                   {item.component_name}
                                 </h2>
                                 <p className="pt-2 pb-1 text-sm border-b">
-                                  {item.is_status === 1 ? "Yes" : "No"}
+                                  {item.is_status === 1 ? 'Yes' : 'No'}
                                 </p>
                               </div>
                             </div>
@@ -319,10 +319,10 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                       ))
                   ) : (
                     <div className="px-4 py-4 text-center w-full bg-zinc-300 rounded-b-lg">
-                      No salary componets for{" "}
+                      No salary componets for{' '}
                       <span className="italic">
                         {employeeData.company_name}
-                      </span>{" "}
+                      </span>{' '}
                       , add
                       <Link to={`/salary/configures`}>
                         <span className="text-blue-700"> here</span>

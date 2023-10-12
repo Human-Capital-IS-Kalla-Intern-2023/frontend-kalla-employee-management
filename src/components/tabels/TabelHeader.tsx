@@ -1,11 +1,11 @@
 // Import Library & Package
-import { useState, useEffect, useCallback } from "react";
-import AddModal from "../modals/AddModal";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import ReactLoading from "react-loading";
+import { useState, useEffect, useCallback } from 'react';
+import AddModal from '../modals/AddModal';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import ReactLoading from 'react-loading';
 
 // Import Assets
-import { SearchIcon, PlusIcon } from "../../assets/icons/icon";
+import { SearchIcon, PlusIcon } from '../../assets/icons/icon';
 
 interface FilterOption {
   id: string;
@@ -38,7 +38,7 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
 }) => {
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [searchInput, setSearchInput] = useState("");
+  const [searchInput, setSearchInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const closeFilterDropdown = () => {
@@ -52,14 +52,14 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
     if (onNavigate) {
       navigate(onNavigate);
     } else {
-      onNavigate = "add";
+      onNavigate = 'add';
       setModalOpen(true);
     }
   };
 
   const closeModal = useCallback(() => {
     setModalOpen(false);
-    if (location.pathname.endsWith("/add")) {
+    if (location.pathname.endsWith('/add')) {
       const newUrl = location.pathname.slice(0, -4);
       navigate(newUrl);
     }
@@ -82,30 +82,30 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
       if (searchInput) {
         navigate(`?search=${searchInput}`);
       } else {
-        navigate("");
+        navigate('');
       }
     }
   };
 
   const handleOverlayClick = (e: any) => {
-    if (e.target.classList.contains("overlay")) {
+    if (e.target.classList.contains('overlay')) {
       closeModal();
     }
   };
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
-    const searchValue = searchParams.get("search");
+    const searchValue = searchParams.get('search');
     if (searchValue) {
       onSearch(searchValue);
       setSearchInput(searchValue);
     }
 
-    if (location.pathname.endsWith("/add") && !onNavigate) {
+    if (location.pathname.endsWith('/add') && !onNavigate) {
       setModalOpen(true);
     }
     const handleEscapeKey = (event: any) => {
-      if (event.key === "Escape") {
+      if (event.key === 'Escape') {
         closeModal();
       }
     };
@@ -116,12 +116,12 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    window.addEventListener("keydown", handleEscapeKey);
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('keydown', handleEscapeKey);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("keydown", handleEscapeKey);
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('keydown', handleEscapeKey);
     };
   }, [closeModal, location.pathname, isFilterDropdownOpen, location.search]);
 

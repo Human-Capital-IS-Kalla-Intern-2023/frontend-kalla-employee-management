@@ -6,7 +6,7 @@ import {
   EmployeeIcon,
   SectionIcon,
   DirectorateIcon,
-} from "../../assets/icons/icon";
+} from '../../assets/icons/icon';
 
 const Dashboard = () => {
   return (

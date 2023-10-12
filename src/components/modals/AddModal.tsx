@@ -1,10 +1,10 @@
 // Library & Package Import
-import { useState, useEffect, useRef } from "react";
-import ReactLoading from "react-loading";
-import Select from "react-select";
+import { useState, useEffect, useRef } from 'react';
+import ReactLoading from 'react-loading';
+import Select from 'react-select';
 
 // Import Assets
-import { CloseButtonIcon } from "../../assets/icons/icon";
+import { CloseButtonIcon } from '../../assets/icons/icon';
 
 interface FormData {
   [key: string]: string | number | boolean | null | undefined;
@@ -12,7 +12,7 @@ interface FormData {
 const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
   const initialFormData: FormData = {};
   inputFields.forEach((field: any) => {
-    if (field.type === "checkbox") {
+    if (field.type === 'checkbox') {
       initialFormData[field.name] = 1;
     }
   });
@@ -24,19 +24,19 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
   const handleChange = (e: any) => {
     const { name, value, type, checked } = e.target;
 
-    if (type === "checkbox") {
+    if (type === 'checkbox') {
       setFormData((prevData) => ({
         ...prevData,
         [name]: checked ? 1 : 0,
       }));
-    } else if (name === "locations_id") {
+    } else if (name === 'locations_id') {
       setFormData((prevData) => ({
         ...prevData,
         locations_id: value,
       }));
     } else {
       let parsedValue = value;
-      if (name === "id_main_position" || name === "id_additional_position") {
+      if (name === 'id_main_position' || name === 'id_additional_position') {
         parsedValue = parseInt(value, 10) || null;
       }
 
@@ -57,16 +57,16 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
       await onSubmit(formData);
 
       onClose();
-      localStorage.removeItem("formData");
+      localStorage.removeItem('formData');
     } catch (error) {
-      console.error("Error:", error);
+      console.error('Error:', error);
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleOverlayClick = (e: any) => {
-    if (e.target.classList.contains("overlay")) {
+    if (e.target.classList.contains('overlay')) {
       onClose();
     }
   };
@@ -109,8 +109,8 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
                 key={field.id}
                 className={`flex-1 ${
                   index === 0 && inputFields.length >= 3
-                    ? "sm:w-1/2 lg:w-full"
-                    : ""
+                    ? 'sm:w-1/2 lg:w-full'
+                    : ''
                 }`}
               >
                 <label
@@ -119,7 +119,7 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
                 >
                   {field.label}
                 </label>
-                {field.type === "select" ? (
+                {field.type === 'select' ? (
                   field.isMulti ? (
                     <Select
                       id={field.id}
@@ -149,7 +149,7 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
                       ))}
                     </select>
                   )
-                ) : field.type === "checkbox" ? (
+                ) : field.type === 'checkbox' ? (
                   <input
                     type="checkbox"
                     id={field.id}
@@ -162,7 +162,7 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
                   />
                 ) : (
                   <input
-                    type={field.type || "text"}
+                    type={field.type || 'text'}
                     id={field.id}
                     name={field.name}
                     placeholder={`Input ${field.label}`}
@@ -177,7 +177,7 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
             <button
               type="submit"
               className={`col-span-2 px-4 py-2 text-base sm:text-lg text-white duration-200 border rounded hover:bg-green-600 hover:text-white  ${
-                isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-green-800"
+                isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-800'
               }`}
               disabled={isLoading}
             >

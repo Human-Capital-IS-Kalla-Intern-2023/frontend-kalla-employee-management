@@ -1,19 +1,19 @@
-import { useState, useEffect } from "react";
-import { CloseButtonIcon, PlusIcon } from "../../assets/icons/icon";
-import { useNavigate } from "react-router-dom";
-import { getCompany } from "../../api/CompanyAPI";
+import { useState, useEffect } from 'react';
+import { CloseButtonIcon, PlusIcon } from '../../assets/icons/icon';
+import { useNavigate } from 'react-router-dom';
+import { getCompany } from '../../api/CompanyAPI';
 import {
   ErrorAlert,
   SuccessAlert,
   DeleteConfimationAlert,
   ConfirmationAlert,
-} from "../alerts/CustomAlert";
-import { ResetAlert } from "../../helpers/ResetAlert";
+} from '../alerts/CustomAlert';
+import { ResetAlert } from '../../helpers/ResetAlert';
 import {
   getMasterSalary,
   getDetailMasterSalary,
-} from "../../api/MasterSalaryAPI";
-import { addConfigureSalary } from "../../api/ConfigureSalaryAPI";
+} from '../../api/MasterSalaryAPI';
+import { addConfigureSalary } from '../../api/ConfigureSalaryAPI';
 
 interface FieldOptions {
   label: string;
@@ -23,14 +23,14 @@ interface FieldOptions {
 const AddPropertySalaryCard = () => {
   const [companyDropdownValue, setCompanyDropdownValue] = useState<
     number | string
-  >("");
+  >('');
   const [componentDropdownValue, setComponentDropdownValue] = useState<{
     id: any;
     name: any;
-  }>({ id: "", name: "" });
+  }>({ id: '', name: '' });
 
-  const [salaryNameValue, setSalaryNameValue] = useState("");
-  const [newComponentNameValue, setNewComponentNameValue] = useState("");
+  const [salaryNameValue, setSalaryNameValue] = useState('');
+  const [newComponentNameValue, setNewComponentNameValue] = useState('');
 
   const [getMasterChecboxValue, setGetMasterChecboxValue] = useState(true);
 
@@ -39,7 +39,7 @@ const AddPropertySalaryCard = () => {
     Array<FieldOptions>
   >([]);
   const [typeMasterComponentOptions, setTypeMasterComponentOptoins] =
-    useState("");
+    useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [formData, setFormData] = useState<{
@@ -56,8 +56,8 @@ const AddPropertySalaryCard = () => {
       is_active: number;
     }[];
   }>({
-    company_id: "",
-    salary_name: "",
+    company_id: '',
+    salary_name: '',
     is_active: 1,
     components: [],
   });
@@ -83,11 +83,11 @@ const AddPropertySalaryCard = () => {
 
   //* LOCAL STORAGE SECTION
   const saveDataToLocalStorage = (data: any) => {
-    localStorage.setItem("salaryData", JSON.stringify(data));
+    localStorage.setItem('salaryData', JSON.stringify(data));
   };
 
   const getLocalStorageData = () => {
-    const savedData = localStorage.getItem("salaryData");
+    const savedData = localStorage.getItem('salaryData');
     if (savedData) {
       const parsedData = JSON.parse(savedData);
       return parsedData.components || [];
@@ -107,7 +107,7 @@ const AddPropertySalaryCard = () => {
       }));
       setCompanyOptions(companyOptions);
     } catch (error) {
-      console.error("Error fetching companies:", error);
+      console.error('Error fetching companies:', error);
     }
   }
 
@@ -121,7 +121,7 @@ const AddPropertySalaryCard = () => {
 
       setMasterComponentOptions(masterComponentOptions);
     } catch (error) {
-      console.error("Error fetching companies:", error);
+      console.error('Error fetching companies:', error);
     }
   }
 
@@ -129,15 +129,15 @@ const AddPropertySalaryCard = () => {
 
   // Handler Cancel Navbar Button
   const cancelHandler = async () => {
-    localStorage.removeItem("salaryData");
+    localStorage.removeItem('salaryData');
 
-    navigate("/salary/configures");
+    navigate('/salary/configures');
   };
 
   // Handler Save and Close Navbar Button
   const handleSaveAndClose = async () => {
     try {
-      const savedData = localStorage.getItem("salaryData");
+      const savedData = localStorage.getItem('salaryData');
 
       // Panggil fungsi API untuk menambahkan gaji
       const responseData = await addConfigureSalary(savedData);
@@ -146,16 +146,16 @@ const AddPropertySalaryCard = () => {
         title: `${responseData.status}`,
         text: `${responseData.message}`,
         onConfirm: () => {
-          navigate("/salary/configures");
-          localStorage.removeItem("salaryData");
+          navigate('/salary/configures');
+          localStorage.removeItem('salaryData');
         },
       });
     } catch (error: any) {
-      console.error("Error adding salary:", error);
+      console.error('Error adding salary:', error);
       setErrorTitle(`Error adding salary`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
-      setErrorMessage(errorMessages.join("\n"));
+      setErrorMessage(errorMessages.join('\n'));
     }
     ResetAlert(
       setSuccessTitle,
@@ -233,20 +233,20 @@ const AddPropertySalaryCard = () => {
   // Handle Hide Checkbox
   const handleIsHideCheckboxChange = (e: any, component_id: any) => {
     const isChecked = e.target.checked;
-    console.log("is check", isChecked);
+    console.log('is check', isChecked);
 
     // Update the formData and save to local storage
     const updatedComponents = [...formData.components];
-    console.log("updatedComponents", updatedComponents);
+    console.log('updatedComponents', updatedComponents);
 
     const componentIndex = updatedComponents.findIndex(
       (component) => component.component_id === component_id
     );
-    console.log("componentIndex", componentIndex);
+    console.log('componentIndex', componentIndex);
 
     if (componentIndex !== -1) {
       updatedComponents[componentIndex].is_hide = isChecked ? 1 : 0;
-      console.log("lah", updatedComponents[componentIndex].is_hide);
+      console.log('lah', updatedComponents[componentIndex].is_hide);
 
       const updatedFormData = {
         ...formData,
@@ -254,10 +254,10 @@ const AddPropertySalaryCard = () => {
       };
 
       // Update tableData state
-      console.log("tabelData", tableData);
+      console.log('tabelData', tableData);
 
       const updatedTableData = [...tableData];
-      console.log("updatedTabelData", updatedTableData);
+      console.log('updatedTabelData', updatedTableData);
 
       updatedTableData[componentIndex].is_hide = isChecked ? 1 : 0;
       setTabelData(updatedTableData);
@@ -351,9 +351,9 @@ const AddPropertySalaryCard = () => {
 
   const showDeleteConfirmation = (index: number, componentName: string) => {
     DeleteConfimationAlert({
-      title: "Delete Component",
+      title: 'Delete Component',
       text: `Are you sure you want to delete "${componentName}"?`,
-      detail: "Component successfully deleted",
+      detail: 'Component successfully deleted',
       onConfirm: () => handleDeleteComponent(index),
     });
   };
@@ -383,9 +383,9 @@ const AddPropertySalaryCard = () => {
 
   const showDeleteAllConfirmation = () => {
     DeleteConfimationAlert({
-      title: "Delete All Component",
-      text: "Are you sure you want to delete all component?",
-      detail: "AllComponent successfully deleted",
+      title: 'Delete All Component',
+      text: 'Are you sure you want to delete all component?',
+      detail: 'AllComponent successfully deleted',
       onConfirm: () => handleClearAllComponents(),
     });
   };
@@ -400,7 +400,7 @@ const AddPropertySalaryCard = () => {
 
     setComponentDropdownValue({
       id: selectedComponentId,
-      name: masterComponentName || "",
+      name: masterComponentName || '',
     });
   };
 
@@ -419,8 +419,8 @@ const AddPropertySalaryCard = () => {
     setGetMasterChecboxValue(e.target.checked);
     // If the checkbox is checked, reset the componentDropdownValue and typeDropdownValue
     if (e.target.checked) {
-      setComponentDropdownValue({ id: "", name: "" });
-      setTypeMasterComponentOptoins("");
+      setComponentDropdownValue({ id: '', name: '' });
+      setTypeMasterComponentOptoins('');
     }
   };
 
@@ -429,8 +429,8 @@ const AddPropertySalaryCard = () => {
   // Handler to Add Component
   const handleAdd = async () => {
     try {
-      let newComponentId = "";
-      let newComponentType = "";
+      let newComponentId = '';
+      let newComponentType = '';
 
       if (getMasterChecboxValue) {
         newComponentId = componentDropdownValue.name;
@@ -440,7 +440,7 @@ const AddPropertySalaryCard = () => {
       }
 
       if (!newComponentId) {
-        throw new Error("Salary Component Name is required");
+        throw new Error('Salary Component Name is required');
       }
 
       // Check if the newComponentId already exists in the master components
@@ -450,7 +450,7 @@ const AddPropertySalaryCard = () => {
 
       if (!getMasterChecboxValue && componentExistsInMaster) {
         throw new Error(
-          "Salary Component Name already exists in master components"
+          'Salary Component Name already exists in master components'
         );
       }
 
@@ -459,11 +459,11 @@ const AddPropertySalaryCard = () => {
       );
 
       if (componentExists) {
-        throw new Error("Component with the same name already exists.");
+        throw new Error('Component with the same name already exists.');
       }
 
       if (!typeMasterComponentOptions) {
-        throw new Error("Type is required");
+        throw new Error('Type is required');
       } else {
         newComponentType = typeMasterComponentOptions;
       }
@@ -508,17 +508,17 @@ const AddPropertySalaryCard = () => {
       setTabelData(updatedTableData);
 
       // Reset Field
-      setTypeMasterComponentOptoins("");
+      setTypeMasterComponentOptoins('');
       if (getMasterChecboxValue) {
-        setComponentDropdownValue({ id: "", name: "" });
+        setComponentDropdownValue({ id: '', name: '' });
       } else {
-        setNewComponentNameValue("");
+        setNewComponentNameValue('');
       }
 
       setSuccessTitle(`Success`);
       setSuccessMessage(`Success Add New Component`);
     } catch (error: any) {
-      console.error("Error adding salary:", error);
+      console.error('Error adding salary:', error);
       setErrorTitle(`Error adding salary`);
 
       setErrorMessage(error.message);
@@ -533,7 +533,7 @@ const AddPropertySalaryCard = () => {
 
   //* USE EFFECT SECTION
   useEffect(() => {
-    const savedData = localStorage.getItem("salaryData");
+    const savedData = localStorage.getItem('salaryData');
     if (savedData) {
       const parsedData = JSON.parse(savedData);
       // Update your component state with the loaded data
@@ -560,7 +560,7 @@ const AddPropertySalaryCard = () => {
           setTypeMasterComponentOptoins(responseData.data.type);
         }
       } catch (error) {
-        console.error("Error fetching types:", error);
+        console.error('Error fetching types:', error);
       }
     }
     fetchTypeOptions();
