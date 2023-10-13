@@ -1,7 +1,4 @@
-const colCells = [
-  { key: 'id', text: 'No' },
-  { key: 'grade_name', text: 'Nama Grade' },
-];
+const colCells = [{ key: 'grade_name', text: 'Nama Grade' }];
 
 const filterOptions = [{ id: 'Location', label: 'Location' }];
 

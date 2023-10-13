@@ -2,7 +2,6 @@
 import { getLocation } from '../../api/LocationAPI';
 
 const colCells = [
-  { key: 'id', text: 'No' },
   { key: 'company_name', text: 'Nama Bisnis Unit' },
   { key: 'location[0].location_name', text: 'Lokasi' },
 ];

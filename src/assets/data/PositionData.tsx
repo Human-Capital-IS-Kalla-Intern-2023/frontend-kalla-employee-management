@@ -5,7 +5,6 @@ import { getSection } from '../../api/SectionAPI';
 import { getGrade } from '../../api/GradeAPI';
 
 const colCells = [
-  { key: 'id', text: 'No' },
   { key: 'position_name', text: 'Position' },
   { key: 'company_name', text: 'Company' },
   { key: 'directorat_name', text: 'Directorat' },
