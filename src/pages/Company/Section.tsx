@@ -1,5 +1,6 @@
 // Import Library & Package
 import React, { useEffect, useState } from 'react';
+import ReactLoading from 'react-loading';
 
 // Import Component
 import TabelHeader from '../../components/tabels/TabelHeader';
@@ -35,6 +36,9 @@ const Section: React.FC = () => {
   const [section, setSection] = useState<string[]>([]);
   const [detailedData, setDetailedData] = useState<string | null>(null);
 
+  // Loading
+  const [isLoading, setIsLoading] = useState(false);
+
   // Search
   const [searchResults, setSearchResults] = useState<any[]>([]);
 
@@ -55,16 +59,19 @@ const Section: React.FC = () => {
   const currentSectionData = section.slice(startIndex - 1, endIndex);
 
   // GET all section data
-  const featchAllSection = async () => {
+  const fetchAllSection = async () => {
     try {
+      setIsLoading(true);
+
       const responseData = await getSection();
       setSection(responseData.data);
     } catch (error: any) {
-      console.error('Error featch all section:', error);
-      setErrorTitle(`Error featch all section`);
+      console.error('Error fetch all section:', error);
+      setErrorTitle(`Error fetch all section`);
 
-      const errorMessages = Object.values(error.response.data.errors).flat();
-      setErrorMessage(errorMessages.join('\n'));
+      setErrorMessage(error.response.data.message);
+    } finally {
+      setIsLoading(false);
     }
     ResetAlert(
       setSuccessTitle,
@@ -75,16 +82,19 @@ const Section: React.FC = () => {
   };
 
   // GET detail section data by id
-  const featchDetailSection = async (id: number) => {
+  const fetchDetailSection = async (id: number) => {
     try {
+      setIsLoading(true);
+
       const responseData = await getDetailSection(id);
       setDetailedData(responseData.data);
     } catch (error: any) {
-      console.error('Error featch detail section:', error);
-      setErrorTitle(`Error featch detail section`);
+      console.error('Error fetch detail section:', error);
+      setErrorTitle(`Error fetch detail section`);
 
-      const errorMessages = Object.values(error.response.data.errors).flat();
-      setErrorMessage(errorMessages.join('\n'));
+      setErrorMessage(error.response.data.message);
+    } finally {
+      setIsLoading(false);
     }
     ResetAlert(
       setSuccessTitle,
@@ -101,7 +111,7 @@ const Section: React.FC = () => {
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
 
-      featchAllSection();
+      fetchAllSection();
     } catch (error: any) {
       console.error('Error adding section:', error);
       setErrorTitle(`Error adding section`);
@@ -124,7 +134,7 @@ const Section: React.FC = () => {
 
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
-      featchAllSection();
+      fetchAllSection();
     } catch (error: any) {
       console.error('Error editing section:', error);
       setErrorTitle(``);
@@ -143,16 +153,20 @@ const Section: React.FC = () => {
   // DELETE section data
   const handleDeleteSection = async (id: number) => {
     try {
+      setIsLoading(true);
+
       const responseData = await deleteSection(id);
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
-      featchAllSection();
+      fetchAllSection();
     } catch (error: any) {
       console.error('Error deleting section:', error);
       setErrorTitle(`Error deleting section`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
+    } finally {
+      setIsLoading(false);
     }
     ResetAlert(
       setSuccessTitle,
@@ -191,12 +205,17 @@ const Section: React.FC = () => {
   };
 
   useEffect(() => {
-    featchAllSection();
+    fetchAllSection();
   }, []);
 
   return (
     <>
-      <h1 className="px-4">Section Page</h1>
+      <h1 className="px-4 text-xl my-1">Section Page</h1>
+      {isLoading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <ReactLoading type="spin" color="green" height={50} width={50} />
+        </div>
+      )}
       {successMessage && successTitle && (
         <SuccessAlert title={successTitle} text={successMessage} />
       )}
@@ -219,7 +238,7 @@ const Section: React.FC = () => {
         onSubmit={handleEditSection}
         onDelete={handleDeleteSection}
         detailedData={detailedData}
-        fetchDetailedData={featchDetailSection}
+        fetchDetailedData={fetchDetailSection}
       />
       <TabelFooter
         currentPage={currentPage}

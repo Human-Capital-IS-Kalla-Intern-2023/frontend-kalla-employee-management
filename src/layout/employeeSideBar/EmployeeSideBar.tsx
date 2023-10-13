@@ -84,7 +84,10 @@ const EmployeeSideBar = (employeeData: any) => {
 
   return (
     <>
-      <div className="">
+      <div
+        className="shadow-lg
+      "
+      >
         <div
           onClick={() => setOpen(false)}
           className={`md:hidden fixed inset-0 max-h-full z-10 bg-black/50 ${

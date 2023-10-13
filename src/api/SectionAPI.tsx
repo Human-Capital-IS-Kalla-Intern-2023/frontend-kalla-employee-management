@@ -22,7 +22,7 @@ const getSection = async () => {
     return responseGetSection;
   } catch (error) {
     console.error('Terjadi kesalahan saat mengambil data section:', error);
-    return false;
+    throw error;
   }
 };
 
@@ -46,7 +46,7 @@ const getDetailSection = async (id: any) => {
     return reponseGetDetailSection;
   } catch (error) {
     console.error('Terjadi kesalahan saat mengambil data section:', error);
-    return false;
+    throw error;
   }
 };
 

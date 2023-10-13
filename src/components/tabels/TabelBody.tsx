@@ -214,7 +214,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
       const bgColorClass =
         customCell.type === 'fixed pay' ? 'bg-blue-300' : 'bg-red-300';
       return (
-        <span className={`px-4 py-2 rounded-md ${bgColorClass}`}>
+        <span className={`px-4 py-2 rounded-full ${bgColorClass}`}>
           {customCell.type}
         </span>
       );
@@ -224,7 +224,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
         customCell[cell.key] === 1 ? 'bg-green-300' : 'bg-red-300';
       const textContent = customCell[cell.key] === 1 ? 'Yes' : 'No';
       return (
-        <span className={`px-4 py-2 rounded-md ${bgColorClass}`}>
+        <span className={`px-4 py-2 rounded-full ${bgColorClass}`}>
           {textContent}
         </span>
       );
@@ -376,9 +376,9 @@ const TabelBody: React.FC<TabelBodyProps> = ({
         <div className="relative bg-white shadow-custom sm:rounded-lg">
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left">
-              <thead className="uppercase text-[15px]">
+              <thead className="uppercase text-[16px] ">
                 <tr>
-                  <th scope="col" className="px-2 py-4 w-14"></th>
+                  <th scope="col" className="px-2 py-4 w-14 "></th>
                   {colCells.map((cell, index) => (
                     <th key={index} scope="col" className={`px-2 py-4`}>
                       {cell.text}
@@ -519,7 +519,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                       {colCells.map((cell, cellIndex) => (
                         <td
                           key={cellIndex}
-                          className={`px-2 py-4 font-medium text-black whitespace-nowrap sm:text-sm md:text-base lg:text-base`}
+                          className={`px-2 py-4 font-medium text-black whitespace-nowrap text-[15px]`}
                         >
                           {renderTableCell(cell, customCell, location.pathname)}
                         </td>

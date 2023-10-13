@@ -25,7 +25,7 @@ const getConfigureSalary = async () => {
       'Terjadi kesalahan saat mengambil data configureSalary:',
       error
     );
-    return false;
+    throw error;
   }
 };
 
@@ -52,7 +52,7 @@ const getDetailConfigureSalary = async (id: any) => {
       'Terjadi kesalahan saat mengambil data configureSalary:',
       error
     );
-    return false;
+    throw error;
   }
 };
 

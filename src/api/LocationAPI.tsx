@@ -22,7 +22,7 @@ const getLocation = async () => {
     return responseGetLocation;
   } catch (error) {
     console.error('Terjadi kesalahan saat mengambil data location:', error);
-    return false;
+    throw error;
   }
 };
 
@@ -46,7 +46,7 @@ const getDetailLocation = async (id: any) => {
     return reponseGetDetailLocation;
   } catch (error) {
     console.error('Terjadi kesalahan saat mengambil data location:', error);
-    return false;
+    throw error;
   }
 };
 

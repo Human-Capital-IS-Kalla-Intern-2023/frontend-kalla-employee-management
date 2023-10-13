@@ -22,7 +22,7 @@ const getDivision = async () => {
     return reponseGetDivision;
   } catch (error) {
     console.error('Terjadi kesalahan saat mengambil data divisi:', error);
-    return false;
+    throw error;
   }
 };
 
@@ -46,7 +46,7 @@ const getDetailDivision = async (id: any) => {
     return reponseGetDetailDivision;
   } catch (error) {
     console.error('Terjadi kesalahan saat mengambil data divisi:', error);
-    return false;
+    throw error;
   }
 };
 

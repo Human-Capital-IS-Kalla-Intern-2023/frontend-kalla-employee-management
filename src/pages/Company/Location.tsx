@@ -1,5 +1,6 @@
 // Import Library & Package
 import React, { useEffect, useState } from 'react';
+import ReactLoading from 'react-loading';
 
 // Import Component
 import TabelHeader from '../../components/tabels/TabelHeader';
@@ -35,6 +36,9 @@ const Location: React.FC = () => {
   const [location, setLocation] = useState<string[]>([]);
   const [detailedData, setDetailedData] = useState<string | null>(null);
 
+  // Loading
+  const [isLoading, setIsLoading] = useState(false);
+
   // Search
   const [searchResults, setSearchResults] = useState<any[]>([]);
 
@@ -57,14 +61,17 @@ const Location: React.FC = () => {
   // GET all location data
   const featchLocation = async () => {
     try {
+      setIsLoading(true);
+
       const reponseData = await getLocation();
       setLocation(reponseData.data);
     } catch (error: any) {
-      console.error('Error featch all location:', error);
-      setErrorTitle(`Error featch all location`);
+      console.error('Error fetch all location:', error);
+      setErrorTitle(`Error fetch all location`);
 
-      const errorMessages = Object.values(error.response.data.errors).flat();
-      setErrorMessage(errorMessages.join('\n'));
+      setErrorMessage(error.response.data.message);
+    } finally {
+      setIsLoading(false);
     }
     ResetAlert(
       setSuccessTitle,
@@ -77,14 +84,16 @@ const Location: React.FC = () => {
   // GET detail location data by id
   const featchDetailLocation = async (id: number) => {
     try {
+      setIsLoading(true);
       const responseData = await getDetailLocation(id);
       setDetailedData(responseData.data);
     } catch (error: any) {
-      console.error('Error featch detail location:', error);
-      setErrorTitle(`Error featch detail location`);
+      console.error('Error fetch detail location:', error);
+      setErrorTitle(`Error fetch detail location`);
 
-      const errorMessages = Object.values(error.response.data.errors).flat();
-      setErrorMessage(errorMessages.join('\n'));
+      setErrorMessage(error.response.data.message);
+    } finally {
+      setIsLoading(false);
     }
 
     ResetAlert(
@@ -143,6 +152,8 @@ const Location: React.FC = () => {
   // DELETE location data
   const handleDeleteLocation = async (id: number) => {
     try {
+      setIsLoading(true);
+
       const responseData = await deleteLocation(id);
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
@@ -153,6 +164,8 @@ const Location: React.FC = () => {
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
+    } finally {
+      setIsLoading(false);
     }
     ResetAlert(
       setSuccessTitle,
@@ -196,7 +209,12 @@ const Location: React.FC = () => {
 
   return (
     <>
-      <h1 className="px-4">Location Page</h1>
+      <h1 className="px-4 text-xl my-1">Location Page</h1>
+      {isLoading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <ReactLoading type="spin" color="green" height={50} width={50} />
+        </div>
+      )}
       {successMessage && successTitle && (
         <SuccessAlert title={successTitle} text={successMessage} />
       )}

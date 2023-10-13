@@ -230,7 +230,7 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
       {errorMessage && errorTitle && (
         <ErrorAlert title={errorTitle} text={errorMessage} />
       )}
-      <section className="h-screen py-3 antialiased sm:py-2 overlay bg-slate-100 ">
+      <section className="h-screen py-3 antialiased sm:py-2 overlay">
         <header className="z-50 flex items-center justify-between px-3 py-5 shadow-lg">
           <h1 className="p-2 ml-2.5 text-lg font-medium border-b-2 border-primary ">
             Add Eligibles Employee

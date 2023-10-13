@@ -84,7 +84,7 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
   return (
     <div>
       <div
-        className="fixed inset-0 z-20 flex items-center justify-center bg-black bg-opacity-50 overlay "
+        className="fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-50 overlay "
         onClick={handleOverlayClick}
       >
         <div className="relative w-full md:w-3/6 p-6 bg-white rounded shadow-lg overlay">
@@ -183,7 +183,7 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
               disabled={isLoading}
             >
               {isLoading && (
-                <div className="fixed inset-0 z-50flex items-center justify-center bg-black bg-opacity-50">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                   <ReactLoading
                     type="spin"
                     color="green"

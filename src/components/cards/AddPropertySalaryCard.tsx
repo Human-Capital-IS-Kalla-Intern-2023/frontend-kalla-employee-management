@@ -111,7 +111,7 @@ const AddPropertySalaryCard = () => {
     }
   }
 
-  async function featchMasterComponent() {
+  async function fetchMasterComponent() {
     try {
       const responseData = await getMasterSalary();
       const masterComponentOptions = responseData.data.map((item: any) => ({
@@ -541,7 +541,7 @@ const AddPropertySalaryCard = () => {
 
   useEffect(() => {
     fetchCompanyData();
-    featchMasterComponent();
+    fetchMasterComponent();
 
     async function fetchTypeOptions() {
       try {
@@ -697,7 +697,7 @@ const AddPropertySalaryCard = () => {
           {Object.keys(componentsByType).map((type, outerIndex) => (
             <div className="mt-2" key={outerIndex}>
               <div>
-                <h2 className="py-4 pl-4 capitalize shadow-lg border-gray bg-slate-100 rounded-t-md">
+                <h2 className="py-4 pl-4 capitalize shadow-lg border-gray  rounded-t-md">
                   {type}
                 </h2>
                 <table className="min-w-full border-collapse border-gray-200 table-auto">

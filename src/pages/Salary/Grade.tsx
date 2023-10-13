@@ -1,6 +1,8 @@
 // Import Library & Package
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ReactLoading from 'react-loading';
+
 // Import Component
 import TabelHeader from '../../components/tabels/TabelHeader';
 import TabelFooter from '../../components/tabels/TabelFooter';
@@ -35,6 +37,9 @@ const Grade: React.FC = () => {
   const [grade, setGrade] = useState<string[]>([]);
   const [detailedData, setDetailedData] = useState<string | null>(null);
 
+  // Loading
+  const [isLoading, setIsLoading] = useState(false);
+
   // Search
   const [searchResults, setSearchResults] = useState<any[]>([]);
 
@@ -56,16 +61,19 @@ const Grade: React.FC = () => {
   const currentGradeData = grade.slice(startIndex - 1, endIndex);
 
   // GET all grade data
-  const featchGrade = async () => {
+  const fetchGrade = async () => {
     try {
+      setIsLoading(true);
+
       const reponseData = await getGrade();
       setGrade(reponseData.data);
     } catch (error: any) {
-      console.error('Error featch all grade:', error);
-      setErrorTitle(`Error featch all grade`);
+      console.error('Error fetch all grade:', error);
+      setErrorTitle(`Error fetch all grade`);
 
-      const errorMessages = Object.values(error.response.data.errors).flat();
-      setErrorMessage(errorMessages.join('\n'));
+      setErrorMessage(error.response.data.message);
+    } finally {
+      setIsLoading(false);
     }
     ResetAlert(
       setSuccessTitle,
@@ -76,16 +84,19 @@ const Grade: React.FC = () => {
   };
 
   // GET detail grade data by id
-  const featchDetailGrade = async (id: number) => {
+  const fetchDetailGrade = async (id: number) => {
     try {
+      setIsLoading(true);
+
       const responseData = await getDetailGrade(id);
       setDetailedData(responseData.data);
     } catch (error: any) {
-      console.error('Error featch detail grade:', error);
-      setErrorTitle(`Error featch detail grade`);
+      console.error('Error fetch detail grade:', error);
+      setErrorTitle(`Error fetch detail grade`);
       navigate('/notfound');
-      const errorMessages = Object.values(error.response.data.errors).flat();
-      setErrorMessage(errorMessages.join('\n'));
+      setErrorMessage(error.response.data.message);
+    } finally {
+      setIsLoading(false);
     }
     ResetAlert(
       setSuccessTitle,
@@ -102,7 +113,7 @@ const Grade: React.FC = () => {
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
 
-      featchGrade();
+      fetchGrade();
     } catch (error: any) {
       console.error('Error adding grade:', error);
       setErrorTitle(`Error adding grade`);
@@ -125,7 +136,7 @@ const Grade: React.FC = () => {
 
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
-      featchGrade();
+      fetchGrade();
     } catch (error: any) {
       console.error('Error editing grade:', error);
       setErrorTitle(`Error editing grade`);
@@ -143,16 +154,20 @@ const Grade: React.FC = () => {
   // DELETE grade data
   const handleDeleteGrade = async (id: number) => {
     try {
+      setIsLoading(true);
+
       const responseData = await deleteGrade(id);
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
-      featchGrade();
+      fetchGrade();
     } catch (error: any) {
       console.error('Error deleting grade:', error);
       setErrorTitle(`Error deleting grade`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
+    } finally {
+      setIsLoading(false);
     }
     ResetAlert(
       setSuccessTitle,
@@ -191,12 +206,17 @@ const Grade: React.FC = () => {
   };
 
   useEffect(() => {
-    featchGrade();
+    fetchGrade();
   }, []);
 
   return (
     <>
-      <h1 className="px-4">Job Grade Page</h1>
+      <h1 className="px-4 text-xl my-1">Job Grade Page</h1>
+      {isLoading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <ReactLoading type="spin" color="green" height={50} width={50} />
+        </div>
+      )}
       {successMessage && successTitle && (
         <SuccessAlert title={successTitle} text={successMessage} />
       )}
@@ -219,7 +239,7 @@ const Grade: React.FC = () => {
         onSubmit={handleEditGrade}
         onDelete={handleDeleteGrade}
         detailedData={detailedData}
-        fetchDetailedData={featchDetailGrade}
+        fetchDetailedData={fetchDetailGrade}
       />
       <TabelFooter
         currentPage={currentPage}

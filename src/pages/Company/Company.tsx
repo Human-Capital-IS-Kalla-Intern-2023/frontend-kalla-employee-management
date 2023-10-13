@@ -1,5 +1,6 @@
 // Import Library & Package
 import React, { useEffect, useState } from 'react';
+import ReactLoading from 'react-loading';
 
 // Import Component
 import TabelHeader from '../../components/tabels/TabelHeader';
@@ -36,6 +37,9 @@ const Company: React.FC = () => {
   const [company, setCompany] = useState<string[]>([]);
   const [detailedData, setDetailedData] = useState<string | null>(null);
 
+  // Loading
+  const [isLoading, setIsLoading] = useState(false);
+
   // Search
   const [searchResults, setSearchResults] = useState<any[]>([]);
 
@@ -56,16 +60,19 @@ const Company: React.FC = () => {
   const currentCompanyData = company.slice(startIndex - 1, endIndex);
 
   // GET all company data
-  const featchCompany = async () => {
+  const fetchCompany = async () => {
     try {
+      setIsLoading(true);
+
       const reponseData = await getCompany();
       setCompany(reponseData.data);
     } catch (error: any) {
-      console.error('Error featch all company:', error);
-      setErrorTitle(`Error featch all company`);
+      console.error('Error fetch all company:', error);
+      setErrorTitle(`Error fetch all company`);
 
-      const errorMessages = Object.values(error.response.data.errors).flat();
-      setErrorMessage(errorMessages.join('\n'));
+      setErrorMessage(error.response.data.message);
+    } finally {
+      setIsLoading(false);
     }
     ResetAlert(
       setSuccessTitle,
@@ -76,16 +83,18 @@ const Company: React.FC = () => {
   };
 
   // GET detail company data by id
-  const featchDetailCompany = async (id: number) => {
+  const fetchDetailCompany = async (id: number) => {
     try {
+      setIsLoading(true);
       const responseData = await getDetailCompany(id);
       setDetailedData(responseData.data);
     } catch (error: any) {
-      console.error('Error featch detail company:', error);
-      setErrorTitle(`Error featch detail company`);
+      console.error('Error fetch detail company:', error);
+      setErrorTitle(`Error fetch detail company`);
 
-      const errorMessages = Object.values(error.response.data.errors).flat();
-      setErrorMessage(errorMessages.join('\n'));
+      setErrorMessage(error.response.data.message);
+    } finally {
+      setIsLoading(false);
     }
     ResetAlert(
       setSuccessTitle,
@@ -102,7 +111,7 @@ const Company: React.FC = () => {
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
 
-      featchCompany();
+      fetchCompany();
     } catch (error: any) {
       console.error('Error adding company:', error);
       setErrorTitle(`Error adding company`);
@@ -126,7 +135,7 @@ const Company: React.FC = () => {
 
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
-      featchCompany();
+      fetchCompany();
     } catch (error: any) {
       console.error('Error editing company:', error);
       setErrorTitle(`Error editing company`);
@@ -144,16 +153,19 @@ const Company: React.FC = () => {
   // DELETE company data
   const handleDeleteCompany = async (id: number) => {
     try {
+      setIsLoading(true);
       const responseData = await deleteCompany(id);
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
-      featchCompany();
+      fetchCompany();
     } catch (error: any) {
       console.error('Error deleting company:', error);
       setErrorTitle(`Error deleting company`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
+    } finally {
+      setIsLoading(false);
     }
     ResetAlert(
       setSuccessTitle,
@@ -198,12 +210,17 @@ const Company: React.FC = () => {
 
   useEffect(() => {
     fetchLocationNames();
-    featchCompany();
+    fetchCompany();
   }, []);
 
   return (
     <>
-      <h1 className="px-4">Company Page</h1>
+      <h1 className="px-4 text-xl my-1">Company Page</h1>
+      {isLoading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <ReactLoading type="spin" color="green" height={50} width={50} />
+        </div>
+      )}
       {successMessage && successTitle && (
         <SuccessAlert title={successTitle} text={successMessage} />
       )}
@@ -226,7 +243,7 @@ const Company: React.FC = () => {
         onSubmit={handleEditCompany}
         onDelete={handleDeleteCompany}
         detailedData={detailedData}
-        fetchDetailedData={featchDetailCompany}
+        fetchDetailedData={fetchDetailCompany}
       />
       <TabelFooter
         currentPage={currentPage}

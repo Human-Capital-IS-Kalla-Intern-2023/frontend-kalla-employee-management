@@ -63,30 +63,35 @@ const Employee: React.FC = () => {
   const currentEmployeeData = (employee || []).slice(startIndex - 1, endIndex);
 
   // GET all employee data
-  const featchEmployee = async () => {
+  const fetchEmployee = async () => {
     try {
       setIsLoading(true);
       const reponseData = await getEmployee();
       setEmployee(reponseData.data);
     } catch (error: any) {
-      console.error('Error featch all employee:', error);
-      setErrorTitle(`Error featch all employee`);
+      console.error('Error fetch all employee:', error);
+      setErrorTitle(`Error fetch all employee`);
 
-      const errorMessages = Object.values(error.response.data.errors).flat();
-      setErrorMessage(errorMessages.join('\n'));
+      setErrorMessage(error.response.data.message);
     } finally {
       setIsLoading(false);
     }
+    ResetAlert(
+      setSuccessTitle,
+      setSuccessMessage,
+      setErrorTitle,
+      setErrorMessage
+    );
   };
 
   // GET detail employee data by id
-  const featchDetailEmployee = async (id: number) => {
+  const fetchDetailEmployee = async (id: number) => {
     try {
       const responseData = await getDetailEmployee(id);
       setDetailedData(responseData.data);
     } catch (error: any) {
-      console.error('Error featch detail employee:', error);
-      setErrorTitle(`Error featch detail employee`);
+      console.error('Error fetch detail employee:', error);
+      setErrorTitle(`Error fetch detail employee`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
@@ -107,7 +112,7 @@ const Employee: React.FC = () => {
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
 
-      featchEmployee();
+      fetchEmployee();
     } catch (error: any) {
       console.error('Error adding employee:', error);
       setErrorTitle(`Error adding employee`);
@@ -130,7 +135,7 @@ const Employee: React.FC = () => {
 
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
-      featchEmployee();
+      fetchEmployee();
     } catch (error: any) {
       console.error('Error editing employee:', error);
       setErrorTitle(`Error editing employee`);
@@ -151,7 +156,7 @@ const Employee: React.FC = () => {
       const responseData = await deleteEmployee(id);
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
-      featchEmployee();
+      fetchEmployee();
     } catch (error: any) {
       console.error('Error deleting employee:', error);
       setErrorTitle(`Error deleting employee`);
@@ -195,7 +200,7 @@ const Employee: React.FC = () => {
   };
 
   useEffect(() => {
-    featchEmployee();
+    fetchEmployee();
     fetchPositions();
   }, []);
 
@@ -206,7 +211,7 @@ const Employee: React.FC = () => {
           <ReactLoading type="spin" color="green" height={50} width={50} />
         </div>
       )}
-      <h1 className="px-4">Employee Page</h1>
+      <h1 className="px-4 text-xl my-1">Employee Page</h1>
       {successMessage && successTitle && (
         <SuccessAlert title={successTitle} text={successMessage} />
       )}
@@ -229,7 +234,7 @@ const Employee: React.FC = () => {
         onSubmit={handleEditEmployee}
         onDelete={handleDeleteEmployee}
         detailedData={detailedData}
-        fetchDetailedData={featchDetailEmployee}
+        fetchDetailedData={fetchDetailEmployee}
         onDetailNavigate="detail/personal-data/{employeeId}/{positionId}"
       />
       <TabelFooter

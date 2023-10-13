@@ -1,5 +1,6 @@
 // Import Library & Package
 import React, { useEffect, useState } from 'react';
+import ReactLoading from 'react-loading';
 
 // Import Component
 import TabelHeader from '../../components/tabels/TabelHeader';
@@ -35,6 +36,9 @@ const Division: React.FC = () => {
   const [division, setDivision] = useState<string[]>([]);
   const [detailedData, setDetailedData] = useState<string | null>(null);
 
+  // Loading
+  const [isLoading, setIsLoading] = useState(false);
+
   // Search
   const [searchResults, setSearchResults] = useState<any[]>([]);
 
@@ -55,16 +59,18 @@ const Division: React.FC = () => {
   const currentDivisionData = division.slice(startIndex - 1, endIndex);
 
   // GET all division data
-  const featchAllDivision = async () => {
+  const fetchAllDivision = async () => {
     try {
+      setIsLoading(true);
+
       const responseData = await getDivision();
       setDivision(responseData.data);
     } catch (error: any) {
-      console.error('Error featch all division:', error);
-      setErrorTitle(`Error featch all division`);
-
-      const errorMessages = Object.values(error.response.data.errors).flat();
-      setErrorMessage(errorMessages.join('\n'));
+      console.error('Error fetch all division:', error);
+      setErrorTitle(`Error fetch all division`);
+      setErrorMessage(error.response.data.message);
+    } finally {
+      setIsLoading(false);
     }
     ResetAlert(
       setSuccessTitle,
@@ -75,17 +81,21 @@ const Division: React.FC = () => {
   };
 
   // GET detail division data by id
-  const featchDetailDivision = async (id: number) => {
+  const fetchDetailDivision = async (id: number) => {
     try {
+      setIsLoading(true);
+
       const responseData = await getDetailDivision(id);
       setDetailedData(responseData.data);
     } catch (error: any) {
-      console.error('Error featch detail division:', error);
-      setErrorTitle(`Error featch detail division`);
+      console.error('Error fetch detail division:', error);
+      setErrorTitle(`Error fetch detail division`);
 
-      const errorMessages = Object.values(error.response.data.errors).flat();
-      setErrorMessage(errorMessages.join('\n'));
+      setErrorMessage(error.response.data.message);
+    } finally {
+      setIsLoading(false);
     }
+
     ResetAlert(
       setSuccessTitle,
       setSuccessMessage,
@@ -101,13 +111,12 @@ const Division: React.FC = () => {
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
 
-      featchAllDivision();
+      fetchAllDivision();
     } catch (error: any) {
       console.error('Error adding division:', error);
       setErrorTitle(`Error adding division`);
 
-      const errorMessages = Object.values(error.response.data.errors).flat();
-      setErrorMessage(errorMessages.join('\n'));
+      setErrorMessage(error);
     }
     ResetAlert(
       setSuccessTitle,
@@ -124,7 +133,7 @@ const Division: React.FC = () => {
 
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
-      featchAllDivision();
+      fetchAllDivision();
     } catch (error: any) {
       console.error('Error editing division:', error);
       setErrorTitle(``);
@@ -142,16 +151,20 @@ const Division: React.FC = () => {
   // DELETE division data
   const handleDeleteDivision = async (id: number) => {
     try {
+      setIsLoading(true);
+
       const responseData = await deleteDivision(id);
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
-      featchAllDivision();
+      fetchAllDivision();
     } catch (error: any) {
       console.error('Error deleting division:', error);
       setErrorTitle(`Error deleting division`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
+    } finally {
+      setIsLoading(false);
     }
 
     ResetAlert(
@@ -191,12 +204,17 @@ const Division: React.FC = () => {
   };
 
   useEffect(() => {
-    featchAllDivision();
+    fetchAllDivision();
   }, []);
 
   return (
     <>
-      <h1 className="px-4">Division Page</h1>
+      <h1 className="px-4 text-xl my-1">Division Page</h1>
+      {isLoading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <ReactLoading type="spin" color="green" height={50} width={50} />
+        </div>
+      )}
       {successMessage && successTitle && (
         <SuccessAlert title={successTitle} text={successMessage} />
       )}
@@ -219,7 +237,7 @@ const Division: React.FC = () => {
         onSubmit={handleEditDivision}
         onDelete={handleDeleteDivision}
         detailedData={detailedData}
-        fetchDetailedData={featchDetailDivision}
+        fetchDetailedData={fetchDetailDivision}
       />
       <TabelFooter
         currentPage={currentPage}

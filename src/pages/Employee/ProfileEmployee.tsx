@@ -15,12 +15,12 @@ const ProfileEmployee = () => {
   const [successTitle, setSuccessTitle] = useState<string | null>(null);
   const [errorTitle, setErrorTitle] = useState<string | null>(null);
 
-  const featchDetailEmployee = async (id: any) => {
+  const fetchDetailEmployee = async (id: any) => {
     try {
       const responseData = await getDetailEmployee(id);
       setDetailedData(responseData.data);
     } catch (error: any) {
-      console.error('Error featch detail employee:', error);
+      console.error('Error fetch detail employee:', error);
     }
   };
 
@@ -29,7 +29,7 @@ const ProfileEmployee = () => {
       const responseData = await updateEmployee(employeeId, formData);
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
-      featchDetailEmployee(employeeId);
+      fetchDetailEmployee(employeeId);
     } catch (error: any) {
       console.error('Error editing employee:', error);
       setErrorTitle(`Error editing employee`);
@@ -45,7 +45,7 @@ const ProfileEmployee = () => {
   };
 
   useEffect(() => {
-    featchDetailEmployee(employeeId);
+    fetchDetailEmployee(employeeId);
   }, [employeeId]);
 
   return (

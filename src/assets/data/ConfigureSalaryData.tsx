@@ -77,7 +77,7 @@ async function fetchCompany() {
   }
 }
 
-async function featchMasterComponent() {
+async function fetchMasterComponent() {
   try {
     const responseData = await getMasterSalary();
     const masterComponentOptions = responseData.data.map((item: any) => ({
@@ -116,5 +116,5 @@ export {
   filterOptions,
   inputField,
   fetchCompany,
-  featchMasterComponent,
+  fetchMasterComponent,
 };
