@@ -528,12 +528,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                   ))
                 ) : (
                   <tr>
-                    <td
-                      colSpan={colCells.length + 1}
-                      className="p-6 text-center text-gray-500 bg-slate-200"
-                    >
-                      Featching...
-                    </td>
+                    <td colSpan={colCells.length + 1}></td>
                   </tr>
                 )}
               </tbody>
