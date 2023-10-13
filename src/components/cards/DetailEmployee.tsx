@@ -62,7 +62,7 @@ const DetailEmployee = ({
         <h1 className="p-2 ml-2.5 text-lg font-medium border-b-2 border-primary ">
           Personal Data Page
         </h1>
-        <div className="pl-11 pr-3 text-sm font-medium ">
+        <div className="pl-11 pr-3 text-sm font-semibold ">
           {/* <button
             className="px-4 py-2 mr-4 text-white duration-300 bg-red-500 rounded-md hover:bg-gray"
             onClick={handleBack}
@@ -95,7 +95,7 @@ const DetailEmployee = ({
           <div className="pt-4 overflow-x-auto ">
             {/* Button Manage akan menggunakan Modal Edit yang sama dengan TabelBody */}
             {/* <div className="flex justify-end pr-2">
-              <button className="flex items-center justify-center px-3 py-2 mr-3 text-sm font-medium duration-300 rounded-lg text-pureBlack bg-secondary focus:ring-4 bg-primary-600 hover:bg-yellow">
+              <button className="flex items-center justify-center px-3 py-2 mr-3 text-sm font-semibold duration-300 rounded-lg text-pureBlack bg-secondary focus:ring-4 bg-primary-600 hover:bg-yellow">
                 Edit
                 <ArrowButtonIcon className="h-3.5 w-3.5 ml-1" />
               </button>
@@ -108,37 +108,39 @@ const DetailEmployee = ({
               className="w-40 h-40 mx-auto rounded-2xl"
             />
 
-            <h2 className="mt-4 text-xl font-semibold sm:text-md md:text-lg lg:text-xl text-center">
+            <h2 className="mt-4 text-md font-semibold sm:text-md md:text-lg lg:text-xl text-center">
               {employeeData.fullname}
             </h2>
-            <p className="pt-2 font-medium text-center">{employeeData.nip}</p>
+            <p className="text-base lg:text-md pt-2 font-medium text-center">
+              {employeeData.nip}
+            </p>
 
             <div className="px-1 lg:px-3">
               <div className="my-4 rounded-t-lg">
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                  <div className="p-4 bg-white rounded-lg shadow-md">
-                    <h2 className="mb-2 text-base font-semibold sm:text-md  lg:text-lg">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  <div className="p-4 bg-white border-l-4 border-b-4 border-red-600 rounded-lg shadow-md">
+                    <h2 className="mb-1 lg:mb-2  text-base font-semibold sm:text-md lg:text-md">
                       Nickname
                     </h2>
-                    <p className="text-base sm:text-md lg:text-lg">
+                    <p className="text-base md:text-base lg:text-md">
                       {employeeData.nickname}
                     </p>
                   </div>
 
-                  <div className="p-4 bg-white rounded-lg shadow-md">
-                    <h2 className="mb-2 text-base font-semibold sm:text-md lg:text-lg">
+                  <div className="p-4 bg-white border-l-4 border-b-4 border-green-500 rounded-lg shadow-md">
+                    <h2 className="mb-1 lg:mb-2 text-base font-semibold sm:text-md lg:text-md">
                       Email
                     </h2>
-                    <p className="text-base sm:text-md lg:text-lg">
+                    <p className="text-base md:text-base lg:text-md">
                       {employeeData.company_email}
                     </p>
                   </div>
 
-                  <div className="p-4 bg-white rounded-lg shadow-md">
-                    <h2 className="mb-2 text-base font-semibold sm:text-md lg:text-lg">
+                  <div className="p-4 bg-white border-l-4 border-b-4 border-blue-600 rounded-lg shadow-md">
+                    <h2 className="mb-1 lg:mb-2 text-base font-semibold sm:text-md lg:text-md">
                       Hire Date
                     </h2>
-                    <p className="text-base sm:text-md lg:text-lg">
+                    <p className="text-base md:text-base lg:text-md">
                       {employeeData.hire_date}
                     </p>
                   </div>
@@ -149,27 +151,27 @@ const DetailEmployee = ({
             <div className="px-1 lg:px-3">
               <div className="my-4 bg-white rounded-lg shadow-md overflow-x-auto">
                 <div className="bg-primary px-4 py-2 text-left rounded-tl-lg border-b-2">
-                  <h2 className="sm:text-md lg:text-lg font-medium text-white">
+                  <h2 className="text-base md:text-base lg:text-md font-medium text-white">
                     Main Position
                   </h2>
                 </div>
-                <div className="flex flex-col sm:flex-row p-4">
-                  <div className="w-full sm:w-1/2 text-left mb-4 sm:mb-0">
-                    <h2 className="text-base lg:text-lg font-medium">
+                <div className="flex flex-col sm:flex-row px-4 py-2">
+                  <div className="w-full sm:w-1/2 text-left mb-2 lg:mb-3 sm:mb-0">
+                    <h2 className="text-base md:text-base lg:text-md font-semibold">
                       Position Name
                     </h2>
                     <p className="text-sm lg:text-base border-b mb-2">
                       {employeeData.main_position}
                     </p>
 
-                    <h2 className="text-base lg:text-lg font-medium">
+                    <h2 className="text-base md:text-base lg:text-md font-semibold">
                       Company Name
                     </h2>
                     <p className="text-sm lg:text-base border-b mb-2">
                       {employeeData.company_main}
                     </p>
 
-                    <h2 className="text-base lg:text-lg font-medium">
+                    <h2 className="text-base md:text-base lg:text-md font-semibold">
                       Directorate
                     </h2>
                     <p className="text-sm lg:text-base border-b">
@@ -177,14 +179,14 @@ const DetailEmployee = ({
                     </p>
                   </div>
                   <div className="w-full sm:w-1/2 text-left">
-                    <h2 className="text-base lg:text-lg font-medium">
+                    <h2 className="text-base md:text-base lg:text-md font-semibold">
                       Division
                     </h2>
                     <p className="text-sm lg:text-base border-b mb-2">
                       {employeeData.division_main}
                     </p>
 
-                    <h2 className="text-base lg:text-lg font-medium">
+                    <h2 className="text-base md:text-base lg:text-md font-semibold">
                       Section
                     </h2>
                     <p className="text-sm lg:text-base border-b">
@@ -200,7 +202,7 @@ const DetailEmployee = ({
               <div className="my-4 bg-white rounded-lg shadow-md ">
                 <div className="bg-primary w-full table-auto rounded-t-lg">
                   <div className="w-full px-4 py-2 text-left border-b-2">
-                    <h2 className="sm:text-md lg:text-lg font-medium text-white">
+                    <h2 className="text-base md:text-base lg:text-md font-medium text-white">
                       Secondary Position
                     </h2>
                   </div>
@@ -212,7 +214,7 @@ const DetailEmployee = ({
                       {employeeData.additional_position.length === 0 ? (
                         <p>No Secondary Position</p>
                       ) : (
-                        <div className="sm:text-sm lg:text-lg">
+                        <div className="text-sm md:text-sm lg:text-md">
                           <select
                             value={selectedSecondaryPosition}
                             onChange={handleSecondaryPositionChange}
@@ -243,9 +245,9 @@ const DetailEmployee = ({
 
           {selectedSecondaryPosition && (
             <div className="lg:px-3">
-              <div className="my-4 bg-white rounded-lg shadow-md overflow-x-auto">
+              <div className="lg:my-4  bg-white rounded-lg shadow-md overflow-x-auto">
                 <div className="bg-primary px-4 py-2 text-left border-b-2">
-                  <h2 className="text-sm lg:text-lg font-medium text-white">
+                  <h2 className="text-base md:text-base lg:text-md font-medium text-white">
                     Secondary Position Details
                   </h2>
                 </div>
@@ -264,12 +266,12 @@ const DetailEmployee = ({
                     }) => (
                       <div
                         key={selectedPosition.position_name}
-                        className="flex flex-col sm:flex-row p-4"
+                        className="flex flex-col sm:flex-row px-4 py-2"
                       >
                         {/* Kolom 1 */}
-                        <div className="w-full sm:w-1/2 text-left mb-4 sm:mb-0">
+                        <div className="w-full sm:w-1/2 text-left lg:mb-2 ">
                           <div>
-                            <h2 className="text-md lg:text-lg font-medium">
+                            <h2 className="text-base md:text-base lg:text-md font-semibold">
                               Position Name
                             </h2>
                             <p className="text-sm lg:text-base border-b">
@@ -277,27 +279,27 @@ const DetailEmployee = ({
                             </p>
                           </div>
                           <div>
-                            <h2 className="text-md lg:text-lg pt-2 font-medium">
+                            <h2 className="text-base md:text-base lg:text-md pt-2 font-semibold">
                               Company Name
                             </h2>
-                            <p className="text-sm lg:text-base border-b">
+                            <p className="text-sm lg:text-base border-b mb-2">
                               {selectedPosition.company_name}
                             </p>
                           </div>
                           <div>
-                            <h2 className="pt-2 text-md lg:text-lg font-medium">
+                            <h2 className="text-base md:text-base lg:text-md font-semibold">
                               Directorate
                             </h2>
-                            <p className="pb-1 text-sm lg:text-base border-b">
+                            <p className="pb-1 text-sm lg:text-base mb-2 border-b ">
                               {selectedPosition.directorate_name}
                             </p>
                           </div>
                         </div>
 
                         {/* Kolom 2 */}
-                        <div className="w-full sm:w-1/2 text-left">
+                        <div className="w-full sm:w-1/2 text-left mb-4 sm:mb-0">
                           <div>
-                            <h2 className="text-base lg:text-lg font-medium">
+                            <h2 className="text-base md:text-base lg:text-md font-semibold">
                               Division
                             </h2>
                             <p className="text-sm lg:text-base border-b">
@@ -305,7 +307,7 @@ const DetailEmployee = ({
                             </p>
                           </div>
                           <div>
-                            <h2 className="text-base lg:text-lg pt-2 font-medium">
+                            <h2 className="text-base md:text-base lg:text-md pt-2 font-semibold">
                               Section
                             </h2>
                             <p className="text-sm lg:text-base border-b">

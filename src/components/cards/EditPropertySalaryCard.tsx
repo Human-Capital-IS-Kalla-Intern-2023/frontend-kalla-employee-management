@@ -619,19 +619,19 @@ const EditPropertySalaryCard = () => {
   return (
     <>
       {/* Header Design  */}
-      <header className="flex items-center justify-between p-5 shadow-lg ">
-        <h1 className="p-2 text-lg font-medium border-b-2 border-primary ">
+      <header className="flex items-center justify-between p-4 sm:p-5 shadow-lg ">
+        <h1 className="p-2 text-base sm:text-lg md:text-xl lg:text-2xl font-medium border-b-2 border-primary">
           Edit Configure Salary Page
         </h1>
-        <div className="text-sm font-medium ">
+        <div className="text-xs flex sm:flex-row lg:text-sm font-medium ">
           <button
-            className="px-4 py-2 mr-4 text-white duration-300 bg-red-500 rounded-md hover:bg-gray"
+            className="px-1 py-2 mr-2 lg:px-4 lg:py-2 lg:mr-4 text-white duration-300 bg-red-500 rounded-md hover:bg-graylg:hover:scale-105"
             onClick={cancelHandler}
           >
             CANCEL
           </button>
           <button
-            className="px-4 py-2 text-white duration-300 rounded-md bg-primary hover:bg-gray "
+            className="px-1 py-2 lg:px-4 lg:py-2 text-white duration-300 rounded-md bg-primary hover:bg-gray lg:hover:scale-105"
             onClick={handleSaveAndClose}
           >
             SAVE & CLOSE
@@ -646,16 +646,16 @@ const EditPropertySalaryCard = () => {
       )}
 
       {/* Left Card Design  */}
-      <div className="flex h-screen m-8">
-        <div className="w-1/4 bg-gray-100 shadow-2xl ">
+      <div className="flex flex-col sm:flex-row m-4">
+        <div className="w-full sm:w-1/4 bg-gray-100 shadow-2xl mb-4 sm:mb-0">
           <div className="mb-4">
-            <h1 className="py-4 pl-4 shadow-lg border-gray bg-slate-300 rounded-t-md">
+            <h1 className="py-4 pl-4 shadow-lg sm:text-sms lg:text-md border-gray bg-slate-300 rounded-t-md">
               Property
             </h1>
             <div className="p-4">
               <label
                 htmlFor="dropdown"
-                className="block mt-6 font-medium text-gray-700"
+                className="block mt-3 font-medium text-gray-700"
               >
                 Legal Employer *
               </label>
@@ -712,26 +712,26 @@ const EditPropertySalaryCard = () => {
         </div>
 
         {/* Right Card Design  */}
-        <div className="w-3/4 ml-10 rounded-md shadow-2xl h-fit">
-          <h1 className="py-4 pl-4 shadow-lg border-gray bg-slate-300 rounded-t-md">
+        <div className="overflow-x-auto w-full sm:w-3/4 ml-0 sm:ml-10 rounded-md shadow-2xl">
+          <h1 className="flex sm:text-sm lg:text-md py-4 pl-4 shadow-lg border-gray bg-slate-300 rounded-t-md">
             COMPONENT
           </h1>
           <div className="flex my-6 ml-6 space-x-2">
             <button
-              className="flex items-center justify-center px-4 py-2 mr-3 text-sm font-medium text-white duration-300 rounded-lg bg-primary focus:ring-4 hover:bg-gray"
+              className="flex items-center justify-center px-4 py-2 mr-3 text-sm font-medium text-white duration-300 rounded-lg bg-primary focus:ring-4 hover:bg-gray lg:hover:scale-105"
               onClick={openModalAdd}
             >
               <PlusIcon className="h-3.5 w-3.5 mr-2" /> ADD COMPONENT
             </button>
             <button
-              className="px-2 py-2 text-sm font-medium text-white duration-300 bg-red-500 rounded-lg hover:bg-gray"
+              className="px-2 py-2 text-sm font-medium text-white duration-300 bg-red-500 rounded-lg hover:bg-gray lg:hover:scale-105"
               onClick={() => showDeleteAllConfirmation()}
             >
               CLEAR
             </button>
           </div>
-          <thead className="">
-            <tr className="">
+          <thead className="overflow-x-auto ">
+            <tr className="overflow-x-auto ">
               <th className="w-1/12 px-4 py-6 text-left"></th>
               <th className="w-2/12 px-4 py-6 text-left">List Order</th>
               <th className="w-2/12 px-4 py-6 text-left">Component</th>
@@ -847,7 +847,7 @@ const EditPropertySalaryCard = () => {
       {/* Modal Design */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 ">
-          <div className="w-1/2 bg-white rounded-md shadow-md">
+          <div className="w-full sm:w-1/2 bg-white rounded-md shadow-md">
             <header className="flex items-center justify-between p-4">
               <h2 className="p-2 text-lg font-medium border-b-2 border-primary ">
                 Add Component

@@ -594,7 +594,7 @@ const AddPropertySalaryCard = () => {
       <div className="flex flex-col sm:flex-row m-4">
         <div className="w-full sm:w-1/4 bg-gray-100 shadow-2xl mb-4 sm:mb-0">
           <div className="mb-4">
-            <h1 className="py-4 pl-4 shadow-lg lg:text-lg border-gray bg-slate-300 rounded-t-md">
+            <h1 className="py-4 pl-4 shadow-lg sm:text-sms lg:text-md border-gray bg-slate-300 rounded-t-md">
               Property
             </h1>
             <div className="p-4">
@@ -611,7 +611,7 @@ const AddPropertySalaryCard = () => {
                 onChange={handleCompanyChange}
                 className="block w-full px-3 py-2 mt-1 text-sm bg-white border rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
               >
-                <option value="" disabled>
+                <option value="" className="text-sm" disabled>
                   Select an option
                 </option>
                 {companyOptions.map((option) => (
@@ -657,8 +657,8 @@ const AddPropertySalaryCard = () => {
         </div>
 
         {/* Right Card Design  */}
-        <div className="w-full sm:w-3/4 ml-0 sm:ml-10 rounded-md shadow-2xl">
-          <h1 className="sm:text-md lg:text-lg py-4 pl-4 shadow-lg border-gray bg-slate-300 rounded-t-md">
+        <div className="overflow-auto w-full sm:w-3/4 ml-0 sm:ml-10 rounded-md shadow-2xl">
+          <h1 className="flex sm:text-sm lg:text-md py-4 pl-4 shadow-lg border-gray bg-slate-300 rounded-t-md">
             COMPONENT
           </h1>
           <div className="flex my-6 ml-6 space-x-2">
@@ -669,14 +669,14 @@ const AddPropertySalaryCard = () => {
               <PlusIcon className="h-3.5 w-3.5 mr-2" /> ADD COMPONENT
             </button>
             <button
-              className="px-2 py-2 text-sm font-medium text-white duration-300 bg-red-500 rounded-lg hover:bg-gray lg:hover:scale-105"
+              className="px-3 py-2 text-sm font-medium text-white duration-300 bg-red-500 rounded-lg hover:bg-gray lg:hover:scale-105"
               onClick={() => showDeleteAllConfirmation()}
             >
               CLEAR
             </button>
           </div>
           <thead className="overflow-auto ">
-            <tr className="">
+            <tr className="overflow-auto ">
               <th className="w-1/12 px-4 py-6 text-left"></th>
               <th className="w-2/12 px-4 py-6 text-left">List Order</th>
               <th className="w-2/12 px-4 py-6 text-left">Component</th>
