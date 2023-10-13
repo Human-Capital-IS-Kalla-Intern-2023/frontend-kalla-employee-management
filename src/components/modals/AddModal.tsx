@@ -151,6 +151,7 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
                   )
                 ) : field.type === 'checkbox' ? (
                   <input
+                    className=""
                     type="checkbox"
                     id={field.id}
                     name={field.name}
