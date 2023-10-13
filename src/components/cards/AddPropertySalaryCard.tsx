@@ -611,7 +611,7 @@ const AddPropertySalaryCard = () => {
                 onChange={handleCompanyChange}
                 className="block w-full px-3 py-2 mt-1 text-sm bg-white border rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
               >
-                <option value="" disabled>
+                <option value="" className="text-sm" disabled>
                   Select an option
                 </option>
                 {companyOptions.map((option) => (
@@ -657,130 +657,128 @@ const AddPropertySalaryCard = () => {
         </div>
 
         {/* Right Card Design  */}
-        <div className="mx-auto">
-          <div className="overflow-auto w-full sm:w-3/4 ml-0 sm:ml-10 rounded-md shadow-2xl">
-            <h1 className="flex sm:text-sm lg:text-md py-4 pl-4 shadow-lg border-gray bg-slate-300 rounded-t-md">
-              COMPONENT
-            </h1>
-            <div className="flex my-6 ml-6 space-x-2">
-              <button
-                className="flex items-center justify-center px-4 py-2 mr-3 text-sm font-medium text-white duration-300 rounded-lg bg-primary focus:ring-4 hover:bg-gray lg:hover:scale-105"
-                onClick={openModalAdd}
-              >
-                <PlusIcon className="h-3.5 w-3.5 mr-2" /> ADD COMPONENT
-              </button>
-              <button
-                className="px-3 py-2 text-sm font-medium text-white duration-300 bg-red-500 rounded-lg hover:bg-gray lg:hover:scale-105"
-                onClick={() => showDeleteAllConfirmation()}
-              >
-                CLEAR
-              </button>
-            </div>
-            <thead className="overflow-auto ">
-              <tr className="overflow-auto ">
-                <th className="w-1/12 px-4 py-6 text-left"></th>
-                <th className="w-2/12 px-4 py-6 text-left">List Order</th>
-                <th className="w-2/12 px-4 py-6 text-left">Component</th>
-                <th className="w-2/12 px-4 py-6 text-left">Type</th>
-                <th className="w-1/12 px-4 py-6 text-left">Hide</th>
-                <th className="w-1/12 px-4 py-6 text-left">Edit</th>
-                <th className="w-1/12 px-4 py-6 text-left">Active</th>
-              </tr>
-            </thead>
+        <div className="overflow-auto w-full sm:w-3/4 ml-0 sm:ml-10 rounded-md shadow-2xl">
+          <h1 className="flex sm:text-sm lg:text-md py-4 pl-4 shadow-lg border-gray bg-slate-300 rounded-t-md">
+            COMPONENT
+          </h1>
+          <div className="flex my-6 ml-6 space-x-2">
+            <button
+              className="flex items-center justify-center px-4 py-2 mr-3 text-sm font-medium text-white duration-300 rounded-lg bg-primary focus:ring-4 hover:bg-gray lg:hover:scale-105"
+              onClick={openModalAdd}
+            >
+              <PlusIcon className="h-3.5 w-3.5 mr-2" /> ADD COMPONENT
+            </button>
+            <button
+              className="px-3 py-2 text-sm font-medium text-white duration-300 bg-red-500 rounded-lg hover:bg-gray lg:hover:scale-105"
+              onClick={() => showDeleteAllConfirmation()}
+            >
+              CLEAR
+            </button>
+          </div>
+          <thead className="overflow-auto ">
+            <tr className="overflow-auto ">
+              <th className="w-1/12 px-4 py-6 text-left"></th>
+              <th className="w-2/12 px-4 py-6 text-left">List Order</th>
+              <th className="w-2/12 px-4 py-6 text-left">Component</th>
+              <th className="w-2/12 px-4 py-6 text-left">Type</th>
+              <th className="w-1/12 px-4 py-6 text-left">Hide</th>
+              <th className="w-1/12 px-4 py-6 text-left">Edit</th>
+              <th className="w-1/12 px-4 py-6 text-left">Active</th>
+            </tr>
+          </thead>
 
-            {Object.keys(componentsByType).length === 0 && (
-              <div className="my-2 text-center">
-                <p className="py-4 mx-2 text-gray-500 rounded-md bg-slate-200">
-                  No Data Avalaible
-                </p>
-              </div>
-            )}
-            {Object.keys(componentsByType).map((type, outerIndex) => (
-              <div className="mt-2" key={outerIndex}>
-                <div>
-                  <h2 className="py-4 pl-4 capitalize shadow-lg border-gray bg-slate-100 rounded-t-md">
-                    {type}
-                  </h2>
-                  <table className="min-w-full border-collapse border-gray-200 table-auto">
-                    <tbody className="shadow-inner">
-                      {componentsByType[type].map((row, innerIndex) => (
-                        <tr key={`${outerIndex}-${innerIndex}`}>
-                          <td className="w-1/12 px-4 py-6">
-                            <div className="absolute cursor-pointer top-4 right-5 focus:outline-none"></div>
-                            <button
-                              onClick={() =>
-                                showDeleteConfirmation(
-                                  row.component_id,
-                                  row.component_name
+          {Object.keys(componentsByType).length === 0 && (
+            <div className="my-2 text-center">
+              <p className="py-4 mx-2 text-gray-500 rounded-md bg-slate-200">
+                No Data Avalaible
+              </p>
+            </div>
+          )}
+          {Object.keys(componentsByType).map((type, outerIndex) => (
+            <div className="mt-2" key={outerIndex}>
+              <div>
+                <h2 className="py-4 pl-4 capitalize shadow-lg border-gray bg-slate-100 rounded-t-md">
+                  {type}
+                </h2>
+                <table className="min-w-full border-collapse border-gray-200 table-auto">
+                  <tbody className="shadow-inner">
+                    {componentsByType[type].map((row, innerIndex) => (
+                      <tr key={`${outerIndex}-${innerIndex}`}>
+                        <td className="w-1/12 px-4 py-6">
+                          <div className="absolute cursor-pointer top-4 right-5 focus:outline-none"></div>
+                          <button
+                            onClick={() =>
+                              showDeleteConfirmation(
+                                row.component_id,
+                                row.component_name
+                              )
+                            }
+                          >
+                            <CloseButtonIcon className="w-8 h-8 p-1 text-red-500 duration-200 rounded-md overlay hover:bg-red-500 hover:text-white" />
+                          </button>
+                        </td>
+                        <td className="w-2/12 px-4 py-6">
+                          <input
+                            type="number"
+                            value={row.order}
+                            onChange={(e) =>
+                              handleOrderChange(e, row.component_id)
+                            }
+                            className="w-24 bg-white border-b focus:outline-none"
+                          />
+                        </td>
+                        <td className="w-2/12 px-4 py-6">
+                          {row.component_name}
+                        </td>
+                        <td className="w-2/12 px-4 py-6 capitalize">
+                          {row.type}
+                        </td>
+                        <td className="w-1/12 px-4 py-6">
+                          <input
+                            type="checkbox"
+                            className="w-5 h-5 rounded focus:ring-primary"
+                            checked={row.is_hide === 1}
+                            onChange={(e) =>
+                              handleIsHideCheckboxChange(e, row.component_id)
+                            }
+                          />
+                        </td>
+                        <td className="w-1/12 px-4 py-6">
+                          <input
+                            type="checkbox"
+                            className="w-5 h-5 rounded focus:ring-primary"
+                            checked={row.is_edit === 1}
+                            onChange={(e) =>
+                              handleIsEditCheckboxChange(e, row.component_id)
+                            }
+                          />
+                        </td>
+                        <td className="w-1/12 px-4 py-6">
+                          <label className="relative inline-flex items-center cursor-pointer">
+                            <input
+                              type="checkbox"
+                              value=""
+                              className="sr-only peer"
+                              checked={row.is_active === 1}
+                              onChange={(e) =>
+                                handleRightActiveChecboxChange(
+                                  e,
+                                  row.component_id
                                 )
                               }
-                            >
-                              <CloseButtonIcon className="w-8 h-8 p-1 text-red-500 duration-200 rounded-md overlay hover:bg-red-500 hover:text-white" />
-                            </button>
-                          </td>
-                          <td className="w-2/12 px-4 py-6">
-                            <input
-                              type="number"
-                              value={row.order}
-                              onChange={(e) =>
-                                handleOrderChange(e, row.component_id)
-                              }
-                              className="w-24 bg-white border-b focus:outline-none"
                             />
-                          </td>
-                          <td className="w-2/12 px-4 py-6">
-                            {row.component_name}
-                          </td>
-                          <td className="w-2/12 px-4 py-6 capitalize">
-                            {row.type}
-                          </td>
-                          <td className="w-1/12 px-4 py-6">
-                            <input
-                              type="checkbox"
-                              className="w-5 h-5 rounded focus:ring-primary"
-                              checked={row.is_hide === 1}
-                              onChange={(e) =>
-                                handleIsHideCheckboxChange(e, row.component_id)
-                              }
-                            />
-                          </td>
-                          <td className="w-1/12 px-4 py-6">
-                            <input
-                              type="checkbox"
-                              className="w-5 h-5 rounded focus:ring-primary"
-                              checked={row.is_edit === 1}
-                              onChange={(e) =>
-                                handleIsEditCheckboxChange(e, row.component_id)
-                              }
-                            />
-                          </td>
-                          <td className="w-1/12 px-4 py-6">
-                            <label className="relative inline-flex items-center cursor-pointer">
-                              <input
-                                type="checkbox"
-                                value=""
-                                className="sr-only peer"
-                                checked={row.is_active === 1}
-                                onChange={(e) =>
-                                  handleRightActiveChecboxChange(
-                                    e,
-                                    row.component_id
-                                  )
-                                }
-                              />
-                              <div
-                                className={`w-11 h-6 bg-red-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-white dark:peer-focus:ring-gray-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600`}
-                              ></div>
-                            </label>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                            <div
+                              className={`w-11 h-6 bg-red-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-white dark:peer-focus:ring-gray-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600`}
+                            ></div>
+                          </label>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
 
