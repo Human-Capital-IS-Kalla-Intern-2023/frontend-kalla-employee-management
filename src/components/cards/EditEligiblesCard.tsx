@@ -294,6 +294,9 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
                               <p className="text-base">
                                 {salary.component_name}
                               </p>
+                              <span className="text-[13px]">
+                                {salary.salary}
+                              </span>
                             </div>
                             <label className="relative inline-flex items-center w-1/3 ml-2 cursor-pointer">
                               <input

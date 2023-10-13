@@ -153,7 +153,7 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
                     type="submit"
                   >
                     {isLoading && (
-                      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-">
                         <ReactLoading
                           type="spin"
                           color="green"
@@ -171,7 +171,7 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
               <Link
                 to={onNavigate}
                 onClick={openModal}
-                className="flex items-center justify-center px-4 py-2  text-sm font-medium duration-300 rounded-lg text-pureBlack bg-secondary focus:ring-4 bg-primary-600 hover:bg-yellow lg:hover:scale-105"
+                className="flex items-center justify-center px-4 py-2 text-sm font-medium duration-300 rounded-lg text-pureBlack bg-secondary focus:ring-4 bg-primary-600 hover:bg-yellow lg:hover:scale-105"
               >
                 <PlusIcon className="h-3.5 w-3.5 mr-2" />
                 {addButtonText}

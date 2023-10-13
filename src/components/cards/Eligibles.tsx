@@ -285,6 +285,9 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                                       <h2 className="text-base">
                                         {item.component_name}
                                       </h2>
+                                      <span className="text-[13px]">
+                                        {item.salary}
+                                      </span>
                                       <p className="pt-2 pb-1 text-sm border-b ">
                                         <span
                                           className={
