@@ -7,6 +7,7 @@ import TabelFooter from '../../components/tabels/TabelFooter';
 import TabelBody from '../../components/tabels/TabelBody';
 import { SuccessAlert, ErrorAlert } from '../../components/alerts/CustomAlert';
 import { ResetAlert } from '../../helpers/ResetAlert';
+import ReactLoading from 'react-loading';
 
 // Import API
 import {
@@ -22,6 +23,7 @@ import {
   colCells,
   filterOptions,
   inputField,
+  fetchPositions,
 } from '../../assets/data/EmployeeData';
 
 const Employee: React.FC = () => {
@@ -34,6 +36,9 @@ const Employee: React.FC = () => {
   // Employee State
   const [employee, setEmployee] = useState<string[]>([]);
   const [detailedData, setDetailedData] = useState<string | null>(null);
+
+  // Loading
+  const [isLoading, setIsLoading] = useState(false);
 
   // Search
   const [searchResults, setSearchResults] = useState<any[]>([]);
@@ -60,6 +65,7 @@ const Employee: React.FC = () => {
   // GET all employee data
   const featchEmployee = async () => {
     try {
+      setIsLoading(true);
       const reponseData = await getEmployee();
       setEmployee(reponseData.data);
     } catch (error: any) {
@@ -68,6 +74,8 @@ const Employee: React.FC = () => {
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -148,8 +156,7 @@ const Employee: React.FC = () => {
       console.error('Error deleting employee:', error);
       setErrorTitle(`Error deleting employee`);
 
-      const errorMessages = Object.values(error.response.data.errors).flat();
-      setErrorMessage(errorMessages.join('\n'));
+      setErrorMessage(error.response.data.message);
     }
     ResetAlert(
       setSuccessTitle,
@@ -189,10 +196,16 @@ const Employee: React.FC = () => {
 
   useEffect(() => {
     featchEmployee();
+    fetchPositions();
   }, []);
 
   return (
     <>
+      {isLoading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <ReactLoading type="spin" color="green" height={50} width={50} />
+        </div>
+      )}
       <h1 className="px-4">Employee Page</h1>
       {successMessage && successTitle && (
         <SuccessAlert title={successTitle} text={successMessage} />

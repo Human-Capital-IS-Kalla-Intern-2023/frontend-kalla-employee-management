@@ -376,7 +376,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
         <div className="relative bg-white shadow-custom sm:rounded-lg">
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left">
-              <thead className="text-xs uppercase">
+              <thead className="uppercase text-[15px]">
                 <tr>
                   <th scope="col" className="px-2 py-4 w-14"></th>
                   {colCells.map((cell, index) => (
@@ -528,12 +528,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                   ))
                 ) : (
                   <tr>
-                    <td
-                      colSpan={colCells.length + 1}
-                      className="p-6 text-center text-gray-500 bg-slate-200"
-                    >
-                      There are no records to display.
-                    </td>
+                    <td colSpan={colCells.length + 1}></td>
                   </tr>
                 )}
               </tbody>

@@ -43,6 +43,4 @@ const fetchLocationNames = async () => {
   }
 };
 
-fetchLocationNames();
-
-export { colCells, filterOptions, inputField };
+export { colCells, filterOptions, inputField, fetchLocationNames };

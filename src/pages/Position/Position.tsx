@@ -22,6 +22,11 @@ import {
   colCells,
   filterOptions,
   inputField,
+  fetchCompany,
+  fetchDirectorat,
+  fetchDivision,
+  fetchSection,
+  fetchGrade,
 } from '../../assets/data/PositionData';
 
 const Position: React.FC = () => {
@@ -191,7 +196,12 @@ const Position: React.FC = () => {
   };
 
   useEffect(() => {
-    featchPosition();
+    fetchCompany(),
+      fetchDirectorat(),
+      fetchDivision(),
+      fetchSection(),
+      fetchGrade(),
+      featchPosition();
   }, []);
 
   return (

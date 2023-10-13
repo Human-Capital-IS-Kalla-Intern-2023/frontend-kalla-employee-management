@@ -294,6 +294,9 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
                               <p className="text-base">
                                 {salary.component_name}
                               </p>
+                              <span className="text-[13px]">
+                                {salary.salary}
+                              </span>
                             </div>
                             <label className="relative inline-flex items-center w-1/3 ml-2 cursor-pointer">
                               <input
@@ -306,6 +309,30 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
                                   updatedStatus[index] =
                                     salaryStatus[index] === 1 ? 0 : 1;
                                   setSalaryStatus(updatedStatus);
+
+                                  // Update the employeeDatas and local storage
+                                  const updatedEmployeeData = {
+                                    ...employeeData,
+                                  };
+                                  updatedEmployeeData.salary_detail[
+                                    index
+                                  ].is_status = updatedStatus[index];
+
+                                  const existingData = JSON.parse(
+                                    localStorage.getItem('employeeDatas') ||
+                                      '{}'
+                                  );
+
+                                  const updatedData = {
+                                    ...existingData,
+                                    salary_detail:
+                                      updatedEmployeeData.salary_detail,
+                                  };
+
+                                  localStorage.setItem(
+                                    'employeeDatas',
+                                    JSON.stringify(updatedData)
+                                  );
                                 }}
                               />
                               <div

@@ -18,6 +18,7 @@ import {
   AssigmentIcon,
   EligiblesIcon,
   LeftArrowIcon2,
+  SalaryIcon,
 } from '../../assets/icons/icon';
 
 const EmployeeSideBar = (employeeData: any) => {
@@ -142,20 +143,20 @@ const EmployeeSideBar = (employeeData: any) => {
               </li>
               <li
                 className={`px-1 py-2 mb-1 rounded-md hover:bg-primary hover:text-white ${
-                  pathname.includes('/employee/detail/assigments')
+                  pathname.includes('/employee/detail/attendence')
                     ? 'bg-primary text-white hover:bg-green-600'
                     : 'hover:text-white'
                 }`}
               >
-                <NavLink to={`/employee/detail/assigements/${employeeId}`}>
+                <NavLink to={`/salary/configures`}>
                   <div className="flex items-center">
-                    <AssigmentIcon className="min-w-max" />
+                    <SalaryIcon className="w-6 h-6 ml-[-3px] min-w-max" />
                     <motion.div
                       variants={textAnimation}
                       animate={open ? 'open' : 'closed'}
                       className="ml-2 link"
                     >
-                      Assigments
+                      Configure Salary
                     </motion.div>
                   </div>
                 </NavLink>
@@ -184,6 +185,26 @@ const EmployeeSideBar = (employeeData: any) => {
               </li>
               <li
                 className={`px-1 py-2 mb-1 rounded-md hover:bg-primary hover:text-white ${
+                  pathname.includes('/employee/detail/assigments')
+                    ? 'bg-primary text-white hover:bg-green-600'
+                    : 'hover:text-white'
+                }`}
+              >
+                <NavLink to={`/employee/detail/assigements/${employeeId}`}>
+                  <div className="flex items-center">
+                    <AssigmentIcon className="min-w-max" />
+                    <motion.div
+                      variants={textAnimation}
+                      animate={open ? 'open' : 'closed'}
+                      className="ml-2 link"
+                    >
+                      Assigments
+                    </motion.div>
+                  </div>
+                </NavLink>
+              </li>
+              <li
+                className={`px-1 py-2 mb-1 rounded-md hover:bg-primary hover:text-white ${
                   pathname.includes('/employee/detail/teams')
                     ? 'bg-primary text-white hover:bg-green-600'
                     : 'hover:text-white'
@@ -202,6 +223,7 @@ const EmployeeSideBar = (employeeData: any) => {
                   </div>
                 </NavLink>
               </li>
+
               <li
                 className={`px-1 py-2 mb-1 rounded-md hover:bg-primary hover:text-white ${
                   pathname.includes('/employee/detail/attendence')

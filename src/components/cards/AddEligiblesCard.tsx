@@ -40,7 +40,7 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
   const [bankData, setBankData] = useState({
     type_bank: '',
     account_number: '',
-    account_name: '',
+    account_name: employeeDatas.fullname,
   });
 
   const handleOpenModalAddBank = () => {
@@ -196,7 +196,7 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
         (component: any, index: number) => ({
           ...component,
           component_id: component.component_id,
-          is_status: componentStatus[index] ? 1 : 0,
+          is_status: componentStatus[index] ? 0 : 1,
         })
       ),
     };
@@ -317,12 +317,20 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
                         (component: any, index: any) => (
                           <div
                             key={index}
-                            className="flex items-center w-1/2 px-4 py-4"
+                            className={`flex items-center w-1/2 px-4 py-4 ${
+                              index === employeeDatas.components.length - 1 &&
+                              employeeDatas.components.length % 2 !== 0
+                                ? ''
+                                : 'border-b'
+                            }`}
                           >
                             <div className="w-2/3">
                               <p className="text-base">
                                 {component.component_name}
                               </p>
+                              <span className="text-[13px]">
+                                {component.salary}
+                              </span>
                             </div>
                             <label className="relative inline-flex items-center w-1/3 ml-2 cursor-pointer">
                               <input

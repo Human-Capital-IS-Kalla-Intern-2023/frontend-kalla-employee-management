@@ -22,6 +22,7 @@ import {
   colCells,
   filterOptions,
   inputField,
+  fetchLocationNames,
 } from '../../assets/data/CompanyData';
 
 const Company: React.FC = () => {
@@ -196,6 +197,7 @@ const Company: React.FC = () => {
   };
 
   useEffect(() => {
+    fetchLocationNames();
     featchCompany();
   }, []);
 

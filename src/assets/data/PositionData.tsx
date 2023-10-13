@@ -157,10 +157,13 @@ async function fetchGrade() {
   }
 }
 
-fetchCompany();
-fetchDirectorat();
-fetchDivision();
-fetchSection();
-fetchGrade();
-
-export { colCells, filterOptions, inputField };
+export {
+  colCells,
+  filterOptions,
+  inputField,
+  fetchCompany,
+  fetchDirectorat,
+  fetchDivision,
+  fetchSection,
+  fetchGrade,
+};
