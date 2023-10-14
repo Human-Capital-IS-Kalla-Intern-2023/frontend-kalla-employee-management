@@ -7,7 +7,13 @@ import { NavLink, useLocation, Link } from 'react-router-dom';
 import ButtonLogout from '../../components/buttons/LogoutButton';
 
 // Assets Import
-import logoKalla from '../../assets/img/kalla-logo-full.webp';
+// import logoKalla from '../../assets/img/kalla-logo-full.webp';
+import logo232 from '../../assets/img/logo-232.webp';
+import logo464 from '../../assets/img/logo-464.webp';
+import logo300 from '../../assets/img/logo-300.webp';
+import logo660 from '../../assets/img/logo-660.webp';
+import logo1280 from '../../assets/img/logo-1280.webp';
+import logo3000 from '../../assets/img/logo-3000.webp';
 
 import {
   CloseSidebarIcon,
@@ -100,13 +106,22 @@ const EmployeeSideBar = (employeeData: any) => {
             overflow-hidden md:relative fixed
          h-full  min-h-screen"
         >
-          <div className="flex items-center gap-2.5 font-medium  py-3   mx-3">
+          <div className="flex items-center gap-2.5 font-medium border-b py-3 border-slate-300 mx-3">
             <img
-              src={logoKalla}
-              width={45}
-              height={45}
               alt="Kalla Logo"
-              className="w-fit"
+              src={logo232}
+              srcSet={`
+      ${logo232} 232w,
+      ${logo300} 300w,
+      ${logo464} 464w,
+      ${logo660} 660w,
+      ${logo1280} 1280w,
+      ${logo3000} 3000w
+    `}
+              sizes="(min-width: 1060px) 223px, (min-width: 940px) calc(113vw - 957px), (min-width: 880px) calc(110vw - 933px), (min-width: 840px) calc(70vw - 584px), (min-width: 680px) 232px, (min-width: 640px) calc(995vw - 6335px), (min-width: 600px) calc(-135vw + 914px), (min-width: 500px) calc(-95vw + 682px), calc(-7.78vw + 255px)"
+              width={232}
+              height={96}
+              className="object-fit"
             />
           </div>
           <div className="flex items-center py-4 border-y border-slate-300 hover:bg-slate-200">
