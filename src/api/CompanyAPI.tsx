@@ -22,7 +22,7 @@ const getCompany = async () => {
     return responseGetCompany;
   } catch (error) {
     console.error('Terjadi kesalahan saat mengambil data company:', error);
-    return false;
+    throw error;
   }
 };
 
@@ -46,7 +46,7 @@ const getDetailCompany = async (id: any) => {
     return reponseGetDetailCompany;
   } catch (error) {
     console.error('Terjadi kesalahan saat mengambil data company:', error);
-    return false;
+    throw error;
   }
 };
 

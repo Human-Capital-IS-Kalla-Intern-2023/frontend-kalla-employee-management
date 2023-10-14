@@ -17,7 +17,7 @@ const EligiblesEmployee = () => {
   const [successTitle] = useState<string | null>(null);
   const [errorTitle] = useState<string | null>(null);
 
-  const featchDetailEmployee = async (employeeId: any, positionId: any) => {
+  const fetchDetailEmployee = async (employeeId: any, positionId: any) => {
     try {
       const responseData = await getDetailEligiblesEmployee(
         employeeId,
@@ -25,12 +25,12 @@ const EligiblesEmployee = () => {
       );
       setDetailedData(responseData.data);
     } catch (error: any) {
-      console.error('Error featch detail employee:', error);
+      console.error('Error fetch detail employee:', error);
     }
   };
 
   useEffect(() => {
-    featchDetailEmployee(employeeId, positionId);
+    fetchDetailEmployee(employeeId, positionId);
   }, [employeeId, positionId]);
 
   if (!detailedData) {

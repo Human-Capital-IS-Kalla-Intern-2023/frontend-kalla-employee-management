@@ -22,39 +22,46 @@ interface ConfimationAlert {
   onConfirm: () => void;
 }
 
-const ErrorAlert: React.FC<CustomAlertProps> = ({ title, text }) => {
+const ErrorAlert: React.FC<CustomAlertProps> = ({ title, text, timer }) => {
+  const defaultTimer = 20000;
+
   useEffect(() => {
     Swal.fire({
       icon: 'error',
       title: title,
       text: text,
-    });
-  }, [title, text]);
-
-  return null;
-};
-
-const SuccessAlert: React.FC<CustomAlertProps> = ({ title, text, timer }) => {
-  useEffect(() => {
-    Swal.fire({
-      icon: 'success',
-      title: title,
-      text: text,
-      timer: timer,
+      timer: timer || defaultTimer,
     });
   }, [title, text, timer]);
 
   return null;
 };
 
-const WarningAlert: React.FC<CustomAlertProps> = ({ title, text }) => {
+const SuccessAlert: React.FC<CustomAlertProps> = ({ title, text, timer }) => {
+  const defaultTimer = 10000;
+  useEffect(() => {
+    Swal.fire({
+      icon: 'success',
+      title: title,
+      text: text,
+      timer: timer || defaultTimer,
+    });
+  }, [title, text, timer]);
+
+  return null;
+};
+
+const WarningAlert: React.FC<CustomAlertProps> = ({ title, text, timer }) => {
+  const defaultTimer = 15000;
+
   useEffect(() => {
     Swal.fire({
       icon: 'warning',
       title: title,
+      timer: timer || defaultTimer,
       text: text,
     });
-  }, [title, text]);
+  }, [title, text, timer]);
 
   return null;
 };

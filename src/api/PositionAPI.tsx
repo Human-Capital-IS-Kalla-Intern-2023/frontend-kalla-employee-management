@@ -22,7 +22,7 @@ const getPosition = async () => {
     return responseGetPosition;
   } catch (error) {
     console.error('Terjadi kesalahan saat mengambil data position:', error);
-    return false;
+    throw error;
   }
 };
 
@@ -46,7 +46,7 @@ const getDetailPosition = async (id: any) => {
     return reponseGetDetailPosition;
   } catch (error) {
     console.error('Terjadi kesalahan saat mengambil data position:', error);
-    return false;
+    throw error;
   }
 };
 

@@ -48,7 +48,7 @@ const logoutUser = async () => {
     return responseData;
   } catch (error) {
     console.error('Terjadi kesalahan saat mencoba logout ', error);
-    return false;
+    throw error;
   }
 };
 

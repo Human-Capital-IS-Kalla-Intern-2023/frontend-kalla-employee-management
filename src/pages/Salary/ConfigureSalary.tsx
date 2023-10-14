@@ -1,6 +1,8 @@
 // Import Library & Package
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ReactLoading from 'react-loading';
+
 // Import Component
 import TabelHeader from '../../components/tabels/TabelHeader';
 import TabelFooter from '../../components/tabels/TabelFooter';
@@ -36,6 +38,9 @@ const ConfigureSalary: React.FC = () => {
   const [configureSalary, setConfigureSalary] = useState<string[]>([]);
   const [detailedData, setDetailedData] = useState<string | null>(null);
 
+  // Loading
+  const [isLoading, setIsLoading] = useState(false);
+
   // Search
   const [searchResults, setSearchResults] = useState<any[]>([]);
 
@@ -49,27 +54,30 @@ const ConfigureSalary: React.FC = () => {
   };
 
   const totalDataCount =
-    searchResults.length > 0 ? searchResults.length : configureSalary.length;
+    searchResults.length > 0 ? searchResults.length : configureSalary?.length;
   const totalPages = Math.ceil(totalDataCount / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage + 1;
   const endIndex =
     currentPage === totalPages ? totalDataCount : startIndex + itemsPerPage - 1;
-  const currentConfigureSalaryData = configureSalary.slice(
+  const currentConfigureSalaryData = configureSalary?.slice(
     startIndex - 1,
     endIndex
   );
 
   // GET all configureSalary data
-  const featchConfigureSalary = async () => {
+  const fetchConfigureSalary = async () => {
     try {
+      setIsLoading(true);
+
       const reponseData = await getConfigureSalary();
       setConfigureSalary(reponseData.data);
     } catch (error: any) {
-      console.error('Error featch all configureSalary:', error);
-      setErrorTitle(`Error featch all configureSalary`);
+      console.error('Error fetch all configureSalary:', error);
+      setErrorTitle(`Error fetch all configureSalary`);
 
-      const errorMessages = Object.values(error.response.data.errors).flat();
-      setErrorMessage(errorMessages.join('\n'));
+      setErrorMessage(error.response.data.message);
+    } finally {
+      setIsLoading(false);
     }
     ResetAlert(
       setSuccessTitle,
@@ -80,16 +88,19 @@ const ConfigureSalary: React.FC = () => {
   };
 
   // GET detail configureSalary data by id
-  const featchDetailConfigureSalary = async (id: number) => {
+  const fetchDetailConfigureSalary = async (id: number) => {
     try {
+      setIsLoading(true);
+
       const responseData = await getDetailConfigureSalary(id);
       setDetailedData(responseData.data);
     } catch (error: any) {
-      console.error('Error featch detail configureSalary:', error);
-      setErrorTitle(`Error featch detail configureSalary`);
+      console.error('Error fetch detail configureSalary:', error);
+      setErrorTitle(`Error fetch detail configureSalary`);
       navigate('/notfound');
-      const errorMessages = Object.values(error.response.data.errors).flat();
-      setErrorMessage(errorMessages.join('\n'));
+      setErrorMessage(error.response.data.message);
+    } finally {
+      setIsLoading(false);
     }
     ResetAlert(
       setSuccessTitle,
@@ -106,7 +117,7 @@ const ConfigureSalary: React.FC = () => {
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
 
-      featchConfigureSalary();
+      fetchConfigureSalary();
     } catch (error: any) {
       console.error('Error adding configureSalary:', error);
       setErrorTitle(`Error adding configureSalary`);
@@ -129,7 +140,7 @@ const ConfigureSalary: React.FC = () => {
 
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
-      featchConfigureSalary();
+      fetchConfigureSalary();
     } catch (error: any) {
       console.error('Error editing configureSalary:', error);
       setErrorTitle(`Error editing configureSalary`);
@@ -147,16 +158,20 @@ const ConfigureSalary: React.FC = () => {
   // DELETE configureSalary data
   const handleDeleteConfigureSalary = async (id: number) => {
     try {
+      setIsLoading(true);
+
       const responseData = await deleteConfigureSalary(id);
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
-      featchConfigureSalary();
+      fetchConfigureSalary();
     } catch (error: any) {
       console.error('Error deleting configureSalary:', error);
       setErrorTitle(`Error deleting configureSalary`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
+    } finally {
+      setIsLoading(false);
     }
     ResetAlert(
       setSuccessTitle,
@@ -200,7 +215,7 @@ const ConfigureSalary: React.FC = () => {
   ) => {
     try {
       await changeIsActiveSalarySBU(idIsActive, newIsActive);
-      featchConfigureSalary();
+      fetchConfigureSalary();
     } catch (error: any) {
       console.error('Error change is active configureSalary:', error);
       const errorMessages = Object.values(error.response.data.errors).flat();
@@ -215,12 +230,17 @@ const ConfigureSalary: React.FC = () => {
   };
 
   useEffect(() => {
-    featchConfigureSalary();
+    fetchConfigureSalary();
   }, []);
 
   return (
     <>
-      <h1 className="px-4">Salary Page</h1>
+      <h1 className="px-4 text-xl my-1">SBU Salary Page</h1>
+      {isLoading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <ReactLoading type="spin" color="green" height={50} width={50} />
+        </div>
+      )}
       {successMessage && successTitle && (
         <SuccessAlert title={successTitle} text={successMessage} />
       )}
@@ -246,7 +266,7 @@ const ConfigureSalary: React.FC = () => {
         onSubmit={handleEditConfigureSalary}
         onDelete={handleDeleteConfigureSalary}
         detailedData={detailedData}
-        fetchDetailedData={featchDetailConfigureSalary}
+        fetchDetailedData={fetchDetailConfigureSalary}
         onEditNavigate="payroll_component/edit/{salaryId}"
         changeIsActive={handleChangeIsActiveSalarySBU}
       />

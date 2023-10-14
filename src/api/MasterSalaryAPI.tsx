@@ -22,7 +22,7 @@ const getMasterSalary = async () => {
     return responseGetMasterSalary;
   } catch (error) {
     console.error('Terjadi kesalahan saat mengambil data masterSalary:', error);
-    return false;
+    throw error;
   }
 };
 
@@ -46,7 +46,7 @@ const getDetailMasterSalary = async (id: any) => {
     return reponseGetDetailMasterSalary;
   } catch (error) {
     console.error('Terjadi kesalahan saat mengambil data masterSalary:', error);
-    return false;
+    throw error;
   }
 };
 

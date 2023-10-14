@@ -1,5 +1,6 @@
 // Import Library & Package
 import React, { useEffect, useState } from 'react';
+import ReactLoading from 'react-loading';
 
 // Import Component
 import TabelHeader from '../../components/tabels/TabelHeader';
@@ -40,6 +41,9 @@ const Position: React.FC = () => {
   const [position, setPosition] = useState<string[]>([]);
   const [detailedData, setDetailedData] = useState<string | null>(null);
 
+  // Loading
+  const [isLoading, setIsLoading] = useState(false);
+
   // Search
   const [searchResults, setSearchResults] = useState<any[]>([]);
 
@@ -51,24 +55,27 @@ const Position: React.FC = () => {
     setCurrentPage(pageNumber);
   };
 
-  const totalDataCount = position.length;
+  const totalDataCount = position?.length;
   const totalPages = Math.ceil(totalDataCount / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage + 1;
   const endIndex =
     currentPage === totalPages ? totalDataCount : startIndex + itemsPerPage - 1;
-  const currentPositionData = position.slice(startIndex - 1, endIndex);
+  const currentPositionData = position?.slice(startIndex - 1, endIndex);
 
   // GET all position data
-  const featchPosition = async () => {
+  const fetchPosition = async () => {
     try {
+      setIsLoading(true);
+
       const reponseData = await getPosition();
       setPosition(reponseData.data);
     } catch (error: any) {
-      console.error('Error featch all position:', error);
-      setErrorTitle(`Error featch all position`);
+      console.error('Error fetch all position:', error);
+      setErrorTitle(`Error fetch all position`);
 
-      const errorMessages = Object.values(error.response.data.errors).flat();
-      setErrorMessage(errorMessages.join('\n'));
+      setErrorMessage(error.response.data.message);
+    } finally {
+      setIsLoading(false);
     }
 
     ResetAlert(
@@ -80,16 +87,19 @@ const Position: React.FC = () => {
   };
 
   // GET detail position data by id
-  const featchDetailPosition = async (id: number) => {
+  const fetchDetailPosition = async (id: number) => {
     try {
+      setIsLoading(true);
+
       const responseData = await getDetailPosition(id);
       setDetailedData(responseData.data);
     } catch (error: any) {
-      console.error('Error featch detail position:', error);
-      setErrorTitle(`Error featch detail position`);
+      console.error('Error fetch detail position:', error);
+      setErrorTitle(`Error fetch detail position`);
 
-      const errorMessages = Object.values(error.response.data.errors).flat();
-      setErrorMessage(errorMessages.join('\n'));
+      setErrorMessage(error.response.data.message);
+    } finally {
+      setIsLoading(false);
     }
     ResetAlert(
       setSuccessTitle,
@@ -106,7 +116,7 @@ const Position: React.FC = () => {
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
 
-      featchPosition();
+      fetchPosition();
     } catch (error: any) {
       console.error('Error adding position:', error);
       setErrorTitle(`Error adding position`);
@@ -129,7 +139,7 @@ const Position: React.FC = () => {
 
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
-      featchPosition();
+      fetchPosition();
     } catch (error: any) {
       console.error('Error editing position:', error);
       setErrorTitle(`Error editing position`);
@@ -147,16 +157,20 @@ const Position: React.FC = () => {
   // DELETE position data
   const handleDeletePosition = async (id: number) => {
     try {
+      setIsLoading(true);
+
       const responseData = await deletePosition(id);
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
-      featchPosition();
+      fetchPosition();
     } catch (error: any) {
       console.error('Error deleting position:', error);
       setErrorTitle(`Error deleting position`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
+    } finally {
+      setIsLoading(false);
     }
 
     ResetAlert(
@@ -201,12 +215,17 @@ const Position: React.FC = () => {
       fetchDivision(),
       fetchSection(),
       fetchGrade(),
-      featchPosition();
+      fetchPosition();
   }, []);
 
   return (
     <>
-      <h1 className="px-4">Position Page</h1>
+      <h1 className="px-4 text-xl my-1">Position Page</h1>
+      {isLoading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <ReactLoading type="spin" color="green" height={50} width={50} />
+        </div>
+      )}
       {successMessage && successTitle && (
         <SuccessAlert title={successTitle} text={successMessage} />
       )}
@@ -229,7 +248,7 @@ const Position: React.FC = () => {
         onSubmit={handleEditPosition}
         onDelete={handleDeletePosition}
         detailedData={detailedData}
-        fetchDetailedData={featchDetailPosition}
+        fetchDetailedData={fetchDetailPosition}
       />
       <TabelFooter
         currentPage={currentPage}

@@ -22,7 +22,7 @@ const getDirectorat = async () => {
     return responseGetDirectorat;
   } catch (error) {
     console.error('Terjadi kesalahan saat mengambil data direktorat:', error);
-    return false;
+    throw error;
   }
 };
 
@@ -46,7 +46,7 @@ const getDetailDirectorat = async (id: any) => {
     return reponseGetDetailDirectorat;
   } catch (error) {
     console.error('Terjadi kesalahan saat mengambil data direktorat:', error);
-    return false;
+    throw error;
   }
 };
 

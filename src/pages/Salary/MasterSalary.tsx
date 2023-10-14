@@ -1,6 +1,8 @@
 // Import Library & Package
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ReactLoading from 'react-loading';
+
 // Import Component
 import TabelHeader from '../../components/tabels/TabelHeader';
 import TabelFooter from '../../components/tabels/TabelFooter';
@@ -36,6 +38,9 @@ const MasterSalary: React.FC = () => {
   const [masterSalary, setMasterSalary] = useState<string[]>([]);
   const [detailedData, setDetailedData] = useState<string | null>(null);
 
+  // Loading
+  const [isLoading, setIsLoading] = useState(false);
+
   // Search
   const [searchResults, setSearchResults] = useState<any[]>([]);
 
@@ -57,16 +62,19 @@ const MasterSalary: React.FC = () => {
   const currentMasterSalaryData = masterSalary.slice(startIndex - 1, endIndex);
 
   // GET all masterSalary data
-  const featchMasterSalary = async () => {
+  const fetchMasterSalary = async () => {
+    setIsLoading(true);
+
     try {
       const reponseData = await getMasterSalary();
       setMasterSalary(reponseData.data);
     } catch (error: any) {
-      console.error('Error featch all masterSalary:', error);
-      setErrorTitle(`Error featch all masterSalary`);
+      console.error('Error fetch all masterSalary:', error);
+      setErrorTitle(`Error fetch all masterSalary`);
 
-      const errorMessages = Object.values(error.response.data.errors).flat();
-      setErrorMessage(errorMessages.join('\n'));
+      setErrorMessage(error.response.data.message);
+    } finally {
+      setIsLoading(false);
     }
     ResetAlert(
       setSuccessTitle,
@@ -77,16 +85,19 @@ const MasterSalary: React.FC = () => {
   };
 
   // GET detail masterSalary data by id
-  const featchDetailMasterSalary = async (id: number) => {
+  const fetchDetailMasterSalary = async (id: number) => {
     try {
+      setIsLoading(true);
+
       const responseData = await getDetailMasterSalary(id);
       setDetailedData(responseData.data);
     } catch (error: any) {
-      console.error('Error featch detail masterSalary:', error);
-      setErrorTitle(`Error featch detail masterSalary`);
+      console.error('Error fetch detail masterSalary:', error);
+      setErrorTitle(`Error fetch detail masterSalary`);
       navigate('/notfound');
-      const errorMessages = Object.values(error.response.data.errors).flat();
-      setErrorMessage(errorMessages.join('\n'));
+      setErrorMessage(error.response.data.message);
+    } finally {
+      setIsLoading(false);
     }
     ResetAlert(
       setSuccessTitle,
@@ -103,7 +114,7 @@ const MasterSalary: React.FC = () => {
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
 
-      featchMasterSalary();
+      fetchMasterSalary();
     } catch (error: any) {
       console.error('Error adding masterSalary:', error);
       setErrorTitle(`Error adding masterSalary`);
@@ -126,7 +137,7 @@ const MasterSalary: React.FC = () => {
 
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
-      featchMasterSalary();
+      fetchMasterSalary();
     } catch (error: any) {
       console.error('Error editing masterSalary:', error);
       setErrorTitle(`Error editing masterSalary`);
@@ -144,16 +155,20 @@ const MasterSalary: React.FC = () => {
   // DELETE masterSalary data
   const handleDeleteMasterSalary = async (id: number) => {
     try {
+      setIsLoading(true);
+
       const responseData = await deleteMasterSalary(id);
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
-      featchMasterSalary();
+      fetchMasterSalary();
     } catch (error: any) {
       console.error('Error deleting masterSalary:', error);
       setErrorTitle(`Error deleting masterSalary`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
+    } finally {
+      setIsLoading(false);
     }
     ResetAlert(
       setSuccessTitle,
@@ -197,7 +212,7 @@ const MasterSalary: React.FC = () => {
   ) => {
     try {
       await changeIsActiveMasterComponent(idIsActive, newIsActive);
-      featchMasterSalary();
+      fetchMasterSalary();
     } catch (error: any) {
       console.error('Error change is active configureSalary:', error);
       const errorMessages = Object.values(error.response.data.errors).flat();
@@ -212,12 +227,17 @@ const MasterSalary: React.FC = () => {
   };
 
   useEffect(() => {
-    featchMasterSalary();
+    fetchMasterSalary();
   }, []);
 
   return (
     <>
-      <h1 className="px-4">Master Salary Page</h1>
+      <h1 className="px-4 text-xl my-1">Master Salary Page</h1>
+      {isLoading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <ReactLoading type="spin" color="green" height={50} width={50} />
+        </div>
+      )}
       {successMessage && successTitle && (
         <SuccessAlert title={successTitle} text={successMessage} />
       )}
@@ -242,7 +262,7 @@ const MasterSalary: React.FC = () => {
         onSubmit={handleEditMasterSalary}
         onDelete={handleDeleteMasterSalary}
         detailedData={detailedData}
-        fetchDetailedData={featchDetailMasterSalary}
+        fetchDetailedData={fetchDetailMasterSalary}
         changeIsActive={handleChangeIsActiveMasterComponent}
       />
       <TabelFooter

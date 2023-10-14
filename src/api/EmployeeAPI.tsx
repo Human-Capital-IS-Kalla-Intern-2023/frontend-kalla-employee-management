@@ -22,7 +22,7 @@ const getEmployee = async () => {
     return reponseGetEmployee;
   } catch (error) {
     console.error('Terjadi kesalahan saat mengambil data employee:', error);
-    return false;
+    throw error;
   }
 };
 
@@ -46,7 +46,7 @@ const getDetailEmployee = async (id: any) => {
     return reponseGetDetailEmployee;
   } catch (error) {
     console.error('Terjadi kesalahan saat mengambil data employee:', error);
-    return false;
+    throw error;
   }
 };
 
@@ -168,7 +168,7 @@ const getDetailEligiblesEmployee = async (employeeId: any, positionId: any) => {
       'Terjadi kesalahan saat mengambil data eligbles employee:',
       error
     );
-    return false;
+    throw error;
   }
 };
 

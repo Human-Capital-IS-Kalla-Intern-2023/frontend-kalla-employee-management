@@ -65,7 +65,7 @@ const ButtonLogout = () => {
           }}
           className=" link"
         >
-          <div className="flex items-center">
+          <div className="flex items-center text-base">
             <LogoutIcon className="min-w-max" />
             <motion.div variants={textAnimation} className="ml-2 link">
               Log Out

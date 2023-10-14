@@ -12,7 +12,7 @@ const Dashboard = () => {
   return (
     <section className="py-3 antialiased sm:py-2 overlay">
       <div className="max-w-screen-xl px-4 mx-auto">
-        <div className="relative min-h-[90vh] px-10 lg:px-0 bg-slate-100 shadow-profile sm:rounded-lg">
+        <div className="relative min-h-[90vh] px-10 lg:px-0  shadow-profile sm:rounded-lg">
           <div className="overflow-x-auto">
             <div className="flex flex-col lg:flex-row items-center gap-2 lg:gap-0 justify-center w-full min-h-full p-6 sm:flex-row sm:space-x-2">
               <div className="flex flex-col lg:flex-row lg:flex-wrap items-center justify-center w-full px-9 py-3 lg:px-0 lg:py-0 lg:p-2 bg-white border-l-4 rounded-md shadow-lg border-primary sm:flex-col sm:w-1/4">

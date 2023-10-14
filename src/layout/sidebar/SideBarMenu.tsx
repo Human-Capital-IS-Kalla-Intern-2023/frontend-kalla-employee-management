@@ -37,9 +37,7 @@ const SideBarMenu = ({ data }: any) => {
         className="flex h-0 flex-col pl-10 bg-white rounded-sm text-[0.8rem] font-normal overflow-hidden"
       >
         {data.menus?.map((menu: any) => (
-
-          <li key={menu} className="flex items-center ">
-            
+          <li key={menu} className="flex items-center text-[15px] ">
             <NavLink
               to={`/${data.name}/${menu}`}
               className="w-full px-1 py-2 my-1 text-black capitalize duration-300 rounded-md link hover:bg-slate-300 hover:text-black "
@@ -47,7 +45,6 @@ const SideBarMenu = ({ data }: any) => {
               {menu}
             </NavLink>
           </li>
-        
         ))}
       </motion.ul>
     </>

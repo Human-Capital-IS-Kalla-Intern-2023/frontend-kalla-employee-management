@@ -27,6 +27,7 @@ type PositionType = {
 };
 
 const Eligibles = ({ employeeData }: EligiblesProps) => {
+  console.log(employeeData.additional_position);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const { employeeId } = useParams();
   const { positionId } = useParams();
@@ -70,21 +71,21 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
     setIsDropdownVisible(!isDropdownVisible);
   };
 
-  const featchSecondaryPositionEmployee = async (employeeId: any) => {
+  const fetchSecondaryPositionEmployee = async (employeeId: any) => {
     try {
       setIsLoading(true);
 
       const responseData = await getDetailEmployee(employeeId);
       setAllPositionOption(responseData.data);
     } catch (error: any) {
-      console.error('Error featch detail employee:', error);
+      console.error('Error fetch detail employee:', error);
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    featchSecondaryPositionEmployee(employeeId);
+    fetchSecondaryPositionEmployee(employeeId);
   }, [employeeId, positionId]);
 
   return (
@@ -94,10 +95,10 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
           <ReactLoading type="spin" color="green" height={50} width={50} />
         </div>
       )}
-      <section className="antialiased overlay bg-slate-100">
+      <section className="antialiased overlay ">
         {/* Header Section Start */}
         <header className="flex items-center justify-between px-3 py-5 shadow-lg ">
-          <h1 className="p-2 ml-2.5 text-md lg:text-lgfont-medium border-b-2 border-primary ">
+          <h1 className="p-2 ml-2.5 text-md lg:text-xl font-medium border-b-2 border-primary ">
             Eligibles Employee Page
           </h1>
           <div className="text-sm font-medium ">
@@ -106,7 +107,7 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                 {/* Button Manage untuk edit Eligible */}
                 <button
                   onClick={handleManageClick}
-                  className={`flex items-center justify-center px-6 py-2 text-sm font-medium duration-100 ${
+                  className={`flex items-center justify-center px-6 py-3 text-[17px] font-medium duration-200 ${
                     isDropdownVisible ? 'rounded-t-lg' : 'rounded-lg'
                   } text-pureBlack bg-secondary focus:outline-none bg-primary-600 hover:bg-gray hover:text-white `}
                 >
@@ -116,13 +117,13 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                 {isDropdownVisible && (
                   <div className="absolute px-1 py-1 bg-white rounded-b-lg top-12.5 border border-secondary right-3 z-10">
                     <Link to={'set'} onClick={handleOpenModal}>
-                      <button className="block px-3 py-3 text-sm hover:text-white hover:bg-primary">
+                      <button className="block px-3 py-3 text-sm hover:text-white text-[16px] hover:bg-primary">
                         Add Eligibles
                       </button>
                     </Link>
 
                     <button
-                      className="block px-3 py-3 text-sm hover:text-white hover:bg-primary"
+                      className="block px-3 py-3 text-sm hover:text-white text-[16px] hover:bg-primary"
                       onClick={handleEditClick}
                     >
                       Edit Eligibles
@@ -150,10 +151,12 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
               {/* card 1 */}
               <img src={profileImg} className="w-40 h-40 mx-auto rounded-2xl" />
 
-              <h2 className="mt-4 text-xl font-semibold text-center sm:text-md md:text-lg lg:text-xl">
+              <h2 className="mt-4 text-xl font-semibold text-center sm:text-md md:text-lg lg:text-2xl">
                 {employeeData.fullname}
               </h2>
-              <p className="mt-2 text-center font-lg">{employeeData.nip}</p>
+              <p className="mt-2 text-center font-lg italic text-lg">
+                {employeeData.nip}
+              </p>
 
               <div className="px-3">
                 <div className="my-4 rounded-t-lg ">
@@ -282,18 +285,22 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                                     className="px-4 py-2 text-left align-top"
                                   >
                                     <div>
-                                      <h2 className="text-base">
+                                      <h2
+                                        className="text-
+                                      
+                                      "
+                                      >
                                         {item.component_name}
                                       </h2>
                                       <span className="text-[13px]">
                                         {item.salary}
                                       </span>
-                                      <p className="pt-2 pb-1 text-sm border-b ">
+                                      <p className="pt-2 pb-1 text-[15px] border-b ">
                                         <span
                                           className={
                                             item.is_status === 1
-                                              ? 'bg-blue-300 px-2 rounded-md mt-2 mb-2'
-                                              : 'bg-red-300 px-2 rounded-md mt-2 mb-2'
+                                              ? 'bg-blue-300 px-3 py-[3px] rounded-lg mt-3 mb-2'
+                                              : 'bg-red-300 px-3  py-[3px] rounded-lg mt-3 mb-2'
                                           }
                                         >
                                           {item.is_status === 1 ? 'Yes' : 'No'}
@@ -334,7 +341,7 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                       </div>
                     </div>
 
-                    {employeeData.additional_position ? (
+                    {employeeData.additional_position.length !== 0 ? (
                       <div className="flex flex-wrap w-full">
                         {employeeData.additional_position.map(
                           (position: PositionType, index: number) => (
@@ -364,7 +371,7 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                       </div>
                     ) : (
                       <div className="px-4 py-5 text-center bg-zinc-300">
-                        No salary data available
+                        No other positions available
                       </div>
                     )}
                   </div>

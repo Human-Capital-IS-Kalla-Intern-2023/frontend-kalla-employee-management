@@ -22,7 +22,7 @@ const getGrade = async () => {
     return responseGetGrade;
   } catch (error) {
     console.error('Terjadi kesalahan saat mengambil data grade:', error);
-    return false;
+    throw error;
   }
 };
 
@@ -46,7 +46,7 @@ const getDetailGrade = async (id: any) => {
     return reponseGetDetailGrade;
   } catch (error) {
     console.error('Terjadi kesalahan saat mengambil data grade:', error);
-    return false;
+    throw error;
   }
 };
 

@@ -1,6 +1,5 @@
 import { getPosition } from '../../api/PositionAPI';
 const colCells = [
-  { key: 'id', text: 'No' },
   { key: 'fullname', text: 'Full Name' },
   { key: 'nickname', text: 'Nickname' },
   { key: 'nip', text: 'NIP' },
