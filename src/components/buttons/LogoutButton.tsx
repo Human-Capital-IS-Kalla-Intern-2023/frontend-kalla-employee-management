@@ -63,8 +63,9 @@ const ButtonLogout = () => {
               }
             });
           }}
-          aria-label="logout"
+          aria-label="Log Out Function"
           className="link"
+          role="link"
         >
           <div className="flex items-center text-base">
             <LogoutIcon className="min-w-max" />

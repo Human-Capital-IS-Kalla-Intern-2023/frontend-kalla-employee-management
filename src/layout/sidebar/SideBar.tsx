@@ -156,85 +156,78 @@ const Sidebar = () => {
           </div>
 
           <div className="flex flex-col h-full">
-            <ul className="whitespace-pre px-2.5 text-[0.9rem] py-5 flex  flex-col gap-1  font-medium overflow-x-hidden scrollbar-thin scrollbar-track-white scrollbar-thumb-slate-100   md:h-[68%] h-[70%] rounded-md">
+            <ul className="whitespace-pre px-2.5 text-[0.9rem] py-5 flex flex-col gap-1 font-medium overflow-x-hidden scrollbar-thin scrollbar-track-white scrollbar-thumb-slate-100 md:h-[68%] h-[70%] rounded-md">
               <li
-                className={`px-1 py-2 mb-1 rounded-md text-base hover:bg-primary hover:text-white" ${
+                className={`px-1 py-2 mb-1 rounded-md text-base   ${
                   pathname.includes('/dashboard')
-                    ? 'bg-primary text-white hover:bg-green-600'
-                    : 'hover:text-white'
+                    ? 'bg-primary text-white '
+                    : ''
                 }`}
               >
-                <NavLink to={'/dashboard'}>
-                  <div className="flex items-center">
-                    <DashboardIcon className="min-w-max" />
-                    <motion.div
-                      variants={textAnimation}
-                      animate={open ? 'open' : 'closed'}
-                      className="ml-2 link"
-                    >
-                      Dashboard
-                    </motion.div>
-                  </div>
+                <NavLink to={'/dashboard'} className="flex items-center">
+                  <DashboardIcon className="min-w-max" />
+                  <motion.span
+                    variants={textAnimation}
+                    animate={open ? 'open' : 'closed'}
+                    className="ml-2 link"
+                  >
+                    Dashboard
+                  </motion.span>
                 </NavLink>
               </li>
               <li
-                className={`px-1 py-2 mb-1 rounded-md text-base hover:bg-primary hover:text-white" ${
+                className={`px-1 py-2 mb-1 rounded-md text-base  ${
                   pathname.includes('/employee')
-                    ? 'bg-primary text-white hover:bg-green-600'
-                    : 'hover:text-white'
+                    ? 'bg-primary text-white '
+                    : 'hover:bg-slate-300 '
                 }`}
               >
-                <NavLink to={'/employee'} className="link">
-                  <div className="flex items-center">
-                    <UserIcon className="min-w-max" />
-
-                    <motion.div
-                      variants={textAnimation}
-                      animate={open ? 'open' : 'closed'}
-                      className="ml-2 link"
-                    >
-                      Employee
-                    </motion.div>
-                  </div>
+                <NavLink to={'/employee'} className="flex items-center">
+                  <UserIcon className="min-w-max" />
+                  <motion.span
+                    variants={textAnimation}
+                    animate={open ? 'open' : 'closed'}
+                    className="ml-2 link"
+                  >
+                    Employee
+                  </motion.span>
                 </NavLink>
               </li>
               <li
-                className={`px-1 py-2 mb-1 rounded-md text-base hover:bg-primary hover:text-white" ${
+                className={`px-1 py-2 mb-1 rounded-md text-base  ${
                   pathname.includes('/reports')
-                    ? 'bg-primary text-white hover:bg-green-600'
-                    : 'hover:text-white'
+                    ? 'bg-primary text-white '
+                    : 'hover:bg-slate-300 '
                 }`}
               >
-                <NavLink to={'/reports'} className="link">
-                  <div className="flex items-center">
-                    <ReportIcon className="min-w-max" />
-                    <motion.div
-                      variants={textAnimation}
-                      animate={open ? 'open' : 'closed'}
-                      className="ml-2 link"
-                    >
-                      Reports
-                    </motion.div>
-                  </div>
+                <NavLink to={'/reports'} className="flex items-center">
+                  <ReportIcon className="min-w-max" />
+                  <motion.span
+                    variants={textAnimation}
+                    animate={open ? 'open' : 'closed'}
+                    className="ml-2 link"
+                  >
+                    Reports
+                  </motion.span>
                 </NavLink>
               </li>
 
-              {(open || isTabletMid) && (
-                <div className="py-5 border-y border-slate-300 ">
-                  <p className="inline-block pl-3 mb-2 text-base text-slate-500">
-                    Other Section
-                  </p>
-                  {subMenusList?.map((menu: any) => (
-                    <div
-                      key={menu.name}
-                      className="flex flex-col gap-1 px-1 py-2 mb-1 text-base rounded-md hover:bg-primary hover:text-white"
-                    >
-                      <SideBarMenu data={menu} />
-                    </div>
-                  ))}
-                </div>
-              )}
-              <ButtonLogout />
+              <li className="pt-4 border-t border-slate-300">
+                <p className="inline-block pl-3 mb-2 text-base text-slate-500">
+                  Other Section
+                </p>
+              </li>
+              {subMenusList?.map((menu: any) => (
+                <li
+                  key={menu.name}
+                  className="flex flex-col gap-1 px-1 py-2 mb-1 text-base rounded-md"
+                >
+                  <SideBarMenu data={menu} />
+                </li>
+              ))}
+              <li className="border-t border-slate-300">
+                <ButtonLogout />
+              </li>
             </ul>
           </div>
           <motion.div
