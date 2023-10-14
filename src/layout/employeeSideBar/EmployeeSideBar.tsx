@@ -262,10 +262,9 @@ const EmployeeSideBar = (employeeData: any) => {
                   </div>
                 </NavLink>
               </li>
-
-              <div className="mt-2 border-b border-slate-300 "></div>
-
-              <ButtonLogout />
+              <li className="border-t border-slate-300">
+                <ButtonLogout />
+              </li>
             </ul>
           </div>
           <motion.div

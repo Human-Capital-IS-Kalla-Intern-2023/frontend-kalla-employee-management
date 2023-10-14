@@ -506,7 +506,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                                   type="button"
                                   aria-label="Delete"
                                   onClick={() => openDeleteModal(customCell.id)}
-                                  className="flex items-center w-full px-4 py-2 text-red-500 duration-200 hover: hover:text-white hover:bg-red-500"
+                                  className="flex items-center w-full px-4 py-2 text-red-500 duration-200 hover: hover:text-white hover:bg-red-800"
                                 >
                                   <TrashIcon className="w-4 h-4 mr-2" />
                                   Delete

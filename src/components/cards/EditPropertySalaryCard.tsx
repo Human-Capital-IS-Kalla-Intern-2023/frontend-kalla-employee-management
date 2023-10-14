@@ -626,7 +626,7 @@ const EditPropertySalaryCard = () => {
         <div className="flex text-xs font-medium sm:flex-row lg:text-sm ">
           <button
             aria-label="Cancel"
-            className="px-1 py-2 mr-2 text-white duration-300 bg-red-500 rounded-md lg:px-4 lg:py-2 lg:mr-4 hover:bg-graylg:hover:scale-105"
+            className="px-1 py-2 mr-2 text-white duration-300 bg-red-800 rounded-md lg:px-4 lg:py-2 lg:mr-4 hover:bg-graylg:hover:scale-105"
             onClick={cancelHandler}
           >
             CANCEL
@@ -728,7 +728,7 @@ const EditPropertySalaryCard = () => {
             </button>
             <button
               aria-label="Clear Components"
-              className="px-2 py-2 text-sm font-medium text-white duration-300 bg-red-500 rounded-lg hover:bg-gray lg:hover:scale-105"
+              className="px-2 py-2 text-sm font-medium text-white duration-300 bg-red-800 rounded-lg hover:bg-gray lg:hover:scale-105"
               onClick={() => showDeleteAllConfirmation()}
             >
               CLEAR
@@ -774,7 +774,7 @@ const EditPropertySalaryCard = () => {
                               )
                             }
                           >
-                            <CloseButtonIcon className="w-8 h-8 p-1 text-red-500 duration-200 rounded-md overlay hover:bg-red-500 hover:text-white" />
+                            <CloseButtonIcon className="w-8 h-8 p-1 text-red-500 duration-200 rounded-md overlay hover:bg-red-800 hover:text-white" />
                           </button>
                         </td>
                         <td className="w-2/12 px-4 py-6 ">
@@ -862,7 +862,7 @@ const EditPropertySalaryCard = () => {
                 className="text-gray-500 hover:text-gray-700"
                 onClick={closeModalAdd}
               >
-                <CloseButtonIcon className="w-8 h-8 p-1 duration-200 rounded-md overlay hover:bg-red-500 hover:text-white" />
+                <CloseButtonIcon className="w-8 h-8 p-1 duration-200 rounded-md overlay hover:bg-red-800 hover:text-white" />
               </button>
             </header>
             <div className="p-4">
@@ -981,7 +981,7 @@ const EditPropertySalaryCard = () => {
             <div className="flex justify-end w-full p-4 rounded-t-none shadow-inner rounded-b-md border-gray bg-slate-200">
               <button
                 aria-label="close Modal"
-                className="px-4 py-2 mx-2 text-white duration-300 bg-red-500 rounded-md hover:bg-gray"
+                className="px-4 py-2 mx-2 text-white duration-300 bg-red-800 rounded-md hover:bg-gray"
                 onClick={closeModalAdd}
               >
                 CANCEL

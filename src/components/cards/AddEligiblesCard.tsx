@@ -389,7 +389,7 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
                       <div>
                         <div className="flex items-center px-2 py-2 text-left align-top bg-white">
                           <TrashIcon
-                            className="z-50 w-8 h-8 p-1 mr-3 duration-200 rounded-md cursor-pointer overlay hover:bg-red-500 hover:text-white "
+                            className="z-50 w-8 h-8 p-1 mr-3 duration-200 rounded-md cursor-pointer overlay hover:bg-red-800 hover:text-white "
                             onClick={resetBankData}
                           />
                           <h2 className="w-full mt-1 mb-1 mr-4 text-base text-slate-700">
@@ -418,7 +418,7 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
                           className="text-gray-500 hover:text-gray-700"
                           onClick={handleCloseModal}
                         >
-                          <CloseButtonIcon className="w-8 h-8 p-1 duration-200 rounded-md overlay hover:bg-red-500 hover:text-white" />
+                          <CloseButtonIcon className="w-8 h-8 p-1 duration-200 rounded-md overlay hover:bg-red-800 hover:text-white" />
                         </button>
                       </header>
                       <div className="px-4 py-2">
@@ -499,7 +499,7 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
                       <div className="flex justify-end w-full p-4 rounded-t-none shadow-inner rounded-b-md border-gray bg-slate-200">
                         <button
                           aria-label="Close Modal"
-                          className="px-4 py-2 mx-2 text-white duration-300 bg-red-500 rounded-md hover:bg-gray"
+                          className="px-4 py-2 mx-2 text-white duration-300 bg-red-800 rounded-md hover:bg-gray"
                           onClick={handleCloseModal}
                         >
                           CANCEL

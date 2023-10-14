@@ -429,7 +429,7 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                                         <Link
                                           to={`delete`}
                                           type="button"
-                                          className="flex items-center w-full px-4 py-[9px] text-red-500 duration-200 hover: hover:text-white hover:bg-red-500"
+                                          className="flex items-center w-full px-4 py-[9px] text-red-500 duration-200 hover: hover:text-white hover:bg-red-800"
                                         >
                                           <TrashIcon className="w-4 h-4 mr-2" />
                                           Delete

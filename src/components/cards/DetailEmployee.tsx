@@ -91,7 +91,9 @@ const DetailEmployee = ({
             <img
               src={profileImg}
               alt={`Image Profile ${employeeData.fullname}`}
-              className="w-40 h-40 mx-auto rounded-2xl"
+              className="mx-auto shadow-md rounded-2xl"
+              width={160}
+              height={160}
             />
 
             <h2 className="mt-4 font-semibold text-center text-md sm:text-md md:text-lg lg:text-2xl">
