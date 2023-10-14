@@ -84,10 +84,7 @@ const EmployeeSideBar = (employeeData: any) => {
 
   return (
     <>
-      <div
-        className="shadow-lg
-      "
-      >
+      <div className="shadow-lg ">
         <div
           onClick={() => setOpen(false)}
           className={`md:hidden fixed inset-0 max-h-full z-10 bg-black/50 ${
@@ -114,7 +111,10 @@ const EmployeeSideBar = (employeeData: any) => {
           </div>
           <div className="flex items-center py-4 border-y border-slate-300 hover:bg-slate-200">
             <Link to="/employee">
-              <button className="flex items-center">
+              <button
+                className="flex items-center"
+                aria-label="Back to Employee DB"
+              >
                 <LeftArrowIcon2 className="w-10 h-10" />
                 <span className="ml-2">Back to Employee DB</span>
               </button>

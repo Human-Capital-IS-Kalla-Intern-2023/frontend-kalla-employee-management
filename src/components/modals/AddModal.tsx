@@ -177,6 +177,7 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
 
             <button
               type="submit"
+              aria-label="submit data"
               className={`col-span-2 px-4 py-2 text-lg text-white duration-200 border rounded hover:bg-green-600 hover:text-white  ${
                 isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-800'
               }`}

@@ -63,16 +63,11 @@ const DetailEmployee = ({
           Personal Data Page
         </h1>
         <div className="pr-3 text-sm font-semibold pl-11 ">
-          {/* <button
-            className="px-4 py-2 mr-4 text-white duration-300 bg-red-500 rounded-md hover:bg-gray"
-            onClick={handleBack}
-          >
-            BACK
-          </button> */}
           <Link to={`edit`} type="button">
             <button
               className="px-6 py-2 text-base duration-300 font-medium  text-[17px] rounded-md text-pureBlack bg-secondary hover:bg-gray hover:text-white lg:hover:scale-105"
               onClick={handleEdit}
+              aria-label="Edit"
             >
               EDIT
             </button>

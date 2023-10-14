@@ -47,7 +47,7 @@ const ButtonLogout = () => {
           <ReactLoading type="spin" color="green" height={50} width={50} />
         </div>
       )}
-      <li className="px-1 py-2 mt-3 mb-1 rounded-md hover:bg-primary hover:text-white">
+      <div className="px-1 py-2 mt-3 mb-1 rounded-md hover:bg-primary hover:text-white">
         <button
           onClick={() => {
             Swal.fire({
@@ -63,7 +63,8 @@ const ButtonLogout = () => {
               }
             });
           }}
-          className=" link"
+          aria-label="logout"
+          className="link"
         >
           <div className="flex items-center text-base">
             <LogoutIcon className="min-w-max" />
@@ -72,7 +73,7 @@ const ButtonLogout = () => {
             </motion.div>
           </div>
         </button>
-      </li>
+      </div>
     </div>
   );
 };

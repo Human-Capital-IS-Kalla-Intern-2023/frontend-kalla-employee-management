@@ -76,12 +76,6 @@ const SetEligiblesModal = ({ onClose, allPositionOption }: any) => {
             <h2 className="p-2 text-lg font-medium border-b-2 border-primary">
               Add Eligibles
             </h2>
-            <button
-              className="text-gray-500 hover:text-gray-700"
-              onClick={onClose}
-            >
-              {/* Implement your close button */}
-            </button>
           </header>
           <div className="p-4">
             {/* Form for adding eligibles */}
@@ -121,12 +115,14 @@ const SetEligiblesModal = ({ onClose, allPositionOption }: any) => {
           </div>
           <div className="flex justify-end w-full p-4 rounded-t-none shadow-inner rounded-b-md border-gray bg-slate-200">
             <button
+              aria-label="Cancel"
               className="px-4 py-2 mx-2 text-white duration-300 bg-red-500 rounded-md hover:bg-gray"
               onClick={onClose}
             >
               CANCEL
             </button>
             <button
+              aria-label="Add"
               className={`px-4 py-2 text-white duration-300 rounded-md ${
                 !selectedPosition
                   ? 'bg-gray text-slate-400'

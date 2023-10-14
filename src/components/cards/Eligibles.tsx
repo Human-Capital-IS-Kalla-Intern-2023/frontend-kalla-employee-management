@@ -135,6 +135,7 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
               <div className="">
                 {/* Button Manage untuk edit Eligible */}
                 <button
+                  aria-label="Manage"
                   onClick={handleManageClick}
                   className={`flex items-center justify-center px-6 py-3 text-[17px] font-medium duration-200 ${
                     isDropdownVisible ? 'rounded-t-lg' : 'rounded-lg'
@@ -146,7 +147,10 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                 {isDropdownVisible && (
                   <div className="absolute px-1 py-1 bg-white rounded-b-lg top-12.5 border border-secondary right-3 z-10">
                     <Link to={'set'} onClick={handleOpenModal}>
-                      <button className="block px-[18px] py-3 text-sm hover:text-white text-[16px] hover:bg-primary">
+                      <button
+                        className="block px-[18px] py-3 text-sm hover:text-white text-[16px] hover:bg-primary"
+                        aria-label="Add Eligibles"
+                      >
                         Add Eligibles
                       </button>
                     </Link>
@@ -154,6 +158,7 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                     <button
                       className="block px-[18px]  py-3 text-sm hover:text-white text-[16px] hover:bg-primary"
                       onClick={handleEditClick}
+                      aria-label="Edit Eligibels"
                     >
                       Edit Eligibles
                     </button>

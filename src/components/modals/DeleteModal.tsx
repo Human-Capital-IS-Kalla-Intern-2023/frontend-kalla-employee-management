@@ -25,12 +25,14 @@ const DeleteModal = ({ isOpen, onClose, onDelete }: any) => {
         </div>
         <div className="flex justify-end mt-8">
           <button
+            aria-label="Cancel"
             onClick={onClose}
             className="w-full px-4 py-2 mr-4 text-white bg-green-800 rounded overlay hover:bg-green-600"
           >
             Cancel
           </button>
           <button
+            aria-label="Delete"
             onClick={handleDelete}
             className="w-full px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600"
           >

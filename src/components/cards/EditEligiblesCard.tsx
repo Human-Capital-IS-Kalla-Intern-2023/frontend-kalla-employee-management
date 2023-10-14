@@ -208,12 +208,14 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
 
           <div className="text-sm font-medium ">
             <button
+              aria-label="Cancel"
               className="px-8 py-2 mx-4 text-base text-white duration-300 border border-transparent rounded-md bg-gray hover:bg-white hover:border-black hover:text-black"
               onClick={handleCancelButton}
             >
               CANCEL
             </button>
             <button
+              aria-label="Save"
               className="px-8 py-2 text-base duration-300 border border-transparent rounded-md text-pureBlack bg-secondary hover:bg-white hover:border-black hover:text-black"
               onClick={saveEmployeeDataToServer}
             >
@@ -360,6 +362,7 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
                       <div className="flex pl-6">
                         <div className="flex flex-row pb-2">
                           <button
+                            aria-label="Open Modal"
                             className="flex items-center justify-center px-3 py-1 text-sm font-medium duration-300 rounded-lg text-pureBlack bg-secondary focus:ring-4 bg-primary-600 hover:bg-yellow"
                             onClick={handleOpenModalAddBank}
                           >
@@ -396,9 +399,10 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
                     <div className="w-2/5 bg-white rounded-md shadow-md">
                       <header className="flex items-center justify-between p-4">
                         <h2 className="p-2 text-lg font-medium border-b-2 border-primary ">
-                          Add Eligibles
+                          Add Bank Data
                         </h2>
                         <button
+                          aria-label="Close modal"
                           className="text-gray-500 hover:text-gray-700"
                           onClick={handleCloseModal}
                         >
@@ -482,12 +486,14 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
                       </div>
                       <div className="flex justify-end w-full p-4 rounded-t-none shadow-inner rounded-b-md border-gray bg-slate-200">
                         <button
+                          aria-label="Cancel"
                           className="px-4 py-2 mx-2 text-white duration-300 bg-red-500 rounded-md hover:bg-gray"
                           onClick={handleCloseModal}
                         >
                           CANCEL
                         </button>
                         <button
+                          aria-label="Add"
                           className="px-4 py-2 text-white duration-300 rounded-md bg-primary hover:bg-gray"
                           onClick={handleAddBank}
                         >

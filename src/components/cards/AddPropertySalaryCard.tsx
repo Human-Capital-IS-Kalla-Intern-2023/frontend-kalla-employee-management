@@ -570,19 +570,21 @@ const AddPropertySalaryCard = () => {
   return (
     <>
       {/* Header Design  */}
-      <header className="flex items-center justify-between p-4 sm:p-5 shadow-lg ">
-        <h1 className="p-2 text-base sm:text-lg md:text-xl lg:text-2xl font-medium border-b-2 border-primary">
+      <header className="flex items-center justify-between p-4 shadow-lg sm:p-5 ">
+        <h1 className="p-2 text-base font-medium border-b-2 sm:text-lg md:text-xl lg:text-2xl border-primary">
           Add Configure Salary Page
         </h1>
-        <div className="text-xs flex sm:flex-row lg:text-sm font-medium ">
+        <div className="flex text-xs font-medium sm:flex-row lg:text-sm ">
           <button
-            className="px-1 py-2 mr-2 lg:px-4 lg:py-2 lg:mr-4 text-white duration-300 bg-red-500 rounded-md hover:bg-gray lg:hover:scale-105"
+            aria-label="Cancel"
+            className="px-1 py-2 mr-2 text-white duration-300 bg-red-500 rounded-md lg:px-4 lg:py-2 lg:mr-4 hover:bg-gray lg:hover:scale-105"
             onClick={cancelHandler}
           >
             CANCEL
           </button>
           <button
-            className="px-1 py-2 lg:px-4 lg:py-2 text-white duration-300 rounded-md bg-primary hover:bg-gray lg:hover:scale-105"
+            aria-label="Save and Close"
+            className="px-1 py-2 text-white duration-300 rounded-md lg:px-4 lg:py-2 bg-primary hover:bg-gray lg:hover:scale-105"
             onClick={handleSaveAndClose}
           >
             SAVE & CLOSE
@@ -591,8 +593,8 @@ const AddPropertySalaryCard = () => {
       </header>
 
       {/* Left Card Design  */}
-      <div className="flex flex-col sm:flex-row m-4">
-        <div className="w-full sm:w-1/4 bg-gray-100 shadow-2xl mb-4 sm:mb-0">
+      <div className="flex flex-col m-4 sm:flex-row">
+        <div className="w-full mb-4 bg-gray-100 shadow-2xl sm:w-1/4 sm:mb-0">
           <div className="mb-4">
             <h1 className="py-4 pl-4 shadow-lg sm:text-sms lg:text-md border-gray bg-slate-300 rounded-t-md">
               Property
@@ -657,18 +659,20 @@ const AddPropertySalaryCard = () => {
         </div>
 
         {/* Right Card Design  */}
-        <div className="overflow-auto w-full sm:w-3/4 ml-0 sm:ml-10 rounded-md shadow-2xl">
-          <h1 className="flex sm:text-sm lg:text-md py-4 pl-4 shadow-lg border-gray bg-slate-300 rounded-t-md">
+        <div className="w-full ml-0 overflow-auto rounded-md shadow-2xl sm:w-3/4 sm:ml-10">
+          <h1 className="flex py-4 pl-4 shadow-lg sm:text-sm lg:text-md border-gray bg-slate-300 rounded-t-md">
             COMPONENT
           </h1>
           <div className="flex my-6 ml-6 space-x-2">
             <button
+              aria-label="Open Modal"
               className="flex items-center justify-center px-4 py-2 mr-3 text-sm font-medium text-white duration-300 rounded-lg bg-primary focus:ring-4 hover:bg-gray lg:hover:scale-105"
               onClick={openModalAdd}
             >
               <PlusIcon className="h-3.5 w-3.5 mr-2" /> ADD COMPONENT
             </button>
             <button
+              aria-label="Clear Components "
               className="px-3 py-2 text-sm font-medium text-white duration-300 bg-red-500 rounded-lg hover:bg-gray lg:hover:scale-105"
               onClick={() => showDeleteAllConfirmation()}
             >
@@ -697,7 +701,7 @@ const AddPropertySalaryCard = () => {
           {Object.keys(componentsByType).map((type, outerIndex) => (
             <div className="mt-2" key={outerIndex}>
               <div>
-                <h2 className="py-4 pl-4 capitalize shadow-lg border-gray  rounded-t-md">
+                <h2 className="py-4 pl-4 capitalize shadow-lg border-gray rounded-t-md">
                   {type}
                 </h2>
                 <table className="min-w-full border-collapse border-gray-200 table-auto">
@@ -713,6 +717,7 @@ const AddPropertySalaryCard = () => {
                                 row.component_name
                               )
                             }
+                            aria-label="Delete Component"
                           >
                             <CloseButtonIcon className="w-8 h-8 p-1 text-red-500 duration-200 rounded-md overlay hover:bg-red-500 hover:text-white" />
                           </button>
@@ -800,12 +805,13 @@ const AddPropertySalaryCard = () => {
       {/* Modal Design */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 ">
-          <div className="w-full sm:w-1/2 bg-white rounded-md shadow-md">
+          <div className="w-full bg-white rounded-md shadow-md sm:w-1/2">
             <header className="flex items-center justify-between p-4">
               <h2 className="p-2 text-lg font-medium border-b-2 border-primary ">
                 Add Component
               </h2>
               <button
+                aria-label="Close Modal"
                 className="text-gray-500 hover:text-gray-700"
                 onClick={closeModalAdd}
               >
@@ -833,7 +839,7 @@ const AddPropertySalaryCard = () => {
                     />
                     <label
                       htmlFor="component"
-                      className="block ml-2  text-gray-900"
+                      className="block ml-2 text-gray-900"
                     >
                       Get from master library
                     </label>
@@ -931,12 +937,14 @@ const AddPropertySalaryCard = () => {
             </div>
             <div className="flex justify-end w-full p-4 rounded-t-none shadow-inner rounded-b-md border-gray bg-slate-200">
               <button
+                aria-label="Close"
                 className="px-4 py-2 mx-2 text-white duration-300 bg-red-500 rounded-md hover:bg-gray lg:hover:scale-105"
                 onClick={closeModalAdd}
               >
                 CANCEL
               </button>
               <button
+                aria-label="Add"
                 className="px-4 py-2 text-white duration-300 rounded-md bg-primary hover:bg-gray lg:hover:scale-105"
                 onClick={handleAdd}
               >

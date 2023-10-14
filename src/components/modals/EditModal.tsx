@@ -213,6 +213,7 @@ const EditModal = ({
             </div>
           ))}
           <button
+            aria-label="Update"
             type="submit"
             className={`col-span-2 px-4 py-2 text-lg text-white duration-200 border rounded hover:bg-secondary hover:text-pureBlack hover:border-pureBlack ${
               isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-800'
@@ -229,7 +230,7 @@ const EditModal = ({
                 />
               </div>
             )}
-            Perbarui
+            Update
           </button>
         </form>
       </div>
