@@ -378,7 +378,9 @@ const TabelBody: React.FC<TabelBodyProps> = ({
             <table className="w-full text-sm text-left">
               <thead className="uppercase text-[16px] ">
                 <tr>
-                  <th scope="col" className="px-2 py-4 w-14 "></th>
+                  <th scope="col" className="invisible w-12 px-2 py-4">
+                    {'#'}
+                  </th>
                   {colCells.map((cell, index) => (
                     <th key={index} scope="col" className={`px-2 py-4`}>
                       {cell.text}
