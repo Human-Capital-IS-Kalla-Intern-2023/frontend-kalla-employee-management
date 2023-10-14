@@ -577,7 +577,7 @@ const AddPropertySalaryCard = () => {
         <div className="flex text-xs font-medium sm:flex-row lg:text-sm ">
           <button
             aria-label="Cancel"
-            className="px-1 py-2 mr-2 text-white duration-300 bg-red-500 rounded-md lg:px-4 lg:py-2 lg:mr-4 hover:bg-gray lg:hover:scale-105"
+            className="px-1 py-2 mr-2 text-white duration-300 bg-red-800 rounded-md lg:px-4 lg:py-2 lg:mr-4 hover:bg-gray lg:hover:scale-105"
             onClick={cancelHandler}
           >
             CANCEL
@@ -601,14 +601,14 @@ const AddPropertySalaryCard = () => {
             </h1>
             <div className="p-4">
               <label
-                htmlFor="dropdown"
+                htmlFor="dropdown company"
                 className="block mt-3 font-medium text-gray-700"
               >
                 Legal Employer *
               </label>
               <select
-                id="dropdown"
-                name="dropdown"
+                id="dropdown company"
+                name="dropdown company"
                 value={companyDropdownValue}
                 onChange={handleCompanyChange}
                 className="block w-full px-3 py-2 mt-1 text-sm bg-white border rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
@@ -646,6 +646,7 @@ const AddPropertySalaryCard = () => {
                     type="checkbox"
                     value=""
                     className="sr-only peer"
+                    aria-label="left active checkbox"
                     checked={leftActiveCheckbox}
                     onChange={handleLeftActiveCheckboxChange}
                   />
@@ -665,15 +666,15 @@ const AddPropertySalaryCard = () => {
           </h1>
           <div className="flex my-6 ml-6 space-x-2">
             <button
-              aria-label="Open Modal"
+              aria-label="Add"
               className="flex items-center justify-center px-4 py-2 mr-3 text-sm font-medium text-white duration-300 rounded-lg bg-primary focus:ring-4 hover:bg-gray lg:hover:scale-105"
               onClick={openModalAdd}
             >
               <PlusIcon className="h-3.5 w-3.5 mr-2" /> ADD COMPONENT
             </button>
             <button
-              aria-label="Clear Components "
-              className="px-3 py-2 text-sm font-medium text-white duration-300 bg-red-500 rounded-lg hover:bg-gray lg:hover:scale-105"
+              aria-label="Clear "
+              className="px-3 py-2 text-sm font-medium text-white duration-300 bg-red-800 rounded-lg hover:bg-gray lg:hover:scale-105"
               onClick={() => showDeleteAllConfirmation()}
             >
               CLEAR
@@ -709,7 +710,6 @@ const AddPropertySalaryCard = () => {
                     {componentsByType[type].map((row, innerIndex) => (
                       <tr key={`${outerIndex}-${innerIndex}`}>
                         <td className="w-1/12 px-4 py-6">
-                          <div className="absolute cursor-pointer top-4 right-5 focus:outline-none"></div>
                           <button
                             onClick={() =>
                               showDeleteConfirmation(
@@ -717,9 +717,9 @@ const AddPropertySalaryCard = () => {
                                 row.component_name
                               )
                             }
-                            aria-label="Delete Component"
+                            aria-label="Close"
                           >
-                            <CloseButtonIcon className="w-8 h-8 p-1 text-red-500 duration-200 rounded-md overlay hover:bg-red-500 hover:text-white" />
+                            <CloseButtonIcon className="w-8 h-8 p-1 text-red-500 duration-200 rounded-md overlay hover:bg-red-800 hover:text-white" />
                           </button>
                         </td>
                         <td className="w-2/12 px-4 py-6">
@@ -764,6 +764,7 @@ const AddPropertySalaryCard = () => {
                               type="checkbox"
                               value=""
                               className="sr-only peer"
+                              aria-label="right active checkbox"
                               checked={row.is_active === 1}
                               onChange={(e) =>
                                 handleRightActiveChecboxChange(
@@ -811,34 +812,33 @@ const AddPropertySalaryCard = () => {
                 Add Component
               </h2>
               <button
-                aria-label="Close Modal"
+                aria-label="Close"
                 className="text-gray-500 hover:text-gray-700"
                 onClick={closeModalAdd}
               >
-                <CloseButtonIcon className="w-8 h-8 p-1 duration-200 rounded-md overlay hover:bg-red-500 hover:text-white" />
+                <CloseButtonIcon className="w-8 h-8 p-1 duration-200 rounded-md overlay hover:bg-red-800 hover:text-white" />
               </button>
             </header>
             <div className="p-4">
               {/* Konten modal */}
               <div className="mb-4">
                 <div className="flex items-center">
-                  <label
-                    htmlFor="component"
-                    className="block font-medium text-gray-700"
-                  >
+                  <div className="block font-medium text-gray-700">
                     Component*
-                  </label>
+                  </div>
                   <div className="flex items-center ml-4">
                     <input
                       type="checkbox"
-                      id="component"
-                      name="component"
+                      id="component title"
+                      name="component title"
                       checked={getMasterChecboxValue}
                       onChange={handleMasterCheckbox}
                       className="w-5 h-5 rounded focus:ring-primary"
+                      aria-label="component title"
                     />
+
                     <label
-                      htmlFor="component"
+                      htmlFor="component title"
                       className="block ml-2 text-gray-900"
                     >
                       Get from master library
@@ -850,7 +850,7 @@ const AddPropertySalaryCard = () => {
                 {getMasterChecboxValue ? (
                   // Render a dropdown for component selection
                   <label
-                    htmlFor="dropdown"
+                    htmlFor="search component"
                     className="block font-medium text-gray-700"
                   >
                     Search Component
@@ -858,7 +858,7 @@ const AddPropertySalaryCard = () => {
                 ) : (
                   // Render an input field for component selection
                   <label
-                    htmlFor="input"
+                    htmlFor="input component"
                     className="block font-medium text-gray-700"
                   >
                     Component Name
@@ -867,8 +867,9 @@ const AddPropertySalaryCard = () => {
                 {getMasterChecboxValue ? (
                   // Render a dropdown for component selection
                   <select
-                    id="dropdown"
-                    name="dropdown"
+                    id="dropdown component"
+                    name="search component"
+                    aria-label="selected component"
                     value={componentDropdownValue.id}
                     onChange={handleMasterComponentChange}
                     className="block w-full px-3 py-2 text-sm bg-white border rounded-md shadow-sm mt- focus:outline-none focus:ring-primary focus:border-primary"
@@ -886,8 +887,8 @@ const AddPropertySalaryCard = () => {
                   // Render an input field for component selection
                   <input
                     type="text"
-                    id="input"
-                    name="input"
+                    id="input component"
+                    name="input component"
                     placeholder="Component Name"
                     value={newComponentNameValue}
                     onChange={handleNewComponentNameInput}
@@ -938,7 +939,7 @@ const AddPropertySalaryCard = () => {
             <div className="flex justify-end w-full p-4 rounded-t-none shadow-inner rounded-b-md border-gray bg-slate-200">
               <button
                 aria-label="Close"
-                className="px-4 py-2 mx-2 text-white duration-300 bg-red-500 rounded-md hover:bg-gray lg:hover:scale-105"
+                className="px-4 py-2 mx-2 text-white duration-300 bg-red-800 rounded-md hover:bg-gray lg:hover:scale-105"
                 onClick={closeModalAdd}
               >
                 CANCEL
