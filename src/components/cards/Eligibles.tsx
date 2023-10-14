@@ -1,21 +1,26 @@
 import { useEffect, useState, useCallback } from 'react';
-import { ArrowButtonIcon } from '../../assets/icons/icon';
-import profileImg from '../../assets/img/profileImg.webp';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import ReactLoading from 'react-loading';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
+import { ThreeDotIcon } from '../../assets/icons/icon';
+import { DetailIcon, EditIcon } from '../../assets/icons/icon';
 import {
   getDetailEmployee,
   getEditSalaryEmployee,
 } from '../../api/EmployeeAPI';
-import SetEligiblesModal from '../modals/SetEligiblesModal';
-import ReactLoading from 'react-loading';
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import SetEligiblesModal from '../modals/SetEligiblesModal';
+import CustomToastWithLink from '../../helpers/CustomToastWithLink';
+
+import { ArrowButtonIcon } from '../../assets/icons/icon';
+import profileImg from '../../assets/img/profileImg.webp';
+import { TrashIcon } from '../../assets/icons/icon';
+
 type EligiblesProps = {
   employeeData: any;
 };
-import { TrashIcon } from '../../assets/icons/icon';
 
 type PositionType = {
   position_name: string[];
@@ -27,8 +32,8 @@ type PositionType = {
 };
 
 const Eligibles = ({ employeeData }: EligiblesProps) => {
-  console.log(employeeData.additional_position);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+
   const { employeeId } = useParams();
   const { positionId } = useParams();
 
@@ -38,11 +43,23 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
 
   const [isLoading, setIsLoading] = useState(false);
 
+  const [activeDropdown, setActiveDropdown] = useState<number | null | boolean>(
+    null
+  );
+  const toggleDropdown = (idOrNo: number) => {
+    setActiveDropdown((prevIdOrNo) => (prevIdOrNo === idOrNo ? null : idOrNo));
+  };
+
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
 
+  const handleClickDetail = () => {
+    setActiveDropdown(false);
+  };
+
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleCloseModal = useCallback(() => {
     setIsModalOpen(false);
@@ -50,7 +67,7 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
       const newUrl = location.pathname.slice(0, -4);
       navigate(newUrl);
     }
-  }, [navigate]);
+  }, [location.pathname, navigate]);
 
   const handleEditClick = async () => {
     try {
@@ -61,7 +78,13 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
         navigate(`/employee/detail/eligibles/${employeeId}/${positionId}/edit`);
       }
     } catch (error: any) {
-      toast.error(`${error.response.data.message}`);
+      console.error(error);
+      toast.error(
+        CustomToastWithLink(
+          `/employee/detail/eligibles/${employeeId}/${positionId}/set`,
+          `${error.response.data.message}, Click this alert to add`
+        )
+      );
     } finally {
       setIsLoading(false);
     }
@@ -85,6 +108,12 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
   };
 
   useEffect(() => {
+    if (location.pathname.endsWith('/set')) {
+      handleOpenModal();
+    }
+  }, [location.pathname]);
+
+  useEffect(() => {
     fetchSecondaryPositionEmployee(employeeId);
   }, [employeeId, positionId]);
 
@@ -106,6 +135,7 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
               <div className="">
                 {/* Button Manage untuk edit Eligible */}
                 <button
+                  aria-label="Manage"
                   onClick={handleManageClick}
                   className={`flex items-center justify-center px-6 py-3 text-[17px] font-medium duration-200 ${
                     isDropdownVisible ? 'rounded-t-lg' : 'rounded-lg'
@@ -117,14 +147,18 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                 {isDropdownVisible && (
                   <div className="absolute px-1 py-1 bg-white rounded-b-lg top-12.5 border border-secondary right-3 z-10">
                     <Link to={'set'} onClick={handleOpenModal}>
-                      <button className="block px-3 py-3 text-sm hover:text-white text-[16px] hover:bg-primary">
+                      <button
+                        className="block px-[18px] py-3 text-sm hover:text-white text-[16px] hover:bg-primary"
+                        aria-label="Add Eligibles"
+                      >
                         Add Eligibles
                       </button>
                     </Link>
 
                     <button
-                      className="block px-3 py-3 text-sm hover:text-white text-[16px] hover:bg-primary"
+                      className="block px-[18px]  py-3 text-sm hover:text-white text-[16px] hover:bg-primary"
                       onClick={handleEditClick}
+                      aria-label="Edit Eligibels"
                     >
                       Edit Eligibles
                     </button>
@@ -149,19 +183,24 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
           <div className="relative overflow-hidden ">
             <div className="px-3 pt-4 pb-4 overflow-x-auto">
               {/* card 1 */}
-              <img src={profileImg} className="w-40 h-40 mx-auto rounded-2xl" />
+
+              <img
+                src={profileImg}
+                alt={`Image Profile ${employeeData.fullname}`}
+                className="w-40 h-40 mx-auto rounded-2xl"
+              />
 
               <h2 className="mt-4 text-xl font-semibold text-center sm:text-md md:text-lg lg:text-2xl">
                 {employeeData.fullname}
               </h2>
-              <p className="mt-2 text-center font-lg italic text-lg">
+              <p className="mt-2 text-lg italic text-center font-lg">
                 {employeeData.nip}
               </p>
 
               <div className="px-3">
-                <div className="my-4 rounded-t-lg ">
+                <div className="my-5 rounded-t-lg ">
                   <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                    <div className="p-4 bg-white rounded-lg shadow-md">
+                    <div className="p-4 bg-white border-b-4 border-l-4 rounded-lg  shadow-[0_0px_15px_1px_rgba(0,0,0,0.3)] border-primary">
                       <h2 className="mb-2 text-base font-semibold lg:text-lg">
                         Company Name
                       </h2>
@@ -170,7 +209,7 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                       </p>
                     </div>
 
-                    <div className="p-4 bg-white rounded-lg shadow-md">
+                    <div className="p-4 bg-white border-b-4 border-l-4 rounded-lg  shadow-[0_0px_15px_1px_rgba(0,0,0,0.3)] border-primary">
                       <h2 className="mb-2 text-base font-semibold lg:text-lg">
                         Directorate
                       </h2>
@@ -178,7 +217,7 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                         {employeeData.directorate_name}
                       </p>
                     </div>
-                    <div className="p-4 bg-white rounded-lg shadow-md">
+                    <div className="p-4 bg-white border-b-4 border-l-4 rounded-lg  shadow-[0_0px_15px_1px_rgba(0,0,0,0.3)] border-primary">
                       <h2 className="mb-2 text-base font-semibold lg:text-lg">
                         Division
                       </h2>
@@ -285,11 +324,7 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                                     className="px-4 py-2 text-left align-top"
                                   >
                                     <div>
-                                      <h2
-                                        className="text-
-                                      
-                                      "
-                                      >
+                                      <h2 className="text- ">
                                         {item.component_name}
                                       </h2>
                                       <span className="text-[13px]">
@@ -313,7 +348,7 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                             ))
                         ) : (
                           <td
-                            className="px-4 py-4 text-center bg-zinc-300"
+                            className="px-4 py-2 text-center bg-zinc-300"
                             colSpan={2}
                           >
                             No salary data available , setting{' '}
@@ -347,23 +382,72 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                           (position: PositionType, index: number) => (
                             <div
                               key={index}
-                              className="flex items-center w-1/2 px-4 py-4"
+                              className="flex items-center w-full px-4 py-2 border-b"
                             >
-                              <div className="w-4/5 px-2 py-2 duration-200 rounded-md cursor-pointer hover:bg-gray hover:text-white bg-secondary">
-                                <Link
-                                  to={`/employee/detail/eligibles/${employeeId}/${position.id_additional_position}`}
+                              <div className="relative inline-flex items-center w-5 cursor-pointer">
+                                <button
+                                  id={`dropdown-button-${index}`}
+                                  className="inline-flex items-center text-sm font-medium rounded-lg hover:text-center"
+                                  role="button"
+                                  aria-label="Dropdown button"
+                                  onClick={() => toggleDropdown(index)}
                                 >
-                                  <p className="text-base ">
-                                    <span className="">
-                                      {position.position_name}
-                                    </span>
-                                  </p>
-                                </Link>
+                                  <ThreeDotIcon className="w-5 h-5" />
+                                </button>
+                                {activeDropdown === index && (
+                                  <div
+                                    className={`absolute left-0 z-10 ml-8 bg-white divide-y rounded shadow-2xl w-44 ${
+                                      index === employeeData.length - 1
+                                        ? 'mb-20'
+                                        : ''
+                                    }`}
+                                  >
+                                    <ul className="text-sm">
+                                      <li>
+                                        <Link
+                                          to={`/employee/detail/eligibles/${employeeId}/${position.id_additional_position}/edit`}
+                                          type="button"
+                                          className="flex items-center w-full px-4 py-[9px] duration-200 hover:text-white hover:bg-primary"
+                                        >
+                                          <EditIcon className="w-4 h-4 mr-2" />
+                                          Edit
+                                        </Link>
+                                      </li>
+                                      <li>
+                                        <Link
+                                          to={`/employee/detail/eligibles/${employeeId}/${position.id_additional_position}`}
+                                          type="button"
+                                          className="flex items-center w-full px-4 py-[9px] duration-200 hover: hover:text-white hover:bg-primary"
+                                          onClick={handleClickDetail}
+                                        >
+                                          <DetailIcon className="w-4 h-4 mr-2" />
+                                          Detail
+                                        </Link>
+                                      </li>
+
+                                      <li>
+                                        <Link
+                                          to={`delete`}
+                                          type="button"
+                                          className="flex items-center w-full px-4 py-[9px] text-red-500 duration-200 hover: hover:text-white hover:bg-red-800"
+                                        >
+                                          <TrashIcon className="w-4 h-4 mr-2" />
+                                          Delete
+                                        </Link>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                )}
                               </div>
-                              <div className="relative inline-flex items-center w-1/5 ml-2 cursor-pointer">
-                                <div className="px-2 py-2 text-white bg-black rounded-md hover:bg-red-300 hover:text-black">
-                                  <TrashIcon className="w-6 h-6" />
-                                </div>
+                              <div className="w-full px-2 py-2 ml-2 duration-200 rounded-md ">
+                                {/* <Link
+                                  to={`/employee/detail/eligibles/${employeeId}/${position.id_additional_position}`}
+                                ></Link> */}
+                                <p className="text-base ">
+                                  <span className="">
+                                    {position.position_name}
+                                  </span>
+                                </p>
                               </div>
                             </div>
                           )

@@ -11,7 +11,7 @@ const ErrorCard404 = () => {
           <img
             className="w-full max-w-4xl"
             src={NotFoundImage}
-            alt="404 Not Found"
+            alt="Image 404 Not Found"
             width={300}
             height={200}
           />

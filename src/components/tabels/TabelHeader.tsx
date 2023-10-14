@@ -141,7 +141,7 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
                 <div className="relative w-full">
                   <input
                     type="text"
-                    className="block w-full p-2 text-md text-black border rounded-lg"
+                    className="block w-full p-2 text-black border rounded-lg text-md"
                     placeholder="Search"
                     value={searchInput}
                     onChange={handleSearchInputChange}
@@ -151,9 +151,10 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
                     className="absolute inset-y-0 right-0 flex items-center px-4 duration-300 border rounded-none rounded-r-lg bg-secondary hover:bg-gray hover:text-white hover:border-gray"
                     onClick={handleSearch}
                     type="submit"
+                    aria-label="Search Data"
                   >
                     {isLoading && (
-                      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                         <ReactLoading
                           type="spin"
                           color="green"
@@ -162,7 +163,7 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
                         />
                       </div>
                     )}
-                    <SearchIcon className="w-[21px] h-[21px] cursor-pointer " />
+                    <SearchIcon className="w-[21px] h-[21px] cursor-pointer" />
                   </button>
                 </div>
               </form>

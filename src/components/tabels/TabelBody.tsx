@@ -378,7 +378,9 @@ const TabelBody: React.FC<TabelBodyProps> = ({
             <table className="w-full text-sm text-left">
               <thead className="uppercase text-[16px] ">
                 <tr>
-                  <th scope="col" className="px-2 py-4 w-14 "></th>
+                  <th scope="col" className="invisible w-12 px-2 py-4">
+                    {'#'}
+                  </th>
                   {colCells.map((cell, index) => (
                     <th key={index} scope="col" className={`px-2 py-4`}>
                       {cell.text}
@@ -404,6 +406,10 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                           role="button"
                           aria-label="Dropdown button"
                           onClick={() => toggleDropdown(customCell.id)}
+                          aria-haspopup="menu"
+                          aria-expanded={
+                            activeDropdown === customCell.id ? 'true' : 'false'
+                          }
                         >
                           <ThreeDotIcon className="w-5 h-5" />
                         </button>
@@ -412,6 +418,8 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                             className={`absolute left-0 z-10 ml-10 bg-white divide-y rounded shadow-2xl w-44 ${
                               index === data.length - 1 ? 'mb-20' : ''
                             }`}
+                            role="menu"
+                            aria-labelledby={`dropdown-button-${index}`}
                           >
                             <ul className="py-1 text-sm">
                               <li>
@@ -423,6 +431,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                                   }
                                   onClick={() => openEditModal(customCell.id)}
                                   type="button"
+                                  aria-label="Edit"
                                   className="flex items-center w-full px-4 py-2 duration-200 hover:text-white hover:bg-primary"
                                 >
                                   <EditIcon className="w-4 h-4 mr-2" />
@@ -458,6 +467,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                                   }
                                   onClick={() => openDetailModal(customCell.id)}
                                   type="button"
+                                  aria-label="Detail"
                                   className="flex items-center w-full px-4 py-2 duration-200 hover: hover:text-white hover:bg-primary"
                                 >
                                   <DetailIcon className="w-4 h-4 mr-2" />
@@ -477,6 +487,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                                   <Link
                                     to={`detail/eligibles/${customCell.id}/${customCell.id_main_position}`}
                                     type="button"
+                                    aria-label="Eligible"
                                     className="flex items-center w-full px-4 py-2 duration-200 hover: hover:text-white hover:bg-primary"
                                     onClick={() =>
                                       navigate(
@@ -493,8 +504,9 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                                 <Link
                                   to={`delete/${customCell.id}`}
                                   type="button"
+                                  aria-label="Delete"
                                   onClick={() => openDeleteModal(customCell.id)}
-                                  className="flex items-center w-full px-4 py-2 text-red-500 duration-200 hover: hover:text-white hover:bg-red-500"
+                                  className="flex items-center w-full px-4 py-2 text-red-500 duration-200 hover: hover:text-white hover:bg-red-800"
                                 >
                                   <TrashIcon className="w-4 h-4 mr-2" />
                                   Delete

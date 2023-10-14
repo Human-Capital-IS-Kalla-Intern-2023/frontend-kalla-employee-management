@@ -84,7 +84,7 @@ const LoginCard = () => {
               src={LoginImg}
               width="500"
               height="300"
-              alt="Login Image"
+              alt="Image Login"
             />
           </div>
         </div>

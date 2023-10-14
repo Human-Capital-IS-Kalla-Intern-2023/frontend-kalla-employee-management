@@ -9,7 +9,14 @@ import SideBarMenu from './SideBarMenu';
 import ButtonLogout from '../../components/buttons/LogoutButton';
 
 // Assets Import
-import logoKalla from '../../assets/img/kalla-logo-full.webp';
+// import logoKalla from '../../assets/img/kalla-logo-full.webp';
+import logo232 from '../../assets/img/logo-232.webp';
+import logo464 from '../../assets/img/logo-464.webp';
+import logo300 from '../../assets/img/logo-300.webp';
+import logo660 from '../../assets/img/logo-660.webp';
+import logo1280 from '../../assets/img/logo-1280.webp';
+import logo3000 from '../../assets/img/logo-3000.webp';
+
 import {
   SettingIcon,
   CompanyIcon,
@@ -129,96 +136,97 @@ const Sidebar = () => {
             overflow-hidden md:relative fixed
          h-full  min-h-screen"
         >
-          <div className="flex items-center gap-2.5 font-medium border-b py-3 border-slate-300  mx-3">
+          <div className="flex items-center gap-2.5 font-medium border-b py-3 border-slate-300 mx-3">
             <img
-              src={logoKalla}
-              width={45}
-              height={45}
               alt="Kalla Logo"
-              className="w-fit"
+              src={logo232}
+              srcSet={`
+      ${logo232} 232w,
+      ${logo300} 300w,
+      ${logo464} 464w,
+      ${logo660} 660w,
+      ${logo1280} 1280w,
+      ${logo3000} 3000w
+    `}
+              sizes="(min-width: 1060px) 223px, (min-width: 940px) calc(113vw - 957px), (min-width: 880px) calc(110vw - 933px), (min-width: 840px) calc(70vw - 584px), (min-width: 680px) 232px, (min-width: 640px) calc(995vw - 6335px), (min-width: 600px) calc(-135vw + 914px), (min-width: 500px) calc(-95vw + 682px), calc(-7.78vw + 255px)"
+              width={232}
+              height={96}
             />
           </div>
 
           <div className="flex flex-col h-full">
-            <ul className="whitespace-pre px-2.5 text-[0.9rem] py-5 flex  flex-col gap-1  font-medium overflow-x-hidden scrollbar-thin scrollbar-track-white scrollbar-thumb-slate-100   md:h-[68%] h-[70%] rounded-md">
+            <ul className="whitespace-pre px-2.5 text-[0.9rem] py-5 flex flex-col gap-1 font-medium overflow-x-hidden scrollbar-thin scrollbar-track-white scrollbar-thumb-slate-100 md:h-[68%] h-[70%] rounded-md">
               <li
-                className={`px-1 py-2 mb-1 rounded-md text-base hover:bg-primary hover:text-white" ${
+                className={`px-1 py-2 mb-1 rounded-md text-base   ${
                   pathname.includes('/dashboard')
-                    ? 'bg-primary text-white hover:bg-green-600'
-                    : 'hover:text-white'
+                    ? 'bg-primary text-white '
+                    : ''
                 }`}
               >
-                <NavLink to={'/dashboard'}>
-                  <div className="flex items-center">
-                    <DashboardIcon className="min-w-max" />
-                    <motion.div
-                      variants={textAnimation}
-                      animate={open ? 'open' : 'closed'}
-                      className="ml-2 link"
-                    >
-                      Dashboard
-                    </motion.div>
-                  </div>
+                <NavLink to={'/dashboard'} className="flex items-center">
+                  <DashboardIcon className="min-w-max" />
+                  <motion.span
+                    variants={textAnimation}
+                    animate={open ? 'open' : 'closed'}
+                    className="ml-2 link"
+                  >
+                    Dashboard
+                  </motion.span>
                 </NavLink>
               </li>
               <li
-                className={`px-1 py-2 mb-1 rounded-md text-base hover:bg-primary hover:text-white" ${
+                className={`px-1 py-2 mb-1 rounded-md text-base  ${
                   pathname.includes('/employee')
-                    ? 'bg-primary text-white hover:bg-green-600'
-                    : 'hover:text-white'
+                    ? 'bg-primary text-white '
+                    : 'hover:bg-slate-300 '
                 }`}
               >
-                <NavLink to={'/employee'} className="link">
-                  <div className="flex items-center">
-                    <UserIcon className="min-w-max" />
-
-                    <motion.div
-                      variants={textAnimation}
-                      animate={open ? 'open' : 'closed'}
-                      className="ml-2 link"
-                    >
-                      Employee
-                    </motion.div>
-                  </div>
+                <NavLink to={'/employee'} className="flex items-center">
+                  <UserIcon className="min-w-max" />
+                  <motion.span
+                    variants={textAnimation}
+                    animate={open ? 'open' : 'closed'}
+                    className="ml-2 link"
+                  >
+                    Employee
+                  </motion.span>
                 </NavLink>
               </li>
               <li
-                className={`px-1 py-2 mb-1 rounded-md text-base hover:bg-primary hover:text-white" ${
+                className={`px-1 py-2 mb-1 rounded-md text-base  ${
                   pathname.includes('/reports')
-                    ? 'bg-primary text-white hover:bg-green-600'
-                    : 'hover:text-white'
+                    ? 'bg-primary text-white '
+                    : 'hover:bg-slate-300 '
                 }`}
               >
-                <NavLink to={'/reports'} className="link">
-                  <div className="flex items-center">
-                    <ReportIcon className="min-w-max" />
-                    <motion.div
-                      variants={textAnimation}
-                      animate={open ? 'open' : 'closed'}
-                      className="ml-2 link"
-                    >
-                      Reports
-                    </motion.div>
-                  </div>
+                <NavLink to={'/reports'} className="flex items-center">
+                  <ReportIcon className="min-w-max" />
+                  <motion.span
+                    variants={textAnimation}
+                    animate={open ? 'open' : 'closed'}
+                    className="ml-2 link"
+                  >
+                    Reports
+                  </motion.span>
                 </NavLink>
               </li>
 
-              {(open || isTabletMid) && (
-                <div className="py-5 border-y border-slate-300 ">
-                  <p className="inline-block pl-3 mb-2 text-base text-slate-500">
-                    Other Section
-                  </p>
-                  {subMenusList?.map((menu: any) => (
-                    <div
-                      key={menu.name}
-                      className="flex flex-col gap-1 px-1 py-2 mb-1 text-base rounded-md hover:bg-primary hover:text-white"
-                    >
-                      <SideBarMenu data={menu} />
-                    </div>
-                  ))}
-                </div>
-              )}
-              <ButtonLogout />
+              <li className="pt-4 border-t border-slate-300">
+                <p className="inline-block pl-3 mb-2 text-base text-slate-500">
+                  Other Section
+                </p>
+              </li>
+              {subMenusList?.map((menu: any) => (
+                <li
+                  key={menu.name}
+                  className="flex flex-col gap-1 px-1 py-2 mb-1 text-base rounded-md"
+                >
+                  <SideBarMenu data={menu} />
+                </li>
+              ))}
+              <li className="border-t border-slate-300">
+                <ButtonLogout />
+              </li>
             </ul>
           </div>
           <motion.div

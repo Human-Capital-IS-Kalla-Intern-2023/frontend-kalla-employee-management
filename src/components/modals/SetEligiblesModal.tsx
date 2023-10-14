@@ -1,15 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getDetailSalaryEmployee } from '../../api/EmployeeAPI';
 import ReactLoading from 'react-loading';
-
+import CustomToastWithLink from '../../helpers/CustomToastWithLink';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const SetEligiblesModal = ({ onClose, allPositionOption }: any) => {
   const [selectedPosition, setSelectedPosition] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const { employeeId } = useParams();
+  const { employeeId, positionId } = useParams();
 
   const navigate = useNavigate();
 
@@ -23,10 +23,6 @@ const SetEligiblesModal = ({ onClose, allPositionOption }: any) => {
         selectedPosition
       );
 
-      if (!response) {
-        toast.error(`Lah`);
-      }
-
       if (response.data.components.length === 0) {
         // Display the warning alert
         toast.error(
@@ -39,11 +35,32 @@ const SetEligiblesModal = ({ onClose, allPositionOption }: any) => {
       }
     } catch (error: any) {
       console.error(error);
-      toast.error(`${error.response.data.message}`);
+      if (error.response.data.message.includes('Salary')) {
+        toast.error(
+          CustomToastWithLink(
+            `/salary/configures/payroll_component/add`,
+            `${error.response.data.message}, Click this alert to add`
+          )
+        );
+      } else {
+        console.error(error);
+        toast.error(
+          CustomToastWithLink(
+            `/salary/configures/payroll_component/add`,
+            `${error.response.data.message}`
+          )
+        );
+      }
     } finally {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (positionId) {
+      setSelectedPosition(positionId);
+    }
+  }, [positionId]);
 
   return (
     <>
@@ -59,12 +76,6 @@ const SetEligiblesModal = ({ onClose, allPositionOption }: any) => {
             <h2 className="p-2 text-lg font-medium border-b-2 border-primary">
               Add Eligibles
             </h2>
-            <button
-              className="text-gray-500 hover:text-gray-700"
-              onClick={onClose}
-            >
-              {/* Implement your close button */}
-            </button>
           </header>
           <div className="p-4">
             {/* Form for adding eligibles */}
@@ -86,12 +97,12 @@ const SetEligiblesModal = ({ onClose, allPositionOption }: any) => {
                 <option value="" disabled>
                   Select position
                 </option>
-                <option value={allPositionOption.id_main_position}>
-                  {allPositionOption.main_position} -{' '}
-                  {allPositionOption.company_main} - Main
+                <option value={allPositionOption?.id_main_position}>
+                  {allPositionOption?.main_position} -{' '}
+                  {allPositionOption?.company_main} - Main
                 </option>
                 {/* Display additional positions */}
-                {allPositionOption.additional_position.map((position: any) => (
+                {allPositionOption?.additional_position.map((position: any) => (
                   <option
                     key={position.id_additional_position}
                     value={position.id_additional_position}
@@ -104,12 +115,14 @@ const SetEligiblesModal = ({ onClose, allPositionOption }: any) => {
           </div>
           <div className="flex justify-end w-full p-4 rounded-t-none shadow-inner rounded-b-md border-gray bg-slate-200">
             <button
-              className="px-4 py-2 mx-2 text-white duration-300 bg-red-500 rounded-md hover:bg-gray"
+              aria-label="Cancel"
+              className="px-4 py-2 mx-2 text-white duration-300 bg-red-800 rounded-md hover:bg-gray"
               onClick={onClose}
             >
               CANCEL
             </button>
             <button
+              aria-label="Add"
               className={`px-4 py-2 text-white duration-300 rounded-md ${
                 !selectedPosition
                   ? 'bg-gray text-slate-400'

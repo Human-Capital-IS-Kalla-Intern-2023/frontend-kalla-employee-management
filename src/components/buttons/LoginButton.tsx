@@ -61,6 +61,7 @@ const LoginButton: React.FC<LoginButtonProps> = ({ email, passwordInput }) => {
               : 'bg-primary hover:bg-black'
           }`}
           disabled={isLoading}
+          aria-label="submit login"
         >
           {isLoading ? '....' : 'Login'}
         </button>
