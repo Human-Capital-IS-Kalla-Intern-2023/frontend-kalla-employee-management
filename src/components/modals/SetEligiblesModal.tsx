@@ -1,15 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getDetailSalaryEmployee } from '../../api/EmployeeAPI';
 import ReactLoading from 'react-loading';
-
+import CustomToastWithLink from '../../helpers/CustomToastWithLink';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const SetEligiblesModal = ({ onClose, allPositionOption }: any) => {
   const [selectedPosition, setSelectedPosition] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const { employeeId } = useParams();
+  const { employeeId, positionId } = useParams();
 
   const navigate = useNavigate();
 
@@ -23,10 +23,6 @@ const SetEligiblesModal = ({ onClose, allPositionOption }: any) => {
         selectedPosition
       );
 
-      if (!response) {
-        toast.error(`Lah`);
-      }
-
       if (response.data.components.length === 0) {
         // Display the warning alert
         toast.error(
@@ -39,11 +35,32 @@ const SetEligiblesModal = ({ onClose, allPositionOption }: any) => {
       }
     } catch (error: any) {
       console.error(error);
-      toast.error(`${error.response.data.message}`);
+      if (error.response.data.message.includes('Salary')) {
+        toast.error(
+          CustomToastWithLink(
+            `/salary/configures/payroll_component/add`,
+            `${error.response.data.message}, Click this alert to add`
+          )
+        );
+      } else {
+        console.error(error);
+        toast.error(
+          CustomToastWithLink(
+            `/salary/configures/payroll_component/add`,
+            `${error.response.data.message}`
+          )
+        );
+      }
     } finally {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (positionId) {
+      setSelectedPosition(positionId);
+    }
+  }, [positionId]);
 
   return (
     <>
@@ -86,12 +103,12 @@ const SetEligiblesModal = ({ onClose, allPositionOption }: any) => {
                 <option value="" disabled>
                   Select position
                 </option>
-                <option value={allPositionOption.id_main_position}>
-                  {allPositionOption.main_position} -{' '}
-                  {allPositionOption.company_main} - Main
+                <option value={allPositionOption?.id_main_position}>
+                  {allPositionOption?.main_position} -{' '}
+                  {allPositionOption?.company_main} - Main
                 </option>
                 {/* Display additional positions */}
-                {allPositionOption.additional_position.map((position: any) => (
+                {allPositionOption?.additional_position.map((position: any) => (
                   <option
                     key={position.id_additional_position}
                     value={position.id_additional_position}

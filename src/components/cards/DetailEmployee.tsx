@@ -62,7 +62,7 @@ const DetailEmployee = ({
         <h1 className="p-2 ml-2.5 text-xl font-medium border-b-2 border-primary ">
           Personal Data Page
         </h1>
-        <div className="pl-11 pr-3 text-sm font-semibold ">
+        <div className="pr-3 text-sm font-semibold pl-11 ">
           {/* <button
             className="px-4 py-2 mr-4 text-white duration-300 bg-red-500 rounded-md hover:bg-gray"
             onClick={handleBack}
@@ -99,18 +99,18 @@ const DetailEmployee = ({
               className="w-40 h-40 mx-auto rounded-2xl"
             />
 
-            <h2 className="mt-4 text-md font-semibold sm:text-md md:text-lg lg:text-2xl text-center">
+            <h2 className="mt-4 font-semibold text-center text-md sm:text-md md:text-lg lg:text-2xl">
               {employeeData.fullname}
             </h2>
-            <p className="text-base lg:text-lg pt-2 italic font-medium text-center">
+            <p className="pt-2 text-base italic font-medium text-center lg:text-lg">
               {employeeData.nip}
             </p>
 
             <div className="px-1 lg:px-3">
               <div className="my-4 rounded-t-lg">
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  <div className="p-4 bg-white border-l-4 border-b-4 border-primary rounded-lg shadow-md">
-                    <h2 className="mb-1 lg:mb-2  text-base font-semibold sm:text-md lg:text-md">
+                  <div className="p-4 bg-white border-l-4 border-b-4 border-primary rounded-lg shadow-[0_0px_15px_1px_rgba(0,0,0,0.3)]">
+                    <h2 className="mb-1 text-base font-semibold lg:mb-2 sm:text-md lg:text-md">
                       Nickname
                     </h2>
                     <p className="text-base md:text-base lg:text-md">
@@ -118,8 +118,8 @@ const DetailEmployee = ({
                     </p>
                   </div>
 
-                  <div className="p-4 bg-white border-l-4 border-b-4 border-primary rounded-lg shadow-md">
-                    <h2 className="mb-1 lg:mb-2 text-base font-semibold sm:text-md lg:text-md">
+                  <div className="p-4 bg-white border-b-4 border-l-4 rounded-lg  shadow-[0_0px_15px_1px_rgba(0,0,0,0.3)] border-primary">
+                    <h2 className="mb-1 text-base font-semibold lg:mb-2 sm:text-md lg:text-md">
                       Email
                     </h2>
                     <p className="text-base md:text-base lg:text-md">
@@ -127,8 +127,8 @@ const DetailEmployee = ({
                     </p>
                   </div>
 
-                  <div className="p-4 bg-white border-l-4 border-b-4 border-primary rounded-lg shadow-md">
-                    <h2 className="mb-1 lg:mb-2 text-base font-semibold sm:text-md lg:text-md">
+                  <div className="p-4 bg-white border-b-4 border-l-4 rounded-lg  shadow-[0_0px_15px_1px_rgba(0,0,0,0.3)] border-primary">
+                    <h2 className="mb-1 text-base font-semibold lg:mb-2 sm:text-md lg:text-md">
                       Hire Date
                     </h2>
                     <p className="text-base md:text-base lg:text-md">
@@ -140,47 +140,47 @@ const DetailEmployee = ({
             </div>
 
             <div className="px-1 lg:px-3">
-              <div className="my-4 bg-white rounded-lg shadow-md overflow-x-auto">
-                <div className="bg-primary px-4 py-2 text-left rounded-tl-lg border-b-2">
-                  <h2 className="text-base md:text-base lg:text-lg font-medium text-white">
+              <div className="my-4 overflow-x-auto bg-white rounded-lg shadow-md">
+                <div className="px-4 py-2 text-left border-b-2 rounded-tl-lg bg-primary">
+                  <h2 className="text-base font-medium text-white md:text-base lg:text-lg">
                     Main Position
                   </h2>
                 </div>
-                <div className="flex flex-col sm:flex-row px-4 py-2">
-                  <div className="w-full sm:w-1/2 text-left mb-2 lg:mb-3 sm:mb-0 mr-3">
-                    <h2 className="text-base md:text-base lg:text-md font-semibold">
+                <div className="flex flex-col px-4 py-2 sm:flex-row">
+                  <div className="w-full mb-2 mr-3 text-left sm:w-1/2 lg:mb-3 sm:mb-0">
+                    <h2 className="text-base font-semibold md:text-base lg:text-md">
                       Position Name
                     </h2>
-                    <p className="text-sm lg:text-base border-b mb-2">
+                    <p className="mb-2 text-sm border-b lg:text-base">
                       {employeeData.main_position}
                     </p>
 
-                    <h2 className="text-base md:text-base lg:text-md font-semibold">
+                    <h2 className="text-base font-semibold md:text-base lg:text-md">
                       Company Name
                     </h2>
-                    <p className="text-sm lg:text-base border-b mb-2">
+                    <p className="mb-2 text-sm border-b lg:text-base">
                       {employeeData.company_main}
                     </p>
 
-                    <h2 className="text-base md:text-base lg:text-md font-semibold">
+                    <h2 className="text-base font-semibold md:text-base lg:text-md">
                       Directorate
                     </h2>
-                    <p className="text-sm lg:text-base border-b">
+                    <p className="text-sm border-b lg:text-base">
                       {employeeData.directorate_main}
                     </p>
                   </div>
-                  <div className="w-full sm:w-1/2 text-left">
-                    <h2 className="text-base md:text-base lg:text-md font-semibold">
+                  <div className="w-full text-left sm:w-1/2">
+                    <h2 className="text-base font-semibold md:text-base lg:text-md">
                       Division
                     </h2>
-                    <p className="text-sm lg:text-base border-b mb-2">
+                    <p className="mb-2 text-sm border-b lg:text-base">
                       {employeeData.division_main}
                     </p>
 
-                    <h2 className="text-base md:text-base lg:text-md font-semibold">
+                    <h2 className="text-base font-semibold md:text-base lg:text-md">
                       Section
                     </h2>
-                    <p className="text-sm lg:text-base border-b">
+                    <p className="text-sm border-b lg:text-base">
                       {employeeData.section_main}
                     </p>
                   </div>
@@ -191,9 +191,9 @@ const DetailEmployee = ({
             {/*Secondary Position*/}
             <div className="px-1 lg:px-3">
               <div className="my-4 bg-white rounded-lg shadow-md ">
-                <div className="bg-primary w-full table-auto rounded-t-lg">
+                <div className="w-full rounded-t-lg table-auto bg-primary">
                   <div className="w-full px-4 py-2 text-left border-b-2">
-                    <h2 className="text-base md:text-base lg:text-lg font-medium text-white">
+                    <h2 className="text-base font-medium text-white md:text-base lg:text-lg">
                       Secondary Position
                     </h2>
                   </div>
@@ -236,9 +236,9 @@ const DetailEmployee = ({
 
           {selectedSecondaryPosition && (
             <div className="lg:px-3">
-              <div className="lg:my-4  bg-white rounded-lg shadow-md overflow-x-auto">
-                <div className="bg-primary px-4 py-2 text-left border-b-2">
-                  <h2 className="text-base md:text-base lg:text-lg font-medium text-white">
+              <div className="overflow-x-auto bg-white rounded-lg shadow-md lg:my-4">
+                <div className="px-4 py-2 text-left border-b-2 bg-primary">
+                  <h2 className="text-base font-medium text-white md:text-base lg:text-lg">
                     Secondary Position Details
                   </h2>
                 </div>
@@ -257,51 +257,51 @@ const DetailEmployee = ({
                     }) => (
                       <div
                         key={selectedPosition.position_name}
-                        className="flex flex-col sm:flex-row px-4 py-2"
+                        className="flex flex-col px-4 py-2 sm:flex-row"
                       >
                         {/* Kolom 1 */}
-                        <div className="w-full sm:w-1/2 text-left lg:mb-2 mr-3 ">
+                        <div className="w-full mr-3 text-left sm:w-1/2 lg:mb-2 ">
                           <div>
-                            <h2 className="text-base md:text-base lg:text-md font-semibold">
+                            <h2 className="text-base font-semibold md:text-base lg:text-md">
                               Position Name
                             </h2>
-                            <p className="text-sm lg:text-base border-b">
+                            <p className="text-sm border-b lg:text-base">
                               {selectedPosition.position_name}
                             </p>
                           </div>
                           <div>
-                            <h2 className="text-base md:text-base lg:text-md pt-2 font-semibold">
+                            <h2 className="pt-2 text-base font-semibold md:text-base lg:text-md">
                               Company Name
                             </h2>
-                            <p className="text-sm lg:text-base border-b mb-2">
+                            <p className="mb-2 text-sm border-b lg:text-base">
                               {selectedPosition.company_name}
                             </p>
                           </div>
                           <div>
-                            <h2 className="text-base md:text-base lg:text-md font-semibold">
+                            <h2 className="text-base font-semibold md:text-base lg:text-md">
                               Directorate
                             </h2>
-                            <p className="pb-1 text-sm lg:text-base mb-2 border-b ">
+                            <p className="pb-1 mb-2 text-sm border-b lg:text-base ">
                               {selectedPosition.directorate_name}
                             </p>
                           </div>
                         </div>
 
                         {/* Kolom 2 */}
-                        <div className="w-full sm:w-1/2 text-left mb-4 sm:mb-0">
+                        <div className="w-full mb-4 text-left sm:w-1/2 sm:mb-0">
                           <div>
-                            <h2 className="text-base md:text-base lg:text-md font-semibold">
+                            <h2 className="text-base font-semibold md:text-base lg:text-md">
                               Division
                             </h2>
-                            <p className="text-sm lg:text-base border-b">
+                            <p className="text-sm border-b lg:text-base">
                               {selectedPosition.division_name}
                             </p>
                           </div>
                           <div>
-                            <h2 className="text-base md:text-base lg:text-md pt-2 font-semibold">
+                            <h2 className="pt-2 text-base font-semibold md:text-base lg:text-md">
                               Section
                             </h2>
-                            <p className="text-sm lg:text-base border-b">
+                            <p className="text-sm border-b lg:text-base">
                               {selectedPosition.section_name}
                             </p>
                           </div>
