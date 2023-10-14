@@ -178,7 +178,12 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
           <div className="relative overflow-hidden ">
             <div className="px-3 pt-4 pb-4 overflow-x-auto">
               {/* card 1 */}
-              <img src={profileImg} className="w-40 h-40 mx-auto rounded-2xl" />
+
+              <img
+                src={profileImg}
+                alt={`Image Profile ${employeeData.fullname}`}
+                className="w-40 h-40 mx-auto rounded-2xl"
+              />
 
               <h2 className="mt-4 text-xl font-semibold text-center sm:text-md md:text-lg lg:text-2xl">
                 {employeeData.fullname}

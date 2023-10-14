@@ -238,6 +238,7 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
                 <div className="flex items-center px-4 pt-4 pb-2">
                   <img
                     src={profileImg}
+                    alt={`Image Profile ${employeeDatas.fullname}`}
                     className="mr-4 w-28 h-28 rounded-2xl"
                   />
                   <div className="px-4 pl-0 mb-2">

@@ -95,7 +95,7 @@ const DetailEmployee = ({
           <div className="pt-4 overflow-x-auto ">
             <img
               src={profileImg}
-              alt={employeeData.fullname}
+              alt={`Image Profile ${employeeData.fullname}`}
               className="w-40 h-40 mx-auto rounded-2xl"
             />
 

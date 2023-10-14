@@ -27,7 +27,7 @@ const ErrorCard404 = () => {
         </li>
       </div>
       <div className="flex justify-center w-2/3 p-4 lg:h-full lg:items-center">
-        <img className="w-10/12 " src={ForbideenImage} />
+        <img className="w-10/12 " alt="Image Forbideen" src={ForbideenImage} />
       </div>
     </div>
   );

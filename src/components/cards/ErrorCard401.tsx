@@ -8,7 +8,7 @@ const ErrorCard401 = () => {
   return (
     <div className="flex flex-col items-center justify-center w-full h-screen space-x-8 space-y-16 lg:flex-row lg:space-y-0 2xl:space-x-0">
       <div className="flex justify-center w-2/5 p-4 lg:h-full lg:items-center">
-        <img className="w-10/12 " src={Unauthorized} />
+        <img className="w-10/12 " alt="Image Unauthorized" src={Unauthorized} />
       </div>
       <div className="flex flex-col items-center justify-center w-full ml-40 text-center lg:w-2/4 lg:px-2 xl:px-5">
         <p className="text-6xl font-bold tracking-wider text-black text-gray-300 md:text-8xl lg:text-7xl">
