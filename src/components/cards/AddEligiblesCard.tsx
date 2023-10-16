@@ -246,7 +246,7 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
             </button>
             <button
               aria-label="Save Data"
-              className="px-2 lg:px-6 py-2 text-sm lg:text-base duration-300 border border-transparent rounded-md text-pureBlack bg-secondary hover:bg-white hover:border-black hover:text-black"
+              className="px-2 lg:px-6 py-2 text-sm lg:text-base duration-300 border border-transparent rounded-md text-pureBlack bg-secondary hover:bg-amber-400 hover:border-black hover:text-black"
               onClick={saveEmployeeDataToServer}
             >
               SAVE
@@ -415,7 +415,7 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
                         </h2>
                         <button
                           aria-label="Close Modal Add Bank"
-                          className="text-gray-500 hover:text-gray-700"
+                          className="text-gray-500 hover:text-slate-700"
                           onClick={handleCloseModal}
                         >
                           <CloseButtonIcon className="w-8 h-8 p-1 duration-200 rounded-md overlay hover:bg-red-800 hover:text-white" />
@@ -424,7 +424,7 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
                       <div className="px-4 py-2">
                         <label
                           htmlFor="input"
-                          className="block font-medium text-gray-700"
+                          className="block font-medium text-slate-700"
                         >
                           Employee Name
                         </label>

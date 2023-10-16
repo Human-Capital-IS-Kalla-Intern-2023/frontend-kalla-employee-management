@@ -193,7 +193,7 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
               <h2 className="mt-4 text-xl font-semibold text-center sm:text-md md:text-lg lg:text-xl">
                 {employeeData.fullname}
               </h2>
-              <p className="mt-2 text-lg italic text-center sm:text-sm md:text-md">
+              <p className="mt-2 lg:text-lg italic text-center text-sm">
                 {employeeData.nip}
               </p>
 
@@ -252,26 +252,25 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                     {employeeData.type_bank !== 'Eligible Belum Dibuat' &&
                     employeeData.account_number !== 'Eligible Belum Dibuat' ? (
                       <div className="flex items-center w-full px-4 py-3">
-                        <div className="w-5/12">
-                          <p className="text-base">Bank Account</p>
+                        <div className="w-5/12 lg:w-2/12">
+                          <p className="text-sm lg:text-base">Bank Account</p>
                         </div>
                         <label className="relative inline-flex items-center w-7/12 cursor-pointer">
                           :
-                          <div className="p-1 rounded-md bg-secondary">
+                          <div className="ml-1 p-1 rounded-md bg-secondary">
                             {employeeData.type_bank} -{' '}
                             {employeeData.account_number}
                           </div>
                         </label>
                       </div>
                     ) : (
-                      <div className="flex items-center w-full px-4 py-3">
+                      <div className="flex flex-col items-center w-full px-4 py-3">
                         <div className="w-5/12 lg:w-2/12">
                           <p className="text-sm lg:text-base">Bank Account</p>
                         </div>
                         <label className="relative inline-flex items-center w-7/12 cursor-pointer">
-                          :
-                          <div className="p-1 ml-1 rounded-md bg-secondary">
-                            No Bank Data
+                          <div className="px-2 py-1 rounded-md bg-secondary">
+                            : No Bank Data
                           </div>
                         </label>
                       </div>
@@ -336,10 +335,7 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                         </tr>
                       ))
                   ) : (
-                    <td
-                      className="px-4 py-2 text-center bg-zinc-300"
-                      colSpan={2}
-                    >
+                    <div className="px-4 py-4 text-center w-full bg-zinc-300 rounded-b-lg">
                       No salary data available , setting{' '}
                       <Link
                         to={`/employee/detail/eligibles/${employeeId}/${positionId}/set`}
@@ -348,7 +344,7 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                       >
                         here
                       </Link>
-                    </td>
+                    </div>
                   )}
                 </div>
               </div>
