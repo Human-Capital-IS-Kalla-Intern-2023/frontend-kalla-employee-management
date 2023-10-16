@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import profileImg from '../../assets/img/profileImg.webp';
+import profileImg160 from '../../assets/img/profileImg-160.webp';
 // import { useNavigate } from 'react-router-dom';
 import ReactLoading from 'react-loading';
 import EditModal from '../modals/EditModal';
@@ -11,7 +11,7 @@ type DetailEmployeeProps = {
   onUpdateEmployee: (formData: string, id: number) => void;
 };
 
-const DetailEmployee = ({
+const DetailEmployeeCard = ({
   employeeData,
   onUpdateEmployee,
 }: DetailEmployeeProps) => {
@@ -89,7 +89,7 @@ const DetailEmployee = ({
         <div className="relative overflow-hidden sm:rounded-lg">
           <div className="pt-4 overflow-x-auto ">
             <img
-              src={profileImg}
+              src={profileImg160}
               alt={`Image Profile ${employeeData.fullname}`}
               className="mx-auto shadow-md rounded-2xl"
               width={160}
@@ -315,4 +315,4 @@ const DetailEmployee = ({
   );
 };
 
-export default DetailEmployee;
+export default DetailEmployeeCard;

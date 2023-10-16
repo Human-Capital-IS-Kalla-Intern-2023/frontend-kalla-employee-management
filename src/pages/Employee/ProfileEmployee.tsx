@@ -1,4 +1,4 @@
-import DetailEmployee from '../../components/cards/DetailEmployee';
+import DetailEmployeeCard from '../../components/cards/DetailEmployeeCard';
 import { useParams } from 'react-router-dom';
 import { getDetailEmployee, updateEmployee } from '../../api/EmployeeAPI';
 import { useEffect, useState } from 'react';
@@ -56,7 +56,7 @@ const ProfileEmployee = () => {
       {errorMessage && errorTitle && (
         <ErrorAlert title={errorTitle} text={errorMessage} />
       )}
-      <DetailEmployee
+      <DetailEmployeeCard
         employeeData={detailedData}
         onUpdateEmployee={handleEditEmployee}
       />

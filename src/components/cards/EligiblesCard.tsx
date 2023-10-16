@@ -15,7 +15,7 @@ import SetEligiblesModal from '../modals/SetEligiblesModal';
 import CustomToastWithLink from '../../helpers/CustomToastWithLink';
 
 import { ArrowButtonIcon } from '../../assets/icons/icon';
-import profileImg from '../../assets/img/profileImg.webp';
+import profileImg160 from '../../assets/img/profileImg-160.webp';
 import { TrashIcon } from '../../assets/icons/icon';
 
 type EligiblesProps = {
@@ -31,7 +31,7 @@ type PositionType = {
   id_additional_position: string;
 };
 
-const Eligibles = ({ employeeData }: EligiblesProps) => {
+const EligiblesCard = ({ employeeData }: EligiblesProps) => {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
   const { employeeId } = useParams();
@@ -185,9 +185,9 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
               {/* card 1 */}
 
               <img
-                src={profileImg}
+                src={profileImg160}
                 alt={`Image Profile ${employeeData.fullname}`}
-                className="w-40 h-40 mx-auto rounded-2xl"
+                className="w-40 h-40 mx-auto shadow-lg rounded-2xl"
               />
 
               <h2 className="mt-4 text-xl font-semibold text-center sm:text-md md:text-lg lg:text-2xl">
@@ -470,4 +470,4 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
   );
 };
 
-export default Eligibles;
+export default EligiblesCard;

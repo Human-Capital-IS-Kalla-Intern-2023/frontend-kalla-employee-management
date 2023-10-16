@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { PlusIcon, TrashIcon } from '../../assets/icons/icon';
-import profileImg from '../../assets/img/profileImg.webp';
+import profileImg160 from '../../assets/img/profileImg-160.webp';
 import { useNavigate, useParams } from 'react-router-dom';
 import { updateDetailSalaryEmployee } from '../../api/EmployeeAPI';
 import {
@@ -240,7 +240,7 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
               <div className="flex w-full px-2 py-2 pb-2 overflow-hidden rounded-lg shadow-lg bg-slate-50">
                 <div className="flex items-center px-4 pt-4 pb-2">
                   <img
-                    src={profileImg}
+                    src={profileImg160}
                     alt={`Image Profile ${employeeDatas.fullname}`}
                     className="mr-4 w-28 h-28 rounded-2xl"
                   />

@@ -1,4 +1,4 @@
-import Eligibles from '../../components/cards/Eligibles';
+import EligiblesCard from '../../components/cards/EligiblesCard';
 import { useParams } from 'react-router-dom';
 import { getDetailEligiblesEmployee } from '../../api/EmployeeAPI';
 import { useEffect, useState } from 'react';
@@ -48,7 +48,7 @@ const EligiblesEmployee = () => {
       {errorMessage && errorTitle && (
         <ErrorAlert title={errorTitle} text={errorMessage} />
       )}
-      <Eligibles employeeData={detailedData} />
+      <EligiblesCard employeeData={detailedData} />
     </>
   );
 };
