@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { PlusIcon, TrashIcon } from '../../assets/icons/icon';
-import profileImg from '../../assets/img/profileImg.webp';
+import profileImg112 from '../../assets/img/profileImg-112.webp';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { addDetailSalaryEmployee } from '../../api/EmployeeAPI';
 import {
@@ -231,7 +231,7 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
       {errorMessage && errorTitle && (
         <ErrorAlert title={errorTitle} text={errorMessage} />
       )}
-      <section className="h-screen py-3 antialiased sm:py-2 overlay">
+      <section className="h-screen antialiased lg:py-0 sm:py-2 overlay">
         <header className="z-50 flex items-center justify-between px-3 py-5 shadow-lg">
           <h1 className="p-2 ml-2.5 text-lg font-medium border-b-2 border-primary ">
             Add Eligibles Employee
@@ -263,40 +263,38 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
           />
         )}
         <div className="max-w-screen-xl px-4 pt-6 mx-auto">
-          <div className="relative overflow-hidden bg-slate-100 ">
+          <div className="relative overflow-hidden ">
             <div className="px-5 pt-4 pb-4 overflow-x-auto">
               {/* card 1 */}
 
-              <div className="flex w-full px-2 py-2 pb-2 overflow-hidden rounded-lg shadow-lg bg-slate-50">
+              <div className="flex w-full px-2 py-2 pb-2 overflow-hidden rounded-lg shadow-[0_0px_14px_1px_rgba(0,0,0,0.2)] ">
                 <div className="flex items-center px-4 pt-4 pb-2">
                   <img
-                    src={profileImg}
+                    src={profileImg112}
                     alt={`Image Profile ${employeeDatas.fullname}`}
-                    className="mr-4 w-28 h-28 rounded-2xl"
+                    className="mr-4 w-28 h-28 rounded-2xl "
                   />
                   <div className="px-4 pl-0 mb-2">
                     <p className="text-lg font-bold">
                       {employeeDatas.fullname}
                     </p>
-                    <h3 className="mt-4 text-md">NIK</h3>
-                    <p className="font-semibold text-md">{employeeDatas.nip}</p>
+                    <h3 className="mt-4 font-semibold text-md">NIK</h3>
+                    <p className=" text-[15px]">{employeeDatas.nip}</p>
                   </div>
                   <div className="flex flex-row items-start px-6 py-1 pt-12">
                     <div className="px-4 mb-2">
-                      <h3 className="text-md ">Job Grade</h3>
-                      <p className="font-semibold text-md">
-                        {employeeDatas.grade_name}
-                      </p>
+                      <h3 className="font-semibold text-md ">Job Grade</h3>
+                      <p className="text-[15px]">{employeeDatas.grade_name}</p>
                     </div>
                     <div className="px-4 mb-2">
-                      <h3 className="text-md ">Position</h3>
-                      <p className="font-semibold text-md">
+                      <h3 className="font-semibold text-md ">Position</h3>
+                      <p className="text-[15px]">
                         {employeeDatas.position_name}
                       </p>
                     </div>
                     <div className="px-4 mb-2">
-                      <h3 className="text-md ">Company Name</h3>
-                      <p className="font-semibold text-md">
+                      <h3 className="font-semibold text-md ">Company Name</h3>
+                      <p className="text-[15px]">
                         {employeeDatas.company_name}
                       </p>
                     </div>
