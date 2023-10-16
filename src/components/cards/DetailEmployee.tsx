@@ -58,8 +58,8 @@ const DetailEmployee = ({
 
   return (
     <section className="antialiased overlay ">
-      <header className="flex items-center justify-between px-3 py-5 shadow-lg ">
-        <h1 className="p-2 ml-2.5 text-xl font-medium border-b-2 border-primary ">
+      <header className="flex items-center justify-between px-1 lg:px-3 py-5 shadow-lg ">
+        <h1 className="p-2 ml-2.5 text-lg lg:text-xl font-medium border-b-2 border-primary ">
           Personal Data Page
         </h1>
         <div className="pr-3 text-sm font-semibold pl-11 ">
@@ -85,7 +85,7 @@ const DetailEmployee = ({
         />
       )}
 
-      <div className="max-w-screen-xl px-4 pt-6 mx-auto">
+      <div className="max-w-screen-xl px-3 lg:px-4 pt-5 lg:pt-6 mx-auto">
         <div className="relative overflow-hidden sm:rounded-lg">
           <div className="pt-4 overflow-x-auto ">
             <img
@@ -96,7 +96,7 @@ const DetailEmployee = ({
               height={160}
             />
 
-            <h2 className="mt-4 font-semibold text-center text-md sm:text-md md:text-lg lg:text-2xl">
+            <h2 className="mt-4 font-semibold text-center text-md sm:text-md md:text-lg lg:text-xl">
               {employeeData.fullname}
             </h2>
             <p className="pt-2 text-base italic font-medium text-center lg:text-lg">

@@ -231,22 +231,22 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
         <ErrorAlert title={errorTitle} text={errorMessage} />
       )}
       <section className="h-screen py-3 antialiased sm:py-2 overlay">
-        <header className="z-50 flex items-center justify-between px-3 py-5 shadow-lg">
-          <h1 className="p-2 ml-2.5 text-lg font-medium border-b-2 border-primary ">
+        <header className="flex items-center justify-between p-2 pr-8 shadow-lg sm:p-5">
+          <h1 className="p-2 text-base font-medium border-b-2 sm:text-lg md:text-xl lg:text-2xl border-primary">
             Add Eligibles Employee
           </h1>
 
-          <div className="text-sm font-medium ">
+          <div className="flex text-xs font-medium sm:flex-row lg:text-sm">
             <button
               aria-label="Cancel Add Eligibles Employee"
-              className="px-8 py-2 mx-4 text-base text-white duration-300 border border-transparent rounded-md bg-gray hover:bg-white hover:border-black hover:text-black"
+              className="px-1 py-2 mr-2 text-white duration-300 bg-red-800 rounded-md lg:px-4 lg:py-2 lg:mr-4 hover:bg-gray lg:hover:scale-105"
               onClick={handleCancelButton}
             >
               CANCEL
             </button>
             <button
               aria-label="Save Data"
-              className="px-8 py-2 text-base duration-300 border border-transparent rounded-md text-pureBlack bg-secondary hover:bg-white hover:border-black hover:text-black"
+              className="px-2 lg:px-6 py-2 text-sm lg:text-base duration-300 border border-transparent rounded-md text-pureBlack bg-secondary hover:bg-white hover:border-black hover:text-black"
               onClick={saveEmployeeDataToServer}
             >
               SAVE
@@ -266,8 +266,8 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
             <div className="px-5 pt-4 pb-4 overflow-x-auto">
               {/* card 1 */}
 
-              <div className="flex w-full px-2 py-2 pb-2 overflow-hidden rounded-lg shadow-lg bg-slate-50">
-                <div className="flex items-center px-4 pt-4 pb-2">
+              <div className="flex flex-wrap w-full lg:w-full px-2 py-2 pb-2 overflow-x-auto rounded-lg shadow-lg bg-slate-50">
+                <div className="flex items-center px-4 pt-4 pb-2 lg:w-full sm:w-1/2">
                   <img
                     src={profileImg}
                     alt={`Image Profile ${employeeDatas.fullname}`}
@@ -281,7 +281,7 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
                     <p className="font-semibold text-md">{employeeDatas.nip}</p>
                   </div>
                   <div className="flex flex-row items-start px-6 py-1 pt-12">
-                    <div className="px-4 mb-2">
+                    <div className="px-5 lg:px-4 mb-2">
                       <h3 className="text-md ">Job Grade</h3>
                       <p className="font-semibold text-md">
                         {employeeDatas.grade_name}
@@ -305,8 +305,8 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
               {/* card 1 */}
 
               {/* card 2*/}
-              <div className="flex flex-row pt-3">
-                <div className="w-4/6 my-6 bg-white rounded-t-lg shadow-xl">
+              <div className="flex flex-col sm:flex-row pt-3">
+                <div className="flex flex-col w-full sm:w-4/6 my-6 bg-white rounded-t-lg shadow-xl">
                   <div className="rounded-t-lg bg-primary">
                     <div className="w-full px-4 py-2 text-left border-b-2">
                       <h2 className="text-lg font-medium text-white">
@@ -315,19 +315,19 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
                     </div>
                   </div>
                   {employeeDatas.components.length !== 0 ? (
-                    <div className="flex flex-wrap w-full">
+                    <div className="flex xs:flex-col flex-wrap w-full">
                       {employeeDatas.components.map(
                         (component: any, index: any) => (
                           <div
                             key={index}
-                            className={`flex items-center w-1/2 px-4 py-4 ${
+                            className={`flex items-center w-full lg:w-1/2 px-4 py-4 ${
                               index === employeeDatas.components.length - 1 &&
                               employeeDatas.components.length % 2 !== 0
                                 ? ''
                                 : 'border-b'
                             }`}
                           >
-                            <div className="w-2/3">
+                            <div className="w-full lg:w-2/3">
                               <p className="text-base">
                                 {component.component_name}
                               </p>
@@ -365,7 +365,7 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
                   )}
                 </div>
 
-                <div className="flex-grow py-6 pl-4">
+                <div className="flex-grow py-6 lg:pl-4">
                   <div className="rounded-lg bg-primary">
                     <div className="flex justify-between w-full px-4 pt-2 text-left border-b-2 rounded-t-lg flew-row">
                       <h2 className="flex-row text-lg font-medium text-white">
@@ -407,8 +407,8 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
                 </div>
 
                 {isModalOpen && (
-                  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 ">
-                    <div className="w-2/5 bg-white rounded-md shadow-md">
+                  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="w-5/6 lg:w-2/5 bg-white rounded-md shadow-md">
                       <header className="flex items-center justify-between p-4">
                         <h2 className="p-2 text-lg font-medium border-b-2 border-primary ">
                           Add Bank Data
@@ -499,14 +499,14 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
                       <div className="flex justify-end w-full p-4 rounded-t-none shadow-inner rounded-b-md border-gray bg-slate-200">
                         <button
                           aria-label="Close Modal"
-                          className="px-4 py-2 mx-2 text-white duration-300 bg-red-800 rounded-md hover:bg-gray"
+                          className="text-sm lg:text-base px-4 py-2 mx-2 text-white duration-300 bg-red-800 rounded-md hover:bg-gray"
                           onClick={handleCloseModal}
                         >
                           CANCEL
                         </button>
                         <button
                           aria-label="Submit Bank Data"
-                          className="px-4 py-2 text-white duration-300 rounded-md bg-primary hover:bg-gray"
+                          className="text-sm lg:text-base px-4 py-2 text-white duration-300 rounded-md bg-primary hover:bg-gray"
                           onClick={handleAddBank}
                         >
                           ADD

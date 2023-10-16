@@ -148,7 +148,7 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
                   />
 
                   <button
-                    className="absolute inset-y-0 right-0 flex items-center px-4 duration-300 border rounded-none rounded-r-lg bg-secondary hover:bg-gray hover:text-white hover:border-gray"
+                    className="absolute inset-y-0 right-0 flex items-center px-4 duration-300 border rounded-none rounded-r-lg "
                     onClick={handleSearch}
                     type="submit"
                     aria-label="Search Data"
