@@ -6,9 +6,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import { ThreeDotIcon } from '../../assets/icons/icon';
 import { DetailIcon, EditIcon } from '../../assets/icons/icon';
+import DeleteModal from '../modals/DeleteModal';
 import {
   getDetailEmployee,
   getEditSalaryEmployee,
+  deleteEligiblesEmployee,
 } from '../../api/EmployeeAPI';
 
 import SetEligiblesModal from '../modals/SetEligiblesModal';
@@ -17,6 +19,7 @@ import CustomToastWithLink from '../../helpers/CustomToastWithLink';
 import { ArrowButtonIcon } from '../../assets/icons/icon';
 import profileImg160 from '../../assets/img/profileImg-160.webp';
 import { TrashIcon } from '../../assets/icons/icon';
+import { getDetailEligiblesEmployee } from '../../api/EmployeeAPI';
 
 type EligiblesProps = {
   employeeData: any;
@@ -29,6 +32,7 @@ type PositionType = {
   division_name: string;
   section_name: string;
   id_additional_position: string;
+  employee_detail_id: any;
 };
 
 const EligiblesCard = ({ employeeData }: EligiblesProps) => {
@@ -46,6 +50,23 @@ const EligiblesCard = ({ employeeData }: EligiblesProps) => {
   const [activeDropdown, setActiveDropdown] = useState<number | null | boolean>(
     null
   );
+
+  const fetchDetailEmployee = async (employeeId: any, positionId: any) => {
+    try {
+      await getDetailEligiblesEmployee(employeeId, positionId);
+    } catch (error: any) {
+      console.error('Error fetch detail employee:', error);
+    }
+  };
+
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [itemToDeleteId, setItemToDeleteId] = useState(null);
+
+  const handleDeleteEligibles = (employeeDetailId: any) => {
+    setIsDeleteModalOpen(true);
+    setItemToDeleteId(employeeDetailId);
+  };
+
   const toggleDropdown = (idOrNo: number) => {
     setActiveDropdown((prevIdOrNo) => (prevIdOrNo === idOrNo ? null : idOrNo));
   };
@@ -107,6 +128,21 @@ const EligiblesCard = ({ employeeData }: EligiblesProps) => {
     }
   };
 
+  const confirmDelete = async () => {
+    try {
+      setIsLoading(true);
+      await deleteEligiblesEmployee(itemToDeleteId);
+      fetchDetailEmployee(employeeId, positionId);
+      toast.success('Successfully deleted eligibles employee');
+    } catch (error) {
+      console.error('Error deleting:', error);
+      toast.error('Error deleted eligibles employee');
+    } finally {
+      setIsLoading(false);
+      setIsDeleteModalOpen(false);
+    }
+  };
+
   useEffect(() => {
     if (location.pathname.endsWith('/set')) {
       handleOpenModal();
@@ -114,6 +150,7 @@ const EligiblesCard = ({ employeeData }: EligiblesProps) => {
   }, [location.pathname]);
 
   useEffect(() => {
+    fetchDetailEmployee(employeeId, positionId);
     fetchSecondaryPositionEmployee(employeeId);
   }, [employeeId, positionId]);
 
@@ -426,14 +463,25 @@ const EligiblesCard = ({ employeeData }: EligiblesProps) => {
                                       </li>
 
                                       <li>
-                                        <Link
-                                          to={`delete`}
-                                          type="button"
+                                        <DeleteModal
+                                          isOpen={isDeleteModalOpen}
+                                          onClose={() =>
+                                            setIsDeleteModalOpen(false)
+                                          }
+                                          onDelete={confirmDelete}
+                                        />
+
+                                        <button
+                                          onClick={() =>
+                                            handleDeleteEligibles(
+                                              position.employee_detail_id
+                                            )
+                                          } // Replace employeeData.id with the actual ID of the item
                                           className="flex items-center w-full px-4 py-[9px] text-red-500 duration-200 hover: hover:text-white hover:bg-red-800"
                                         >
                                           <TrashIcon className="w-4 h-4 mr-2" />
                                           Delete
-                                        </Link>
+                                        </button>
                                       </li>
                                     </ul>
                                   </div>
