@@ -264,13 +264,14 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                         </label>
                       </div>
                     ) : (
-                      <div className="flex flex-col items-center w-full px-4 py-3">
+                      <div className="flex items-center w-full px-4 py-3">
                         <div className="w-5/12 lg:w-2/12">
                           <p className="text-sm lg:text-base">Bank Account</p>
                         </div>
-                        <label className="relative inline-flex items-center w-7/12 cursor-pointer">
-                          <div className="px-2 py-1 rounded-md bg-secondary">
-                            : No Bank Data
+                        <label className="relative inline-flex items-center lg:w-8/12 cursor-pointer">
+                          :
+                          <div className="ml-1 p-1 rounded-md bg-secondary">
+                            No Bank Data
                           </div>
                         </label>
                       </div>
