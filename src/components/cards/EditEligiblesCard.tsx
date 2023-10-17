@@ -202,22 +202,22 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
         <ErrorAlert title={errorTitle} text={errorMessage} />
       )}
       <section className="h-screen py-3 antialiased sm:py-2 overlay ">
-        <header className="z-50 flex items-center justify-between px-3 py-5 shadow-lg">
-          <h1 className="p-2 ml-2.5 text-lg font-medium border-b-2 border-primary ">
+        <header className="flex items-center justify-between p-2 pr-8 shadow-lg sm:p-5">
+          <h1 className="p-2 text-base font-medium border-b-2 sm:text-md md:text-lg lg:text-xl border-primary">
             Edit Eligibles Employee
           </h1>
 
-          <div className="text-sm font-medium ">
+          <div className="flex text-xs font-medium sm:flex-row lg:text-sm">
             <button
               aria-label="Cancel"
-              className="px-8 py-2 mx-4 text-base text-white duration-300 border border-transparent rounded-md bg-gray hover:bg-white hover:border-black hover:text-black"
+              className="px-1 py-2 mr-2 text-white duration-300 bg-red-800 rounded-md lg:px-4 lg:py-2 lg:mr-4 hover:bg-gray lg:hover:scale-105"
               onClick={handleCancelButton}
             >
               CANCEL
             </button>
             <button
               aria-label="Save"
-              className="px-8 py-2 text-base duration-300 border border-transparent rounded-md text-pureBlack bg-secondary hover:bg-white hover:border-black hover:text-black"
+              className="px-2 py-2 text-sm duration-300 border border-transparent rounded-md lg:px-6 lg:text-base text-pureBlack bg-secondary hover:bg-amber-400 hover:border-black hover:text-black"
               onClick={saveEmployeeDataToServer}
             >
               UPDATE
@@ -233,11 +233,11 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
           />
         )}
         <div className="max-w-screen-xl px-4 pt-6 mx-auto">
-          <div className="relative overflow-hidden bg-slate-100 ">
+          <div className="flex w-full px-2 py-2 pb-2 overflow-x-auto rounded-lg shadow-lg bg-slate-50">
             <div className="px-5 pt-4 pb-4 overflow-x-auto">
               {/* card 1 */}
 
-              <div className="flex w-full px-2 py-2 pb-2 overflow-hidden rounded-lg shadow-lg bg-slate-50">
+              <div className="flex w-full px-2 py-2 pb-2 overflow-x-auto rounded-lg shadow-lg bg-slate-50">
                 <div className="flex items-center px-4 pt-4 pb-2">
                   <img
                     src={profileImg160}
@@ -276,8 +276,8 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
               {/* card 1 */}
 
               {/* card 2*/}
-              <div className="flex flex-row pt-3">
-                <div className="w-4/6 my-6 bg-white rounded-t-lg shadow-xl">
+              <div className="flex flex-col pt-3 sm:flex-row">
+                <div className="flex flex-col w-full my-6 bg-white rounded-t-lg shadow-xl sm:w-4/6">
                   <div className="rounded-t-lg bg-primary">
                     <div className="w-full px-4 py-2 text-left border-b-2">
                       <h2 className="text-lg font-medium text-white">
@@ -287,14 +287,14 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
                   </div>
                   {employeeDatas?.salary_detail?.length !== 0 &&
                   employeeDatas?.salary_detail !== null ? (
-                    <div className="flex flex-wrap w-full">
+                    <div className="flex flex-wrap w-full xs:flex-col">
                       {employeeDatas?.salary_detail?.map(
                         (salary: any, index: any) => (
                           <div
                             key={index}
-                            className="flex items-center w-1/2 px-4 py-4"
+                            className="flex items-center w-full px-4 py-4 lg:w-1/2"
                           >
-                            <div className="w-2/3">
+                            <div className="w-full lg:w-2/3">
                               <p className="text-base">
                                 {salary.component_name}
                               </p>
@@ -354,7 +354,7 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
                   )}
                 </div>
 
-                <div className="flex-grow py-6 pl-4">
+                <div className="flex-grow py-3 lg:py-6 lg:pl-4">
                   <div className="rounded-lg bg-primary">
                     <div className="flex justify-between w-full px-4 pt-2 text-left border-b-2 rounded-t-lg flew-row">
                       <h2 className="flex-row text-lg font-medium text-white">
@@ -368,7 +368,7 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
                             onClick={handleOpenModalAddBank}
                           >
                             Add
-                            <PlusIcon className="w-3 h-3 ml-1" />
+                            <PlusIcon className="w-3 h-3 pb-1 ml-1 lg:pb-0" />
                           </button>
                         </div>
                       </div>

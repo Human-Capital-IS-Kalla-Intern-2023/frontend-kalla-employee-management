@@ -19,7 +19,6 @@ import CustomToastWithLink from '../../helpers/CustomToastWithLink';
 import { ArrowButtonIcon } from '../../assets/icons/icon';
 import profileImg160 from '../../assets/img/profileImg-160.webp';
 import { TrashIcon } from '../../assets/icons/icon';
-import { getDetailEligiblesEmployee } from '../../api/EmployeeAPI';
 
 type EligiblesProps = {
   employeeData: any;
@@ -50,14 +49,6 @@ const EligiblesCard = ({ employeeData }: EligiblesProps) => {
   const [activeDropdown, setActiveDropdown] = useState<number | null | boolean>(
     null
   );
-
-  const fetchDetailEmployee = async (employeeId: any, positionId: any) => {
-    try {
-      await getDetailEligiblesEmployee(employeeId, positionId);
-    } catch (error: any) {
-      console.error('Error fetch detail employee:', error);
-    }
-  };
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [itemToDeleteId, setItemToDeleteId] = useState(null);
@@ -132,8 +123,11 @@ const EligiblesCard = ({ employeeData }: EligiblesProps) => {
     try {
       setIsLoading(true);
       await deleteEligiblesEmployee(itemToDeleteId);
-      fetchDetailEmployee(employeeId, positionId);
+
       toast.success('Successfully deleted eligibles employee');
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
     } catch (error) {
       console.error('Error deleting:', error);
       toast.error('Error deleted eligibles employee');
@@ -150,7 +144,6 @@ const EligiblesCard = ({ employeeData }: EligiblesProps) => {
   }, [location.pathname]);
 
   useEffect(() => {
-    fetchDetailEmployee(employeeId, positionId);
     fetchSecondaryPositionEmployee(employeeId);
   }, [employeeId, positionId]);
 
