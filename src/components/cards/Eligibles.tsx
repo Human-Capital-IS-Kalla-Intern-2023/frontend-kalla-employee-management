@@ -139,7 +139,7 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                   onClick={handleManageClick}
                   className={`flex items-center justify-center px-4 py-3 text-[17px] font-medium duration-200 ${
                     isDropdownVisible ? 'rounded-t-lg' : 'rounded-lg'
-                  } text-pureBlack bg-secondary focus:outline-none bg-primary-600 hover:bg-gray hover:text-white `}
+                  } text-pureBlack bg-secondary focus:outline-none bg-primary-600 hover:bg-yellow hover:scale-105 `}
                 >
                   Manage
                   <ArrowButtonIcon className="h-3.5 w-3.5 ml-1" />
@@ -313,7 +313,7 @@ const Eligibles = ({ employeeData }: EligiblesProps) => {
                               className="px-4 py-2 text-left align-top"
                             >
                               <div>
-                                <h2 className="text-base ">
+                                <h2 className="text-base">
                                   {item.component_name}
                                 </h2>
                                 <span className="text-[13px]">

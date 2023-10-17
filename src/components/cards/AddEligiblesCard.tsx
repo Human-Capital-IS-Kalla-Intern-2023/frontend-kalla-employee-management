@@ -239,7 +239,7 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
           <div className="flex text-xs font-medium sm:flex-row lg:text-sm">
             <button
               aria-label="Cancel Add Eligibles Employee"
-              className="px-1 py-2 mr-2 text-white duration-300 bg-red-800 rounded-md lg:px-4 lg:py-2 lg:mr-4 hover:bg-gray lg:hover:scale-105"
+              className="px-1 py-2 mr-2 text-white duration-300 bg-red-800 rounded-md lg:px-4 lg:py-2 lg:mr-4 hover:bg-red-700 lg:hover:scale-105"
               onClick={handleCancelButton}
             >
               CANCEL
@@ -499,7 +499,7 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
                       <div className="flex justify-end w-full p-4 rounded-t-none shadow-inner rounded-b-md border-gray bg-slate-200">
                         <button
                           aria-label="Close Modal"
-                          className="text-sm lg:text-base px-4 py-2 mx-2 text-white duration-300 bg-red-800 rounded-md hover:bg-gray"
+                          className="text-sm lg:text-base px-4 py-2 mx-2 text-white duration-300 bg-red-800 rounded-md hover:bg-red-700"
                           onClick={handleCloseModal}
                         >
                           CANCEL

@@ -65,7 +65,7 @@ const DetailEmployee = ({
         <div className="pr-3 text-sm font-semibold pl-11 ">
           <Link to={`edit`} type="button">
             <button
-              className="px-6 py-2 text-base duration-300 font-medium  text-[17px] rounded-md text-pureBlack bg-secondary hover:bg-gray hover:text-white lg:hover:scale-105"
+              className="px-6 py-2 text-base duration-300 font-medium  text-[17px] rounded-md text-pureBlack bg-secondary hover:bg-yellow lg:hover:scale-105"
               onClick={handleEdit}
               aria-label="Edit"
             >

@@ -121,7 +121,7 @@ const SetEligiblesModal = ({ onClose, allPositionOption }: any) => {
           <div className="flex justify-end w-full p-4 rounded-t-none shadow-inner rounded-b-md border-gray bg-slate-200">
             <button
               aria-label="Cancel"
-              className="px-4 py-2 mx-2 text-sm lg:text-base text-white duration-300 bg-red-800 rounded-md hover:bg-gray"
+              className="px-4 py-2 mx-2 text-sm lg:text-base text-white duration-300 bg-red-800 rounded-md hover:bg-red-600"
               onClick={onClose}
             >
               CANCEL
@@ -131,7 +131,7 @@ const SetEligiblesModal = ({ onClose, allPositionOption }: any) => {
               className={`px-4 py-2 text-sm lg:text-base text-white duration-300 rounded-md ${
                 !selectedPosition
                   ? 'bg-gray text-slate-400'
-                  : 'bg-primary hover:bg-gray'
+                  : 'bg-primary hover:bg-green-700'
               }`}
               disabled={!selectedPosition}
               onClick={() => onAddEligibles()}
