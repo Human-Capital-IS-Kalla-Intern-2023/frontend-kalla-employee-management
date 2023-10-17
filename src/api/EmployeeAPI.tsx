@@ -261,18 +261,44 @@ const updateDetailSalaryEmployee = async (
       Authorization: `Bearer ${token}`,
     };
 
-    const responseAddDetailSalaryEmployee = await RequestApi(
+    const responseUpdateDetailSalaryEmployee = await RequestApi(
       'PUT',
       `eligibles/${employeeId}`,
       employeeSalaryData,
       headerToken,
-      'menambahkan detail salary eligibles employee'
+      'mengupdate detail salary eligibles employee'
     );
 
-    return responseAddDetailSalaryEmployee;
+    return responseUpdateDetailSalaryEmployee;
   } catch (error) {
     console.error(
-      'Terjadi kesalahan saat menambahkan data salary eligbles employee:',
+      'Terjadi kesalahan saat mengupdate data salary eligbles employee:',
+      error
+    );
+    throw error;
+  }
+};
+
+const deleteEligiblesEmployee = async (employeeDetailId: any) => {
+  try {
+    const token = TokenHelper();
+
+    const headerToken = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const responseDelateDetailSalaryEmployee = await RequestApi(
+      'DELETE',
+      `eligibles/${employeeDetailId}`,
+      null,
+      headerToken,
+      'mendelete detail salary eligibles employee'
+    );
+
+    return responseDelateDetailSalaryEmployee;
+  } catch (error) {
+    console.error(
+      'Terjadi kesalahan saat mendelete data salary eligbles employee:',
       error
     );
     throw error;
@@ -291,4 +317,5 @@ export {
   addDetailSalaryEmployee,
   getEditSalaryEmployee,
   updateDetailSalaryEmployee,
+  deleteEligiblesEmployee,
 };
