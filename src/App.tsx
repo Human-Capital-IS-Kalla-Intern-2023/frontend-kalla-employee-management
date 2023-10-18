@@ -13,11 +13,11 @@ import Reports from './pages/Reports/Reports';
 
 // Employee Page
 import Employee from './pages/Employee/Employee';
-import ProfileEmployee from './pages/Employee/ProfileEmployee';
-import EligiblesEmployee from './pages/Employee/EligiblesEmployee';
-import SetEligiblesCard from './components/modals/SetEligiblesModal';
-import EditEligibles from './pages/Employee/EditEligibles';
-import AddEligibles from './pages/Employee/AddEligibles';
+import DetailEmployee from './pages/Employee/DetailEmployee';
+import EligiblesEmployee from './pages/Employee/Eligibles/EligiblesEmployee';
+import SetEligiblesCard from './components/modals/Eligibles/SetEligiblesModal';
+import EditEligibles from './pages/Employee/Eligibles/EditEligibles';
+import AddEligibles from './pages/Employee/Eligibles/AddEligibles';
 
 // Company Page
 import Company from './pages/Company/Company';
@@ -26,16 +26,16 @@ import Division from './pages/Company/Division';
 import Section from './pages/Company/Section';
 import Location from './pages/Company/Location';
 import Position from './pages/Position/Position';
-import Grade from './pages/Salary/Grade';
+import Grade from './pages/Company/Grade';
 
 // Salary Page
 import Compensation from './pages/Salary/Compensation/Compensation';
 import CompensationDetail from './pages/Salary/Compensation/CompensationDetail';
 import CompensationAddCard from './components/cards/Compensation/CompensationAddCard';
-import MasterSalary from './pages/Salary/MasterSalary';
-import ConfigureSalary from './pages/Salary/ConfigureSalary';
-import AddConfigureSalary from './pages/Salary/AddConfigureSalary';
-import EditPropertySalaryCard from './components/cards/EditPropertySalaryCard';
+import MasterSalary from './pages/Salary/Master/MasterSalary';
+import ConfigureSalary from './pages/Salary/Configure/ConfigureSalary';
+import AddConfigureSalary from './pages/Salary/Configure/AddConfigureSalary';
+import EditPropertySalaryCard from './components/cards/Configure/EditPropertySalaryCard';
 
 // Setting Page
 import Setting from './pages/Profile/Setting';
@@ -79,7 +79,7 @@ const App = () => {
             path="/employee/detail/personal-data/:employeeId/:positionId"
             element={
               <EmployeeDetailLayout>
-                <ProfileEmployee />
+                <DetailEmployee />
               </EmployeeDetailLayout>
             }
           >

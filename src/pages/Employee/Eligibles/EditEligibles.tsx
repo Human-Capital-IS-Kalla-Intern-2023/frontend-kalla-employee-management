@@ -1,15 +1,18 @@
-import AddEligiblesCard from '../../components/cards/AddEligiblesCard';
+import EditEligiblesCard from '../../../components/cards/Eligibles/EditEligiblesCard';
 import { useParams } from 'react-router-dom';
-import { getDetailSalaryEmployee } from '../../api/EmployeeAPI';
+import { getEditSalaryEmployee } from '../../../api/EmployeeAPI';
 import { useEffect, useState } from 'react';
-import { SuccessAlert, ErrorAlert } from '../../components/alerts/CustomAlert';
+import {
+  SuccessAlert,
+  ErrorAlert,
+} from '../../../components/alerts/CustomAlert';
 import ReactLoading from 'react-loading';
 
-const AddEligibles = () => {
+const EditEligibles = () => {
   const { employeeId } = useParams();
   const { positionId } = useParams();
 
-  const [detailedData, setDetailedData] = useState<string | null>(null);
+  const [detailedData, setDetailedData] = useState<any | null>(null);
 
   // Alert State
   const [successMessage] = useState<string | null>(null);
@@ -19,15 +22,13 @@ const AddEligibles = () => {
 
   const fetchDetailEmployee = async (employeeId: any, positionId: any) => {
     try {
-      const responseData = await getDetailSalaryEmployee(
-        employeeId,
-        positionId
-      );
+      const responseData = await getEditSalaryEmployee(employeeId, positionId);
       setDetailedData(responseData.data);
     } catch (error: any) {
-      console.error('Error fetch detail employee:', error);
+      console.error('Error fetch detail edit employee:', error);
     }
   };
+
   useEffect(() => {
     fetchDetailEmployee(employeeId, positionId);
   }, [employeeId, positionId]);
@@ -39,18 +40,17 @@ const AddEligibles = () => {
       </div>
     );
   }
-
   return (
     <>
       {successMessage && successTitle && (
-        <SuccessAlert title={successTitle} text={successMessage} />
+        <SuccessAlert title={successTitle} timer={3000} text={successMessage} />
       )}
       {errorMessage && errorTitle && (
         <ErrorAlert title={errorTitle} text={errorMessage} />
       )}
-      <AddEligiblesCard employeeData={detailedData} />
+      <EditEligiblesCard employeeData={detailedData} />
     </>
   );
 };
 
-export default AddEligibles;
+export default EditEligibles;

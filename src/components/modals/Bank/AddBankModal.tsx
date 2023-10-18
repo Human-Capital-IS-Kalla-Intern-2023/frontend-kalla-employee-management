@@ -1,4 +1,4 @@
-import { CloseButtonIcon } from '../../assets/icons/icon';
+import { CloseButtonIcon } from '../../../assets/icons/icon';
 
 type ModalProps = {
   isModalOpen: boolean;

@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import Sidebar from './sidebar/SideBar';
+import Sidebar from './Main Sidebar/SideBar';
 import Cookies from 'js-cookie';
 
 function MainLayout({ children }: any) {

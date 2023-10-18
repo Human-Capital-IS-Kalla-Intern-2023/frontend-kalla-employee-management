@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import profileImg160 from '../../assets/img/profileImg-160.webp';
+import profileImg160 from '../../../assets/img/profileImg-160.webp';
 // import { useNavigate } from 'react-router-dom';
 import ReactLoading from 'react-loading';
-import EditModal from '../modals/EditModal';
-import { inputField } from '../../assets/data/EmployeeData';
+import EditModal from '../../modals/EditModal';
+import { inputField } from '../../../assets/data/EmployeeData';
 import { Link, useNavigate } from 'react-router-dom';
 
 type DetailEmployeeProps = {

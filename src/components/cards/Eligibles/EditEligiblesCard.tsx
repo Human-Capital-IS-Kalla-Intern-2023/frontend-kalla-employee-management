@@ -1,16 +1,16 @@
 import { useState, useEffect, useMemo } from 'react';
-import { PlusIcon, TrashIcon } from '../../assets/icons/icon';
-import profileImg160 from '../../assets/img/profileImg-160.webp';
+import { PlusIcon, TrashIcon } from '../../../assets/icons/icon';
+import profileImg160 from '../../../assets/img/profileImg-160.webp';
 import { useNavigate, useParams } from 'react-router-dom';
-import { updateDetailSalaryEmployee } from '../../api/EmployeeAPI';
+import { updateDetailSalaryEmployee } from '../../../api/EmployeeAPI';
 import {
   SuccessAlert,
   ErrorAlert,
   DeleteConfimationAlert,
   WarningAlert,
-} from '../../components/alerts/CustomAlert';
-import { ResetAlert } from '../../helpers/ResetAlert';
-import AddBankModal from '../modals/AddBankModal';
+} from '../../alerts/CustomAlert';
+import { ResetAlert } from '../../../helpers/ResetAlert';
+import AddBankModal from '../../modals/Bank/AddBankModal';
 
 type EligiblesProps = {
   employeeData: any;

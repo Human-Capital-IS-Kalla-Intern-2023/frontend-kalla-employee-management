@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getDetailSalaryEmployee } from '../../api/EmployeeAPI';
+import { getDetailSalaryEmployee } from '../../../api/EmployeeAPI';
 import ReactLoading from 'react-loading';
-import CustomToastWithLink from '../../helpers/CustomToastWithLink';
+import CustomToastWithLink from '../../alerts/CustomToastWithLink';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const SetEligiblesModal = ({ onClose, allPositionOption }: any) => {

@@ -4,21 +4,21 @@ import { Link, useLocation } from 'react-router-dom';
 import ReactLoading from 'react-loading';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
-import { ThreeDotIcon } from '../../assets/icons/icon';
-import { DetailIcon, EditIcon } from '../../assets/icons/icon';
-import DeleteModal from '../modals/DeleteModal';
+import { ThreeDotIcon } from '../../../assets/icons/icon';
+import { DetailIcon, EditIcon } from '../../../assets/icons/icon';
+import DeleteModal from '../../modals/DeleteModal';
 import {
   getDetailEmployee,
   getEditSalaryEmployee,
   deleteEligiblesEmployee,
-} from '../../api/EmployeeAPI';
+} from '../../../api/EmployeeAPI';
 
-import SetEligiblesModal from '../modals/SetEligiblesModal';
-import CustomToastWithLink from '../../helpers/CustomToastWithLink';
+import SetEligiblesModal from '../../modals/Eligibles/SetEligiblesModal';
+import CustomToastWithLink from '../../alerts/CustomToastWithLink';
 
-import { ArrowButtonIcon } from '../../assets/icons/icon';
-import profileImg160 from '../../assets/img/profileImg-160.webp';
-import { TrashIcon } from '../../assets/icons/icon';
+import { ArrowButtonIcon } from '../../../assets/icons/icon';
+import profileImg160 from '../../../assets/img/profileImg-160.webp';
+import { TrashIcon } from '../../../assets/icons/icon';
 
 type EligiblesProps = {
   employeeData: any;
