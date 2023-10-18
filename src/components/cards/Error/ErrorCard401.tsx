@@ -2,7 +2,7 @@
 import { NavLink } from 'react-router-dom';
 
 // Import Assets
-import Unauthorized from '../../../assets/img/UnauthorizedImage.svg';
+import Unauthorized from '../../../assets/img/error/UnauthorizedImage.svg';
 
 const ErrorCard401 = () => {
   return (

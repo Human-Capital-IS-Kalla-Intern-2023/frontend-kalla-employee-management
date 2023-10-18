@@ -17,7 +17,7 @@ import SetEligiblesModal from '../../modals/Eligibles/SetEligiblesModal';
 import CustomToastWithLink from '../../alerts/CustomToastWithLink';
 
 import { ArrowButtonIcon } from '../../../assets/icons/icon';
-import profileImg160 from '../../../assets/img/profileImg-160.webp';
+import profileImg160 from '../../../assets/img/profile/profileImg-160.webp';
 import { TrashIcon } from '../../../assets/icons/icon';
 
 type EligiblesProps = {

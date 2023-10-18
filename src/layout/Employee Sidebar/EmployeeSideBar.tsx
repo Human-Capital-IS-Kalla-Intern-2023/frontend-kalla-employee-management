@@ -7,13 +7,13 @@ import { NavLink, useLocation, Link } from 'react-router-dom';
 import ButtonLogout from '../../components/buttons/LogoutButton';
 
 // Assets Import
-// import logoKalla from '../../assets/img/kalla-logo-full.webp';
-import logo232 from '../../assets/img/logo-232.webp';
-import logo464 from '../../assets/img/logo-464.webp';
-import logo300 from '../../assets/img/logo-300.webp';
-import logo660 from '../../assets/img/logo-660.webp';
-import logo1280 from '../../assets/img/logo-1280.webp';
-import logo3000 from '../../assets/img/logo-3000.webp';
+// import logoKalla from '../../assets/img/logo/kalla-logo-full.webp';
+import logo232 from '../../assets/img/logo/logo-232.webp';
+import logo464 from '../../assets/img/logo/logo-464.webp';
+import logo300 from '../../assets/img/logo/logo-300.webp';
+import logo660 from '../../assets/img/logo/logo-660.webp';
+import logo1280 from '../../assets/img/logo/logo-1280.webp';
+import logo3000 from '../../assets/img/logo/logo-3000.webp';
 
 import {
   CloseSidebarIcon,

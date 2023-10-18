@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { PlusIcon, TrashIcon } from '../../../assets/icons/icon';
-import profileImg112 from '../../../assets/img/profileImg-112.webp';
+import profileImg112 from '../../../assets/img/profile/profileImg-112.webp';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { addDetailSalaryEmployee } from '../../../api/EmployeeAPI';
 import {
