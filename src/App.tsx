@@ -12,12 +12,12 @@ import Dashboard from './pages/dashboard/Dashboard';
 import Reports from './pages/reports/Reports';
 
 // Employee Page
-import Employee from './pages/Employee/Employee';
-import DetailEmployee from './pages/Employee/DetailEmployee';
-import EligiblesEmployee from './pages/Employee/eligibles/EligiblesEmployee';
+import Employee from './pages/employee/Employee';
+import DetailEmployee from './pages/employee/DetailEmployee';
+import EligiblesEmployee from './pages/employee/eligibles/EligiblesEmployee';
 import SetEligiblesCard from './components/modals/eligibles/SetEligiblesModal';
-import EditEligibles from './pages/Employee/eligibles/EditEligibles';
-import AddEligibles from './pages/Employee/eligibles/AddEligibles';
+import EditEligibles from './pages/employee/eligibles/EditEligibles';
+import AddEligibles from './pages/employee/eligibles/AddEligibles';
 
 // Company Page
 import Company from './pages/company/Company';
@@ -29,12 +29,12 @@ import Position from './pages/position/Position';
 import Grade from './pages/company/Grade';
 
 // Salary Page
-import Compensation from './pages/Salary/compensation/Compensation';
-import CompensationDetail from './pages/Salary/compensation/CompensationDetail';
+import Compensation from './pages/salary/compensation/Compensation';
+import CompensationDetail from './pages/salary/compensation/CompensationDetail';
 import CompensationAddCard from './components/cards/compensation/CompensationAddCard';
-import MasterSalary from './pages/Salary/master/MasterSalary';
-import ConfigureSalary from './pages/Salary/configure/ConfigureSalary';
-import AddConfigureSalary from './pages/Salary/configure/AddConfigureSalary';
+import MasterSalary from './pages/salary/master/MasterSalary';
+import ConfigureSalary from './pages/salary/configure/ConfigureSalary';
+import AddConfigureSalary from './pages/salary/configure/AddConfigureSalary';
 import EditPropertySalaryCard from './components/cards/configure/EditPropertySalaryCard';
 
 // Setting Page
