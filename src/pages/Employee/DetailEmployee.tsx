@@ -1,4 +1,4 @@
-import DetailEmployeeCard from '../../components/cards/Employee/DetailEmployeeCard';
+import DetailEmployeeCard from '../../components/cards/employee/DetailEmployeeCard';
 import { useParams } from 'react-router-dom';
 import { getDetailEmployee, updateEmployee } from '../../api/EmployeeAPI';
 import { useEffect, useState } from 'react';

@@ -1,4 +1,4 @@
-import CompensationCard from '../../../components/cards/Compensation/CompensationCard';
+import CompensationCard from '../../../components/cards/compensation/CompensationCard';
 const Compensation = () => {
   return (
     <>

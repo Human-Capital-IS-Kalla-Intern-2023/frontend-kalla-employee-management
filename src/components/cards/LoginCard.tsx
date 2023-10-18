@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import LoginButton from '../buttons/LoginButton';
 
 //Import Assets
-import LoginImg from '../../assets/img/login-img.webp';
+import LoginImg from '../../assets/img/logo/login-img.webp';
 import { OpenEyeIcon, CloseEyeIcon } from '../../assets/icons/icon';
 
 const LoginCard = () => {

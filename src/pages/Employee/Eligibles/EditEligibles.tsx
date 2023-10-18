@@ -1,4 +1,4 @@
-import EditEligiblesCard from '../../../components/cards/Eligibles/EditEligiblesCard';
+import EditEligiblesCard from '../../../components/cards/eligibles/EditEligiblesCard';
 import { useParams } from 'react-router-dom';
 import { getEditSalaryEmployee } from '../../../api/EmployeeAPI';
 import { useEffect, useState } from 'react';
