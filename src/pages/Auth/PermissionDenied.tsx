@@ -1,4 +1,4 @@
-import ErrorCard403 from '../../components/cards/Error/ErrorCard403';
+import ErrorCard403 from '../../components/cards/error/ErrorCard403';
 
 const PermissionDenied = () => {
   return (

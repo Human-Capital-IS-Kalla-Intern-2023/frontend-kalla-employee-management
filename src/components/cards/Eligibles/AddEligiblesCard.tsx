@@ -12,7 +12,7 @@ import {
 } from '../../alerts/CustomAlert';
 import { ResetAlert } from '../../../helpers/ResetAlert';
 import ReactLoading from 'react-loading';
-import AddBankModal from '../../modals/Bank/AddBankModal';
+import AddBankModal from '../../modals/bank/AddBankModal';
 
 type EligiblesProps = {
   employeeData: any;

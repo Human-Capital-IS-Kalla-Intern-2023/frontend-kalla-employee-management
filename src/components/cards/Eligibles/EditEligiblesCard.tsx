@@ -10,7 +10,7 @@ import {
   WarningAlert,
 } from '../../alerts/CustomAlert';
 import { ResetAlert } from '../../../helpers/ResetAlert';
-import AddBankModal from '../../modals/Bank/AddBankModal';
+import AddBankModal from '../../modals/bank/AddBankModal';
 
 type EligiblesProps = {
   employeeData: any;

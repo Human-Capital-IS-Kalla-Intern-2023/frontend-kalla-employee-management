@@ -7,43 +7,43 @@ import EmployeeDetailLayout from './layout/EmployeeDetailLayout';
 import PrivateRoute from './middleware/PrivateRoutes';
 
 //  Login & Dashboard Page
-import Login from './pages/Auth/Login';
-import Dashboard from './pages/Dashboard/Dashboard';
-import Reports from './pages/Reports/Reports';
+import Login from './pages/auth/Login';
+import Dashboard from './pages/dashboard/Dashboard';
+import Reports from './pages/reports/Reports';
 
 // Employee Page
 import Employee from './pages/Employee/Employee';
 import DetailEmployee from './pages/Employee/DetailEmployee';
-import EligiblesEmployee from './pages/Employee/Eligibles/EligiblesEmployee';
-import SetEligiblesCard from './components/modals/Eligibles/SetEligiblesModal';
-import EditEligibles from './pages/Employee/Eligibles/EditEligibles';
-import AddEligibles from './pages/Employee/Eligibles/AddEligibles';
+import EligiblesEmployee from './pages/Employee/eligibles/EligiblesEmployee';
+import SetEligiblesCard from './components/modals/eligibles/SetEligiblesModal';
+import EditEligibles from './pages/Employee/eligibles/EditEligibles';
+import AddEligibles from './pages/Employee/eligibles/AddEligibles';
 
 // Company Page
-import Company from './pages/Company/Company';
-import Directorate from './pages/Company/Directorate';
-import Division from './pages/Company/Division';
-import Section from './pages/Company/Section';
-import Location from './pages/Company/Location';
-import Position from './pages/Position/Position';
-import Grade from './pages/Company/Grade';
+import Company from './pages/company/Company';
+import Directorate from './pages/company/Directorate';
+import Division from './pages/company/Division';
+import Section from './pages/company/Section';
+import Location from './pages/company/Location';
+import Position from './pages/position/Position';
+import Grade from './pages/company/Grade';
 
 // Salary Page
-import Compensation from './pages/Salary/Compensation/Compensation';
-import CompensationDetail from './pages/Salary/Compensation/CompensationDetail';
-import CompensationAddCard from './components/cards/Compensation/CompensationAddCard';
-import MasterSalary from './pages/Salary/Master/MasterSalary';
-import ConfigureSalary from './pages/Salary/Configure/ConfigureSalary';
-import AddConfigureSalary from './pages/Salary/Configure/AddConfigureSalary';
-import EditPropertySalaryCard from './components/cards/Configure/EditPropertySalaryCard';
+import Compensation from './pages/Salary/compensation/Compensation';
+import CompensationDetail from './pages/Salary/compensation/CompensationDetail';
+import CompensationAddCard from './components/cards/compensation/CompensationAddCard';
+import MasterSalary from './pages/Salary/master/MasterSalary';
+import ConfigureSalary from './pages/Salary/configure/ConfigureSalary';
+import AddConfigureSalary from './pages/Salary/configure/AddConfigureSalary';
+import EditPropertySalaryCard from './components/cards/configure/EditPropertySalaryCard';
 
 // Setting Page
-import Setting from './pages/Profile/Setting';
+import Setting from './pages/profile/Setting';
 
 // Error Page
-import NotFound from './pages/Auth/NotFound';
-import PermissionDenied from './pages/Auth/PermissionDenied';
-import Unauthenticated from './pages/Auth/Unauthorized';
+import NotFound from './pages/auth/NotFound';
+import PermissionDenied from './pages/auth/PermissionDenied';
+import Unauthenticated from './pages/auth/Unauthorized';
 
 // Import Components
 import AddModal from './components/modals/AddModal';

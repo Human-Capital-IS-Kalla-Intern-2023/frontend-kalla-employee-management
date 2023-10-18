@@ -1,4 +1,4 @@
-import EligiblesCard from '../../../components/cards/Eligibles/EligiblesCard';
+import EligiblesCard from '../../../components/cards/eligibles/EligiblesCard';
 import { useParams } from 'react-router-dom';
 import { getDetailEligiblesEmployee } from '../../../api/EmployeeAPI';
 import { useEffect, useState } from 'react';
