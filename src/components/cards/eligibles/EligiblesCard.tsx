@@ -13,7 +13,7 @@ import {
   deleteEligiblesEmployee,
 } from '../../../api/EmployeeAPI';
 
-import SetEligiblesModal from '../../modals/Eligibles/SetEligiblesModal';
+import SetEligiblesModal from '../../modals/eligibles//SetEligiblesModal';
 import CustomToastWithLink from '../../alerts/CustomToastWithLink';
 
 import { ArrowButtonIcon } from '../../../assets/icons/icon';
