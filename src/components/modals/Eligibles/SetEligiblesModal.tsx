@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getDetailSalaryEmployee } from '../../api/EmployeeAPI';
+import { getDetailSalaryEmployee } from '../../../api/EmployeeAPI';
 import ReactLoading from 'react-loading';
-import CustomToastWithLink from '../../helpers/CustomToastWithLink';
+import CustomToastWithLink from '../../alerts/CustomToastWithLink';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const SetEligiblesModal = ({ onClose, allPositionOption }: any) => {
@@ -71,9 +71,9 @@ const SetEligiblesModal = ({ onClose, allPositionOption }: any) => {
         </div>
       )}
       <div className="fixed inset-0 z-30 flex items-center justify-center bg-black bg-opacity-50">
-        <div className="w-1/3 bg-white rounded-md shadow-md">
+        <div className="w-5/6 bg-white rounded-md shadow-md lg:w-1/3">
           <header className="flex items-center justify-between p-4">
-            <h2 className="p-2 text-lg font-medium border-b-2 border-primary">
+            <h2 className="p-1 px-[76px] text-lg font-medium border-b-2 border-primary">
               Add Eligibles
             </h2>
           </header>
@@ -97,13 +97,17 @@ const SetEligiblesModal = ({ onClose, allPositionOption }: any) => {
                 <option value="" disabled>
                   Select position
                 </option>
-                <option value={allPositionOption?.id_main_position}>
+                <option
+                  className="text-sm lg:text-base"
+                  value={allPositionOption?.id_main_position}
+                >
                   {allPositionOption?.main_position} -{' '}
                   {allPositionOption?.company_main} - Main
                 </option>
                 {/* Display additional positions */}
                 {allPositionOption?.additional_position.map((position: any) => (
                   <option
+                    className="text-sm lg:text-base"
                     key={position.id_additional_position}
                     value={position.id_additional_position}
                   >
@@ -116,14 +120,14 @@ const SetEligiblesModal = ({ onClose, allPositionOption }: any) => {
           <div className="flex justify-end w-full p-4 rounded-t-none shadow-inner rounded-b-md border-gray bg-slate-200">
             <button
               aria-label="Cancel"
-              className="px-4 py-2 mx-2 text-white duration-300 bg-red-800 rounded-md hover:bg-gray"
+              className="px-4 py-2 mx-2 text-sm text-white duration-300 bg-red-800 rounded-md lg:text-base hover:bg-gray"
               onClick={onClose}
             >
               CANCEL
             </button>
             <button
               aria-label="Add"
-              className={`px-4 py-2 text-white duration-300 rounded-md ${
+              className={`px-4 py-2 text-sm lg:text-base text-white duration-300 rounded-md ${
                 !selectedPosition
                   ? 'bg-gray text-slate-400'
                   : 'bg-primary hover:bg-gray'

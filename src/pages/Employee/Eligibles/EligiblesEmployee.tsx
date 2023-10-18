@@ -1,15 +1,18 @@
-import EditEligiblesCard from '../../components/cards/EditEligiblesCard';
+import EligiblesCard from '../../../components/cards/Eligibles/EligiblesCard';
 import { useParams } from 'react-router-dom';
-import { getEditSalaryEmployee } from '../../api/EmployeeAPI';
+import { getDetailEligiblesEmployee } from '../../../api/EmployeeAPI';
 import { useEffect, useState } from 'react';
-import { SuccessAlert, ErrorAlert } from '../../components/alerts/CustomAlert';
+import {
+  SuccessAlert,
+  ErrorAlert,
+} from '../../../components/alerts/CustomAlert';
 import ReactLoading from 'react-loading';
 
-const EditEligibles = () => {
+const EligiblesEmployee = () => {
   const { employeeId } = useParams();
   const { positionId } = useParams();
 
-  const [detailedData, setDetailedData] = useState<any | null>(null);
+  const [detailedData, setDetailedData] = useState<string | null>(null);
 
   // Alert State
   const [successMessage] = useState<string | null>(null);
@@ -19,10 +22,13 @@ const EditEligibles = () => {
 
   const fetchDetailEmployee = async (employeeId: any, positionId: any) => {
     try {
-      const responseData = await getEditSalaryEmployee(employeeId, positionId);
+      const responseData = await getDetailEligiblesEmployee(
+        employeeId,
+        positionId
+      );
       setDetailedData(responseData.data);
     } catch (error: any) {
-      console.error('Error fetch detail edit employee:', error);
+      console.error('Error fetch detail employee:', error);
     }
   };
 
@@ -40,14 +46,14 @@ const EditEligibles = () => {
   return (
     <>
       {successMessage && successTitle && (
-        <SuccessAlert title={successTitle} timer={3000} text={successMessage} />
+        <SuccessAlert title={successTitle} text={successMessage} />
       )}
       {errorMessage && errorTitle && (
         <ErrorAlert title={errorTitle} text={errorMessage} />
       )}
-      <EditEligiblesCard employeeData={detailedData} />
+      <EligiblesCard employeeData={detailedData} />
     </>
   );
 };
 
-export default EditEligibles;
+export default EligiblesEmployee;

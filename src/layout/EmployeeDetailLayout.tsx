@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import EmployeeSideBar from './employeeSideBar//EmployeeSideBar';
+import EmployeeSideBar from './Employee Sidebar/EmployeeSideBar';
 import Cookies from 'js-cookie';
 import { useParams } from 'react-router-dom';
 

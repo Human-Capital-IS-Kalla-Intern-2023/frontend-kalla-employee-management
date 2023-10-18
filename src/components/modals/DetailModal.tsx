@@ -16,12 +16,12 @@ const DetailModal = ({ isOpen, onClose, data }: any) => {
       onClick={handleOverlayClick}
     >
       <div className="fixed inset-0 bg-black opacity-50"></div>
-      <div className="relative z-10 p-8 bg-white rounded-lg shadow-lg">
+      <div className="relative z-10 w-11/12 p-8 bg-white rounded-lg shadow-lg lg:w-full">
         <div className="relative mt-8 mb-8 text-center ">
           <span className="relative z-10 px-8 py-2 text-2xl text-white border rounded-full bg-primary border-primaryColor">
             Detail Data
           </span>
-          <div className="absolute top-1/2 text-black bg-black left-0 transform -translate-y-1/2 w-full h-0.5 bg-primaryColor z-0"></div>
+          <div className=" absolute top-1/2 text-black bg-black left-0 transform -translate-y-1/2 w-full h-0.5 bg-primaryColor z-0"></div>
         </div>
         {data && (
           <div>

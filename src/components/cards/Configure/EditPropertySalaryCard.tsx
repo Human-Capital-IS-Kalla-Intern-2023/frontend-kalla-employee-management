@@ -1,26 +1,33 @@
-import { useState, useEffect } from 'react';
-import { CloseButtonIcon, PlusIcon } from '../../assets/icons/icon';
-import { useNavigate } from 'react-router-dom';
-import { getCompany } from '../../api/CompanyAPI';
+import { useState, useEffect, useCallback } from 'react';
+import { CloseButtonIcon, PlusIcon } from '../../../assets/icons/icon';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getCompany } from '../../../api/CompanyAPI';
+import ReactLoading from 'react-loading';
+
 import {
   ErrorAlert,
   SuccessAlert,
   DeleteConfimationAlert,
   ConfirmationAlert,
-} from '../alerts/CustomAlert';
-import { ResetAlert } from '../../helpers/ResetAlert';
+} from '../../alerts/CustomAlert';
+import { ResetAlert } from '../../../helpers/ResetAlert';
 import {
   getMasterSalary,
   getDetailMasterSalary,
-} from '../../api/MasterSalaryAPI';
-import { addConfigureSalary } from '../../api/ConfigureSalaryAPI';
+} from '../../../api/MasterSalaryAPI';
+import {
+  updateConfigureSalary,
+  getDetailConfigureSalary,
+} from '../../../api/ConfigureSalaryAPI';
 
 interface FieldOptions {
   label: string;
   value: number;
 }
 
-const AddPropertySalaryCard = () => {
+const EditPropertySalaryCard = () => {
+  const { salaryId } = useParams();
+
   const [companyDropdownValue, setCompanyDropdownValue] = useState<
     number | string
   >('');
@@ -40,6 +47,7 @@ const AddPropertySalaryCard = () => {
   >([]);
   const [typeMasterComponentOptions, setTypeMasterComponentOptoins] =
     useState('');
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [formData, setFormData] = useState<{
@@ -65,19 +73,14 @@ const AddPropertySalaryCard = () => {
   // Alert State
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [successTitle, setSuccessTitle] = useState<string | null>(null);
-  const [nextIndex, setNextIndex] = useState(0);
 
-  // const [successConfirmMessage, setSuccessConfirmMessage] = useState<
-  //   string | null
-  // >(null);
-  // const [successConfirmTitle, setSuccessConfirmTitle] = useState<string | null>(
-  //   null
-  // );
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [errorTitle, setErrorTitle] = useState<string | null>(null);
 
   // Checkbox State
   const [leftActiveCheckbox, setLeftActiveCheckbox] = useState(true);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -130,7 +133,6 @@ const AddPropertySalaryCard = () => {
   // Handler Cancel Navbar Button
   const cancelHandler = async () => {
     localStorage.removeItem('salaryData');
-
     navigate('/salary/configures');
   };
 
@@ -139,17 +141,25 @@ const AddPropertySalaryCard = () => {
     try {
       const savedData = localStorage.getItem('salaryData');
 
-      // Panggil fungsi API untuk menambahkan gaji
-      const responseData = await addConfigureSalary(savedData);
+      if (savedData) {
+        // Parse objek JSON dari data yang diambil dari localStorage
+        const parsedData = JSON.parse(savedData);
 
-      ConfirmationAlert({
-        title: `${responseData.status}`,
-        text: `${responseData.message}`,
-        onConfirm: () => {
-          navigate('/salary/configures');
-          localStorage.removeItem('salaryData');
-        },
-      });
+        // Simpan kembali objek yang telah diubah
+        localStorage.setItem('salaryData', JSON.stringify(parsedData));
+
+        // Panggil fungsi API untuk menambahkan gaji
+        const responseData = await updateConfigureSalary(salaryId, parsedData);
+
+        ConfirmationAlert({
+          title: `${responseData.status}`,
+          text: `${responseData.message}`,
+          onConfirm: () => {
+            navigate('/salary/configures');
+            localStorage.removeItem('salaryData');
+          },
+        });
+      }
     } catch (error: any) {
       console.error('Error adding salary:', error);
       setErrorTitle(`Error adding salary`);
@@ -206,26 +216,41 @@ const AddPropertySalaryCard = () => {
     saveDataToLocalStorage(updatedFormData);
   };
 
-  const handleOrderChange = (e: any, index: number) => {
-    const newOrder = e.target.value;
+  const handleOrderChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    componentId: number
+  ) => {
+    const inputValue = e.target.value;
+    const newOrder = parseInt(inputValue, 10);
 
     // Update the formData and save to local storage
     const updatedComponents = [...formData.components];
-    updatedComponents[index].order = newOrder;
+    const componentIndex = updatedComponents.findIndex(
+      (component) => component.component_id === componentId
+    );
 
-    const updatedFormData = {
-      ...formData,
-      components: updatedComponents,
-    };
+    if (componentIndex !== -1) {
+      updatedComponents[componentIndex].order = newOrder;
+      const updatedFormData = {
+        ...formData,
+        components: updatedComponents,
+      };
 
-    // Update tableData state
-    const updatedTableData = [...tableData];
-    updatedTableData[index].order = newOrder;
-    setTabelData(updatedTableData);
+      // Update tableData state
+      const updatedTableData = [...tableData];
+      const tableDataIndex = updatedTableData.findIndex(
+        (row) => row.component_id === componentId
+      );
 
-    // Save data to local storage
-    setFormData(updatedFormData);
-    saveDataToLocalStorage(updatedFormData);
+      if (tableDataIndex !== -1) {
+        updatedTableData[tableDataIndex].order = newOrder;
+        setTabelData(updatedTableData);
+      }
+
+      // Save data to local storage
+      setFormData(updatedFormData);
+      saveDataToLocalStorage(updatedFormData);
+    }
   };
 
   ///* RIGHT CARD SECTION
@@ -436,14 +461,14 @@ const AddPropertySalaryCard = () => {
         throw new Error('Salary Component Name is required');
       }
 
-      // Check if the newComponentId already exists in the master components
+      // Check if the newComponentId already exists in the master component
       const componentExistsInMaster = masterComponentOptions.some(
         (option) => option.label === newComponentId
       );
 
       if (!getMasterChecboxValue && componentExistsInMaster) {
         throw new Error(
-          'Salary Component Name already exists in master components'
+          'Salary Component Name already exists in master component'
         );
       }
 
@@ -461,13 +486,14 @@ const AddPropertySalaryCard = () => {
         newComponentType = typeMasterComponentOptions;
       }
 
-      // Calculate the next order value by finding the maximum order value among existing components
+      // Calculate the next order value by finding the maximum order value among existing component
       const maxOrder = formData.components.reduce(
         (max, component) => Math.max(max, component.order),
         0
       );
 
       setMaxList(maxList + 1);
+
       const newComponent = {
         component_id: maxList,
         order: maxOrder + 1,
@@ -478,18 +504,15 @@ const AddPropertySalaryCard = () => {
         is_active: 1,
       };
 
-      const updatedComponents = [
-        ...formData.components,
-        { ...newComponent, index: nextIndex },
-      ];
+      const updatedComponents = Array.isArray(formData.components)
+        ? [...formData.components, newComponent]
+        : [newComponent];
 
-      // Update the formData with the new components
+      // Update the formData with the new component
       const newFormData = {
         ...formData,
         components: updatedComponents,
       };
-
-      setNextIndex(nextIndex + 1);
 
       // Set the updated form data
       setFormData(newFormData);
@@ -525,8 +548,51 @@ const AddPropertySalaryCard = () => {
   };
 
   //* USE EFFECT SECTION
+  const fetchData = useCallback(async () => {
+    try {
+      setIsLoading(true);
+
+      const response = await getDetailConfigureSalary(salaryId);
+      const configureSalaryData = response.data;
+
+      setCompanyDropdownValue(configureSalaryData.company_id);
+      setSalaryNameValue(configureSalaryData.salary_name);
+
+      setGetMasterChecboxValue(configureSalaryData.is_active === 1);
+      setLeftActiveCheckbox(configureSalaryData.is_active === 1);
+      setFormData(configureSalaryData);
+
+      saveDataToLocalStorage(configureSalaryData);
+
+      const updatedTableData = getLocalStorageData();
+      setTabelData(updatedTableData);
+    } catch (error: any) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [salaryId]);
+
+  const fetchTypeOptions = useCallback(async () => {
+    try {
+      if (componentDropdownValue.id) {
+        const responseData = await getDetailMasterSalary(
+          componentDropdownValue.id
+        );
+        setTypeMasterComponentOptoins(responseData.data.type);
+      }
+    } catch (error) {
+      console.error('Error fetching types:', error);
+    }
+  }, [componentDropdownValue]);
+
   useEffect(() => {
     const savedData = localStorage.getItem('salaryData');
+
+    if (!savedData) {
+      fetchData();
+    }
+
     if (savedData) {
       const parsedData = JSON.parse(savedData);
       // Update your component state with the loaded data
@@ -534,50 +600,33 @@ const AddPropertySalaryCard = () => {
       setCompanyDropdownValue(parsedData.company_id);
       setSalaryNameValue(parsedData.salary_name);
 
-      setGetMasterChecboxValue(parsedData.is_active === 1);
       setLeftActiveCheckbox(parsedData.is_active === 1);
     }
-  }, []);
 
-  useEffect(() => {
     fetchCompanyData();
     fetchMasterComponent();
-
-    async function fetchTypeOptions() {
-      try {
-        if (componentDropdownValue.id) {
-          const responseData = await getDetailMasterSalary(
-            componentDropdownValue.id
-          );
-
-          setTypeMasterComponentOptoins(responseData.data.type);
-        }
-      } catch (error) {
-        console.error('Error fetching types:', error);
-      }
-    }
     fetchTypeOptions();
-  }, [componentDropdownValue]);
+  }, [fetchData, fetchTypeOptions]);
 
-  const componentsByType: { [key: string]: any[] } = {};
-  formData.components.forEach((component) => {
+  const componentByType: { [key: string]: any[] } = {};
+  formData.components.forEach((component: any) => {
     const type = component.type;
-    if (!componentsByType[type]) {
-      componentsByType[type] = [];
+    if (!componentByType[type]) {
+      componentByType[type] = [];
     }
-    componentsByType[type].push(component);
+    componentByType[type].push(component);
   });
   return (
     <>
       {/* Header Design  */}
       <header className="flex items-center justify-between p-4 shadow-lg sm:p-5 ">
         <h1 className="p-2 text-base font-medium border-b-2 sm:text-lg md:text-xl lg:text-2xl border-primary">
-          Add Configure Salary Page
+          Edit Configure Salary Page
         </h1>
         <div className="flex text-xs font-medium sm:flex-row lg:text-sm ">
           <button
             aria-label="Cancel"
-            className="px-1 py-2 mr-2 text-white duration-300 bg-red-800 rounded-md lg:px-4 lg:py-2 lg:mr-4 hover:bg-gray lg:hover:scale-105"
+            className="px-1 py-2 mr-2 text-white duration-300 bg-red-800 rounded-md lg:px-4 lg:py-2 lg:mr-4 hover:bg-graylg:hover:scale-105"
             onClick={cancelHandler}
           >
             CANCEL
@@ -592,6 +641,12 @@ const AddPropertySalaryCard = () => {
         </div>
       </header>
 
+      {isLoading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <ReactLoading type="spin" color="green" height={50} width={50} />
+        </div>
+      )}
+
       {/* Left Card Design  */}
       <div className="flex flex-col m-4 sm:flex-row">
         <div className="w-full mb-4 bg-gray-100 shadow-2xl sm:w-1/4 sm:mb-0">
@@ -601,19 +656,19 @@ const AddPropertySalaryCard = () => {
             </h1>
             <div className="p-4">
               <label
-                htmlFor="dropdown company"
+                htmlFor="dropdown"
                 className="block mt-3 font-medium text-gray-700"
               >
                 Legal Employer *
               </label>
               <select
-                id="dropdown company"
-                name="dropdown company"
+                id="dropdown"
+                name="dropdown"
                 value={companyDropdownValue}
                 onChange={handleCompanyChange}
                 className="block w-full px-3 py-2 mt-1 text-sm bg-white border rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
               >
-                <option value="" className="text-sm" disabled>
+                <option value="" disabled>
                   Select an option
                 </option>
                 {companyOptions.map((option) => (
@@ -646,7 +701,6 @@ const AddPropertySalaryCard = () => {
                     type="checkbox"
                     value=""
                     className="sr-only peer"
-                    aria-label="left active checkbox"
                     checked={leftActiveCheckbox}
                     onChange={handleLeftActiveCheckboxChange}
                   />
@@ -660,28 +714,28 @@ const AddPropertySalaryCard = () => {
         </div>
 
         {/* Right Card Design  */}
-        <div className="w-full ml-0 overflow-auto rounded-md shadow-2xl sm:w-3/4 sm:ml-10">
+        <div className="w-full ml-0 overflow-x-auto rounded-md shadow-2xl sm:w-3/4 sm:ml-10">
           <h1 className="flex py-4 pl-4 shadow-lg sm:text-sm lg:text-md border-gray bg-slate-300 rounded-t-md">
             COMPONENT
           </h1>
           <div className="flex my-6 ml-6 space-x-2">
             <button
-              aria-label="Add"
+              aria-label="open Modal"
               className="flex items-center justify-center px-4 py-2 mr-3 text-sm font-medium text-white duration-300 rounded-lg bg-primary focus:ring-4 hover:bg-gray lg:hover:scale-105"
               onClick={openModalAdd}
             >
               <PlusIcon className="h-3.5 w-3.5 mr-2" /> ADD COMPONENT
             </button>
             <button
-              aria-label="Clear "
-              className="px-3 py-2 text-sm font-medium text-white duration-300 bg-red-800 rounded-lg hover:bg-gray lg:hover:scale-105"
+              aria-label="Clear Components"
+              className="px-2 py-2 text-sm font-medium text-white duration-300 bg-red-800 rounded-lg hover:bg-gray lg:hover:scale-105"
               onClick={() => showDeleteAllConfirmation()}
             >
               CLEAR
             </button>
           </div>
-          <thead className="overflow-auto ">
-            <tr className="overflow-auto ">
+          <thead className="overflow-x-auto ">
+            <tr className="overflow-x-auto ">
               <th className="w-1/12 px-4 py-6 text-left"></th>
               <th className="w-2/12 px-4 py-6 text-left">List Order</th>
               <th className="w-2/12 px-4 py-6 text-left">Component</th>
@@ -692,37 +746,38 @@ const AddPropertySalaryCard = () => {
             </tr>
           </thead>
 
-          {Object.keys(componentsByType).length === 0 && (
+          {Object.keys(componentByType).length === 0 && (
             <div className="my-2 text-center">
               <p className="py-4 mx-2 text-gray-500 rounded-md bg-slate-200">
                 No Data Avalaible
               </p>
             </div>
           )}
-          {Object.keys(componentsByType).map((type, outerIndex) => (
-            <div className="mt-2" key={outerIndex}>
-              <div>
+          {Object.keys(componentByType).map((type, outerIndex) => (
+            <div className="mt-2">
+              <div key={outerIndex}>
                 <h2 className="py-4 pl-4 capitalize shadow-lg border-gray rounded-t-md">
                   {type}
                 </h2>
                 <table className="min-w-full border-collapse border-gray-200 table-auto">
                   <tbody className="shadow-inner">
-                    {componentsByType[type].map((row, innerIndex) => (
+                    {componentByType[type].map((row, innerIndex) => (
                       <tr key={`${outerIndex}-${innerIndex}`}>
-                        <td className="w-1/12 px-4 py-6">
+                        <td className="w-1/12 px-4 py-6 ">
+                          <div className="absolute cursor-pointer top-4 right-5 focus:outline-none"></div>
                           <button
+                            aria-label="Delete Component"
                             onClick={() =>
                               showDeleteConfirmation(
                                 row.component_id,
                                 row.component_name
                               )
                             }
-                            aria-label="Close"
                           >
                             <CloseButtonIcon className="w-8 h-8 p-1 text-red-500 duration-200 rounded-md overlay hover:bg-red-800 hover:text-white" />
                           </button>
                         </td>
-                        <td className="w-2/12 px-4 py-6">
+                        <td className="w-2/12 px-4 py-6 ">
                           <input
                             type="number"
                             value={row.order}
@@ -732,6 +787,7 @@ const AddPropertySalaryCard = () => {
                             className="w-24 bg-white border-b focus:outline-none"
                           />
                         </td>
+
                         <td className="w-2/12 px-4 py-6">
                           {row.component_name}
                         </td>
@@ -764,7 +820,6 @@ const AddPropertySalaryCard = () => {
                               type="checkbox"
                               value=""
                               className="sr-only peer"
-                              aria-label="right active checkbox"
                               checked={row.is_active === 1}
                               onChange={(e) =>
                                 handleRightActiveChecboxChange(
@@ -794,15 +849,6 @@ const AddPropertySalaryCard = () => {
       {errorMessage && errorTitle && (
         <ErrorAlert title={errorTitle} text={errorMessage} />
       )}
-
-      {/* {successConfirmMessage && successConfirmTitle && (
-        <ConfirmationAlert
-          title={successConfirmTitle}
-          text={successConfirmMessage}
-          onConfirm={confirmButtonHandler}
-        />
-      )} */}
-
       {/* Modal Design */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 ">
@@ -812,7 +858,7 @@ const AddPropertySalaryCard = () => {
                 Add Component
               </h2>
               <button
-                aria-label="Close"
+                aria-label="close Modal"
                 className="text-gray-500 hover:text-gray-700"
                 onClick={closeModalAdd}
               >
@@ -823,22 +869,23 @@ const AddPropertySalaryCard = () => {
               {/* Konten modal */}
               <div className="mb-4">
                 <div className="flex items-center">
-                  <div className="block font-medium text-gray-700">
+                  <label
+                    htmlFor="component"
+                    className="block font-medium text-gray-700"
+                  >
                     Component*
-                  </div>
+                  </label>
                   <div className="flex items-center ml-4">
                     <input
                       type="checkbox"
-                      id="component title"
-                      name="component title"
+                      id="component"
+                      name="component"
                       checked={getMasterChecboxValue}
                       onChange={handleMasterCheckbox}
                       className="w-5 h-5 rounded focus:ring-primary"
-                      aria-label="component title"
                     />
-
                     <label
-                      htmlFor="component title"
+                      htmlFor="component"
                       className="block ml-2 text-gray-900"
                     >
                       Get from master library
@@ -848,28 +895,24 @@ const AddPropertySalaryCard = () => {
               </div>
               <div className="mb-4">
                 {getMasterChecboxValue ? (
-                  // Render a dropdown for component selection
                   <label
-                    htmlFor="search component"
+                    htmlFor="dropdown"
                     className="block font-medium text-gray-700"
                   >
                     Search Component
                   </label>
                 ) : (
-                  // Render an input field for component selection
                   <label
-                    htmlFor="input component"
+                    htmlFor="input"
                     className="block font-medium text-gray-700"
                   >
                     Component Name
                   </label>
                 )}
                 {getMasterChecboxValue ? (
-                  // Render a dropdown for component selection
                   <select
-                    id="dropdown component"
-                    name="search component"
-                    aria-label="selected component"
+                    id="dropdown"
+                    name="dropdown"
                     value={componentDropdownValue.id}
                     onChange={handleMasterComponentChange}
                     className="block w-full px-3 py-2 text-sm bg-white border rounded-md shadow-sm mt- focus:outline-none focus:ring-primary focus:border-primary"
@@ -884,11 +927,10 @@ const AddPropertySalaryCard = () => {
                     ))}
                   </select>
                 ) : (
-                  // Render an input field for component selection
                   <input
                     type="text"
-                    id="input component"
-                    name="input component"
+                    id="input"
+                    name="input"
                     placeholder="Component Name"
                     value={newComponentNameValue}
                     onChange={handleNewComponentNameInput}
@@ -938,15 +980,15 @@ const AddPropertySalaryCard = () => {
             </div>
             <div className="flex justify-end w-full p-4 rounded-t-none shadow-inner rounded-b-md border-gray bg-slate-200">
               <button
-                aria-label="Close"
-                className="px-4 py-2 mx-2 text-white duration-300 bg-red-800 rounded-md hover:bg-gray lg:hover:scale-105"
+                aria-label="close Modal"
+                className="px-4 py-2 mx-2 text-white duration-300 bg-red-800 rounded-md hover:bg-gray"
                 onClick={closeModalAdd}
               >
                 CANCEL
               </button>
               <button
-                aria-label="Add"
-                className="px-4 py-2 text-white duration-300 rounded-md bg-primary hover:bg-gray lg:hover:scale-105"
+                aria-label="Add "
+                className="px-4 py-2 text-white duration-300 rounded-md bg-primary hover:bg-gray"
                 onClick={handleAdd}
               >
                 ADD
@@ -959,4 +1001,4 @@ const AddPropertySalaryCard = () => {
   );
 };
 
-export default AddPropertySalaryCard;
+export default EditPropertySalaryCard;

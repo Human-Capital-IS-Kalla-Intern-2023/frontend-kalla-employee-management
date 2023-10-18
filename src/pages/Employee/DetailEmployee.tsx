@@ -1,11 +1,11 @@
-import DetailEmployeeCard from '../../components/cards/DetailEmployeeCard';
+import DetailEmployeeCard from '../../components/cards/Employee/DetailEmployeeCard';
 import { useParams } from 'react-router-dom';
 import { getDetailEmployee, updateEmployee } from '../../api/EmployeeAPI';
 import { useEffect, useState } from 'react';
 import { ResetAlert } from '../../helpers/ResetAlert';
 import { SuccessAlert, ErrorAlert } from '../../components/alerts/CustomAlert';
 
-const ProfileEmployee = () => {
+const DetailEmployee = () => {
   const { employeeId } = useParams();
   const [detailedData, setDetailedData] = useState<string | null>(null);
 
@@ -64,4 +64,4 @@ const ProfileEmployee = () => {
   );
 };
 
-export default ProfileEmployee;
+export default DetailEmployee;

@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import profileImg160 from '../../assets/img/profileImg-160.webp';
-// import { useNavigate } from 'react-router-dom';
+import profileImg160 from '../../../assets/img/profile/profileImg-160.webp'; // import { useNavigate } from 'react-router-dom';
 import ReactLoading from 'react-loading';
-import EditModal from '../modals/EditModal';
-import { inputField } from '../../assets/data/EmployeeData';
+import EditModal from '../../modals/EditModal';
+import { inputField } from '../../../assets/data/EmployeeData';
 import { Link, useNavigate } from 'react-router-dom';
 
 type DetailEmployeeProps = {
@@ -58,8 +57,8 @@ const DetailEmployeeCard = ({
 
   return (
     <section className="antialiased overlay ">
-      <header className="flex items-center justify-between px-3 py-5 shadow-lg ">
-        <h1 className="p-2 ml-2.5 text-xl font-medium border-b-2 border-primary ">
+      <header className="flex items-center justify-between px-1 py-5 shadow-lg lg:px-3 ">
+        <h1 className="p-2 ml-2.5 text-lg lg:text-xl font-medium border-b-2 border-primary ">
           Personal Data Page
         </h1>
         <div className="pr-3 text-sm font-semibold pl-11 ">
@@ -85,7 +84,7 @@ const DetailEmployeeCard = ({
         />
       )}
 
-      <div className="max-w-screen-xl px-4 pt-6 mx-auto">
+      <div className="max-w-screen-xl px-3 pt-5 mx-auto lg:px-4 lg:pt-6">
         <div className="relative overflow-hidden sm:rounded-lg">
           <div className="pt-4 overflow-x-auto ">
             <img

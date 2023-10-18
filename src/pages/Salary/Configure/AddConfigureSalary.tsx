@@ -1,4 +1,4 @@
-import AddPropertySalaryCard from '../../components/cards/AddPropertySalaryCard';
+import AddPropertySalaryCard from '../../../components/cards/Configure/AddPropertySalaryCard';
 const AddConfigureSalary = () => {
   return (
     <>

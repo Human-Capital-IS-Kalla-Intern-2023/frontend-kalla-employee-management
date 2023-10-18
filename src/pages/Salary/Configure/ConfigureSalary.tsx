@@ -4,38 +4,41 @@ import { useNavigate } from 'react-router-dom';
 import ReactLoading from 'react-loading';
 
 // Import Component
-import TabelHeader from '../../components/tabels/TabelHeader';
-import TabelFooter from '../../components/tabels/TabelFooter';
-import TabelBody from '../../components/tabels/TabelBody';
-import { SuccessAlert, ErrorAlert } from '../../components/alerts/CustomAlert';
-import { ResetAlert } from '../../helpers/ResetAlert';
+import TabelHeader from '../../../components/tabels/TabelHeader';
+import TabelFooter from '../../../components/tabels/TabelFooter';
+import TabelBody from '../../../components/tabels/TabelBody';
+import {
+  SuccessAlert,
+  ErrorAlert,
+} from '../../../components/alerts/CustomAlert';
+import { ResetAlert } from '../../../helpers/ResetAlert';
 
 // Import API
 import {
-  getMasterSalary,
-  getDetailMasterSalary,
-  addMasterSalary,
-  updateMasterSalary,
-  deleteMasterSalary,
-  searchMasterSalary,
-  changeIsActiveMasterComponent,
-} from '../../api/MasterSalaryAPI';
+  getConfigureSalary,
+  getDetailConfigureSalary,
+  addConfigureSalary,
+  updateConfigureSalary,
+  deleteConfigureSalary,
+  searchConfigureSalary,
+  changeIsActiveSalarySBU,
+} from '../../../api/ConfigureSalaryAPI';
 
 import {
   colCells,
   filterOptions,
   inputField,
-} from '../../assets/data/MasterSalaryData';
+} from '../../../assets/data/ConfigureSalaryData';
 
-const MasterSalary: React.FC = () => {
+const ConfigureSalary: React.FC = () => {
   // Alert State
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successTitle, setSuccessTitle] = useState<string | null>(null);
   const [errorTitle, setErrorTitle] = useState<string | null>(null);
 
-  // MasterSalary State
-  const [masterSalary, setMasterSalary] = useState<string[]>([]);
+  // ConfigureSalary State
+  const [configureSalary, setConfigureSalary] = useState<string[]>([]);
   const [detailedData, setDetailedData] = useState<string | null>(null);
 
   // Loading
@@ -54,23 +57,26 @@ const MasterSalary: React.FC = () => {
   };
 
   const totalDataCount =
-    searchResults.length > 0 ? searchResults.length : masterSalary.length;
+    searchResults.length > 0 ? searchResults.length : configureSalary?.length;
   const totalPages = Math.ceil(totalDataCount / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage + 1;
   const endIndex =
     currentPage === totalPages ? totalDataCount : startIndex + itemsPerPage - 1;
-  const currentMasterSalaryData = masterSalary.slice(startIndex - 1, endIndex);
+  const currentConfigureSalaryData = configureSalary?.slice(
+    startIndex - 1,
+    endIndex
+  );
 
-  // GET all masterSalary data
-  const fetchMasterSalary = async () => {
-    setIsLoading(true);
-
+  // GET all configureSalary data
+  const fetchConfigureSalary = async () => {
     try {
-      const reponseData = await getMasterSalary();
-      setMasterSalary(reponseData.data);
+      setIsLoading(true);
+
+      const reponseData = await getConfigureSalary();
+      setConfigureSalary(reponseData.data);
     } catch (error: any) {
-      console.error('Error fetch all masterSalary:', error);
-      setErrorTitle(`Error fetch all masterSalary`);
+      console.error('Error fetch all configureSalary:', error);
+      setErrorTitle(`Error fetch all configureSalary`);
 
       setErrorMessage(error.response.data.message);
     } finally {
@@ -84,16 +90,16 @@ const MasterSalary: React.FC = () => {
     );
   };
 
-  // GET detail masterSalary data by id
-  const fetchDetailMasterSalary = async (id: number) => {
+  // GET detail configureSalary data by id
+  const fetchDetailConfigureSalary = async (id: number) => {
     try {
       setIsLoading(true);
 
-      const responseData = await getDetailMasterSalary(id);
+      const responseData = await getDetailConfigureSalary(id);
       setDetailedData(responseData.data);
     } catch (error: any) {
-      console.error('Error fetch detail masterSalary:', error);
-      setErrorTitle(`Error fetch detail masterSalary`);
+      console.error('Error fetch detail configureSalary:', error);
+      setErrorTitle(`Error fetch detail configureSalary`);
       navigate('/notfound');
       setErrorMessage(error.response.data.message);
     } finally {
@@ -107,17 +113,17 @@ const MasterSalary: React.FC = () => {
     );
   };
 
-  // POST new masterSalary data
-  const handleAddMasterSalary = async (formData: string) => {
+  // POST new configureSalary data
+  const handleAddConfigureSalary = async (formData: string) => {
     try {
-      const responseData = await addMasterSalary(formData);
+      const responseData = await addConfigureSalary(formData);
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
 
-      fetchMasterSalary();
+      fetchConfigureSalary();
     } catch (error: any) {
-      console.error('Error adding masterSalary:', error);
-      setErrorTitle(`Error adding masterSalary`);
+      console.error('Error adding configureSalary:', error);
+      setErrorTitle(`Error adding configureSalary`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
@@ -130,17 +136,17 @@ const MasterSalary: React.FC = () => {
     );
   };
 
-  // PUT masterSalary data
-  const handleEditMasterSalary = async (formData: string, id: number) => {
+  // PUT configureSalary data
+  const handleEditConfigureSalary = async (formData: string, id: number) => {
     try {
-      const responseData = await updateMasterSalary(id, formData);
+      const responseData = await updateConfigureSalary(id, formData);
 
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
-      fetchMasterSalary();
+      fetchConfigureSalary();
     } catch (error: any) {
-      console.error('Error editing masterSalary:', error);
-      setErrorTitle(`Error editing masterSalary`);
+      console.error('Error editing configureSalary:', error);
+      setErrorTitle(`Error editing configureSalary`);
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
@@ -152,18 +158,18 @@ const MasterSalary: React.FC = () => {
     );
   };
 
-  // DELETE masterSalary data
-  const handleDeleteMasterSalary = async (id: number) => {
+  // DELETE configureSalary data
+  const handleDeleteConfigureSalary = async (id: number) => {
     try {
       setIsLoading(true);
 
-      const responseData = await deleteMasterSalary(id);
+      const responseData = await deleteConfigureSalary(id);
       setSuccessTitle(`${responseData.status}`);
       setSuccessMessage(`${responseData.message}`);
-      fetchMasterSalary();
+      fetchConfigureSalary();
     } catch (error: any) {
-      console.error('Error deleting masterSalary:', error);
-      setErrorTitle(`Error deleting masterSalary`);
+      console.error('Error deleting configureSalary:', error);
+      setErrorTitle(`Error deleting configureSalary`);
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
@@ -178,12 +184,12 @@ const MasterSalary: React.FC = () => {
     );
   };
 
-  const handleSearchMasterSalary = async (inputSearch: string) => {
+  const handleSearchConfigureSalary = async (inputSearch: string) => {
     try {
       if (inputSearch.trim() === '') {
         setSearchResults([]);
       } else {
-        const responseData = await searchMasterSalary(inputSearch);
+        const responseData = await searchConfigureSalary(inputSearch);
 
         if (responseData.data.length === 0) {
           setErrorTitle('No Results');
@@ -193,8 +199,8 @@ const MasterSalary: React.FC = () => {
         }
       }
     } catch (error: any) {
-      console.error('Error search masterSalary:', error);
-      setErrorTitle('Error search masterSalary');
+      console.error('Error search configureSalary:', error);
+      setErrorTitle('Error search configureSalary');
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
     }
@@ -206,13 +212,13 @@ const MasterSalary: React.FC = () => {
     );
   };
 
-  const handleChangeIsActiveMasterComponent = async (
+  const handleChangeIsActiveSalarySBU = async (
     idIsActive: any,
     newIsActive: any
   ) => {
     try {
-      await changeIsActiveMasterComponent(idIsActive, newIsActive);
-      fetchMasterSalary();
+      await changeIsActiveSalarySBU(idIsActive, newIsActive);
+      fetchConfigureSalary();
     } catch (error: any) {
       console.error('Error change is active configureSalary:', error);
       const errorMessages = Object.values(error.response.data.errors).flat();
@@ -227,12 +233,12 @@ const MasterSalary: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchMasterSalary();
+    fetchConfigureSalary();
   }, []);
 
   return (
     <>
-      <h1 className="px-4 text-xl my-1">Master Salary Page</h1>
+      <h1 className="px-4 text-xl my-1">SBU Salary Page</h1>
       {isLoading && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <ReactLoading type="spin" color="green" height={50} width={50} />
@@ -245,25 +251,27 @@ const MasterSalary: React.FC = () => {
         <ErrorAlert title={errorTitle} text={errorMessage} />
       )}
       <TabelHeader
-        addButtonText="Add Master Salary"
-        title="Add Master Salary"
+        addButtonText="Add SBU Salary"
+        title="Add SBU Salary"
         filterOptions={filterOptions}
         inputFields={inputField}
-        onSubmit={handleAddMasterSalary}
-        onSearch={handleSearchMasterSalary}
+        onSubmit={handleAddConfigureSalary}
+        onSearch={handleSearchConfigureSalary}
+        onNavigate="payroll_component/add"
       />
       <TabelBody
-        title="Edit Master Salary"
+        title="Edit SBU Salary"
         colCells={colCells}
         data={
-          searchResults.length > 0 ? searchResults : currentMasterSalaryData
+          searchResults.length > 0 ? searchResults : currentConfigureSalaryData
         }
         inputFields={inputField}
-        onSubmit={handleEditMasterSalary}
-        onDelete={handleDeleteMasterSalary}
+        onSubmit={handleEditConfigureSalary}
+        onDelete={handleDeleteConfigureSalary}
         detailedData={detailedData}
-        fetchDetailedData={fetchDetailMasterSalary}
-        changeIsActive={handleChangeIsActiveMasterComponent}
+        fetchDetailedData={fetchDetailConfigureSalary}
+        onEditNavigate="payroll_component/edit/{salaryId}"
+        changeIsActive={handleChangeIsActiveSalarySBU}
       />
       <TabelFooter
         currentPage={currentPage}
@@ -278,4 +286,4 @@ const MasterSalary: React.FC = () => {
   );
 };
 
-export default MasterSalary;
+export default ConfigureSalary;

@@ -1,7 +1,7 @@
 // Import Library & Package
 import { NavLink } from 'react-router-dom';
 // Import Assets
-import NotFoundImage from '../../assets/img/NotFoundImage.svg';
+import NotFoundImage from '../../../assets/img/error/NotFoundImage.svg';
 
 const ErrorCard404 = () => {
   return (
