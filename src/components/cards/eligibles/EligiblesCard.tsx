@@ -13,7 +13,7 @@ import {
   deleteEligiblesEmployee,
 } from '../../../api/EmployeeAPI';
 
-import SetEligiblesModal from '../../modals/eligibles/SetEligiblesModal';
+import SetEligiblesModal from '../../modals/eligibles//SetEligiblesModal';
 import CustomToastWithLink from '../../alerts/CustomToastWithLink';
 
 import { ArrowButtonIcon } from '../../../assets/icons/icon';
@@ -220,7 +220,7 @@ const EligiblesCard = ({ employeeData }: EligiblesProps) => {
                 className="w-40 h-40 mx-auto shadow-lg rounded-2xl"
               />
 
-              <h2 className="mt-4 text-xl font-semibold text-center sm:text-md md:text-lg lg:text-2xl">
+              <h2 className="mt-4 text-xl font-semibold text-center sm:text-md md:text-lg lg:text-[22px]">
                 {employeeData.fullname}
               </h2>
               <p className="mt-2 text-lg italic text-center font-lg">

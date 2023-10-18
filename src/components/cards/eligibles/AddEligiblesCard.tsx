@@ -233,7 +233,7 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
       )}
       <section className="h-screen antialiased lg:py-0 sm:py-2 overlay">
         <header className="flex items-center justify-between p-2 pr-8 shadow-lg sm:p-5">
-          <h1 className="p-2 text-base font-medium border-b-2 sm:text-lg md:text-xl lg:text-2xl border-primary">
+          <h1 className="p-2 text-base font-medium border-b-2 sm:text-lg md:text-xl lg:text-[22px] border-primary">
             Add Eligibles Employee
           </h1>
           <div className="flex text-xs font-medium sm:flex-row lg:text-sm">

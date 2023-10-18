@@ -95,7 +95,7 @@ const DetailEmployeeCard = ({
               height={160}
             />
 
-            <h2 className="mt-4 font-semibold text-center text-md sm:text-md md:text-lg lg:text-2xl">
+            <h2 className="mt-4 font-semibold text-center text-md sm:text-md md:text-lg lg:text-[22px]">
               {employeeData.fullname}
             </h2>
             <p className="pt-2 text-base italic font-medium text-center lg:text-lg">

@@ -572,20 +572,20 @@ const AddPropertySalaryCard = () => {
     <>
       {/* Header Design  */}
       <header className="flex items-center justify-between p-4 shadow-lg sm:p-5 ">
-        <h1 className="p-2 text-base font-medium border-b-2 sm:text-lg md:text-xl lg:text-2xl border-primary">
+        <h1 className="p-2 text-base font-medium border-b-2 sm:text-lg md:text-xl lg:text-[22px] border-primary">
           Add Configure Salary Page
         </h1>
         <div className="flex text-xs font-medium sm:flex-row lg:text-sm ">
           <button
             aria-label="Cancel"
-            className="px-1 py-2 mr-2 text-white duration-300 bg-red-800 rounded-md lg:px-4 lg:py-2 lg:mr-4 hover:bg-gray lg:hover:scale-105"
+            className="px-1 py-2 mr-2 duration-300 bg-transparent border rounded-md lg:text-lg text-pureBlack border-gray lg:px-4 lg:py-2 lg:mr-4 hover:bg-gray hover:text-white lg:hover:scale-105"
             onClick={cancelHandler}
           >
             CANCEL
           </button>
           <button
             aria-label="Save and Close"
-            className="px-1 py-2 text-white duration-300 rounded-md lg:px-4 lg:py-2 bg-primary hover:bg-gray lg:hover:scale-105"
+            className="px-1 py-2 text-white duration-300 rounded-md lg:text-lg lg:px-4 lg:py-2 bg-primary hover:bg-gray lg:hover:scale-105"
             onClick={handleSaveAndClose}
           >
             SAVE & CLOSE
@@ -597,7 +597,7 @@ const AddPropertySalaryCard = () => {
       <div className="flex flex-col m-4 sm:flex-row">
         <div className="w-full mb-4 bg-gray-100 shadow-2xl sm:w-1/4 sm:mb-0">
           <div className="mb-4">
-            <h1 className="py-4 pl-4 shadow-lg sm:text-sms lg:text-md border-gray bg-slate-300 rounded-t-md">
+            <h1 className="py-4 pl-4 shadow-lg sm:text-sm lg:text-[18px] uppercase border-gray bg-slate-300 rounded-t-md">
               Property
             </h1>
             <div className="p-4">
@@ -662,27 +662,27 @@ const AddPropertySalaryCard = () => {
 
         {/* Right Card Design  */}
         <div className="w-full ml-0 overflow-auto rounded-md shadow-2xl sm:w-3/4 sm:ml-10">
-          <h1 className="flex py-4 pl-4 shadow-lg sm:text-sm lg:text-md border-gray bg-slate-300 rounded-t-md">
+          <h1 className="flex py-4 pl-4 shadow-lg sm:text-sm lg:text-[18px] border-gray bg-slate-300 rounded-t-md">
             COMPONENT
           </h1>
           <div className="flex my-6 ml-6 space-x-2">
             <button
               aria-label="Add"
-              className="flex items-center justify-center px-4 py-2 mr-3 text-sm font-medium text-white duration-300 rounded-lg bg-primary focus:ring-4 hover:bg-gray lg:hover:scale-105"
+              className="flex items-center justify-center px-4 py-2 mr-3 text-sm font-medium text-white duration-300 rounded-lg lg:text-base bg-primary focus:ring-4 hover:bg-gray lg:hover:scale-105"
               onClick={openModalAdd}
             >
               <PlusIcon className="h-3.5 w-3.5 mr-2" /> ADD COMPONENT
             </button>
             <button
               aria-label="Clear "
-              className="px-3 py-2 text-sm font-medium text-white duration-300 bg-red-800 rounded-lg hover:bg-gray lg:hover:scale-105"
+              className="px-3 py-2 text-sm font-medium text-white duration-300 bg-red-800 rounded-lg hover:bg-gray lg:text-base lg:hover:scale-105"
               onClick={() => showDeleteAllConfirmation()}
             >
               CLEAR
             </button>
           </div>
           <thead className="overflow-auto ">
-            <tr className="overflow-auto ">
+            <tr className="overflow-auto uppercase text-[16px]">
               <th className="w-1/12 px-4 py-6 text-left"></th>
               <th className="w-2/12 px-4 py-6 text-left">List Order</th>
               <th className="w-2/12 px-4 py-6 text-left">Component</th>
@@ -701,15 +701,18 @@ const AddPropertySalaryCard = () => {
             </div>
           )}
           {Object.keys(componentsByType).map((type, outerIndex) => (
-            <div className="mt-2" key={outerIndex}>
+            <div className="" key={outerIndex}>
               <div>
-                <h2 className="py-4 pl-4 capitalize shadow-lg border-gray rounded-t-md">
+                <h2 className="py-4 pl-4 capitalize  border-gray  shadow-[0_0px_15px_1px_rgba(0,0,0,0.1)]">
                   {type}
                 </h2>
                 <table className="min-w-full border-collapse border-gray-200 table-auto">
                   <tbody className="shadow-inner">
                     {componentsByType[type].map((row, innerIndex) => (
-                      <tr key={`${outerIndex}-${innerIndex}`}>
+                      <tr
+                        key={`${outerIndex}-${innerIndex}`}
+                        className="text-[15px]"
+                      >
                         <td className="w-1/12 px-4 py-6">
                           <button
                             onClick={() =>
@@ -723,7 +726,7 @@ const AddPropertySalaryCard = () => {
                             <CloseButtonIcon className="w-8 h-8 p-1 text-red-500 duration-200 rounded-md overlay hover:bg-red-800 hover:text-white" />
                           </button>
                         </td>
-                        <td className="w-2/12 px-4 py-6">
+                        <td className="w-2/12 px-4 py-6 text-[15px]">
                           <input
                             type="number"
                             value={row.order}
@@ -733,16 +736,16 @@ const AddPropertySalaryCard = () => {
                             className="w-24 bg-white border-b focus:outline-none"
                           />
                         </td>
-                        <td className="w-2/12 px-4 py-6">
+                        <td className="w-2/12 px-4 py-6 text-[15px]">
                           {row.component_name}
                         </td>
-                        <td className="w-2/12 px-4 py-6 capitalize">
+                        <td className="w-2/12 px-4 py-6 capitalize text-[15px]">
                           {row.type}
                         </td>
-                        <td className="w-1/12 px-4 py-6">
+                        <td className="w-1/12 px-4 py-6 text-[15px]">
                           <input
                             type="checkbox"
-                            className="w-5 h-5 rounded focus:ring-primary"
+                            className="w-5 h-5 rounded focus:ring-primary text-[15px]"
                             checked={row.is_hide === 1}
                             onChange={(e) =>
                               handleIsHideCheckboxChange(e, row.component_id)
