@@ -72,8 +72,8 @@ const SetEligiblesModal = ({ onClose, allPositionOption }: any) => {
       )}
       <div className="fixed inset-0 z-30 flex items-center justify-center bg-black bg-opacity-50">
         <div className="w-5/6 bg-white rounded-md shadow-md lg:w-1/3">
-          <header className="flex items-center justify-between p-4">
-            <h2 className="p-1 px-[76px] text-lg font-medium border-b-2 border-primary">
+          <header className="flex items-center justify-between sm:p-6 lg:p-3">
+            <h2 className="lg:p-1 p-3 px-[86px] lg:px-[148px] text-xl font-medium border-b-2 border-primary">
               Add Eligibles
             </h2>
           </header>
@@ -92,13 +92,13 @@ const SetEligiblesModal = ({ onClose, allPositionOption }: any) => {
                 name="type-dropdown"
                 value={selectedPosition}
                 onChange={(e) => setSelectedPosition(e.target.value)}
-                className="block w-full px-3 py-2 mt-2 text-sm bg-white border rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                className="block w-full px-1 lg:px-3 py-2 mt-2 text-sm bg-white border rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
               >
                 <option value="" disabled>
                   Select position
                 </option>
                 <option
-                  className="text-sm lg:text-base"
+                  className="w-10/12 text-xs lg:text-base"
                   value={allPositionOption?.id_main_position}
                 >
                   {allPositionOption?.main_position} -{' '}
@@ -107,7 +107,7 @@ const SetEligiblesModal = ({ onClose, allPositionOption }: any) => {
                 {/* Display additional positions */}
                 {allPositionOption?.additional_position.map((position: any) => (
                   <option
-                    className="text-sm lg:text-base"
+                    className="w-10/12 text-xs lg:text-base"
                     key={position.id_additional_position}
                     value={position.id_additional_position}
                   >
@@ -120,7 +120,7 @@ const SetEligiblesModal = ({ onClose, allPositionOption }: any) => {
           <div className="flex justify-end w-full p-4 rounded-t-none shadow-inner rounded-b-md border-gray bg-slate-200">
             <button
               aria-label="Cancel"
-              className="px-4 py-2 mx-2 text-sm text-white duration-300 bg-red-800 rounded-md lg:text-base hover:bg-gray"
+              className="px-4 py-2 mx-2 text-sm text-white duration-300 bg-red-800 rounded-md lg:text-base hover:bg-red-700"
               onClick={onClose}
             >
               CANCEL
@@ -130,7 +130,7 @@ const SetEligiblesModal = ({ onClose, allPositionOption }: any) => {
               className={`px-4 py-2 text-sm lg:text-base text-white duration-300 rounded-md ${
                 !selectedPosition
                   ? 'bg-gray text-slate-400'
-                  : 'bg-primary hover:bg-gray'
+                  : 'bg-primary hover:bg-green-700'
               }`}
               disabled={!selectedPosition}
               onClick={() => onAddEligibles()}

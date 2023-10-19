@@ -214,6 +214,5 @@ const CompensationDetailCard = () => {
       {/* Employee List Section End */}
     </div>
   );
-};
 
 export default CompensationDetailCard;

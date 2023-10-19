@@ -1,5 +1,9 @@
 import { useState, useEffect, useMemo } from 'react';
-import { PlusIcon, TrashIcon } from '../../../assets/icons/icon';
+import {
+  PlusIcon,
+  CloseButtonIcon,
+  TrashIcon,
+} from '../../../assets/icons/icon';
 import profileImg112 from '../../../assets/img/profile/profileImg-112.webp';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { addDetailSalaryEmployee } from '../../../api/EmployeeAPI';
@@ -12,7 +16,6 @@ import {
 } from '../../alerts/CustomAlert';
 import { ResetAlert } from '../../../helpers/ResetAlert';
 import ReactLoading from 'react-loading';
-import AddBankModal from '../../modals/bank/AddBankModal';
 
 type EligiblesProps = {
   employeeData: any;
@@ -266,7 +269,7 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
             <div className="px-5 pt-4 pb-4 overflow-x-auto">
               {/* card 1 */}
 
-              <div className="flex flex-wrap w-full px-2 py-2 pb-2 overflow-x-auto rounded-lg shadow-lg lg:w-full bg-slate-50">
+              <div className="flex flex-wrap w-full px-2 py-2 pb-2 overflow-x-auto rounded-lg border-l-4 border-primary shadow-lg lg:w-full bg-slate-50">
                 <div className="flex items-center px-4 pt-4 pb-2 lg:w-full sm:w-1/2">
                   <img
                     src={profileImg112}
@@ -404,13 +407,115 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
                   </div>
                 </div>
 
-                <AddBankModal
-                  isModalOpen={isModalOpen}
-                  handleCloseModal={handleCloseModal}
-                  bankData={bankData}
-                  setBankData={setBankData}
-                  handleAddBank={handleAddBank}
-                />
+                {isModalOpen && (
+                  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="w-5/6 lg:w-2/5 bg-white rounded-md shadow-md">
+                      <header className="flex items-center justify-between p-4">
+                        <h2 className="p-2 text-lg font-medium border-b-2 border-primary ">
+                          Add Bank Data
+                        </h2>
+                        <button
+                          aria-label="Close Modal Add Bank"
+                          className="text-gray-500 hover:text-slate-700"
+                          onClick={handleCloseModal}
+                        >
+                          <CloseButtonIcon className="w-8 h-8 p-1 duration-200 rounded-md overlay hover:bg-red-800 hover:text-white" />
+                        </button>
+                      </header>
+                      <div className="px-4 py-2">
+                        <label
+                          htmlFor="input"
+                          className="block font-medium text-slate-700"
+                        >
+                          Employee Name
+                        </label>
+                        <input
+                          type="text"
+                          id="account_name"
+                          name="account_name"
+                          placeholder="Account Name"
+                          value={bankData.account_name}
+                          onChange={(e) =>
+                            setBankData({
+                              ...bankData,
+                              account_name: e.target.value,
+                            })
+                          }
+                          className="block w-full px-3 py-2 mt-1 text-sm bg-white border rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                        />
+                      </div>
+                      <div className="px-4 py-2">
+                        <label
+                          htmlFor="input"
+                          className="block font-medium text-gray-700"
+                        >
+                          Account Number
+                        </label>
+                        <input
+                          type="number"
+                          id="account_number"
+                          name="account_number"
+                          placeholder="Account Number"
+                          value={bankData.account_number}
+                          onChange={(e) =>
+                            setBankData({
+                              ...bankData,
+                              account_number: e.target.value,
+                            })
+                          }
+                          className="block w-full px-3 py-2 mt-1 text-sm bg-white border rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                        />
+                      </div>
+                      <div className="px-4 py-2">
+                        {/* Konten modal */}
+                        <div className="mb-4">
+                          <label
+                            htmlFor="dropdown"
+                            className="block font-medium text-gray-700"
+                          >
+                            Select Bank
+                          </label>
+
+                          <select
+                            id="type-dropdown"
+                            name="type-dropdown"
+                            value={bankData.type_bank}
+                            onChange={(e) =>
+                              setBankData({
+                                ...bankData,
+                                type_bank: e.target.value,
+                              })
+                            }
+                            className="block w-full px-3 py-2 mt-2 text-sm bg-white border rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
+                          >
+                            <option value="" disabled>
+                              Select Bank Name
+                            </option>
+                            <option value="Mandiri">Bank Mandiri </option>
+                            <option value="BRI">Bank BRI</option>
+                            <option value="BNI">Bank BNI</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div className="flex justify-end w-full p-4 rounded-t-none shadow-inner rounded-b-md border-gray bg-slate-200">
+                        <button
+                          aria-label="Close Modal"
+                          className="text-sm lg:text-base px-4 py-2 mx-2 text-white duration-300 bg-red-800 rounded-md hover:bg-red-700"
+                          onClick={handleCloseModal}
+                        >
+                          CANCEL
+                        </button>
+                        <button
+                          aria-label="Submit Bank Data"
+                          className="text-sm lg:text-base px-4 py-2 text-white duration-300 rounded-md bg-primary hover:bg-gray"
+                          onClick={handleAddBank}
+                        >
+                          ADD
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

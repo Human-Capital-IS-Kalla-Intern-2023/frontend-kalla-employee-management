@@ -147,6 +147,25 @@ const EligiblesCard = ({ employeeData }: EligiblesProps) => {
     fetchSecondaryPositionEmployee(employeeId);
   }, [employeeId, positionId]);
 
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  useEffect(() => {
+    const handleEscKeyPress = (event: any) => {
+      if (event.key === 'Escape') {
+        setIsDropdownVisible(false);
+      }
+    };
+
+    if (isDropdownVisible) {
+      document.addEventListener('keydown', handleEscKeyPress);
+    } else {
+      document.removeEventListener('keydown', handleEscKeyPress);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscKeyPress);
+    };
+  }, [isDropdownOpen]);
+
   return (
     <>
       {isLoading && (
@@ -167,9 +186,9 @@ const EligiblesCard = ({ employeeData }: EligiblesProps) => {
                 <button
                   aria-label="Manage"
                   onClick={handleManageClick}
-                  className={`flex items-center justify-center px-6 py-3 text-[17px] font-medium duration-200 ${
+                  className={`flex items-center justify-center px-4 pr-3 py-3 text-[17px] font-medium duration-200 ${
                     isDropdownVisible ? 'rounded-t-lg' : 'rounded-lg'
-                  } text-pureBlack bg-secondary focus:outline-none bg-primary-600 hover:bg-gray hover:text-white `}
+                  } text-pureBlack bg-secondary focus:outline-none hover:bg-yellow lg:hover:scale-105`}
                 >
                   Manage
                   <ArrowButtonIcon className="h-3.5 w-3.5 ml-1" />
