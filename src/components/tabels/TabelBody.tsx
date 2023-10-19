@@ -370,6 +370,24 @@ const TabelBody: React.FC<TabelBodyProps> = ({
     }
   }, [data, location.search, modalDeleteId, navigate, openDeleteModal]);
 
+  useEffect(() => {
+    const closeDropdownOnOutsideClick = (event: any) => {
+      // Cek apakah event target (elemen yang diklik) adalah dropdown atau turunannya
+      if (!event.target.closest('.dropdown-wrapper')) {
+        // Jika bukan, maka tutup dropdown
+        setActiveDropdown(null);
+      }
+    };
+
+    // Tambahkan event listener untuk mengawasi klik di seluruh dokumen
+    document.addEventListener('click', closeDropdownOnOutsideClick);
+
+    // Membersihkan event listener saat komponen tidak lagi ter-render
+    return () => {
+      document.removeEventListener('click', closeDropdownOnOutsideClick);
+    };
+  }, []);
+
   return (
     <section className="py-3 antialiased sm:py-2 overlay">
       <div className="max-w-screen-xl px-4 mx-auto">
@@ -396,7 +414,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                         index === data.length - 1 ? 'border-none' : ''
                       } ${
                         activeDropdown === customCell.id ? 'bg-slate-200' : ''
-                      }`}
+                      } dropdown-wrapper`}
                       key={index}
                     >
                       <td className="flex items-center px-2 py-4 font-medium text-center text-black whitespace-nowrap">
@@ -421,7 +439,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                             role="menu"
                             aria-labelledby={`dropdown-button-${index}`}
                           >
-                            <ul className="py-1 text-sm">
+                            <ul className="py-1 text-sm shadow-[0_0px_15px_1px_rgba(0,0,0,0.4)]">
                               <li>
                                 <Link
                                   to={

@@ -215,7 +215,7 @@ const Company: React.FC = () => {
 
   return (
     <>
-      <h1 className="px-4 text-xl my-1">Company Page</h1>
+      <h1 className="px-4 py-2 my-1 text-xl">Company Page</h1>
       {isLoading && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <ReactLoading type="spin" color="green" height={50} width={50} />
