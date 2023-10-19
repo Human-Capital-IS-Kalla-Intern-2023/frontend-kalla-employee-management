@@ -197,6 +197,12 @@ const TabelBody: React.FC<TabelBodyProps> = ({
       ? text.substring(0, maxLength) + '...'
       : text;
   };
+  // const handleClickOutsideDropdown = (event: any) => {
+  //   // Periksa apakah event.target bukan bagian dari dropdown
+  //   if (event.target.closest(`#dropdown-button-`) === null) {
+  //     setActiveDropdown(null); // Menutup dropdown jika klik diluar dropdown
+  //   }
+  // };
 
   interface TableCell {
     key: string;
@@ -297,11 +303,13 @@ const TabelBody: React.FC<TabelBodyProps> = ({
 
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('keydown', handleEscapeKey);
+    // document.addEventListener('click', handleClickOutsideDropdown);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('keydown', handleEscapeKey);
       document.removeEventListener('keydown', handleEscapeKey);
+      // document.removeEventListener('click', handleClickOutsideDropdown);
     };
   }, [closeDeleteModal, closeDetailModal, closeEditModal]);
 
@@ -489,6 +497,11 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                                     type="button"
                                     aria-label="Eligible"
                                     className="flex items-center w-full px-4 py-2 duration-200 hover: hover:text-white hover:bg-primary"
+                                    onClick={() =>
+                                      navigate(
+                                        `detail/eligibles/${customCell.id}`
+                                      )
+                                    }
                                   >
                                     <UserIcon className="w-4 h-4 mr-2" />
                                     Eligible
