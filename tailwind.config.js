@@ -10,10 +10,11 @@ export default {
         secondary: '#DCA63F',
         yellow: '#dcca3f',
         white: '#fff',
-        black: '#2F2F41',
+        black: '#0e1111',
         pureBlack: '#000',
         link: '#0751C5',
         gray: '#374151',
+        grayBlack: '#232b2b',
         transparet: '#FFFFFF00',
       },
 
