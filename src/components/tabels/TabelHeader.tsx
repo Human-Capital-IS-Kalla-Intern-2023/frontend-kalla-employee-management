@@ -62,6 +62,7 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
 
   const closeModal = useCallback(() => {
     setModalOpen(false);
+    SetCompensationModalOpen(false);
     if (location.pathname.endsWith('/add')) {
       const newUrl = location.pathname.slice(0, -4);
       navigate(newUrl);
@@ -103,7 +104,9 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
       onSearch(searchValue);
       setSearchInput(searchValue);
     }
-    if (isCompensationPage) {
+
+    // compensation Modal
+    if (isCompensationPage && CompensationModalOpen) {
       SetCompensationModalOpen(true);
     } else {
       SetCompensationModalOpen(false);
@@ -115,6 +118,7 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
     const handleEscapeKey = (event: any) => {
       if (event.key === 'Escape') {
         closeModal();
+        SetCompensationModalOpen(false);
       }
     };
 
@@ -201,14 +205,10 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
                   onSubmit={onSubmit}
                 />
               )}
-              {isCompensationPage && (
+              {isCompensationPage && !CompensationModalOpen && (
                 <CompensationAddCard
                   isOpen={CompensationModalOpen}
-                  onClose={() => {
-                    {
-                      closeModal;
-                    }
-                  }}
+                  onClose={closeModal}
                 />
               )}
             </div>
