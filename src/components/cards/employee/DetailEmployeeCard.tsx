@@ -105,7 +105,7 @@ const DetailEmployeeCard = ({
             <div className="px-1 lg:px-3">
               <div className="my-4 rounded-t-lg">
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  <div className="p-4 bg-white border-l-4 border-b-4 border-primary rounded-lg shadow-[0_0px_15px_1px_rgba(0,0,0,0.3)]">
+                  <div className="p-4 bg-white border-l-4 border-b-4 border-primary rounded-lg allSideMedium">
                     <h2 className="mb-1 text-base font-semibold lg:mb-2 sm:text-md lg:text-md">
                       Nickname
                     </h2>
@@ -114,7 +114,7 @@ const DetailEmployeeCard = ({
                     </p>
                   </div>
 
-                  <div className="p-4 bg-white border-b-4 border-l-4 rounded-lg  shadow-[0_0px_15px_1px_rgba(0,0,0,0.3)] border-primary">
+                  <div className="p-4 bg-white border-b-4 border-l-4 rounded-lg  allSideMedium border-primary">
                     <h2 className="mb-1 text-base font-semibold lg:mb-2 sm:text-md lg:text-md">
                       Email
                     </h2>
@@ -123,7 +123,7 @@ const DetailEmployeeCard = ({
                     </p>
                   </div>
 
-                  <div className="p-4 bg-white border-b-4 border-l-4 rounded-lg  shadow-[0_0px_15px_1px_rgba(0,0,0,0.3)] border-primary">
+                  <div className="p-4 bg-white border-b-4 border-l-4 rounded-lg  allSideMedium border-primary">
                     <h2 className="mb-1 text-base font-semibold lg:mb-2 sm:text-md lg:text-md">
                       Hire Date
                     </h2>

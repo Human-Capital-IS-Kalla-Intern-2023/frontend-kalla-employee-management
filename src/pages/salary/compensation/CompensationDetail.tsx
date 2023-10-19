@@ -1,9 +1,10 @@
-import CompoensationDetailCard from '../../../components/cards/compensation/CompensationDetailCard';
+
+import CompensationDetailCard from '../../../components/cards/compensation/CompensationDetailCard';
 
 const CompensationDetail = () => {
   return (
     <>
-      <CompoensationDetailCard />
+      <CompensationDetailCard />
     </>
   );
 };

@@ -249,7 +249,7 @@ const EligiblesCard = ({ employeeData }: EligiblesProps) => {
               <div className="px-3">
                 <div className="my-5 rounded-t-lg ">
                   <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                    <div className="p-4 bg-white border-b-4 border-l-4 rounded-lg  shadow-[0_0px_15px_1px_rgba(0,0,0,0.3)] border-primary">
+                    <div className="p-4 bg-white border-b-4 border-l-4 rounded-lg  allSideMedium border-primary">
                       <h2 className="mb-2 text-base font-semibold lg:text-lg">
                         Company Name
                       </h2>
@@ -258,7 +258,7 @@ const EligiblesCard = ({ employeeData }: EligiblesProps) => {
                       </p>
                     </div>
 
-                    <div className="p-4 bg-white border-b-4 border-l-4 rounded-lg  shadow-[0_0px_15px_1px_rgba(0,0,0,0.3)] border-primary">
+                    <div className="p-4 bg-white border-b-4 border-l-4 rounded-lg  allSideMedium border-primary">
                       <h2 className="mb-2 text-base font-semibold lg:text-lg">
                         Directorate
                       </h2>
@@ -266,7 +266,7 @@ const EligiblesCard = ({ employeeData }: EligiblesProps) => {
                         {employeeData.directorate_name}
                       </p>
                     </div>
-                    <div className="p-4 bg-white border-b-4 border-l-4 rounded-lg  shadow-[0_0px_15px_1px_rgba(0,0,0,0.3)] border-primary">
+                    <div className="p-4 bg-white border-b-4 border-l-4 rounded-lg  allSideMedium border-primary">
                       <h2 className="mb-2 text-base font-semibold lg:text-lg">
                         Division
                       </h2>

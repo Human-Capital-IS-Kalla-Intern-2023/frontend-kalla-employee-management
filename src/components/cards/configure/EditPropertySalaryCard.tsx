@@ -756,7 +756,7 @@ const EditPropertySalaryCard = () => {
           {Object.keys(componentByType).map((type, outerIndex) => (
             <div className="mt-2">
               <div key={outerIndex}>
-                <h2 className="py-4 pl-4 capitalize  border-gray  shadow-[0_0px_15px_1px_rgba(0,0,0,0.1)]">
+                <h2 className="py-4 pl-4 capitalize  border-gray  allSideLow">
                   {type}
                 </h2>
                 <table className="min-w-full border-collapse border-gray-200 table-auto">

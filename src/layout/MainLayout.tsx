@@ -32,9 +32,7 @@ function MainLayout({ children }: any) {
       {shouldShowSidebar && <Sidebar />}
       <main
         className={
-          shouldShowSidebar
-            ? 'flex-1 py-2 mx-auto max-w-sm md:max-w-none'
-            : 'w-full'
+          shouldShowSidebar ? 'flex-1 mx-auto max-w-sm md:max-w-none' : 'w-full'
         }
       >
         {children}

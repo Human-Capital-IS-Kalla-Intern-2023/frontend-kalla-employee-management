@@ -211,7 +211,7 @@ const Employee: React.FC = () => {
           <ReactLoading type="spin" color="green" height={50} width={50} />
         </div>
       )}
-      <h1 className="px-4 text-xl my-1">Employee Page</h1>
+      <h1 className="px-4 py-2 my-1 text-xl">Employee Page</h1>
       {successMessage && successTitle && (
         <SuccessAlert title={successTitle} text={successMessage} />
       )}
