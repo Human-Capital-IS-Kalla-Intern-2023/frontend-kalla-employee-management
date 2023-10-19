@@ -7,7 +7,7 @@ import { SearchIcon } from '../../../assets/icons/icon';
 import { Link } from 'react-router-dom';
 import profileImg112 from '../../../assets/img/profile/profileImg-112.webp';
 
-const CompoensationDetailCard = () => {
+const CompensationDetailCard = () => {
   return (
     <div className="antialiased lg:pb-4 lg:p-0 sm:py-2 overlay">
       <header className="flex items-center justify-between p-2 pr-8 sm:p-5">
@@ -216,4 +216,4 @@ const CompoensationDetailCard = () => {
   );
 };
 
-export default CompoensationDetailCard;
+export default CompensationDetailCard;

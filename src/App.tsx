@@ -32,6 +32,7 @@ import Grade from './pages/company/Grade';
 import Compensation from './pages/salary/compensation/Compensation';
 import CompensationDetail from './pages/salary/compensation/CompensationDetail';
 import CompensationAddCard from './components/cards/compensation/CompensationAddCard';
+import CompensationPeople from './pages/salary/compensation/CompensationPeople';
 import MasterSalary from './pages/salary/master/MasterSalary';
 import ConfigureSalary from './pages/salary/configure/ConfigureSalary';
 import AddConfigureSalary from './pages/salary/configure/AddConfigureSalary';
@@ -237,6 +238,16 @@ const App = () => {
           ></Route>
 
           <Route
+            path="/salary/compensation/detail/people"
+            element={
+              <PrivateRoute
+                path="/salary/compensation/detail/people"
+                element={<CompensationPeople />}
+              />
+            }
+          ></Route>
+
+          <Route
             path="/salary/regulation"
             element={
               <PrivateRoute
@@ -284,15 +295,6 @@ const App = () => {
             }
           ></Route>
 
-          <Route
-            path="/salary/compensation/detail"
-            element={
-              <PrivateRoute
-                path="/salary/compensation/detail"
-                element={<EditPropertySalaryCard />}
-              />
-            }
-          ></Route>
           {/* Salary Route End */}
 
           <Route
