@@ -57,11 +57,7 @@ const DetailEmployeeCard = ({
 
   return (
     <section className="antialiased overlay ">
-<<<<<<< HEAD:src/components/cards/DetailEmployee.tsx
-      <header className="flex items-center justify-between px-1 lg:px-3 py-5 shadow-lg ">
-=======
       <header className="flex items-center justify-between px-1 py-5 shadow-lg lg:px-3 ">
->>>>>>> 545db81b7921da106223da150ff401679371ca8d:src/components/cards/employee/DetailEmployeeCard.tsx
         <h1 className="p-2 ml-2.5 text-lg lg:text-xl font-medium border-b-2 border-primary ">
           Personal Data Page
         </h1>
@@ -88,11 +84,7 @@ const DetailEmployeeCard = ({
         />
       )}
 
-<<<<<<< HEAD:src/components/cards/DetailEmployee.tsx
-      <div className="max-w-screen-xl px-3 lg:px-4 pt-5 lg:pt-6 mx-auto">
-=======
       <div className="max-w-screen-xl px-3 pt-5 mx-auto lg:px-4 lg:pt-6">
->>>>>>> 545db81b7921da106223da150ff401679371ca8d:src/components/cards/employee/DetailEmployeeCard.tsx
         <div className="relative overflow-hidden sm:rounded-lg">
           <div className="pt-4 overflow-x-auto ">
             <img
@@ -103,11 +95,7 @@ const DetailEmployeeCard = ({
               height={160}
             />
 
-<<<<<<< HEAD:src/components/cards/DetailEmployee.tsx
-            <h2 className="mt-4 font-semibold text-center text-md sm:text-md md:text-lg lg:text-xl">
-=======
             <h2 className="mt-4 font-semibold text-center text-md sm:text-md md:text-lg lg:text-[22px]">
->>>>>>> 545db81b7921da106223da150ff401679371ca8d:src/components/cards/employee/DetailEmployeeCard.tsx
               {employeeData.fullname}
             </h2>
             <p className="pt-2 text-base italic font-medium text-center lg:text-lg">

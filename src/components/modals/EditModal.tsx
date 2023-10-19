@@ -125,11 +125,7 @@ const EditModal = ({
 
   return (
     <div className="fixed inset-0 z-20 flex items-center justify-center bg-black bg-opacity-50 overlay">
-<<<<<<< HEAD
-      <div className="relative w-11/12 lg:w-3/6 p-6 bg-white rounded shadow-lg overlay">
-=======
       <div className="relative w-11/12 p-6 bg-white rounded shadow-lg lg:w-3/6 overlay">
->>>>>>> 545db81b7921da106223da150ff401679371ca8d
         <div
           onClick={onClose}
           className="absolute cursor-pointer top-4 right-5 focus:outline-none"
@@ -137,11 +133,7 @@ const EditModal = ({
           <CloseButtonIcon className="w-10 h-10 p-1 duration-200 rounded-full overlay hover:bg-primary hover:text-white" />
         </div>
         <div className="relative mt-8 mb-5 text-center">
-<<<<<<< HEAD
-          <span className="relative z-10 px-6 lg:px-8 py-2 text-lg lg:text-2xl text-white border rounded-full bg-primary border-primaryColor">
-=======
           <span className="relative z-10 px-6 py-2 text-lg text-white border rounded-full lg:px-8 lg:text-2xl bg-primary border-primaryColor">
->>>>>>> 545db81b7921da106223da150ff401679371ca8d
             {title}
           </span>
           <div className="absolute top-1/2 text-black bg-black left-0 transform -translate-y-1/2 w-full h-0.5 bg-primaryColor z-0"></div>

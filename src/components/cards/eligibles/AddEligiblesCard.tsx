@@ -1,11 +1,10 @@
 import { useState, useEffect, useMemo } from 'react';
-<<<<<<< HEAD:src/components/cards/AddEligiblesCard.tsx
-import { PlusIcon, CloseButtonIcon, TrashIcon } from '../../assets/icons/icon';
-import profileImg from '../../assets/img/profileImg.webp';
-=======
-import { PlusIcon, TrashIcon } from '../../../assets/icons/icon';
+import {
+  PlusIcon,
+  CloseButtonIcon,
+  TrashIcon,
+} from '../../../assets/icons/icon';
 import profileImg112 from '../../../assets/img/profile/profileImg-112.webp';
->>>>>>> 545db81b7921da106223da150ff401679371ca8d:src/components/cards/eligibles/AddEligiblesCard.tsx
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { addDetailSalaryEmployee } from '../../../api/EmployeeAPI';
 import {
@@ -17,10 +16,6 @@ import {
 } from '../../alerts/CustomAlert';
 import { ResetAlert } from '../../../helpers/ResetAlert';
 import ReactLoading from 'react-loading';
-<<<<<<< HEAD:src/components/cards/AddEligiblesCard.tsx
-=======
-import AddBankModal from '../../modals/bank/AddBankModal';
->>>>>>> 545db81b7921da106223da150ff401679371ca8d:src/components/cards/eligibles/AddEligiblesCard.tsx
 
 type EligiblesProps = {
   employeeData: any;
@@ -239,18 +234,6 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
       {errorMessage && errorTitle && (
         <ErrorAlert title={errorTitle} text={errorMessage} />
       )}
-<<<<<<< HEAD:src/components/cards/AddEligiblesCard.tsx
-      <section className="h-screen py-3 antialiased sm:py-2 overlay">
-        <header className="flex items-center justify-between p-2 pr-8 shadow-lg sm:p-5">
-          <h1 className="p-2 text-base font-medium border-b-2 sm:text-lg md:text-xl lg:text-2xl border-primary">
-            Add Eligibles Employee
-          </h1>
-
-          <div className="flex text-xs font-medium sm:flex-row lg:text-sm">
-            <button
-              aria-label="Cancel Add Eligibles Employee"
-              className="px-1 py-2 mr-2 text-white duration-300 bg-red-800 rounded-md lg:px-4 lg:py-2 lg:mr-4 hover:bg-red-700 lg:hover:scale-105"
-=======
       <section className="h-screen antialiased lg:py-0 sm:py-2 overlay">
         <header className="flex items-center justify-between p-2 pr-8 shadow-lg sm:p-5">
           <h1 className="p-2 text-base font-medium border-b-2 sm:text-lg md:text-xl lg:text-[22px] border-primary">
@@ -260,18 +243,13 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
             <button
               aria-label="Cancel Add Eligibles Employee"
               className="px-1 py-2 mr-2 text-base text-white duration-300 border border-transparent rounded-md lg:px-4 lg:py-2 lg:mr-4 bg-gray lg:hover:scale-105 hover:bg-white hover:border-black hover:text-black"
->>>>>>> 545db81b7921da106223da150ff401679371ca8d:src/components/cards/eligibles/AddEligiblesCard.tsx
               onClick={handleCancelButton}
             >
               CANCEL
             </button>
             <button
               aria-label="Save Data"
-<<<<<<< HEAD:src/components/cards/AddEligiblesCard.tsx
-              className="px-2 lg:px-6 py-2 text-sm lg:text-base duration-300 border border-transparent rounded-md text-pureBlack bg-secondary hover:bg-amber-400 hover:border-black hover:text-black"
-=======
               className="px-2 py-2 text-sm duration-300 border border-transparent rounded-md lg:px-6 lg:text-base text-pureBlack bg-secondary hover:bg-amber-400 hover:border-black hover:text-black"
->>>>>>> 545db81b7921da106223da150ff401679371ca8d:src/components/cards/eligibles/AddEligiblesCard.tsx
               onClick={saveEmployeeDataToServer}
             >
               SAVE
@@ -291,11 +269,7 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
             <div className="px-5 pt-4 pb-4 overflow-x-auto">
               {/* card 1 */}
 
-<<<<<<< HEAD:src/components/cards/AddEligiblesCard.tsx
-              <div className="flex flex-wrap w-full lg:w-full px-2 py-2 pb-2 overflow-x-auto rounded-lg shadow-lg bg-slate-50">
-=======
-              <div className="flex flex-wrap w-full px-2 py-2 pb-2 overflow-x-auto rounded-lg shadow-lg lg:w-full bg-slate-50">
->>>>>>> 545db81b7921da106223da150ff401679371ca8d:src/components/cards/eligibles/AddEligiblesCard.tsx
+              <div className="flex flex-wrap w-full px-2 py-2 pb-2 overflow-x-auto rounded-lg border-l-4 border-primary shadow-lg lg:w-full bg-slate-50">
                 <div className="flex items-center px-4 pt-4 pb-2 lg:w-full sm:w-1/2">
                   <img
                     src={profileImg112}
@@ -310,17 +284,9 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
                     <p className=" text-[15px]">{employeeDatas.nip}</p>
                   </div>
                   <div className="flex flex-row items-start px-6 py-1 pt-12">
-<<<<<<< HEAD:src/components/cards/AddEligiblesCard.tsx
-                    <div className="px-5 lg:px-4 mb-2">
-                      <h3 className="text-md ">Job Grade</h3>
-                      <p className="font-semibold text-md">
-                        {employeeDatas.grade_name}
-                      </p>
-=======
                     <div className="px-5 mb-2 lg:px-4">
                       <h3 className="font-semibold text-md ">Job Grade</h3>
                       <p className="text-[15px]">{employeeDatas.grade_name}</p>
->>>>>>> 545db81b7921da106223da150ff401679371ca8d:src/components/cards/eligibles/AddEligiblesCard.tsx
                     </div>
                     <div className="px-4 mb-2">
                       <h3 className="font-semibold text-md ">Position</h3>
@@ -340,13 +306,8 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
               {/* card 1 */}
 
               {/* card 2*/}
-<<<<<<< HEAD:src/components/cards/AddEligiblesCard.tsx
-              <div className="flex flex-col sm:flex-row pt-3">
-                <div className="flex flex-col w-full sm:w-4/6 my-6 bg-white rounded-t-lg shadow-xl">
-=======
               <div className="flex flex-col pt-3 sm:flex-row">
                 <div className="flex flex-col w-full my-6 bg-white rounded-t-lg shadow-xl sm:w-4/6">
->>>>>>> 545db81b7921da106223da150ff401679371ca8d:src/components/cards/eligibles/AddEligiblesCard.tsx
                   <div className="rounded-t-lg bg-primary">
                     <div className="w-full px-4 py-2 text-left border-b-2">
                       <h2 className="text-lg font-medium text-white">
@@ -355,11 +316,7 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
                     </div>
                   </div>
                   {employeeDatas.components.length !== 0 ? (
-<<<<<<< HEAD:src/components/cards/AddEligiblesCard.tsx
-                    <div className="flex xs:flex-col flex-wrap w-full">
-=======
                     <div className="flex flex-wrap w-full xs:flex-col">
->>>>>>> 545db81b7921da106223da150ff401679371ca8d:src/components/cards/eligibles/AddEligiblesCard.tsx
                       {employeeDatas.components.map(
                         (component: any, index: any) => (
                           <div

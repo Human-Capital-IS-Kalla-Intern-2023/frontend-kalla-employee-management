@@ -147,6 +147,25 @@ const EligiblesCard = ({ employeeData }: EligiblesProps) => {
     fetchSecondaryPositionEmployee(employeeId);
   }, [employeeId, positionId]);
 
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  useEffect(() => {
+    const handleEscKeyPress = (event: any) => {
+      if (event.key === 'Escape') {
+        setIsDropdownVisible(false);
+      }
+    };
+
+    if (isDropdownVisible) {
+      document.addEventListener('keydown', handleEscKeyPress);
+    } else {
+      document.removeEventListener('keydown', handleEscKeyPress);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscKeyPress);
+    };
+  }, [isDropdownOpen]);
+
   return (
     <>
       {isLoading && (
@@ -167,9 +186,9 @@ const EligiblesCard = ({ employeeData }: EligiblesProps) => {
                 <button
                   aria-label="Manage"
                   onClick={handleManageClick}
-                  className={`flex items-center justify-center px-4 py-3 text-[17px] font-medium duration-200 ${
+                  className={`flex items-center justify-center px-4 pr-3 py-3 text-[17px] font-medium duration-200 ${
                     isDropdownVisible ? 'rounded-t-lg' : 'rounded-lg'
-                  } text-pureBlack bg-secondary focus:outline-none bg-primary-600 hover:bg-yellow hover:scale-105 `}
+                  } text-pureBlack bg-secondary focus:outline-none hover:bg-yellow lg:hover:scale-105`}
                 >
                   Manage
                   <ArrowButtonIcon className="h-3.5 w-3.5 ml-1" />
@@ -220,14 +239,10 @@ const EligiblesCard = ({ employeeData }: EligiblesProps) => {
                 className="w-40 h-40 mx-auto shadow-lg rounded-2xl"
               />
 
-<<<<<<< HEAD:src/components/cards/Eligibles.tsx
-              <h2 className="mt-4 text-xl font-semibold text-center sm:text-md md:text-lg lg:text-xl">
-=======
               <h2 className="mt-4 text-xl font-semibold text-center sm:text-md md:text-lg lg:text-[22px]">
->>>>>>> 545db81b7921da106223da150ff401679371ca8d:src/components/cards/eligibles/EligiblesCard.tsx
                 {employeeData.fullname}
               </h2>
-              <p className="mt-2 lg:text-lg italic text-center text-sm">
+              <p className="mt-2 text-lg italic text-center font-lg">
                 {employeeData.nip}
               </p>
 
@@ -266,38 +281,149 @@ const EligiblesCard = ({ employeeData }: EligiblesProps) => {
 
               {/* Tabel 1*/}
               <div className="px-3">
-                <div className="my-4 bg-white rounded-t-lg shadow-lg overflow-x-auto">
-                  <div className="bg-primary px-4 py-2 text-left rounded-tl-lg border-b-2">
-                    <h2 className="sm:text-md lg:text-lg font-medium text-white">
-                      Main Position
-                    </h2>
-                  </div>
-                </div>
-                <div>
-                  <div className="flex-row lg:flex-col">
-                    <div className="flex items-center w-full px-4 py-3">
-                      <div className="w-5/12 lg:w-2/12">
-                        <p className="text-sm lg:text-base">Position Name</p>
-                      </div>
-                      <label className="relative inline-flex items-center w-7/12 cursor-pointer">
-                        : {employeeData.position_name}
-                      </label>
-                    </div>
-<<<<<<< HEAD:src/components/cards/Eligibles.tsx
-                    {employeeData.type_bank !== 'Eligible Belum Dibuat' &&
-                    employeeData.account_number !== 'Eligible Belum Dibuat' ? (
-                      <div className="flex items-center w-full px-4 py-3">
-                        <div className="w-5/12 lg:w-2/12">
-                          <p className="text-sm lg:text-base">Bank Account</p>
-                        </div>
-                        <label className="relative inline-flex items-center w-7/12 cursor-pointer">
-                          :
-                          <div className="ml-1 p-1 rounded-md bg-secondary">
-                            {employeeData.type_bank} -{' '}
-                            {employeeData.account_number}
+                <div className="my-4 overflow-x-auto bg-white rounded-lg shadow-md">
+                  <table className="w-full p-5 table-auto">
+                    <thead>
+                      <tr className="bg-primary">
+                        <th className="w-1/2 px-4 py-2 text-left border-b-2 rounded-tl-lg">
+                          <h2 className="text-lg font-medium text-white">
+                            Primary Information
+                          </h2>
+                        </th>
+                        <th className="w-1/2 px-4 py-2 text-right border-b-2 rounded-tr-lg"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <div className="flex flex-wrap w-full">
+                        <div className="flex items-center w-full px-4 py-3">
+                          <div className="w-5/12">
+                            <p className="text-base">Position Name</p>
                           </div>
-                        </label>
-=======
+                          <label className="relative inline-flex items-center w-7/12">
+                            : {employeeData.position_name}
+                          </label>
+                        </div>
+                        {employeeData.type_bank !== 'Eligible Belum Dibuat' &&
+                        employeeData.account_number !==
+                          'Eligible Belum Dibuat' ? (
+                          <div className="flex items-center w-full px-4 py-3">
+                            <div className="w-5/12">
+                              <p className="text-base">Bank Account</p>
+                            </div>
+                            <label className="relative inline-flex items-center w-7/12">
+                              :
+                              <div className="p-1 rounded-md">
+                                {employeeData.type_bank} -{' '}
+                                {employeeData.account_number}
+                              </div>
+                            </label>
+                          </div>
+                        ) : (
+                          <div className="flex items-center w-full px-4 py-3">
+                            <div className="w-5/12">
+                              <p className="text-base">Bank Account</p>
+                            </div>
+                            <label className="relative inline-flex items-center w-7/12">
+                              :
+                              <div className="p-1 ml-1 rounded-md bg-secondary">
+                                No Bank Data
+                              </div>
+                            </label>
+                          </div>
+                        )}
+                      </div>
+                    </tbody>
+                  </table>
+                </div>
+                {/* Tabel 1*/}
+
+                {/* Salary Datail */}
+                <div className="">
+                  <div className="my-4 bg-white rounded-lg shadow-xl">
+                    <table className="w-full p-5 table-auto">
+                      <thead>
+                        <tr className="bg-primary">
+                          <th className="w-1/2 px-4 py-2 text-left border-b-2 rounded-tl-lg">
+                            <h2 className="text-lg font-medium text-white">
+                              Allowance Information
+                            </h2>
+                          </th>
+                          <th className="w-1/2 px-4 py-2 text-right border-b-2 rounded-tr-lg"></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {employeeData.salary_detail !==
+                          'Eligible Belum Dibuat' &&
+                        employeeData.salary_detail &&
+                        employeeData.salary_detail.length > 0 ? (
+                          employeeData.salary_detail
+                            .reduce((rows: any, item: any, index: any) => {
+                              if (index % 2 === 0) {
+                                rows.push([item]);
+                              } else {
+                                rows[rows.length - 1].push(item);
+                              }
+                              return rows;
+                            }, [])
+                            .map((row: any, rowIndex: any) => (
+                              <tr key={rowIndex}>
+                                {row.map((item: any, itemIndex: any) => (
+                                  <td
+                                    key={itemIndex}
+                                    className="px-4 py-2 text-left align-top"
+                                  >
+                                    <div>
+                                      <h2 className="text- ">
+                                        {item.component_name}
+                                      </h2>
+                                      <span className="text-[13px]">
+                                        {item.salary}
+                                      </span>
+                                      <p className="pt-2 pb-1 text-[15px] border-b ">
+                                        <span
+                                          className={
+                                            item.is_status === 1
+                                              ? 'bg-blue-300 px-3 py-[3px] rounded-lg mt-3 mb-2'
+                                              : 'bg-red-300 px-3  py-[3px] rounded-lg mt-3 mb-2'
+                                          }
+                                        >
+                                          {item.is_status === 1 ? 'Yes' : 'No'}
+                                        </span>
+                                      </p>
+                                    </div>
+                                  </td>
+                                ))}
+                              </tr>
+                            ))
+                        ) : (
+                          <td
+                            className="px-4 py-2 text-center bg-zinc-300"
+                            colSpan={2}
+                          >
+                            No salary data available , setting{' '}
+                            <Link
+                              to={`/employee/detail/eligibles/${employeeId}/${positionId}/set`}
+                              onClick={handleOpenModal}
+                              className="text-blue-700"
+                            >
+                              here
+                            </Link>
+                          </td>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                  {/* Tabel 2*/}
+
+                  {/* Tabel 3 */}
+                  <div className="w-full my-6 bg-white rounded-t-lg shadow-xl">
+                    <div className="rounded-t-lg bg-primary">
+                      <div className="w-full px-4 py-2 text-left border-b-2">
+                        <h2 className="text-lg font-medium text-white">
+                          Secondary Information
+                        </h2>
+                      </div>
+                    </div>
 
                     {employeeData.additional_position.length !== 0 ? (
                       <div className="flex flex-wrap w-full">
@@ -386,188 +512,16 @@ const EligiblesCard = ({ employeeData }: EligiblesProps) => {
                             </div>
                           )
                         )}
->>>>>>> 545db81b7921da106223da150ff401679371ca8d:src/components/cards/eligibles/EligiblesCard.tsx
                       </div>
                     ) : (
-                      <div className="flex items-center w-full px-4 py-3">
-                        <div className="w-5/12 lg:w-2/12">
-                          <p className="text-sm lg:text-base">Bank Account</p>
-                        </div>
-                        <label className="relative inline-flex items-center lg:w-8/12 cursor-pointer">
-                          :
-                          <div className="ml-1 p-1 rounded-md bg-secondary">
-                            No Bank Data
-                          </div>
-                        </label>
+                      <div className="px-4 py-5 text-center bg-zinc-300">
+                        No other positions available
                       </div>
                     )}
                   </div>
+                  {/* Tabel 3 */}
                 </div>
               </div>
-            </div>
-            {/* Tabel 1*/}
-
-            {/* Salary Datail */}
-            <div className="px-6">
-              <div className="my-4 bg-white rounded-lg shadow-md ">
-                <div className="bg-primary w-full table-auto rounded-t-lg">
-                  <div className="w-full px-4 py-2 text-left border-b-2">
-                    <h2 className="sm:text-md lg:text-lg font-medium text-white">
-                      Allowance Information
-                    </h2>
-                  </div>
-                </div>
-                <div>
-                  {employeeData.salary_detail !== 'Eligible Belum Dibuat' &&
-                  employeeData.salary_detail &&
-                  employeeData.salary_detail.length > 0 ? (
-                    employeeData.salary_detail
-                      .reduce((rows: any, item: any, index: any) => {
-                        if (index % 2 === 0) {
-                          rows.push([item]);
-                        } else {
-                          rows[rows.length - 1].push(item);
-                        }
-                        return rows;
-                      }, [])
-                      .map((row: any, rowIndex: any) => (
-                        <tr key={rowIndex}>
-                          {row.map((item: any, itemIndex: any) => (
-                            <td
-                              key={itemIndex}
-                              className="px-4 py-2 text-left align-top"
-                            >
-                              <div>
-                                <h2 className="text-base">
-                                  {item.component_name}
-                                </h2>
-                                <span className="text-[13px]">
-                                  {item.salary}
-                                </span>
-                                <p className="pt-2 pb-1 text-[15px] border-b ">
-                                  <span
-                                    className={
-                                      item.is_status === 1
-                                        ? 'bg-blue-300 px-3 py-[3px] rounded-lg mt-3 mb-2'
-                                        : 'bg-red-300 px-3  py-[3px] rounded-lg mt-3 mb-2'
-                                    }
-                                  >
-                                    {item.is_status === 1 ? 'Yes' : 'No'}
-                                  </span>
-                                </p>
-                              </div>
-                            </td>
-                          ))}
-                        </tr>
-                      ))
-                  ) : (
-                    <div className="px-4 py-4 text-center w-full bg-zinc-300 rounded-b-lg">
-                      No salary data available , setting{' '}
-                      <Link
-                        to={`/employee/detail/eligibles/${employeeId}/${positionId}/set`}
-                        onClick={handleOpenModal}
-                        className="text-blue-700"
-                      >
-                        here
-                      </Link>
-                    </div>
-                  )}
-                </div>
-              </div>
-              {/* Tabel 2*/}
-
-              {/* Tabel 3 */}
-              <div className="w-full my-6 bg-white rounded-t-lg shadow-xl">
-                <div className="rounded-t-lg bg-primary">
-                  <div className="w-full px-4 py-2 text-left border-b-2">
-                    <h2 className="text-lg font-medium text-white">
-                      Secondary Information
-                    </h2>
-                  </div>
-                </div>
-
-                {employeeData.additional_position.length !== 0 ? (
-                  <div className="flex flex-wrap w-full">
-                    {employeeData.additional_position.map(
-                      (position: PositionType, index: number) => (
-                        <div
-                          key={index}
-                          className="flex items-center w-full px-4 py-2 border-b"
-                        >
-                          <div className="relative inline-flex items-center w-5 cursor-pointer">
-                            <button
-                              id={`dropdown-button-${index}`}
-                              className="inline-flex items-center text-sm font-medium rounded-lg hover:text-center"
-                              role="button"
-                              aria-label="Dropdown button"
-                              onClick={() => toggleDropdown(index)}
-                            >
-                              <ThreeDotIcon className="w-5 h-5" />
-                            </button>
-                            {activeDropdown === index && (
-                              <div
-                                className={`absolute left-0 z-10 ml-8 bg-white divide-y rounded shadow-2xl w-44 ${
-                                  index === employeeData.length - 1
-                                    ? 'mb-20'
-                                    : ''
-                                }`}
-                              >
-                                <ul className="text-sm">
-                                  <li>
-                                    <Link
-                                      to={`/employee/detail/eligibles/${employeeId}/${position.id_additional_position}/edit`}
-                                      type="button"
-                                      className="flex items-center w-full px-4 py-[9px] duration-200 hover:text-white hover:bg-primary"
-                                    >
-                                      <EditIcon className="w-4 h-4 mr-2" />
-                                      Edit
-                                    </Link>
-                                  </li>
-                                  <li>
-                                    <Link
-                                      to={`/employee/detail/eligibles/${employeeId}/${position.id_additional_position}`}
-                                      type="button"
-                                      className="flex items-center w-full px-4 py-[9px] duration-200 hover: hover:text-white hover:bg-primary"
-                                      onClick={handleClickDetail}
-                                    >
-                                      <DetailIcon className="w-4 h-4 mr-2" />
-                                      Detail
-                                    </Link>
-                                  </li>
-
-                                  <li>
-                                    <Link
-                                      to={`delete`}
-                                      type="button"
-                                      className="flex items-center w-full px-4 py-[9px] text-red-500 duration-200 hover: hover:text-white hover:bg-red-800"
-                                    >
-                                      <TrashIcon className="w-4 h-4 mr-2" />
-                                      Delete
-                                    </Link>
-                                  </li>
-                                </ul>
-                              </div>
-                            )}
-                          </div>
-                          <div className="w-full px-2 py-2 ml-2 duration-200 rounded-md ">
-                            {/* <Link
-                                  to={`/employee/detail/eligibles/${employeeId}/${position.id_additional_position}`}
-                                ></Link> */}
-                            <p className="text-base ">
-                              <span className="">{position.position_name}</span>
-                            </p>
-                          </div>
-                        </div>
-                      )
-                    )}
-                  </div>
-                ) : (
-                  <div className="px-4 py-5 text-center bg-zinc-300">
-                    No other positions available
-                  </div>
-                )}
-              </div>
-              {/* Tabel 3 */}
             </div>
           </div>
         </div>

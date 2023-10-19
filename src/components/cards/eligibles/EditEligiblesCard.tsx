@@ -1,11 +1,10 @@
 import { useState, useEffect, useMemo } from 'react';
-<<<<<<< HEAD:src/components/cards/EditEligiblesCard.tsx
-import { PlusIcon, CloseButtonIcon, TrashIcon } from '../../assets/icons/icon';
-import profileImg from '../../assets/img/profileImg.webp';
-=======
-import { PlusIcon, TrashIcon } from '../../../assets/icons/icon';
+import {
+  PlusIcon,
+  CloseButtonIcon,
+  TrashIcon,
+} from '../../../assets/icons/icon';
 import profileImg160 from '../../../assets/img/profile/profileImg-160.webp';
->>>>>>> 545db81b7921da106223da150ff401679371ca8d:src/components/cards/eligibles/EditEligiblesCard.tsx
 import { useNavigate, useParams } from 'react-router-dom';
 import { updateDetailSalaryEmployee } from '../../../api/EmployeeAPI';
 import {
@@ -13,14 +12,8 @@ import {
   ErrorAlert,
   DeleteConfimationAlert,
   WarningAlert,
-<<<<<<< HEAD:src/components/cards/EditEligiblesCard.tsx
-} from '../../components/alerts/CustomAlert';
-import { ResetAlert } from '../../helpers/ResetAlert';
-=======
 } from '../../alerts/CustomAlert';
 import { ResetAlert } from '../../../helpers/ResetAlert';
-import AddBankModal from '../../modals/bank/AddBankModal';
->>>>>>> 545db81b7921da106223da150ff401679371ca8d:src/components/cards/eligibles/EditEligiblesCard.tsx
 
 type EligiblesProps = {
   employeeData: any;
@@ -220,18 +213,14 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
           <div className="flex text-xs font-medium sm:flex-row lg:text-sm">
             <button
               aria-label="Cancel"
-              className="px-1 py-2 mr-2 text-white duration-300 bg-red-800 rounded-md lg:px-4 lg:py-2 lg:mr-4 hover:bg-gray lg:hover:scale-105"
+              className="px-1 py-2 mr-2 text-white duration-300 bg-red-800 rounded-md lg:px-4 lg:py-2 lg:mr-4 hover:bg-red-700 lg:hover:scale-105"
               onClick={handleCancelButton}
             >
               CANCEL
             </button>
             <button
               aria-label="Save"
-<<<<<<< HEAD:src/components/cards/EditEligiblesCard.tsx
-              className="px-2 lg:px-6 py-2 text-sm lg:text-base duration-300 border border-transparent rounded-md text-pureBlack bg-secondary hover:bg-amber-400 hover:border-black hover:text-black"
-=======
-              className="px-2 py-2 text-sm duration-300 border border-transparent rounded-md lg:px-6 lg:text-base text-pureBlack bg-secondary hover:bg-amber-400 hover:border-black hover:text-black"
->>>>>>> 545db81b7921da106223da150ff401679371ca8d:src/components/cards/eligibles/EditEligiblesCard.tsx
+              className="px-2 py-2 text-sm duration-300 border border-transparent rounded-md lg:px-6 lg:text-base text-pureBlack bg-secondary hover:bg-yellow hover:text-pureblack lg:hover:scale-105"
               onClick={saveEmployeeDataToServer}
             >
               UPDATE
@@ -246,12 +235,12 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
           Add Salary First for ${employeeDatas.company_name}`}
           />
         )}
-        <div className="max-w-screen-xl px-4 pt-6 mx-auto">
-          <div className="flex w-full px-2 py-2 pb-2 overflow-x-auto rounded-lg shadow-lg bg-slate-50">
+        <div className="max-w-screen-xl px-4 pt-6">
+          <div className="relative overflow-hidden ">
             <div className="px-5 pt-4 pb-4 overflow-x-auto">
               {/* card 1 */}
 
-              <div className="flex w-full px-2 py-2 pb-2 overflow-x-auto rounded-lg shadow-lg bg-slate-50">
+              <div className="flex w-full px-2 py-2 pb-2 overflow-x-auto border-l-4 border-primary rounded-lg shadow-lg bg-slate-50">
                 <div className="flex items-center px-4 pt-4 pb-2">
                   <img
                     src={profileImg160}
@@ -290,13 +279,8 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
               {/* card 1 */}
 
               {/* card 2*/}
-<<<<<<< HEAD:src/components/cards/EditEligiblesCard.tsx
-              <div className="flex flex-col sm:flex-row pt-3">
-                <div className="flex flex-col w-full sm:w-4/6 my-6 bg-white rounded-t-lg shadow-xl">
-=======
               <div className="flex flex-col pt-3 sm:flex-row">
                 <div className="flex flex-col w-full my-6 bg-white rounded-t-lg shadow-xl sm:w-4/6">
->>>>>>> 545db81b7921da106223da150ff401679371ca8d:src/components/cards/eligibles/EditEligiblesCard.tsx
                   <div className="rounded-t-lg bg-primary">
                     <div className="w-full px-4 py-2 text-left border-b-2">
                       <h2 className="text-lg font-medium text-white">
@@ -306,20 +290,12 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
                   </div>
                   {employeeDatas?.salary_detail?.length !== 0 &&
                   employeeDatas?.salary_detail !== null ? (
-<<<<<<< HEAD:src/components/cards/EditEligiblesCard.tsx
-                    <div className="flex xs:flex-col flex-wrap w-full">
-=======
                     <div className="flex flex-wrap w-full xs:flex-col">
->>>>>>> 545db81b7921da106223da150ff401679371ca8d:src/components/cards/eligibles/EditEligiblesCard.tsx
                       {employeeDatas?.salary_detail?.map(
                         (salary: any, index: any) => (
                           <div
                             key={index}
-<<<<<<< HEAD:src/components/cards/EditEligiblesCard.tsx
-                            className="flex items-center w-full lg:w-1/2 px-4 py-4"
-=======
                             className="flex items-center w-full px-4 py-4 lg:w-1/2"
->>>>>>> 545db81b7921da106223da150ff401679371ca8d:src/components/cards/eligibles/EditEligiblesCard.tsx
                           >
                             <div className="w-full lg:w-2/3">
                               <p className="text-base">
@@ -395,11 +371,7 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
                             onClick={handleOpenModalAddBank}
                           >
                             Add
-<<<<<<< HEAD:src/components/cards/EditEligiblesCard.tsx
-                            <PlusIcon className="w-3 h-3 lg:pb-0 pb-1 ml-1" />
-=======
                             <PlusIcon className="w-3 h-3 pb-1 ml-1 lg:pb-0" />
->>>>>>> 545db81b7921da106223da150ff401679371ca8d:src/components/cards/eligibles/EditEligiblesCard.tsx
                           </button>
                         </div>
                       </div>
