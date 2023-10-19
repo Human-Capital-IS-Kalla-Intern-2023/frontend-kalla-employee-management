@@ -6,30 +6,44 @@ import MainLayout from './layout/MainLayout';
 import EmployeeDetailLayout from './layout/EmployeeDetailLayout';
 import PrivateRoute from './middleware/PrivateRoutes';
 
-//  Import Pages
-import Login from './pages/Auth/Login';
-import Dashboard from './pages/Dashboard/Dashboard';
-import Employee from './pages/Employee/Employee';
-import Reports from './pages/Reports/Reports';
-import ProfileEmployee from './pages/Employee/ProfileEmployee';
-import EligiblesEmployee from './pages/Employee/EligiblesEmployee';
-import EditEligibles from './pages/Employee/EditEligibles';
+//  Login & Dashboard Page
+import Login from './pages/auth/Login';
+import Dashboard from './pages/dashboard/Dashboard';
+import Reports from './pages/reports/Reports';
 
-import Position from './pages/Position/Position';
-import Grade from './pages/Salary/Grade';
-import MasterSalary from './pages/Salary/MasterSalary';
+// Employee Page
+import Employee from './pages/employee/Employee';
+import DetailEmployee from './pages/employee/DetailEmployee';
+import EligiblesEmployee from './pages/employee/eligibles/EligiblesEmployee';
+import SetEligiblesCard from './components/modals/eligibles/SetEligiblesModal';
+import EditEligibles from './pages/employee/eligibles/EditEligibles';
+import AddEligibles from './pages/employee/eligibles/AddEligibles';
 
-import Company from './pages/Company/Company';
-import Directorate from './pages/Company/Directorate';
-import Division from './pages/Company/Division';
-import Section from './pages/Company/Section';
-import Location from './pages/Company/Location';
+// Company Page
+import Company from './pages/company/Company';
+import Directorate from './pages/company/Directorate';
+import Division from './pages/company/Division';
+import Section from './pages/company/Section';
+import Location from './pages/company/Location';
+import Position from './pages/position/Position';
+import Grade from './pages/company/Grade';
 
-import Setting from './pages/Profile/Setting';
+// Salary Page
+import Compensation from './pages/salary/compensation/Compensation';
+import CompensationDetail from './pages/salary/compensation/CompensationDetail';
+import CompensationAddCard from './components/cards/compensation/CompensationAddCard';
+import MasterSalary from './pages/salary/master/MasterSalary';
+import ConfigureSalary from './pages/salary/configure/ConfigureSalary';
+import AddConfigureSalary from './pages/salary/configure/AddConfigureSalary';
+import EditPropertySalaryCard from './components/cards/configure/EditPropertySalaryCard';
 
-import NotFound from './pages/Auth/NotFound';
-import PermissionDenied from './pages/Auth/PermissionDenied';
-import Unauthenticated from './pages/Auth/Unauthorized';
+// Setting Page
+import Setting from './pages/profile/Setting';
+
+// Error Page
+import NotFound from './pages/auth/NotFound';
+import PermissionDenied from './pages/auth/PermissionDenied';
+import Unauthenticated from './pages/auth/Unauthorized';
 
 // Import Components
 import AddModal from './components/modals/AddModal';
@@ -39,11 +53,6 @@ import DeleteModal from './components/modals/DeleteModal';
 
 // Import CSS
 import './App.css';
-import ConfigureSalary from './pages/Salary/ConfigureSalary';
-import AddConfigureSalary from './pages/Salary/AddConfigureSalary';
-import EditPropertySalaryCard from './components/cards/EditPropertySalaryCard';
-import SetEligiblesCard from './components/modals/SetEligiblesModal';
-import AddEligibles from './pages/Employee/AddEligibles';
 
 const App = () => {
   return (
@@ -56,6 +65,7 @@ const App = () => {
             element={<PrivateRoute path="/dashboard" element={<Dashboard />} />}
           />
 
+          {/* Employee Route Start */}
           <Route
             path="/employee"
             element={<PrivateRoute path="/employee" element={<Employee />} />}
@@ -69,7 +79,7 @@ const App = () => {
             path="/employee/detail/personal-data/:employeeId/:positionId"
             element={
               <EmployeeDetailLayout>
-                <ProfileEmployee />
+                <DetailEmployee />
               </EmployeeDetailLayout>
             }
           >
@@ -104,10 +114,18 @@ const App = () => {
             }
           />
 
+          {/* Employee Route Start */}
+
+          {/* Position Route Start */}
           <Route
-            path="/reports"
-            element={<PrivateRoute path="/reports" element={<Reports />} />}
-          />
+            path="/position/grade"
+            element={<PrivateRoute path="/company/grade" element={<Grade />} />}
+          >
+            <Route path="add" element={<AddModal />} />
+            <Route path="edit/:modalEditId" element={<EditModal />} />
+            <Route path="detail/:modalDetailId" element={<DetailModal />} />
+            <Route path="delete/:modalDeleteId" element={<DeleteModal />} />
+          </Route>
 
           <Route
             path="/position/posisi"
@@ -120,17 +138,9 @@ const App = () => {
             <Route path="detail/:modalDetailId" element={<DetailModal />} />
             <Route path="delete/:modalDeleteId" element={<DeleteModal />} />
           </Route>
+          {/* Position Route End */}
 
-          <Route
-            path="/position/grade"
-            element={<PrivateRoute path="/company/grade" element={<Grade />} />}
-          >
-            <Route path="add" element={<AddModal />} />
-            <Route path="edit/:modalEditId" element={<EditModal />} />
-            <Route path="detail/:modalDetailId" element={<DetailModal />} />
-            <Route path="delete/:modalDeleteId" element={<DeleteModal />} />
-          </Route>
-
+          {/* Company Route Start */}
           <Route
             path="/company/business unit"
             element={
@@ -198,6 +208,35 @@ const App = () => {
           </Route>
 
           <Route
+            path="/reports"
+            element={<PrivateRoute path="/reports" element={<Reports />} />}
+          />
+          {/* Company Route End */}
+
+          {/* Salary Route Start */}
+          <Route
+            path="/salary/compensation"
+            element={
+              <PrivateRoute
+                path="/salary/compensation"
+                element={<Compensation />}
+              />
+            }
+          >
+            <Route path="add" element={<CompensationAddCard />} />
+          </Route>
+
+          <Route
+            path="/salary/compensation/detail"
+            element={
+              <PrivateRoute
+                path="/salary/compensation/detail"
+                element={<CompensationDetail />}
+              />
+            }
+          ></Route>
+
+          <Route
             path="/salary/regulation"
             element={
               <PrivateRoute
@@ -221,7 +260,6 @@ const App = () => {
               />
             }
           >
-            {/* <Route path="edit/:modalEditId" element={<EditModal />} /> */}
             <Route path="detail/:modalDetailId" element={<DetailModal />} />
             <Route path="delete/:modalDeleteId" element={<DeleteModal />} />
           </Route>
@@ -247,14 +285,28 @@ const App = () => {
           ></Route>
 
           <Route
+            path="/salary/compensation/detail"
+            element={
+              <PrivateRoute
+                path="/salary/compensation/detail"
+                element={<EditPropertySalaryCard />}
+              />
+            }
+          ></Route>
+          {/* Salary Route End */}
+
+          <Route
             path="/setting/:settingId"
             element={
               <PrivateRoute path="/setting/:settingId" element={<Setting />} />
             }
           />
+
+          {/* Error Route Start */}
           <Route path="/*" element={<NotFound />} />
           <Route path="/unauthorized" element={<Unauthenticated />} />
           <Route path="/permissiondenied" element={<PermissionDenied />} />
+          {/* Error Route End */}
         </Routes>
       </MainLayout>
     </Router>
