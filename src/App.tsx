@@ -54,7 +54,7 @@ import DeleteModal from './components/modals/DeleteModal';
 
 // Import CSS
 import './App.css';
-import CompensationPeopleEditCard from './components/cards/compensation/CompensationPeopleEditCard';
+import CompensationPeopleEditCard from './components/cards/compensation/edit compensation/CompensationPeopleEditCard';
 
 const App = () => {
   return (
