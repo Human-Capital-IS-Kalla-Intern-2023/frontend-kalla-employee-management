@@ -54,6 +54,7 @@ import DeleteModal from './components/modals/DeleteModal';
 
 // Import CSS
 import './App.css';
+import CompensationPeopleEditCard from './components/cards/compensation/CompensationPeopleEditCard';
 
 const App = () => {
   return (
@@ -243,6 +244,16 @@ const App = () => {
               <PrivateRoute
                 path="/salary/compensation/detail/people"
                 element={<CompensationPeople />}
+              />
+            }
+          ></Route>
+
+          <Route
+            path="/salary/compensation/detail/people/edit"
+            element={
+              <PrivateRoute
+                path="/salary/compensation/detail/people/edit"
+                element={<CompensationPeopleEditCard />}
               />
             }
           ></Route>
