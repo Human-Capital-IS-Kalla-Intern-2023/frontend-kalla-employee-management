@@ -1,28 +1,12 @@
-import {
-  LeftArrowIcon2,
-  ReponsiveSidebarIcon,
-  RefreshIcon,
-} from '../../../assets/icons/icon';
+import { ReponsiveSidebarIcon, RefreshIcon } from '../../../assets/icons/icon';
 import { SearchIcon } from '../../../assets/icons/icon';
 import { Link } from 'react-router-dom';
 import profileImg112 from '../../../assets/img/profile/profileImg-112.webp';
-
+import HeaderCompensationCard from './HeaderCompensationCard';
 const CompensationDetailCard = () => {
   return (
     <div className="antialiased lg:pb-4 lg:p-0 sm:py-2 overlay">
-      <header className="flex items-center justify-between p-2 pr-8 sm:p-5">
-        <h1 className="p-2 text-base font-medium border-b-2 sm:text-lg md:text-xl lg:text-[20px] border-primary">
-          Compensation & Benefits
-        </h1>
-      </header>
-
-      {/* Back Button Detail Section Start */}
-      <section className="flex items-center justify-start m-5 mt-5">
-        <Link to={`/salary/compensation`}>
-          <LeftArrowIcon2 className="h-10 ml-2 mr-4 duration-200 w-9 hover:text-primary hover:scale-110" />
-        </Link>
-        <span className="text-lg">Details</span>
-      </section>
+      <HeaderCompensationCard text={'Detail'} link={`/salary/compensation`} />
       {/* Back Button Detail Section End */}
 
       {/* Info Section Start */}

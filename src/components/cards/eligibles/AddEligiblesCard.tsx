@@ -4,7 +4,6 @@ import {
   CloseButtonIcon,
   TrashIcon,
 } from '../../../assets/icons/icon';
-import profileImg112 from '../../../assets/img/profile/profileImg-112.webp';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { addDetailSalaryEmployee } from '../../../api/EmployeeAPI';
 import {
@@ -15,6 +14,9 @@ import {
   CancelConfirmationAlert,
 } from '../../alerts/CustomAlert';
 import { ResetAlert } from '../../../helpers/ResetAlert';
+import SalaryInfoEmployeeCard from '../employee/SalaryInfoEmployeeCard';
+import profileImg112 from '../../../assets/img/profile/profileImg-112.webp';
+
 import ReactLoading from 'react-loading';
 
 type EligiblesProps = {
@@ -269,40 +271,11 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
             <div className="px-5 pt-4 pb-4 overflow-x-auto">
               {/* card 1 */}
 
-              <div className="flex flex-wrap w-full px-2 py-2 pb-2 overflow-x-auto rounded-lg border-l-4 border-primary shadow-lg lg:w-full bg-slate-50">
-                <div className="flex items-center px-4 pt-4 pb-2 lg:w-full sm:w-1/2">
-                  <img
-                    src={profileImg112}
-                    alt={`Image Profile ${employeeDatas.fullname}`}
-                    className="mr-4 w-28 h-28 rounded-2xl "
-                  />
-                  <div className="px-4 pl-0 mb-2">
-                    <p className="text-lg font-bold">
-                      {employeeDatas.fullname}
-                    </p>
-                    <h3 className="mt-4 font-semibold text-md">NIK</h3>
-                    <p className=" text-[15px]">{employeeDatas.nip}</p>
-                  </div>
-                  <div className="flex flex-row items-start px-6 py-1 pt-12">
-                    <div className="px-5 mb-2 lg:px-4">
-                      <h3 className="font-semibold text-md ">Job Grade</h3>
-                      <p className="text-[15px]">{employeeDatas.grade_name}</p>
-                    </div>
-                    <div className="px-4 mb-2">
-                      <h3 className="font-semibold text-md ">Position</h3>
-                      <p className="text-[15px]">
-                        {employeeDatas.position_name}
-                      </p>
-                    </div>
-                    <div className="px-4 mb-2">
-                      <h3 className="font-semibold text-md ">Company Name</h3>
-                      <p className="text-[15px]">
-                        {employeeDatas.company_name}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <SalaryInfoEmployeeCard
+                employeeDatas={employeeDatas}
+                profileImg={profileImg112}
+              />
+
               {/* card 1 */}
 
               {/* card 2*/}
@@ -409,7 +382,7 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
 
                 {isModalOpen && (
                   <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="w-5/6 lg:w-2/5 bg-white rounded-md shadow-md">
+                    <div className="w-5/6 bg-white rounded-md shadow-md lg:w-2/5">
                       <header className="flex items-center justify-between p-4">
                         <h2 className="p-2 text-lg font-medium border-b-2 border-primary ">
                           Add Bank Data
@@ -500,14 +473,14 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
                       <div className="flex justify-end w-full p-4 rounded-t-none shadow-inner rounded-b-md border-gray bg-slate-200">
                         <button
                           aria-label="Close Modal"
-                          className="text-sm lg:text-base px-4 py-2 mx-2 text-white duration-300 bg-red-800 rounded-md hover:bg-red-700"
+                          className="px-4 py-2 mx-2 text-sm text-white duration-300 bg-red-800 rounded-md lg:text-base hover:bg-red-700"
                           onClick={handleCloseModal}
                         >
                           CANCEL
                         </button>
                         <button
                           aria-label="Submit Bank Data"
-                          className="text-sm lg:text-base px-4 py-2 text-white duration-300 rounded-md bg-primary hover:bg-gray"
+                          className="px-4 py-2 text-sm text-white duration-300 rounded-md lg:text-base bg-primary hover:bg-gray"
                           onClick={handleAddBank}
                         >
                           ADD

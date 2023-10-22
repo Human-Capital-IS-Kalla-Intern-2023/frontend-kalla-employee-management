@@ -5,6 +5,7 @@ import {
   TrashIcon,
 } from '../../../assets/icons/icon';
 import profileImg160 from '../../../assets/img/profile/profileImg-160.webp';
+import SalaryInfoEmployeeCard from '../employee/SalaryInfoEmployeeCard';
 import { useNavigate, useParams } from 'react-router-dom';
 import { updateDetailSalaryEmployee } from '../../../api/EmployeeAPI';
 import {
@@ -213,7 +214,7 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
           <div className="flex text-xs font-medium sm:flex-row lg:text-sm">
             <button
               aria-label="Cancel"
-              className="px-1 py-2 mr-2 text-white duration-300 bg-red-800 rounded-md lg:px-4 lg:py-2 lg:mr-4 hover:bg-red-700 lg:hover:scale-105"
+              className="px-2 py-2 mr-2 text-base text-white duration-300 bg-red-800 rounded-md lg:px-4 lg:py-2 lg:mr-4 hover:bg-red-700 lg:hover:scale-105"
               onClick={handleCancelButton}
             >
               CANCEL
@@ -240,42 +241,11 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
             <div className="px-5 pt-4 pb-4 overflow-x-auto">
               {/* card 1 */}
 
-              <div className="flex w-full px-2 py-2 pb-2 overflow-x-auto border-l-4 border-primary rounded-lg shadow-lg bg-slate-50">
-                <div className="flex items-center px-4 pt-4 pb-2">
-                  <img
-                    src={profileImg160}
-                    alt={`Image Profile ${employeeDatas.fullname}`}
-                    className="mr-4 w-28 h-28 rounded-2xl"
-                  />
-                  <div className="px-4 pl-0 mb-2">
-                    <p className="text-lg font-bold">
-                      {employeeDatas.fullname}
-                    </p>
-                    <h3 className="mt-4 text-md">NIK</h3>
-                    <p className="font-semibold text-md">{employeeDatas.nip}</p>
-                  </div>
-                  <div className="flex flex-row items-start px-6 py-1 pt-12">
-                    <div className="px-4 mb-2">
-                      <h3 className="text-md ">Job Grade</h3>
-                      <p className="font-semibold text-md">
-                        {employeeDatas.grade_name}
-                      </p>
-                    </div>
-                    <div className="px-4 mb-2">
-                      <h3 className="text-md ">Position</h3>
-                      <p className="font-semibold text-md">
-                        {employeeDatas.position_name}
-                      </p>
-                    </div>
-                    <div className="px-4 mb-2">
-                      <h3 className="text-md ">Company Name</h3>
-                      <p className="font-semibold text-md">
-                        {employeeDatas.company_name}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <SalaryInfoEmployeeCard
+                employeeDatas={employeeDatas}
+                profileImg={profileImg160}
+              />
+
               {/* card 1 */}
 
               {/* card 2*/}
@@ -400,7 +370,7 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
 
                 {isModalOpen && (
                   <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 ">
-                    <div className="w-5/6 lg:w-2/5 bg-white rounded-md shadow-md">
+                    <div className="w-5/6 bg-white rounded-md shadow-md lg:w-2/5">
                       <header className="flex items-center justify-between p-4">
                         <h2 className="p-2 text-lg font-medium border-b-2 border-primary ">
                           Add Bank Data
