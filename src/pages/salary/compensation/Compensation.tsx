@@ -26,6 +26,8 @@ import {
   colCells,
   filterOptions,
   inputField,
+  fetchCompany,
+  populateMonthOptions,
 } from '../../../assets/data/CompensationData';
 
 const Compensation: React.FC = () => {
@@ -69,8 +71,8 @@ const Compensation: React.FC = () => {
       setCompensation(responseData.data);
     } catch (error: any) {
       console.error('Error fetch compensation:', error);
-      setErrorTitle('Error fetch compensation data');
-      setErrorMessage(error.response.data.message);
+      // setErrorTitle('Error fetch compensation data');
+      // setErrorMessage(error.response.data.message);
     } finally {
       setIsLoading(false);
     }
@@ -209,7 +211,9 @@ const Compensation: React.FC = () => {
   };
 
   useEffect(() => {
+    fetchCompany();
     fetchAllCompensationData();
+    populateMonthOptions();
   }, []);
 
   return (
@@ -219,7 +223,7 @@ const Compensation: React.FC = () => {
           <ReactLoading type="spin" color="green" height={50} width={50} />
         </div>
       )}
-      <h1 className="px-4 text-xl my-1">Compensation & Benefits</h1>
+      <h1 className="px-4 my-1 text-xl">Compensation & Benefits</h1>
       {successMessage && successTitle && (
         <SuccessAlert title={successTitle} text={successMessage} />
       )}
@@ -227,6 +231,7 @@ const Compensation: React.FC = () => {
         <ErrorAlert title={errorTitle} text={errorMessage} />
       )}
       <TabelHeader
+        onNavigate="add"
         addButtonText="Add Compensation"
         title="Add Compensation"
         filterOptions={filterOptions}

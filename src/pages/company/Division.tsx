@@ -222,6 +222,7 @@ const Division: React.FC = () => {
         <ErrorAlert title={errorTitle} text={errorMessage} />
       )}
       <TabelHeader
+        onNavigate="add"
         addButtonText="Add Division"
         title="Add Division"
         filterOptions={filterOptions}

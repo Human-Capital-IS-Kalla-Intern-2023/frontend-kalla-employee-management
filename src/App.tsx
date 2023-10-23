@@ -31,7 +31,7 @@ import Grade from './pages/company/Grade';
 // Salary Page
 import Compensation from './pages/salary/compensation/Compensation';
 import CompensationDetail from './pages/salary/compensation/CompensationDetail';
-import CompensationAddCard from './components/cards/compensation/CompensationAddCard';
+// import CompensationAddCard from './components/cards/compensation/CompensationAddCard';
 import CompensationPeople from './pages/salary/compensation/CompensationPeople';
 import MasterSalary from './pages/salary/master/MasterSalary';
 import ConfigureSalary from './pages/salary/configure/ConfigureSalary';
@@ -225,7 +225,7 @@ const App = () => {
               />
             }
           >
-            <Route path="add" element={<CompensationAddCard />} />
+            <Route path="add" element={<AddModal />} />
           </Route>
 
           <Route

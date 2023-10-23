@@ -223,6 +223,7 @@ const Section: React.FC = () => {
         <ErrorAlert title={errorTitle} text={errorMessage} />
       )}
       <TabelHeader
+        onNavigate="add"
         addButtonText="Add Section"
         title="Add Section"
         filterOptions={filterOptions}

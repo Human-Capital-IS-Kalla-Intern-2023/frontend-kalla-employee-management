@@ -228,6 +228,7 @@ const Company: React.FC = () => {
         <ErrorAlert title={errorTitle} text={errorMessage} />
       )}
       <TabelHeader
+        onNavigate="add"
         addButtonText="Add Company"
         title="Add Company"
         filterOptions={filterOptions}

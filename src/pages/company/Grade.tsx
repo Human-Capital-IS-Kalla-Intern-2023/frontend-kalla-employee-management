@@ -224,6 +224,7 @@ const Grade: React.FC = () => {
         <ErrorAlert title={errorTitle} text={errorMessage} />
       )}
       <TabelHeader
+        onNavigate="add"
         addButtonText="Add Grade"
         title="Add Grade"
         filterOptions={filterOptions}
