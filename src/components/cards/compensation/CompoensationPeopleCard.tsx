@@ -2,9 +2,11 @@ import profileImg160 from '../../../assets/img/profile/profileimg-160.webp';
 import HeaderCompensationCard from './HeaderCompensationCard';
 import { ArrowButtonIcon } from '../../../assets/icons/icon';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+
 function generateRandomData() {
   const fullname = 'Muh Thoriq Ali Said'; // Replace with a random full name generator
-  const nip = Math.floor(1000000000 + Math.random() * 9000000000).toString();
+  const nip = 'H071201077';
   const grade_name = 'Grade ' + (Math.floor(Math.random() * 10) + 1);
   const position_name = 'Human Capital IS';
   const company_name = 'Company ' + (Math.floor(Math.random() * 3) + 1);
@@ -21,6 +23,24 @@ function generateRandomData() {
 const CompoensationPeopleCard = () => {
   const employeeData = generateRandomData();
 
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+
+  const [isFixedPayVisible, setIsFixedPayVisible] = useState(true);
+
+  const toggleFixedPayVisibility = () => {
+    setIsFixedPayVisible(!isFixedPayVisible);
+  };
+
+  const [isDeductionVisible, setIsDeductionVisible] = useState(true);
+
+  const toggleDeductionVisibility = () => {
+    setIsDeductionVisible(!isDeductionVisible);
+  };
+
+  const handleManageClick = () => {
+    setIsDropdownVisible(!isDropdownVisible);
+  };
+
   return (
     <>
       <HeaderCompensationCard
@@ -31,13 +51,29 @@ const CompoensationPeopleCard = () => {
 
       <div className="pt-6 pb-4 mx-8 overflow-x-auto rounded-md bg-third ">
         <div className="flex justify-end mb-6 ">
-          <div className="px-3 py-1 mr-4 bg-transparent border rounded-md border-primary">
-            <div className="flex items-center justify-center text-center ">
+          <div className="px-[13px] py-1 mr-4 bg-transparent border rounded-md border-primary">
+            <button
+              className="flex items-center justify-center text-center"
+              onClick={handleManageClick}
+            >
               <p className="text-base text-center uppercase lg:text-[17px] text-primary">
                 Pay Slip
               </p>
               <ArrowButtonIcon className="w-6 h-8 ml-3 text-center" />
-            </div>
+            </button>
+
+            {isDropdownVisible && (
+              <div className="absolute px-[5px] py-1 bg-white rounded-b-lg mt-[3px] border border-primary right-[149px] z-10 duration-200">
+                <Link to={'set'}>
+                  <button
+                    className="block pr-[55px] pl-[13px] py-2 text-sm w-full items-start text-left hover:text-white  lg:text-[17px] uppercase hover:bg-primary"
+                    aria-label="Add Eligibles"
+                  >
+                    Show
+                  </button>
+                </Link>
+              </div>
+            )}
           </div>
           <div>
             <Link to={`/salary/compensation/detail/people/edit`}>
@@ -89,16 +125,18 @@ const CompoensationPeopleCard = () => {
         </div>
 
         <div className="px-1 lg:px-10 lg:mx-2 lg:mt-7">
-          <div className="py-2 bg-white rounded-lg shadow-allSideLow">
-            <div className="flex justify-between px-4 pt-4">
+          <div className="py-2 transition-all duration-300 bg-white rounded-lg shadow-allSideLow">
+            <div className="flex justify-between px-4 py-2">
               <div className="flex items-center">
                 <h2 className="text-[17px] font-semibold">Fixed Pay</h2>
               </div>
               <div className="flex items-center">
-                <ArrowButtonIcon className="w-6 h-6" />
+                <button onClick={toggleFixedPayVisibility}>
+                  <ArrowButtonIcon className="w-6 h-6" />
+                </button>
               </div>
             </div>
-            <div className="mt-3 mx-11">
+            <div className={` mx-11 ${isFixedPayVisible ? 'block' : 'hidden'}`}>
               <table className="w-full">
                 <thead>
                   <tr>
@@ -108,14 +146,12 @@ const CompoensationPeopleCard = () => {
                   </tr>
                 </thead>
                 <tbody className="">
-                  <tr className="border-b border-slate-300 ">
+                  <tr className="border-b border-slate-300">
                     <td className="w-9/12 py-3 text-sm">Text 1</td>
                     <td className="w-1/12 text-sm">Rp.</td>
-                    <td className="text-sm font-semibold w- 2/12 text-end">
-                      0
-                    </td>
+                    <td className="w-2/12 text-sm font-semibold text-end">0</td>
                   </tr>
-                  <tr className="border-b border-slate-300 ">
+                  <tr className="border-b border-slate-300">
                     <td className="py-3 text-sm">Text 2</td>
                     <td className="text-sm">Rp.</td>
                     <td className="text-sm font-semibold text-end">1000</td>
@@ -131,17 +167,21 @@ const CompoensationPeopleCard = () => {
           </div>
         </div>
 
-        <div className="px-1 lg:px-10 lg:mx-2 lg:mt-4">
-          <div className="py-2 bg-white rounded-lg shadow-allSideLow">
-            <div className="flex justify-between px-4 pt-4">
+        <div className="px-1 lg:px-10 lg:mx-2 lg:mt-7">
+          <div className="py-2 transition-all duration-300 bg-white rounded-lg shadow-allSideLow">
+            <div className="flex justify-between px-4 py-2">
               <div className="flex items-center">
-                <h2 className="text-[17px] font-semibold ">Deduction</h2>
+                <h2 className="text-[17px] font-semibold">Deduction</h2>
               </div>
               <div className="flex items-center">
-                <ArrowButtonIcon className="w-6 h-6" />
+                <button onClick={toggleDeductionVisibility}>
+                  <ArrowButtonIcon className="w-6 h-6" />
+                </button>
               </div>
             </div>
-            <div className="mt-3 mx-11">
+            <div
+              className={` mx-11 ${isDeductionVisible ? 'block' : 'hidden'}`}
+            >
               <table className="w-full">
                 <thead>
                   <tr>
@@ -151,14 +191,12 @@ const CompoensationPeopleCard = () => {
                   </tr>
                 </thead>
                 <tbody className="">
-                  <tr className="border-b border-slate-300 ">
+                  <tr className="border-b border-slate-300">
                     <td className="w-9/12 py-3 text-sm">Text 1</td>
                     <td className="w-1/12 text-sm">Rp.</td>
-                    <td className="text-sm font-semibold w- 2/12 text-end">
-                      0
-                    </td>
+                    <td className="w-2/12 text-sm font-semibold text-end">0</td>
                   </tr>
-                  <tr className="border-b border-slate-300 ">
+                  <tr className="border-b border-slate-300">
                     <td className="py-3 text-sm">Text 2</td>
                     <td className="text-sm">Rp.</td>
                     <td className="text-sm font-semibold text-end">1000</td>
