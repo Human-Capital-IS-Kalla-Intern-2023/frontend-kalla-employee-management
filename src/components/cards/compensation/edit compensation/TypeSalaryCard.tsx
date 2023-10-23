@@ -13,7 +13,7 @@ const TypeSalaryCard = ({ typeName }: { typeName: string }) => {
     <div className="flex flex-col justify-between p-4 mx-8 mt-6 transition-all duration-300 rounded-lg shadow-md bg-slate-50">
       <div className="flex justify-between py-2">
         <div className="flex items-center">
-          <p className="mr-2 text-lg font-semibold">{typeName}</p>
+          <p className="mr-2 text-[17px] font-semibold">{typeName}</p>
         </div>
         <div className="flex items-center">
           <button onClick={toggleCardVisibility}>

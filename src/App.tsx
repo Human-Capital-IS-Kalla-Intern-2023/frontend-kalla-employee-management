@@ -32,6 +32,7 @@ import Grade from './pages/company/Grade';
 import Compensation from './pages/salary/compensation/Compensation';
 import CompensationDetail from './pages/salary/compensation/CompensationDetail';
 // import CompensationAddCard from './components/cards/compensation/CompensationAddCard';
+import PaySlipModal from './components/modals/compensation/PaySlipModal';
 import CompensationPeople from './pages/salary/compensation/CompensationPeople';
 import MasterSalary from './pages/salary/master/MasterSalary';
 import ConfigureSalary from './pages/salary/configure/ConfigureSalary';
@@ -246,7 +247,9 @@ const App = () => {
                 element={<CompensationPeople />}
               />
             }
-          ></Route>
+          >
+            <Route path="payslip" element={<PaySlipModal />} />
+          </Route>
 
           <Route
             path="/salary/compensation/detail/people/edit"

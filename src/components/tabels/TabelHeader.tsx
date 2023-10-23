@@ -47,7 +47,6 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
     setIsFilterDropdownOpen(false);
   };
 
-  console.log(onNavigate);
   const navigate = useNavigate();
   const location = useLocation();
   const isCompensationPage = location.pathname === '/salary/compensation';
