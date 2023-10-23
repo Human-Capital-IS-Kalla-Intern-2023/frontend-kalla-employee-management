@@ -118,7 +118,7 @@ const CompensationDetailCard = () => {
               </tr>
             </thead>
             <tbody>
-              <tr className="border-b border-slate-300">
+              <tr className="border-b border-slate-300 hover:bg-slate-200">
                 <td className="w-2/4 py-4 pl-6 pr-2">
                   <Link to={`/salary/compensation/detail/people`}>
                     <div className="flex items-center ">
@@ -142,7 +142,7 @@ const CompensationDetailCard = () => {
                 <td className="w-1/4 p-2 text-[17px]">Manager</td>
               </tr>
 
-              <tr className="border-b border-slate-300">
+              <tr className="border-b border-slate-300 hover:bg-slate-200">
                 <td className="w-2/4 py-4 pl-6 pr-2">
                   <Link to={`/salary/compensation/detail/people`}>
                     <div className="flex items-center ">
@@ -166,7 +166,7 @@ const CompensationDetailCard = () => {
                 <td className="w-1/4 p-2 text-[17px]">Manager</td>
               </tr>
 
-              <tr className="border-b border-slate-300">
+              <tr className="border-b border-slate-300 hover:bg-slate-200">
                 <td className="w-2/4 py-4 pl-6 pr-2">
                   <Link to={`/salary/compensation/detail/people`}>
                     <div className="flex items-center ">
