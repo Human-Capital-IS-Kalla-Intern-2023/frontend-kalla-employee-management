@@ -233,6 +233,7 @@ const Position: React.FC = () => {
         <ErrorAlert title={errorTitle} text={errorMessage} />
       )}
       <TabelHeader
+        onNavigate="add"
         addButtonText="Add Position"
         title="Add Position"
         filterOptions={filterOptions}

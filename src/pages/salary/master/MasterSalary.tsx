@@ -248,6 +248,7 @@ const MasterSalary: React.FC = () => {
         <ErrorAlert title={errorTitle} text={errorMessage} />
       )}
       <TabelHeader
+        onNavigate="add"
         addButtonText="Add Master Salary"
         title="Add Master Salary"
         filterOptions={filterOptions}

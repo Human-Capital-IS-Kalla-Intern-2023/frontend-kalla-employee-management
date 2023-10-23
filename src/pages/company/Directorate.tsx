@@ -225,6 +225,7 @@ const Directorate: React.FC = () => {
       )}
 
       <TabelHeader
+        onNavigate="add"
         addButtonText="Add Directorate"
         title="Add Directorate"
         filterOptions={filterOptions}

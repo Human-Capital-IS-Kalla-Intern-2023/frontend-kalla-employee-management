@@ -222,6 +222,7 @@ const Location: React.FC = () => {
         <ErrorAlert title={errorTitle} text={errorMessage} />
       )}
       <TabelHeader
+        onNavigate="add"
         addButtonText="Add Location"
         title="Add Location"
         filterOptions={filterOptions}

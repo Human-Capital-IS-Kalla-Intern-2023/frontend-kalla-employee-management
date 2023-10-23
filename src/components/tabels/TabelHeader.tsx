@@ -1,7 +1,7 @@
 // Import Library & Package
 import { useState, useEffect, useCallback } from 'react';
 import AddModal from '../modals/AddModal';
-import CompensationAddCard from '../cards/compensation/CompensationAddCard';
+// import CompensationAddCard from '../cards/compensation/CompensationAddCard';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import ReactLoading from 'react-loading';
 
@@ -39,7 +39,7 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
 }) => {
   const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [CompensationModalOpen, SetCompensationModalOpen] = useState(false);
+  // const [CompensationModalOpen, SetCompensationModalOpen] = useState(false);
   const [searchInput, setSearchInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -47,6 +47,7 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
     setIsFilterDropdownOpen(false);
   };
 
+  console.log(onNavigate);
   const navigate = useNavigate();
   const location = useLocation();
   const isCompensationPage = location.pathname === '/salary/compensation';
@@ -54,15 +55,13 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
   const openModal = () => {
     if (onNavigate) {
       navigate(onNavigate);
-    } else {
-      onNavigate = 'add';
       setModalOpen(true);
     }
   };
 
   const closeModal = useCallback(() => {
     setModalOpen(false);
-    SetCompensationModalOpen(false);
+    // SetCompensationModalOpen(false);
     if (location.pathname.endsWith('/add')) {
       const newUrl = location.pathname.slice(0, -4);
       navigate(newUrl);
@@ -105,12 +104,12 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
       setSearchInput(searchValue);
     }
 
-    // compensation Modal
-    if (isCompensationPage && CompensationModalOpen) {
-      SetCompensationModalOpen(true);
-    } else {
-      SetCompensationModalOpen(false);
-    }
+    // // compensation Modal
+    // if (isCompensationPage && CompensationModalOpen) {
+    //   SetCompensationModalOpen(true);
+    // } else {
+    //   SetCompensationModalOpen(false);
+    // }
 
     if (location.pathname.endsWith('/add') && !onNavigate) {
       setModalOpen(true);
@@ -118,7 +117,7 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
     const handleEscapeKey = (event: any) => {
       if (event.key === 'Escape') {
         closeModal();
-        SetCompensationModalOpen(false);
+        // SetCompensationModalOpen(false);
       }
     };
 
@@ -141,6 +140,8 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
     isFilterDropdownOpen,
     location.search,
     isCompensationPage,
+    onNavigate,
+    onSearch,
   ]);
 
   return (
@@ -205,12 +206,12 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
                   onSubmit={onSubmit}
                 />
               )}
-              {isCompensationPage && !CompensationModalOpen && (
+              {/* {isCompensationPage && !CompensationModalOpen && (
                 <CompensationAddCard
                   isOpen={CompensationModalOpen}
                   onClose={closeModal}
                 />
-              )}
+              )} */}
             </div>
           </div>
         </div>
