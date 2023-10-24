@@ -1,21 +1,135 @@
 import { CloseButtonIcon, PDFIcon } from '../../../assets/icons/icon';
 import { Link } from 'react-router-dom';
+import html2pdf from 'html2pdf.js';
+
 const PaySlipModal = ({ onClose }: any) => {
+  const handleGeneratePDF = () => {
+    const content = document.getElementById('payslip-content');
+
+    if (content) {
+      // Set the width and height to '100%' using CSS
+      content.style.width = '100%';
+      content.style.height = '100%';
+      content.style.justifyContent = 'center';
+      content.style.margin = '0px';
+      content.style.padding = '30px';
+      content.style.background = '#FFF';
+      content.style.boxShadow = 'none';
+      content.style.maxHeight = 'fit-content';
+
+      // Remove the "PDF" button and close button from the content
+      const pdfButton = document.getElementById('pdf-button');
+      const closeButton = document.getElementById('close-button');
+      const confedentialText = document.getElementById('confedential');
+
+      if (pdfButton && closeButton) {
+        pdfButton.style.display = 'none';
+        closeButton.style.display = 'none';
+      }
+
+      if (confedentialText) {
+        confedentialText.style.paddingBottom = '25px';
+      }
+
+      // Style the content for PDF
+      html2pdf()
+        .from(content)
+        .outputPdf('datauristring') // Output PDF as data URI
+        .then((pdfString: any) => {
+          // Convert data URI to Blob
+          const pdfBlob = dataURItoBlob(pdfString);
+
+          // Custom file name for the PDF
+          const fileName = 'custom_filename.pdf';
+
+          // Create a URL for the Blob
+          const blobURL = URL.createObjectURL(pdfBlob);
+
+          // Create an anchor element for downloading
+          const downloadLink = document.createElement('a');
+          downloadLink.href = blobURL;
+          downloadLink.download = fileName; // Set the custom file name
+
+          // Click the anchor element to trigger the download
+          downloadLink.click();
+
+          // Restore the original content styles
+          content.style.width = '';
+          content.style.height = '';
+          content.style.justifyContent = '';
+          content.style.margin = '';
+          content.style.padding = '';
+          content.style.background = '';
+          content.style.boxShadow = '';
+
+          // Restore the "PDF" button and close button
+          if (pdfButton && closeButton) {
+            pdfButton.style.display = 'flex';
+            closeButton.style.display = 'flex';
+          }
+          if (confedentialText) {
+            confedentialText.style.paddingBottom = '';
+          }
+        })
+        .catch((error: any) => {
+          console.error('Error generating PDF:', error);
+          // Ensure the styles are reset in case of an error
+          content.style.width = '';
+          content.style.justifyContent = '';
+          content.style.height = '';
+          content.style.margin = '';
+          content.style.padding = '';
+          content.style.background = '';
+          content.style.paddingBottom = '';
+
+          content.style.boxShadow = '';
+
+          // Restore the "PDF" button and close button
+          if (pdfButton && closeButton) {
+            pdfButton.style.display = 'flex';
+            closeButton.style.display = 'flex';
+          }
+        });
+    }
+  };
+
+  // Function to convert data URI to Blob
+  const dataURItoBlob = (dataURI: string) => {
+    const byteString = atob(dataURI.split(',')[1]);
+    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+
+    return new Blob([ab], { type: mimeString });
+  };
+
   return (
     <div
       className={`fixed inset-0 flex  items-center justify-center  overflow-y-scroll z-[1000] bg-opacity-50`}
     >
-      <div className="w-4/6 p-6 mt-32 mb-5 ml-56 bg-white rounded-lg shadow-lg max-h-fit ">
+      <div
+        className="w-4/6 p-6 mt-32 mb-5 ml-56 bg-white rounded-lg shadow-lg max-h-fit"
+        id="payslip-content"
+      >
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold border-b-2 border-primary">
+          <h2 className="py-1 text-lg font-semibold border-b-2 border-primary">
             Pay Slip
           </h2>
           <div className="flex items-center space-x-2">
-            <button className="flex items-center px-3 border rounded-md hover:bg-primary hover:border-primary hover:text-white">
+            <button
+              id="pdf-button"
+              className="flex items-center px-3 border rounded-md hover:bg-primary hover:border-primary hover:text-white"
+              onClick={handleGeneratePDF}
+            >
               <PDFIcon className="w-10 h-10 p-2 duration-300 " />
               <span>PDF</span>
             </button>
-            <button onClick={onClose}>
+
+            <button onClick={onClose} id="close-button">
               <Link to={`/salary/compensation/detail/people`}>
                 <CloseButtonIcon className="w-10 h-10 p-2 duration-300 rounded-full hover:bg-red-800 hover:text-white" />
               </Link>
@@ -25,10 +139,18 @@ const PaySlipModal = ({ onClose }: any) => {
 
         <hr className="my-2 border-slate-300" />
 
-        <div className="mt-4">
-          <p className="text-[17px] font-extrabold">HDLG - Oktober 2023</p>
-          <p className="text-base font-medium">PT Hadji Kalla (Holding)</p>
-          <p className="mt-1 text-[15px] text-gray">Date 2023 - Date 2023</p>
+        <div className="flex items-center justify-between mt-4">
+          <div>
+            <p className="text-[17px] font-extrabold">HDLG - Oktober 2023</p>
+            <p className="text-base font-medium">PT Hadji Kalla (Holding)</p>
+            <p className="mt-1 text-[15px] text-gray">Date 2023 - Date 2023</p>
+          </div>
+          <button
+            className="px-5 py-1 mb-8 mr-5 text-lg font-semibold text-red-800 border border-red-800 rounded-md bg-transparentrounded-md"
+            id="confedential"
+          >
+            Confidential
+          </button>
         </div>
 
         <div className="mt-8">
