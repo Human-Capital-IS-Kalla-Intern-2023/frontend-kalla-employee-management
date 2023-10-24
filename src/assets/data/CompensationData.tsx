@@ -3,7 +3,7 @@ import { getCompany } from '../../api/CompanyAPI';
 const colCells = [
   { key: 'compensation_name', text: 'Nama Compensation' },
   { key: 'Year', text: 'Tahun' },
-  { key: 'Month', text: 'Month' },
+  { key: 'Month', text: 'Bulan' },
   { key: 'company_name', text: 'Nama Bisnis Unit' },
 ];
 
@@ -45,7 +45,7 @@ const inputField: InputField[] = [
   },
   {
     id: 'Month',
-    label: 'Month',
+    label: 'Bulan',
     name: 'Month',
     type: 'select',
     options: [], // You will populate this array with month options
@@ -81,7 +81,7 @@ async function fetchCompany() {
 
 // Function to populate the "Month" options
 function populateMonthOptions() {
-  const monthField = inputField.find((field) => field.label === 'Month');
+  const monthField = inputField.find((field) => field.label === 'Bulan');
   if (monthField) {
     const months = [
       'January',
