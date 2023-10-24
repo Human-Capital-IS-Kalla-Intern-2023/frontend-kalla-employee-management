@@ -45,7 +45,7 @@ const inputField: InputField[] = [
   },
   {
     id: 'Month',
-    label: 'Bulan',
+    label: 'Month',
     name: 'Month',
     type: 'select',
     options: [], // You will populate this array with month options
@@ -81,7 +81,7 @@ async function fetchCompany() {
 
 // Function to populate the "Month" options
 function populateMonthOptions() {
-  const monthField = inputField.find((field) => field.label === 'Bulan');
+  const monthField = inputField.find((field) => field.label === 'Month');
   if (monthField) {
     const months = [
       'January',
