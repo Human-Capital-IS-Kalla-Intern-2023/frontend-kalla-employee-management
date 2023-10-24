@@ -3,7 +3,7 @@ import { getCompany } from '../../api/CompanyAPI';
 const colCells = [
   { key: 'compensation_name', text: 'Nama Compensation' },
   { key: 'Year', text: 'Tahun' },
-  { key: 'Month', text: 'Bulan' },
+  { key: 'Month', text: 'Month' },
   { key: 'company_name', text: 'Nama Bisnis Unit' },
 ];
 
