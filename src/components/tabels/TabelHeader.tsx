@@ -71,13 +71,13 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
     setSearchInput(e.target.value);
   };
 
-  const handleSearch = async (e: React.FormEvent) => {
+  const handleSearch = async (e: any) => {
     e.preventDefault();
     setIsLoading(true);
     try {
       await onSearch(searchInput);
     } catch (error) {
-      throw Error;
+      throw false;
     } finally {
       setIsLoading(false);
 
@@ -133,14 +133,13 @@ const TabelHeader: React.FC<TabelHeaderProps> = ({
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('keydown', handleEscapeKey);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     closeModal,
     location.pathname,
     isFilterDropdownOpen,
-    location.search,
     isCompensationPage,
     onNavigate,
-    onSearch,
   ]);
 
   return (
