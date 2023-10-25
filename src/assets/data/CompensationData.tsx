@@ -1,10 +1,10 @@
 import { getCompany } from '../../api/CompanyAPI';
-
 const colCells = [
-  { key: 'compensation_name', text: 'Nama Compensation' },
-  { key: 'Year', text: 'Tahun' },
-  { key: 'Month', text: 'Month' },
-  { key: 'company_name', text: 'Nama Bisnis Unit' },
+  { key: 'compensation_name', text: 'Compensation' },
+  { key: 'company_name', text: 'Bisnis Unit' },
+  { key: 'salary_name', text: 'Payroll' },
+  { key: 'month', text: 'Month' },
+  { key: 'year', text: 'Tahun' },
 ];
 
 const filterOptions = [{ id: 'Location', label: 'Location' }];
@@ -15,15 +15,13 @@ interface InputField {
   name: string;
   type: string;
   options: { label: string; value: number }[];
-  min?: number;
-  max?: number;
 }
 
 const inputField: InputField[] = [
   {
-    id: 'legal_employee',
+    id: 'company_id',
     label: 'Legal Employee',
-    name: 'legal_employee',
+    name: 'company_id',
     type: 'select',
     options: [],
   },
@@ -35,25 +33,23 @@ const inputField: InputField[] = [
     options: [],
   },
   {
-    id: 'Year',
-    label: 'Tahun',
-    name: 'Year',
+    id: 'year',
+    label: 'Year',
+    name: 'year',
     type: 'number',
     options: [],
-    min: 2000, // Set the minimum year
-    max: new Date().getFullYear(), // Set the maximum year as the current year
   },
   {
-    id: 'Month',
+    id: 'month',
     label: 'Month',
-    name: 'Month',
+    name: 'month',
     type: 'select',
     options: [], // You will populate this array with month options
   },
   {
-    id: 'payroll_component',
+    id: 'salary_id',
     label: 'Payroll Component',
-    name: 'payroll_component',
+    name: 'salary_id',
     type: 'select',
     options: [],
   },

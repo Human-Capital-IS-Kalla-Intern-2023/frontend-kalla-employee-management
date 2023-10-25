@@ -2,10 +2,9 @@
 import { useState, useEffect, useRef } from 'react';
 import ReactLoading from 'react-loading';
 import Select from 'react-select';
-
 // Import Assets
 import { CloseButtonIcon } from '../../assets/icons/icon';
-
+import { getCompanySalary } from '../../api/CompensationAPI';
 interface FormData {
   [key: string]: string | number | boolean | null | undefined;
 }
@@ -16,13 +15,45 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
       initialFormData[field.name] = 1;
     }
   });
+
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [isLoading, setIsLoading] = useState(false);
   const firstInputRef = useRef<HTMLInputElement | null>(null);
   const selectRef = useRef<HTMLSelectElement | null>(null);
+  const [inputField, setinputField] = useState(inputFields);
+
+  const handleCompanyChange = async (selectedCompany: any) => {
+    if (selectedCompany) {
+      try {
+        const response = await getCompanySalary(selectedCompany);
+        // Extract salary options from the response
+        const salaryOptions = response.data.map((salary: any) => ({
+          label: salary.salary_name,
+          value: salary.id,
+        }));
+
+        // Find the salary field in inputField and update the options
+        const updatedinputField = inputField.map((field: any) => {
+          if (field.name === 'salary_id') {
+            return { ...field, options: salaryOptions };
+          }
+          return field;
+        });
+
+        // Update the inputField state to trigger re-render with updated options
+        setinputField(updatedinputField);
+      } catch (error) {
+        console.error('Error fetching salary data:', error);
+      }
+    }
+  };
 
   const handleChange = (e: any) => {
     const { name, value, type, checked } = e.target;
+
+    if (name === 'company_id') {
+      handleCompanyChange(value);
+    }
 
     if (type === 'checkbox') {
       setFormData((prevData) => ({
@@ -55,7 +86,6 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
       setIsLoading(true);
 
       await onSubmit(formData);
-
       onClose();
       localStorage.removeItem('formData');
     } catch (error) {
@@ -101,15 +131,15 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
             <div className="absolute top-1/2 text-black bg-black left-0 transform -translate-y-1/2 w-full h-0.5 bg-primaryColor z-0"></div>
           </div>
           <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-6 mt-8">
-            {inputFields.map((field: any, index: number) => (
+            {inputField.map((field: any, index: number) => (
               <div
                 key={field.id}
                 className={
-                  inputFields.length === 1
+                  inputField.length === 1
                     ? 'col-span-2'
-                    : inputFields.length === 2
+                    : inputField.length === 2
                     ? 'col-span-2'
-                    : index === 0 && inputFields.length >= 3
+                    : index === 0 && inputField.length >= 3
                     ? 'col-span-2'
                     : ''
                 }
@@ -141,6 +171,9 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
                       className="w-full px-3 py-2 border rounded"
                       onChange={handleChange}
                       ref={index === 0 ? selectRef : null}
+                      disabled={
+                        field.name === 'salary_id' && !formData.company_id
+                      }
                     >
                       <option value="">Select {field.label}</option>
                       {field.options.map((option: any) => (

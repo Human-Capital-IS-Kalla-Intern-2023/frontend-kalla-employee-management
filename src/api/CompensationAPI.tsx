@@ -13,15 +13,44 @@ const getCompensation = async () => {
 
     const responseGetCompensation = await RequestApi(
       'GET',
-      'compensation',
+      'compensations',
       {},
       headerToken,
-      'Mengambil compensation'
+      'Mengambil compensations'
     );
 
     return responseGetCompensation;
   } catch (error) {
-    console.error('Terjadi kesalahan saat mengambil data compensation:', error);
+    console.error(
+      'Terjadi kesalahan saat mengambil data compensations:',
+      error
+    );
+    throw error;
+  }
+};
+
+const getCompanySalary = async (company_id: any) => {
+  try {
+    const token = TokenHelper();
+
+    const headerToken = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const responseGetSalaryByCompany = await RequestApi(
+      'GET',
+      `compensations/salary/${company_id}`,
+      {},
+      headerToken,
+      'Mengambil Salary By Company'
+    );
+
+    return responseGetSalaryByCompany;
+  } catch (error) {
+    console.error(
+      'Terjadi kesalahan saat mengambil data  Salary By Company:',
+      error
+    );
     throw error;
   }
 };
@@ -37,15 +66,18 @@ const getDetailCompensation = async (id: any) => {
 
     const reponseGetDetailCompensation = await RequestApi(
       'GET',
-      `compensation/${id}`,
+      `compensations/${id}`,
       {},
       headerToken,
-      'Mengambil detail compensation'
+      'Mengambil detail compensations'
     );
 
     return reponseGetDetailCompensation;
   } catch (error) {
-    console.error('Terjadi kesalahan saat mengambil data compensation:', error);
+    console.error(
+      'Terjadi kesalahan saat mengambil data compensations:',
+      error
+    );
     throw error;
   }
 };
@@ -61,15 +93,15 @@ const addCompensation = async (formData: any) => {
 
     const reponseAddCompensation = await RequestApi(
       'POST',
-      'compensation',
+      'compensations',
       formData,
       headerToken,
-      'Membuat compensation'
+      'Membuat compensations'
     );
 
     return reponseAddCompensation;
   } catch (error) {
-    console.error('Kesalahan saat membuat compensation:', error);
+    console.error('Kesalahan saat membuat compensations:', error);
     throw error;
   }
 };
@@ -85,15 +117,15 @@ const updateCompensation = async (id: any, compensationData: any) => {
 
     const reponseUpdateCompensation = await RequestApi(
       'PUT',
-      `compensation/${id}`,
+      `compensations/${id}`,
       compensationData,
       headerToken,
-      'Memperbarui grade'
+      'Memperbarui Compensations'
     );
 
     return reponseUpdateCompensation;
   } catch (error) {
-    console.error('Kesalahan saat memperbarui compensation:', error);
+    console.error('Kesalahan saat memperbarui compensations:', error);
     throw error;
   }
 };
@@ -109,15 +141,15 @@ const deleteCompensation = async (id: any) => {
 
     const reponseDeleteCompensation = await RequestApi(
       'DELETE',
-      `compensation/${id}`,
+      `compensations/${id}`,
       null,
       headerToken,
-      'Menghapus compensation'
+      'Menghapus compensations'
     );
 
     return reponseDeleteCompensation;
   } catch (error) {
-    console.error('Kesalahan saat menghapus compensation:', error);
+    console.error('Kesalahan saat menghapus compensations:', error);
     throw error;
   }
 };
@@ -133,21 +165,22 @@ const searchCompensation = async (searchInput: any) => {
 
     const responseSearchCompensation = await RequestApi(
       'GET',
-      `compensation?search=${searchInput}`,
+      `compensations?search=${searchInput}`,
       null,
       headerToken,
-      'Mencari compensation'
+      'Mencari compensations'
     );
 
     return responseSearchCompensation;
   } catch (error) {
-    console.error('Kesalahan saat mencari compensation:', error);
+    console.error('Kesalahan saat mencari compensations:', error);
     throw error;
   }
 };
 
 export {
   getCompensation,
+  getCompanySalary,
   getDetailCompensation,
   addCompensation,
   updateCompensation,
