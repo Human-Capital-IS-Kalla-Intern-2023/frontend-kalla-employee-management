@@ -3,11 +3,11 @@ import DetailPositionCard from '../../../components/cards/compensation/DetailPos
 const employeeData = {
   fullname: 'Reynaldi Liandi',
   nip: '53859374',
-  position_name: ['Software Developer'],
-  company_name: 'Example Company',
-  directorate_name: 'Technology',
+  main_position: ['Software Developer'],
+  company_main: 'Example Company',
+  directorate_main: 'Technology',
   division_name: 'Software Development',
-  section_name: 'Backend',
+  job_grade: '2A',
   id_additional_position: '12345',
   employee_detail_id: '6789',
 };
