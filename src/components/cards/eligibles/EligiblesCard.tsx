@@ -147,7 +147,6 @@ const EligiblesCard = ({ employeeData }: EligiblesProps) => {
     fetchSecondaryPositionEmployee(employeeId);
   }, [employeeId, positionId]);
 
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   useEffect(() => {
     const handleEscKeyPress = (event: any) => {
       if (event.key === 'Escape') {
@@ -164,7 +163,7 @@ const EligiblesCard = ({ employeeData }: EligiblesProps) => {
     return () => {
       document.removeEventListener('keydown', handleEscKeyPress);
     };
-  }, [isDropdownOpen]);
+  });
 
   return (
     <>
