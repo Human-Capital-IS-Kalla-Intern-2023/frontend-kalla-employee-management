@@ -486,6 +486,10 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                                             customCell.id
                                           )
                                           .replace(
+                                            '{compensationId}',
+                                            customCell.id
+                                          )
+                                          .replace(
                                             '{positionId}',
                                             customCell.id_main_position
                                           )

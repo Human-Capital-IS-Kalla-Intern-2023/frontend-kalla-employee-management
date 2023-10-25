@@ -233,10 +233,10 @@ const App = () => {
           </Route>
 
           <Route
-            path="/salary/compensation/detail"
+            path="/salary/compensation/detail/:compensationId"
             element={
               <PrivateRoute
-                path="/salary/compensation/detail"
+                path="/salary/compensation/detail/:compensationId"
                 element={<CompensationDetail />}
               />
             }
