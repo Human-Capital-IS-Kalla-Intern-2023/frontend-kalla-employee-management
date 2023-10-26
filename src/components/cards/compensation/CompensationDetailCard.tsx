@@ -3,7 +3,9 @@ import { SearchIcon } from '../../../assets/icons/icon';
 import { Link } from 'react-router-dom';
 import profileImg112 from '../../../assets/img/profile/profileImg-112.webp';
 import HeaderCompensationCard from './HeaderCompensationCard';
-const CompensationDetailCard = () => {
+
+const CompensationDetailCard = ({ compensationData }: any) => {
+  console.log(compensationData.company_name);
   return (
     <div className="antialiased lg:pb-4 lg:p-0 sm:py-2 overlay">
       <HeaderCompensationCard text={'Detail'} link={`/salary/compensation`} />
@@ -14,8 +16,17 @@ const CompensationDetailCard = () => {
         {/* Baris 1 */}
         <div className="flex items-center justify-between p-4">
           <div>
-            <p className="text-lg font-bold">Company - Month Year</p>
-            <p className="uppercase text-gray">Company Full Name</p>
+            {compensationData && (
+              <>
+                <p className="text-lg font-bold">
+                  {compensationData.company_name} - {compensationData.month}{' '}
+                  {compensationData.year}
+                </p>
+                <p className="uppercase text-gray">
+                  {compensationData.company_name}
+                </p>
+              </>
+            )}
           </div>
           <div className="flex items-center space-x-4">
             <button className="flex items-center px-4 py-2 space-x-2 bg-transparent border-transparent rounded text-primary">
@@ -32,12 +43,24 @@ const CompensationDetailCard = () => {
         <div className="flex items-center justify-between p-4 border-t border-slate-300">
           <div className="flex space-x-">
             <div>
-              <p className="text-base text-grayBlack">Regulation</p>
-              <p className="text-[17px] text-grayBlack">Salary Name</p>
+              {compensationData && (
+                <>
+                  <p className="text-base text-grayBlack">Regulation</p>
+                  <p className="text-[17px] text-grayBlack">
+                    {compensationData.salary_name}
+                  </p>
+                </>
+              )}
             </div>
             <div className="ml-8">
-              <p className="text-base text-grayBlack">Period</p>
-              <p className="text-[17px] text-grayBlack">Month Year</p>
+              {compensationData && (
+                <>
+                  <p className="text-base text-grayBlack">Period</p>
+                  <p className="text-[17px] text-grayBlack">
+                    {compensationData.month} {compensationData.year}
+                  </p>
+                </>
+              )}
             </div>
           </div>
           <div className="flex space-x-2">
@@ -113,90 +136,62 @@ const CompensationDetailCard = () => {
                 <th className="w-2/4 py-4 pl-6 pr-2 text-lg font-semibold">
                   FULL NAME
                 </th>
-                <th className="w-1/4 p-2 text-lg font-semibold">NIK</th>
+                <th className="w-1/4 p-2 text-lg font-semibold">NIP</th>
                 <th className="w-1/4 p-2 text-lg font-semibold">POSITION</th>
               </tr>
             </thead>
             <tbody>
-              <tr className="border-b border-slate-300 hover:bg-slate-200">
-                <td className="w-2/4 py-4 pl-6 pr-2">
-                  <Link to={`/salary/compensation/detail/people`}>
-                    <div className="flex items-center ">
-                      <img
-                        src={profileImg112}
-                        alt="User"
-                        className="w-12 h-12 p-1 mr-2 rounded-full shadow-md"
-                      />
-                      <div>
-                        <div className="text-[17px] text-primary uppercase">
-                          Muh Thoriq AS
-                        </div>
-                        <div className="text-[15px] uppercase">
-                          Position Name
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </td>
-                <td className="w-1/4 p-2 text-[17px] ">123456789</td>
-                <td className="w-1/4 p-2 text-[17px]">Manager</td>
-              </tr>
-
-              <tr className="border-b border-slate-300 hover:bg-slate-200">
-                <td className="w-2/4 py-4 pl-6 pr-2">
-                  <Link to={`/salary/compensation/detail/people`}>
-                    <div className="flex items-center ">
-                      <img
-                        src={profileImg112}
-                        alt="User"
-                        className="w-12 h-12 p-1 mr-2 rounded-full shadow-md"
-                      />
-                      <div>
-                        <div className="text-[17px] text-primary uppercase">
-                          Muh Thoriq AS
-                        </div>
-                        <div className="text-[15px] uppercase">
-                          Position Name
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </td>
-                <td className="w-1/4 p-2 text-[17px] ">123456789</td>
-                <td className="w-1/4 p-2 text-[17px]">Manager</td>
-              </tr>
-
-              <tr className="border-b border-slate-300 hover:bg-slate-200">
-                <td className="w-2/4 py-4 pl-6 pr-2">
-                  <Link to={`/salary/compensation/detail/people`}>
-                    <div className="flex items-center ">
-                      <img
-                        src={profileImg112}
-                        alt="User"
-                        className="w-12 h-12 p-1 mr-2 rounded-full shadow-md"
-                      />
-                      <div>
-                        <div className="text-[17px] text-primary uppercase">
-                          Muh Thoriq AS
-                        </div>
-                        <div className="text-[15px] uppercase">
-                          Position Name
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </td>
-                <td className="w-1/4 p-2 text-[17px] ">123456789</td>
-                <td className="w-1/4 p-2 text-[17px]">Manager</td>
-              </tr>
+              {compensationData &&
+              compensationData.employee_compensations?.length > 0 ? (
+                compensationData.employee_compensations.map(
+                  (employee: any, index: any) => (
+                    <tr
+                      key={index}
+                      className="border-b border-slate-300 hover:bg-slate-200"
+                    >
+                      <td className="w-2/4 py-4 pl-6 pr-2 ">
+                        <Link to={`/salary/compensation/detail/people`}>
+                          <div className="flex items-center ">
+                            <img
+                              src={profileImg112}
+                              alt="User"
+                              className="w-12 h-12 p-1 mr-2 rounded-full shadow-md"
+                            />
+                            <div>
+                              <div className="text-[17px] text-primary uppercase">
+                                {employee.fullname}
+                              </div>
+                              <div className="text-[15px] uppercase">
+                                {employee.position_name}
+                              </div>
+                            </div>
+                          </div>
+                        </Link>
+                      </td>
+                      <td className="w-1/4 p-2 text-[17px] ">{employee.nip}</td>
+                      <td className="w-1/4 p-2 text-[17px]">
+                        {employee.position_name}
+                      </td>
+                    </tr>
+                  )
+                )
+              ) : (
+                <tr>
+                  <td colSpan={3} className="px-4 py-4 text-center bg-zinc-300">
+                    No employee data available.
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
       </section>
+      {/* Tabel List Employee Start */}
       {/* Tabel List Employee Start */}
 
       {/* Employee List Section End */}
     </div>
   );
 };
+
 export default CompensationDetailCard;

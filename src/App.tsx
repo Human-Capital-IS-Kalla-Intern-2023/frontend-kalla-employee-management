@@ -228,13 +228,15 @@ const App = () => {
             }
           >
             <Route path="add" element={<AddModal />} />
+            <Route path="edit/:modalEditId" element={<EditModal />} />
+            <Route path="delete/:modalDeleteId" element={<DeleteModal />} />
           </Route>
 
           <Route
-            path="/salary/compensation/detail"
+            path="/salary/compensation/detail/:compensationId"
             element={
               <PrivateRoute
-                path="/salary/compensation/detail"
+                path="/salary/compensation/detail/:compensationId"
                 element={<CompensationDetail />}
               />
             }

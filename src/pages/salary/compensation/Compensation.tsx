@@ -250,7 +250,7 @@ const Compensation: React.FC = () => {
         onDelete={handleDeleteCompensation}
         detailedData={detailedData}
         fetchDetailedData={fetchCompensationDetail}
-        onDetailNavigate="detail/personal-data/{employeeId}/{positionId}"
+        onDetailNavigate="detail/{compensationId}"
       />
       <TabelFooter
         currentPage={currentPage}

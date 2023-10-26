@@ -486,6 +486,10 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                                             customCell.id
                                           )
                                           .replace(
+                                            '{compensationId}',
+                                            customCell.id
+                                          )
+                                          .replace(
                                             '{positionId}',
                                             customCell.id_main_position
                                           )
@@ -515,11 +519,6 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                                     type="button"
                                     aria-label="Eligible"
                                     className="flex items-center w-full px-4 py-2 duration-200 hover: hover:text-white hover:bg-primary"
-                                    onClick={() =>
-                                      navigate(
-                                        `detail/eligibles/${customCell.id}`
-                                      )
-                                    }
                                   >
                                     <UserIcon className="w-4 h-4 mr-2" />
                                     Eligible
