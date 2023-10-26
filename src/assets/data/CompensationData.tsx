@@ -1,4 +1,5 @@
 import { getCompany } from '../../api/CompanyAPI';
+import { getConfigureSalary } from '../../api/ConfigureSalaryAPI';
 const colCells = [
   { key: 'compensation_name', text: 'Compensation' },
   { key: 'company_name', text: 'Bisnis Unit' },
@@ -75,6 +76,26 @@ async function fetchCompany() {
   }
 }
 
+async function fetchSalary() {
+  try {
+    const responseData = await getConfigureSalary();
+    const salaryOption = responseData.data.map((item: any) => ({
+      label: item.salary_name,
+      value: item.id,
+    }));
+
+    const salaryField = inputField.find(
+      (field) => field.label === 'Payroll Component'
+    );
+
+    if (salaryField) {
+      salaryField.options = salaryOption;
+    }
+  } catch (error) {
+    console.error('Error fetching Salary:', error);
+  }
+}
+
 // Function to populate the "Month" options
 function populateMonthOptions() {
   const monthField = inputField.find((field) => field.label === 'Month');
@@ -105,5 +126,6 @@ export {
   filterOptions,
   inputField,
   fetchCompany,
+  fetchSalary,
   populateMonthOptions,
 };

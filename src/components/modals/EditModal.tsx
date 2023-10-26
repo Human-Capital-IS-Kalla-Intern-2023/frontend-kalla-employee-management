@@ -96,10 +96,25 @@ const EditModal = ({
         }
       });
 
-      // Check checkboxes based on initial values
-      initialData['is_hide'] = initialFormData['is_hide'] === 1 ? 1 : 0;
-      initialData['is_active'] = initialFormData['is_active'] === 1 ? 1 : 0;
-      initialData['is_edit'] = initialFormData['is_edit'] === 1 ? 1 : 0;
+      if ('company_name' in initialFormData) {
+        initialData['company_name'] = initialFormData['company_name'];
+      }
+
+      if ('is_hide' in initialFormData) {
+        initialData['is_hide'] = initialFormData['is_hide'] === 1 ? 1 : 0;
+      }
+
+      if ('is_active' in initialFormData) {
+        initialData['is_active'] = initialFormData['is_active'] === 1 ? 1 : 0;
+      }
+
+      if ('is_edit' in initialFormData) {
+        initialData['is_edit'] = initialFormData['is_edit'] === 1 ? 1 : 0;
+      }
+
+      if ('salary_name' in initialFormData) {
+        initialData['salary_name'] = initialFormData['salary_name'];
+      }
 
       // Check 'id_additional_position' if it exists in initialFormData
       if ('additional_position' in initialFormData) {
@@ -153,7 +168,7 @@ const EditModal = ({
               }
             >
               <label
-                className="flex justify-start mb-2 font-medium"
+                className="flex justify-start mb-2 text-base font-medium"
                 htmlFor={field.id}
               >
                 {field.label}
@@ -183,10 +198,25 @@ const EditModal = ({
                   <select
                     id={field.id}
                     name={field.name}
-                    className="w-full px-3 py-2 border rounded"
+                    className={`w-full px-3 py-2 border rounded ${
+                      field.label === 'Legal Employee' ||
+                      field.label === 'Payroll Component'
+                        ? 'bg-[#d3d3d3] text-gray cursor-not-allowed'
+                        : ''
+                    }`}
                     onChange={handleChange}
                     ref={index === 0 ? selectRef : null}
                     value={formData[field.name] || ''}
+                    disabled={
+                      field.label === 'Legal Employee' ||
+                      field.label === 'Payroll Component'
+                    }
+                    title={
+                      field.label === 'Legal Employee' ||
+                      field.label === 'Payroll Component'
+                        ? 'Not Allowed to Edit SBU or Payroll'
+                        : ''
+                    }
                   >
                     <option value="">Select {field.label}</option>
                     {field.options.map((option: any) => (
@@ -212,7 +242,7 @@ const EditModal = ({
                   id={field.id}
                   name={field.name}
                   placeholder={`Masukkan ${field.label}`}
-                  className="w-full px-3 py-2 border rounded"
+                  className={`w-full px-3 py-2 border rounded`}
                   onChange={handleChange}
                   ref={index === 0 ? firstInputRef : null}
                   value={formData[field.name] || ''}

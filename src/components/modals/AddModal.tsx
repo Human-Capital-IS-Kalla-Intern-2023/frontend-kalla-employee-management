@@ -168,11 +168,20 @@ const AddModal = ({ isOpen, onClose, title, inputFields, onSubmit }: any) => {
                     <select
                       id={field.id}
                       name={field.name}
-                      className="w-full px-3 py-2 border rounded"
+                      className={`w-full px-3 py-2 border rounded ${
+                        field.name === 'salary_id' && !formData.company_id
+                          ? 'bg-[#d3d3d3] text-gray cursor-not-allowed'
+                          : ''
+                      }`}
                       onChange={handleChange}
                       ref={index === 0 ? selectRef : null}
                       disabled={
                         field.name === 'salary_id' && !formData.company_id
+                      }
+                      title={
+                        field.name === 'salary_id' && !formData.company_id
+                          ? 'Please select a company first before choosing a salary'
+                          : ''
                       }
                     >
                       <option value="">Select {field.label}</option>

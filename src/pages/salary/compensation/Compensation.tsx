@@ -28,6 +28,7 @@ import {
   inputField,
   fetchCompany,
   populateMonthOptions,
+  fetchSalary,
 } from '../../../assets/data/CompensationData';
 
 const Compensation: React.FC = () => {
@@ -212,6 +213,7 @@ const Compensation: React.FC = () => {
 
   useEffect(() => {
     fetchCompany();
+    fetchSalary();
     fetchAllCompensationData();
     populateMonthOptions();
   }, []);
