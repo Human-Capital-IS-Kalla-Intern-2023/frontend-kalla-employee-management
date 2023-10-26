@@ -16,13 +16,16 @@ interface InputField {
   type: string;
   options: { label: string; value: number }[];
 }
+const isEditPage = window.location.pathname.includes(
+  '/salary/compensation/edit/'
+);
 
 const inputField: InputField[] = [
   {
     id: 'company_id',
     label: 'Legal Employee',
-    name: 'company_id',
-    type: 'select',
+    name: isEditPage ? 'company_name' : 'company_id',
+    type: isEditPage ? 'text' : 'select',
     options: [],
   },
   {
@@ -33,10 +36,10 @@ const inputField: InputField[] = [
     options: [],
   },
   {
-    id: 'year',
-    label: 'Year',
-    name: 'year',
-    type: 'number',
+    id: 'salary_id',
+    label: 'Payroll Component',
+    name: isEditPage ? 'salary_name' : 'salary_id',
+    type: isEditPage ? 'text' : 'select',
     options: [],
   },
   {
@@ -44,13 +47,13 @@ const inputField: InputField[] = [
     label: 'Month',
     name: 'month',
     type: 'select',
-    options: [], // You will populate this array with month options
+    options: [],
   },
   {
-    id: 'salary_id',
-    label: 'Payroll Component',
-    name: 'salary_id',
-    type: 'select',
+    id: 'year',
+    label: 'Year',
+    name: 'year',
+    type: 'number',
     options: [],
   },
 ];
