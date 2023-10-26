@@ -1,4 +1,5 @@
 import { getCompany } from '../../api/CompanyAPI';
+import { getConfigureSalary } from '../../api/ConfigureSalaryAPI';
 const colCells = [
   { key: 'compensation_name', text: 'Compensation' },
   { key: 'company_name', text: 'Bisnis Unit' },
@@ -16,16 +17,13 @@ interface InputField {
   type: string;
   options: { label: string; value: number }[];
 }
-const isEditPage = window.location.pathname.includes(
-  '/salary/compensation/edit/'
-);
 
 const inputField: InputField[] = [
   {
     id: 'company_id',
     label: 'Legal Employee',
-    name: isEditPage ? 'company_name' : 'company_id',
-    type: isEditPage ? 'text' : 'select',
+    name: 'company_id',
+    type: 'select',
     options: [],
   },
   {
@@ -36,10 +34,10 @@ const inputField: InputField[] = [
     options: [],
   },
   {
-    id: 'salary_id',
-    label: 'Payroll Component',
-    name: isEditPage ? 'salary_name' : 'salary_id',
-    type: isEditPage ? 'text' : 'select',
+    id: 'year',
+    label: 'Year',
+    name: 'year',
+    type: 'number',
     options: [],
   },
   {
@@ -47,13 +45,13 @@ const inputField: InputField[] = [
     label: 'Month',
     name: 'month',
     type: 'select',
-    options: [],
+    options: [], // You will populate this array with month options
   },
   {
-    id: 'year',
-    label: 'Year',
-    name: 'year',
-    type: 'number',
+    id: 'salary_id',
+    label: 'Payroll Component',
+    name: 'salary_id',
+    type: 'select',
     options: [],
   },
 ];
@@ -75,6 +73,26 @@ async function fetchCompany() {
     }
   } catch (error) {
     console.error('Error fetching companies:', error);
+  }
+}
+
+async function fetchSalary() {
+  try {
+    const responseData = await getConfigureSalary();
+    const salaryOption = responseData.data.map((item: any) => ({
+      label: item.salary_name,
+      value: item.id,
+    }));
+
+    const salaryField = inputField.find(
+      (field) => field.label === 'Payroll Component'
+    );
+
+    if (salaryField) {
+      salaryField.options = salaryOption;
+    }
+  } catch (error) {
+    console.error('Error fetching Salary:', error);
   }
 }
 
@@ -108,5 +126,6 @@ export {
   filterOptions,
   inputField,
   fetchCompany,
+  fetchSalary,
   populateMonthOptions,
 };

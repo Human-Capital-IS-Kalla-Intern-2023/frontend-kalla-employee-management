@@ -22,7 +22,6 @@ const EditModal = ({
   const firstInputRef = useRef<HTMLInputElement | null>(null);
   const selectRef = useRef<HTMLSelectElement | null>(null);
 
-  console.log('formData', formData);
   const handleChange = (e: any) => {
     const { name, value, type, checked } = e.target;
 
@@ -199,10 +198,25 @@ const EditModal = ({
                   <select
                     id={field.id}
                     name={field.name}
-                    className="w-full px-3 py-2 border rounded"
+                    className={`w-full px-3 py-2 border rounded ${
+                      field.label === 'Legal Employee' ||
+                      field.label === 'Payroll Component'
+                        ? 'bg-[#d3d3d3] text-gray cursor-not-allowed'
+                        : ''
+                    }`}
                     onChange={handleChange}
                     ref={index === 0 ? selectRef : null}
                     value={formData[field.name] || ''}
+                    disabled={
+                      field.label === 'Legal Employee' ||
+                      field.label === 'Payroll Component'
+                    }
+                    title={
+                      field.label === 'Legal Employee' ||
+                      field.label === 'Payroll Component'
+                        ? 'Not Allowed to Edit SBU or Payroll'
+                        : ''
+                    }
                   >
                     <option value="">Select {field.label}</option>
                     {field.options.map((option: any) => (
@@ -228,18 +242,9 @@ const EditModal = ({
                   id={field.id}
                   name={field.name}
                   placeholder={`Masukkan ${field.label}`}
-                  className={`w-full px-3 py-2 border rounded ${
-                    field.label === 'Legal Employee' ||
-                    field.label === 'Payroll Component'
-                      ? 'bg-[#d3d3d3] text-gray cursor-not-allowed'
-                      : ''
-                  }`}
+                  className={`w-full px-3 py-2 border rounded`}
                   onChange={handleChange}
                   ref={index === 0 ? firstInputRef : null}
-                  disabled={
-                    field.label === 'Legal Employee' ||
-                    field.label === 'Payroll Component'
-                  }
                   value={formData[field.name] || ''}
                 />
               )}

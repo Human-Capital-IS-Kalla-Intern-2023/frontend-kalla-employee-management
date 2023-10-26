@@ -5,7 +5,6 @@ import profileImg112 from '../../../assets/img/profile/profileImg-112.webp';
 import HeaderCompensationCard from './HeaderCompensationCard';
 
 const CompensationDetailCard = ({ compensationData }: any) => {
-  console.log(compensationData.company_name);
   return (
     <div className="antialiased lg:pb-4 lg:p-0 sm:py-2 overlay">
       <HeaderCompensationCard text={'Detail'} link={`/salary/compensation`} />
