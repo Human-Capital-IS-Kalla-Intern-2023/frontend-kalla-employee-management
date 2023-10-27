@@ -18,8 +18,7 @@ const CompensationDetailCard = ({ compensationData }: any) => {
             {compensationData && (
               <>
                 <p className="text-lg font-bold">
-                  {compensationData.company_name} - {compensationData.month}{' '}
-                  {compensationData.year}
+                  {compensationData.compensation_name}
                 </p>
                 <p className="uppercase text-gray">
                   {compensationData.company_name}
@@ -44,8 +43,10 @@ const CompensationDetailCard = ({ compensationData }: any) => {
             <div>
               {compensationData && (
                 <>
-                  <p className="text-base text-grayBlack">Regulation</p>
-                  <p className="text-[17px] text-grayBlack">
+                  <p className="text-base font-normal text-grayBlack">
+                    Regulation
+                  </p>
+                  <p className="text-[17px] text-black font-medium">
                     {compensationData.salary_name}
                   </p>
                 </>
@@ -54,8 +55,8 @@ const CompensationDetailCard = ({ compensationData }: any) => {
             <div className="ml-8">
               {compensationData && (
                 <>
-                  <p className="text-base text-grayBlack">Period</p>
-                  <p className="text-[17px] text-grayBlack">
+                  <p className="text-base font-normal text-grayBlack">Period</p>
+                  <p className="text-[17px] text-black font-medium">
                     {compensationData.month} {compensationData.year}
                   </p>
                 </>
