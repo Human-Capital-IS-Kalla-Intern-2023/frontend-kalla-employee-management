@@ -495,6 +495,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                                             '{compensationId}',
                                             customCell.id
                                           )
+                                          .replace('{salaryId}', customCell.id)
                                           .replace(
                                             '{positionId}',
                                             customCell.id_main_position
