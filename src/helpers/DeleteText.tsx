@@ -4,7 +4,7 @@ export const DeleteText = (
 ): string => {
   if (locationPathname.includes('/employee')) {
     return customCell.fullname;
-  } else if (locationPathname.includes('/position')) {
+  } else if (locationPathname.includes('/posisi')) {
     return customCell.position_name;
   } else if (locationPathname.includes('/grade')) {
     return customCell.grade_name;
