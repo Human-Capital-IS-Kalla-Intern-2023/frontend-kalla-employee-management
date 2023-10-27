@@ -84,11 +84,11 @@ const AddPropertySalaryCard = () => {
 
   //* LOCAL STORAGE SECTION
   const saveDataToLocalStorage = (data: any) => {
-    localStorage.setItem('salaryData', JSON.stringify(data));
+    localStorage.setItem('salaryAddData', JSON.stringify(data));
   };
 
   const getLocalStorageData = () => {
-    const savedData = localStorage.getItem('salaryData');
+    const savedData = localStorage.getItem('salaryAddData');
     if (savedData) {
       const parsedData = JSON.parse(savedData);
       return parsedData.components || [];
@@ -130,7 +130,7 @@ const AddPropertySalaryCard = () => {
 
   // Handler Cancel Navbar Button
   const cancelHandler = async () => {
-    localStorage.removeItem('salaryData');
+    localStorage.removeItem('salaryAddData');
 
     navigate('/salary/configures');
   };
@@ -138,7 +138,7 @@ const AddPropertySalaryCard = () => {
   // Handler Save and Close Navbar Button
   const handleSaveAndClose = async () => {
     try {
-      const savedData = localStorage.getItem('salaryData');
+      const savedData = localStorage.getItem('salaryAddData');
 
       // Panggil fungsi API untuk menambahkan gaji
       const responseData = await addConfigureSalary(savedData);
@@ -148,7 +148,7 @@ const AddPropertySalaryCard = () => {
         text: `${responseData.message}`,
         onConfirm: () => {
           navigate('/salary/configures');
-          localStorage.removeItem('salaryData');
+          localStorage.removeItem('salaryAddData');
         },
       });
     } catch (error: any) {
@@ -527,7 +527,7 @@ const AddPropertySalaryCard = () => {
 
   //* USE EFFECT SECTION
   useEffect(() => {
-    const savedData = localStorage.getItem('salaryData');
+    const savedData = localStorage.getItem('salaryAddData');
     if (savedData) {
       const parsedData = JSON.parse(savedData);
       // Update your component state with the loaded data
@@ -703,7 +703,7 @@ const AddPropertySalaryCard = () => {
           {Object.keys(componentsByType).map((type, outerIndex) => (
             <div className="" key={outerIndex}>
               <div>
-                <h2 className="py-4 pl-4 capitalize  border-gray  allSideLow">
+                <h2 className="py-4 pl-4 capitalize border-gray allSideLow">
                   {type}
                 </h2>
                 <table className="min-w-full border-collapse border-gray-200 table-auto">

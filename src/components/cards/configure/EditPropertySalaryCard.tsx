@@ -86,11 +86,11 @@ const EditPropertySalaryCard = () => {
 
   //* LOCAL STORAGE SECTION
   const saveDataToLocalStorage = (data: any) => {
-    localStorage.setItem('salaryData', JSON.stringify(data));
+    localStorage.setItem('salaryEditData', JSON.stringify(data));
   };
 
   const getLocalStorageData = () => {
-    const savedData = localStorage.getItem('salaryData');
+    const savedData = localStorage.getItem('salaryEditData');
     if (savedData) {
       const parsedData = JSON.parse(savedData);
       return parsedData.components || [];
@@ -132,21 +132,21 @@ const EditPropertySalaryCard = () => {
 
   // Handler Cancel Navbar Button
   const cancelHandler = async () => {
-    localStorage.removeItem('salaryData');
+    localStorage.removeItem('salaryEditData');
     navigate('/salary/configures');
   };
 
   // Handler Save and Close Navbar Button
   const handleSaveAndClose = async () => {
     try {
-      const savedData = localStorage.getItem('salaryData');
+      const savedData = localStorage.getItem('salaryEditData');
 
       if (savedData) {
         // Parse objek JSON dari data yang diambil dari localStorage
         const parsedData = JSON.parse(savedData);
 
         // Simpan kembali objek yang telah diubah
-        localStorage.setItem('salaryData', JSON.stringify(parsedData));
+        localStorage.setItem('salaryEditData', JSON.stringify(parsedData));
 
         // Panggil fungsi API untuk menambahkan gaji
         const responseData = await updateConfigureSalary(salaryId, parsedData);
@@ -156,7 +156,7 @@ const EditPropertySalaryCard = () => {
           text: `${responseData.message}`,
           onConfirm: () => {
             navigate('/salary/configures');
-            localStorage.removeItem('salaryData');
+            localStorage.removeItem('salaryEditData');
           },
         });
       }
@@ -553,16 +553,16 @@ const EditPropertySalaryCard = () => {
       setIsLoading(true);
 
       const response = await getDetailConfigureSalary(salaryId);
-      const configureSalaryData = response.data;
+      const configuresalaryEditData = response.data;
 
-      setCompanyDropdownValue(configureSalaryData.company_id);
-      setSalaryNameValue(configureSalaryData.salary_name);
+      setCompanyDropdownValue(configuresalaryEditData.company_id);
+      setSalaryNameValue(configuresalaryEditData.salary_name);
 
-      setGetMasterChecboxValue(configureSalaryData.is_active === 1);
-      setLeftActiveCheckbox(configureSalaryData.is_active === 1);
-      setFormData(configureSalaryData);
+      setGetMasterChecboxValue(configuresalaryEditData.is_active === 1);
+      setLeftActiveCheckbox(configuresalaryEditData.is_active === 1);
+      setFormData(configuresalaryEditData);
 
-      saveDataToLocalStorage(configureSalaryData);
+      saveDataToLocalStorage(configuresalaryEditData);
 
       const updatedTableData = getLocalStorageData();
       setTabelData(updatedTableData);
@@ -587,11 +587,9 @@ const EditPropertySalaryCard = () => {
   }, [componentDropdownValue]);
 
   useEffect(() => {
-    const savedData = localStorage.getItem('salaryData');
+    const savedData = localStorage.getItem('salaryEditData');
 
-    if (!savedData) {
-      fetchData();
-    }
+    fetchData();
 
     if (savedData) {
       const parsedData = JSON.parse(savedData);
@@ -756,7 +754,7 @@ const EditPropertySalaryCard = () => {
           {Object.keys(componentByType).map((type, outerIndex) => (
             <div className="mt-2">
               <div key={outerIndex}>
-                <h2 className="py-4 pl-4 capitalize  border-gray  allSideLow">
+                <h2 className="py-4 pl-4 capitalize border-gray allSideLow">
                   {type}
                 </h2>
                 <table className="min-w-full border-collapse border-gray-200 table-auto">
