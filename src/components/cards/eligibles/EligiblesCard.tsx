@@ -187,7 +187,7 @@ const EligiblesCard = ({ employeeData }: EligiblesProps) => {
                   onClick={handleManageClick}
                   className={`flex items-center justify-center px-4 pr-3 py-3 text-[17px] font-medium duration-200 ${
                     isDropdownVisible ? 'rounded-t-lg' : 'rounded-lg'
-                  } text-pureBlack bg-secondary focus:outline-none hover:bg-yellow lg:hover:scale-105`}
+                  } text-pureBlack bg-secondary focus:outline-none hover:bg-yellow lg:hover:scale-[1.03]`}
                 >
                   Manage
                   <ArrowButtonIcon className="h-3.5 w-3.5 ml-1" />
