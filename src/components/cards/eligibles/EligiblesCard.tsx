@@ -280,59 +280,51 @@ const EligiblesCard = ({ employeeData }: EligiblesProps) => {
 
               {/* Tabel 1*/}
               <div className="px-3">
-                <div className="my-4 overflow-x-auto bg-white rounded-lg shadow-md">
-                  <table className="w-full p-5 table-auto">
-                    <thead>
-                      <tr className="bg-primary">
-                        <th className="w-1/2 px-4 py-2 text-left border-b-2 rounded-tl-lg">
-                          <h2 className="text-lg font-medium text-white">
-                            Primary Information
-                          </h2>
-                        </th>
-                        <th className="w-1/2 px-4 py-2 text-right border-b-2 rounded-tr-lg"></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <div className="flex flex-wrap w-full">
-                        <div className="flex items-center w-full px-4 py-3">
-                          <div className="w-5/12">
-                            <p className="text-base">Position Name</p>
-                          </div>
-                          <label className="relative inline-flex items-center w-7/12">
-                            : {employeeData.position_name}
-                          </label>
-                        </div>
-                        {employeeData.type_bank !== 'Eligible Belum Dibuat' &&
-                        employeeData.account_number !==
-                          'Eligible Belum Dibuat' ? (
-                          <div className="flex items-center w-full px-4 py-3">
-                            <div className="w-5/12">
-                              <p className="text-base">Bank Account</p>
-                            </div>
-                            <label className="relative inline-flex items-center w-7/12">
-                              :
-                              <div className="p-1 rounded-md">
-                                {employeeData.type_bank} -{' '}
-                                {employeeData.account_number}
-                              </div>
-                            </label>
-                          </div>
-                        ) : (
-                          <div className="flex items-center w-full px-4 py-3">
-                            <div className="w-5/12">
-                              <p className="text-base">Bank Account</p>
-                            </div>
-                            <label className="relative inline-flex items-center w-7/12">
-                              :
-                              <div className="p-1 ml-1 rounded-md bg-secondary">
-                                No Bank Data
-                              </div>
-                            </label>
-                          </div>
-                        )}
+                <div className="my-1 bg-white rounded-t-lg shadow-lg overflow-x-auto">
+                  <div className="bg-primary px-4 py-2 text-left rounded-tl-lg border-b-2">
+                    <h2 className="sm:text-md lg:text-lg font-medium text-white">
+                      Main Position
+                    </h2>
+                  </div>
+                </div>
+                <div>
+                  <div className="flex-row lg:flex-col">
+                    <div className="flex items-center w-full px-4 py-3">
+                      <div className="w-5/12 lg:w-2/12">
+                        <p className="text-base">Position Name</p>
                       </div>
-                    </tbody>
-                  </table>
+                      <label className="relative inline-flex items-center w-8/12 lg:w-full">
+                        : {employeeData.position_name}
+                      </label>
+                    </div>
+                    {employeeData.type_bank !== 'Eligible Belum Dibuat' &&
+                    employeeData.account_number !== 'Eligible Belum Dibuat' ? (
+                      <div className="flex items-center w-full px-4 py-3">
+                        <div className="w-5/12 lg:w-2/12">
+                          <p className="text-base">Bank Account</p>
+                        </div>
+                        <label className="relative inline-flex items-center w-8/12 lg:w-full">
+                          :
+                          <div className="p-1 rounded-md">
+                            {employeeData.type_bank} -{' '}
+                            {employeeData.account_number}
+                          </div>
+                        </label>
+                      </div>
+                    ) : (
+                      <div className="flex items-center w-full px-4 py-3">
+                        <div className="w-5/12 lg:w-2/12">
+                          <p className="text-base">Bank Account</p>
+                        </div>
+                        <label className="relative inline-flex items-center w-full">
+                          :
+                          <div className="p-1 ml-1 rounded-md bg-secondary">
+                            No Bank Data
+                          </div>
+                        </label>
+                      </div>
+                    )}
+                  </div>
                 </div>
                 {/* Tabel 1*/}
 
@@ -342,7 +334,7 @@ const EligiblesCard = ({ employeeData }: EligiblesProps) => {
                     <table className="w-full p-5 table-auto">
                       <thead>
                         <tr className="bg-primary">
-                          <th className="w-1/2 px-4 py-2 text-left border-b-2 rounded-tl-lg">
+                          <th className="w-1/2 px-4 py-2 text-left border-r- border-r-primary border-b-2 rounded-tl-lg">
                             <h2 className="text-lg font-medium text-white">
                               Allowance Information
                             </h2>
