@@ -214,14 +214,14 @@ const EditEligiblesCard = ({ employeeData }: EligiblesProps) => {
           <div className="flex text-xs font-medium sm:flex-row lg:text-sm">
             <button
               aria-label="Cancel"
-              className="px-2 py-2 mr-2 text-base text-white duration-300 bg-red-800 rounded-md lg:px-4 lg:py-2 lg:mr-4 hover:bg-red-700 lg:hover:scale-105"
+              className="px-2 py-2 mr-2 text-base text-white duration-300 bg-red-800 rounded-md lg:px-4 lg:py-2 lg:mr-4 hover:bg-red-700 lg:hover:scale-[1.03]"
               onClick={handleCancelButton}
             >
               CANCEL
             </button>
             <button
               aria-label="Save"
-              className="px-2 py-2 text-sm duration-300 border border-transparent rounded-md lg:px-6 lg:text-base text-pureBlack bg-secondary hover:bg-yellow hover:text-pureblack lg:hover:scale-105"
+              className="px-2 py-2 text-sm duration-300 border border-transparent rounded-md lg:px-6 lg:text-base text-pureBlack bg-secondary hover:bg-yellow hover:text-pureblack lg:hover:scale-[1.03]"
               onClick={saveEmployeeDataToServer}
             >
               UPDATE

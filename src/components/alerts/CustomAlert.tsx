@@ -10,9 +10,11 @@ interface CustomAlertProps {
 
 interface ConfirmationAlertProps {
   title: string;
-  text: string;
+  text?: string;
+  html?: any;
   onConfirm: () => void;
   timer?: number;
+  confirmButtonText?: string;
 }
 
 interface ConfimationAlert {
@@ -69,14 +71,25 @@ const WarningAlert: React.FC<CustomAlertProps> = ({ title, text, timer }) => {
 const ConfirmationAlert: React.FC<ConfirmationAlertProps> = ({
   title,
   text,
+  html,
   timer,
   onConfirm,
+  confirmButtonText,
 }) => {
+  const defaultTimer = 10000;
+
   Swal.fire({
     icon: 'success',
     title: title,
     text: text,
-    timer: timer,
+    html: html,
+    timer: timer || defaultTimer,
+
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    confirmButtonText: confirmButtonText,
+    confirmButtonColor: '#0B6533',
+    backdrop: true,
   }).then((result: any) => {
     if (result.isConfirmed) {
       onConfirm();

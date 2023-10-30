@@ -133,7 +133,7 @@ const DetailPositionCard = ({ employeeData }: EligiblesProps) => {
                   aria-label="Manage"
                   onClick={handleBackButton}
                   className="flex items-center justify-center px-5 py-3 text-[17px] font-medium duration-200 rounded-t-lg rounded-lg
-                   text-pureBlack bg-secondary focus:outline-none hover:bg-yellow lg:hover:scale-105"
+                   text-pureBlack bg-secondary focus:outline-none hover:bg-yellow lg:hover:scale-[1.03]"
                 >
                   Back
                 </button>

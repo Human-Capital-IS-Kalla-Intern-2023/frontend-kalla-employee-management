@@ -2,6 +2,10 @@
 import { useState, useEffect } from 'react';
 import { CloseButtonIcon, PlusIcon } from '../../../assets/icons/icon';
 import { useNavigate } from 'react-router-dom';
+import ReactLoading from 'react-loading';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
+
 import { getCompany } from '../../../api/CompanyAPI';
 import {
   ErrorAlert,
@@ -42,6 +46,7 @@ const AddPropertySalaryCard = () => {
   const [typeMasterComponentOptions, setTypeMasterComponentOptoins] =
     useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [formData, setFormData] = useState<{
     company_id: string | number;
@@ -84,11 +89,11 @@ const AddPropertySalaryCard = () => {
 
   //* LOCAL STORAGE SECTION
   const saveDataToLocalStorage = (data: any) => {
-    localStorage.setItem('salaryData', JSON.stringify(data));
+    localStorage.setItem('salaryAddData', JSON.stringify(data));
   };
 
   const getLocalStorageData = () => {
-    const savedData = localStorage.getItem('salaryData');
+    const savedData = localStorage.getItem('salaryAddData');
     if (savedData) {
       const parsedData = JSON.parse(savedData);
       return parsedData.components || [];
@@ -130,7 +135,7 @@ const AddPropertySalaryCard = () => {
 
   // Handler Cancel Navbar Button
   const cancelHandler = async () => {
-    localStorage.removeItem('salaryData');
+    localStorage.removeItem('salaryAddData');
 
     navigate('/salary/configures');
   };
@@ -138,17 +143,19 @@ const AddPropertySalaryCard = () => {
   // Handler Save and Close Navbar Button
   const handleSaveAndClose = async () => {
     try {
-      const savedData = localStorage.getItem('salaryData');
+      setIsLoading(true);
+      const savedData = localStorage.getItem('salaryAddData');
 
       // Panggil fungsi API untuk menambahkan gaji
       const responseData = await addConfigureSalary(savedData);
 
       ConfirmationAlert({
         title: `${responseData.status}`,
-        text: `${responseData.message}`,
+        html: `${responseData.message}<br/> <small>Click the button below to go salary page</small> `,
+        confirmButtonText: 'Okay & Direct',
         onConfirm: () => {
           navigate('/salary/configures');
-          localStorage.removeItem('salaryData');
+          localStorage.removeItem('salaryAddData');
         },
       });
     } catch (error: any) {
@@ -157,6 +164,8 @@ const AddPropertySalaryCard = () => {
 
       const errorMessages = Object.values(error.response.data.errors).flat();
       setErrorMessage(errorMessages.join('\n'));
+    } finally {
+      setIsLoading(false);
     }
     ResetAlert(
       setSuccessTitle,
@@ -508,26 +517,16 @@ const AddPropertySalaryCard = () => {
       } else {
         setNewComponentNameValue('');
       }
-
-      setSuccessTitle(`Success`);
-      setSuccessMessage(`Success Add New Component`);
+      toast.success(`Success Add New Component`);
     } catch (error: any) {
-      console.error('Error adding salary:', error);
-      setErrorTitle(`Error adding salary`);
-
-      setErrorMessage(error.message);
+      toast.error(error.message);
+      console.error('Error add new component:', error);
     }
-    ResetAlert(
-      setSuccessTitle,
-      setSuccessMessage,
-      setErrorTitle,
-      setErrorMessage
-    );
   };
 
   //* USE EFFECT SECTION
   useEffect(() => {
-    const savedData = localStorage.getItem('salaryData');
+    const savedData = localStorage.getItem('salaryAddData');
     if (savedData) {
       const parsedData = JSON.parse(savedData);
       // Update your component state with the loaded data
@@ -570,6 +569,12 @@ const AddPropertySalaryCard = () => {
   });
   return (
     <>
+      {isLoading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <ReactLoading type="spin" color="green" height={50} width={50} />
+        </div>
+      )}
+      <ToastContainer className="top-20" />
       {/* Header Design  */}
       <header className="flex items-center justify-between p-4 shadow-lg sm:p-5 ">
         <h1 className="p-2 text-base font-medium border-b-2 sm:text-lg md:text-xl lg:text-[22px] border-primary">
@@ -578,14 +583,14 @@ const AddPropertySalaryCard = () => {
         <div className="flex text-xs font-medium sm:flex-row lg:text-sm ">
           <button
             aria-label="Cancel"
-            className="px-1 py-2 mr-2 duration-300 bg-transparent border rounded-md lg:text-lg text-pureBlack border-gray lg:px-4 lg:py-2 lg:mr-4 hover:bg-gray hover:text-white lg:hover:scale-105"
+            className="px-1 py-2 mr-2 duration-300 bg-transparent  rounded-md lg:text-lg text-pureBlack lg:px-4 lg:py-2 lg:mr-4 bg-stone-300 hover:text-pureBlack hover:bg-slate-400 lg:hover:scale-[1.03] "
             onClick={cancelHandler}
           >
             CANCEL
           </button>
           <button
             aria-label="Save and Close"
-            className="px-1 py-2 text-white duration-300 rounded-md lg:text-lg lg:px-4 lg:py-2 bg-primary hover:bg-gray lg:hover:scale-105"
+            className="px-1 py-2 text-white duration-300 rounded-md lg:text-[17px] lg:px-4 lg:py-2 bg-primary hover:bg-green-600 lg:hover:scale-[1.03]"
             onClick={handleSaveAndClose}
           >
             SAVE & CLOSE
@@ -668,14 +673,14 @@ const AddPropertySalaryCard = () => {
           <div className="flex my-6 ml-6 space-x-2">
             <button
               aria-label="Add"
-              className="flex items-center justify-center px-4 py-2 mr-3 text-sm font-medium text-white duration-300 rounded-lg lg:text-base bg-primary focus:ring-4 hover:bg-gray lg:hover:scale-105"
+              className="flex items-center justify-center px-4 py-2 mr-3 text-sm font-medium duration-200 bg-transparent border rounded-lg text-primary hover:text-white lg:text-base hover:bg-primary border-primary focus:ring-4 "
               onClick={openModalAdd}
             >
               <PlusIcon className="h-3.5 w-3.5 mr-2" /> ADD COMPONENT
             </button>
             <button
               aria-label="Clear "
-              className="px-3 py-2 text-sm font-medium text-white duration-300 bg-red-800 rounded-lg hover:bg-gray lg:text-base lg:hover:scale-105"
+              className="px-3 py-2 text-sm font-medium hover:text-white text-red-800 duration-200 bg-transparent hover:bg-red-800 border-red-800 border rounded-lg  lg:text-base lg:hover:scale-[1.03]"
               onClick={() => showDeleteAllConfirmation()}
             >
               CLEAR
@@ -703,7 +708,7 @@ const AddPropertySalaryCard = () => {
           {Object.keys(componentsByType).map((type, outerIndex) => (
             <div className="" key={outerIndex}>
               <div>
-                <h2 className="py-4 pl-4 capitalize  border-gray  allSideLow">
+                <h2 className="py-4 pl-4 capitalize border-gray allSideLow">
                   {type}
                 </h2>
                 <table className="min-w-full border-collapse border-gray-200 table-auto">
@@ -820,7 +825,7 @@ const AddPropertySalaryCard = () => {
                 className="text-gray-500 hover:text-gray-700"
                 onClick={closeModalAdd}
               >
-                <CloseButtonIcon className="w-8 h-8 p-1 duration-200 rounded-md overlay hover:bg-red-800 hover:text-white" />
+                <CloseButtonIcon className="w-8 h-8 p-1 duration-200 rounded-full overlay hover:bg-red-800 hover:text-white" />
               </button>
             </header>
             <div className="p-4">
@@ -943,14 +948,14 @@ const AddPropertySalaryCard = () => {
             <div className="flex justify-end w-full p-4 rounded-t-none shadow-inner rounded-b-md border-gray bg-slate-200">
               <button
                 aria-label="Close"
-                className="px-4 py-2 mx-2 text-white duration-300 bg-red-800 rounded-md hover:bg-gray lg:hover:scale-105"
+                className="px-4 py-2 mx-2 text-black duration-300  rounded-md  bg-stone-300  hover:bg-slate-400  duration-200lg:hover:scale-[1.03]"
                 onClick={closeModalAdd}
               >
                 CANCEL
               </button>
               <button
                 aria-label="Add"
-                className="px-4 py-2 text-white duration-300 rounded-md bg-primary hover:bg-gray lg:hover:scale-105"
+                className="px-4 py-2 text-white duration-300 rounded-md bg-primary hover:bg-green-600 lg:hover:scale-[1.03]"
                 onClick={handleAdd}
               >
                 ADD

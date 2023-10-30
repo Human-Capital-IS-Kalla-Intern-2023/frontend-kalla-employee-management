@@ -7,7 +7,10 @@ import HeaderCompensationCard from './HeaderCompensationCard';
 const CompensationDetailCard = ({ compensationData }: any) => {
   return (
     <div className="antialiased lg:pb-4 lg:p-0 sm:py-2 overlay">
-      <HeaderCompensationCard text={'Detail'} link={`/salary/compensation`} />
+      <HeaderCompensationCard
+        text={'List Compensation'}
+        link={`/salary/compensation`}
+      />
       {/* Back Button Detail Section End */}
 
       {/* Info Section Start */}
@@ -18,8 +21,7 @@ const CompensationDetailCard = ({ compensationData }: any) => {
             {compensationData && (
               <>
                 <p className="text-lg font-bold">
-                  {compensationData.company_name} - {compensationData.month}{' '}
-                  {compensationData.year}
+                  {compensationData.compensation_name}
                 </p>
                 <p className="uppercase text-gray">
                   {compensationData.company_name}
@@ -44,8 +46,10 @@ const CompensationDetailCard = ({ compensationData }: any) => {
             <div>
               {compensationData && (
                 <>
-                  <p className="text-base text-grayBlack">Regulation</p>
-                  <p className="text-[17px] text-grayBlack">
+                  <p className="text-base font-normal text-grayBlack">
+                    Regulation
+                  </p>
+                  <p className="text-[17px] text-black font-medium">
                     {compensationData.salary_name}
                   </p>
                 </>
@@ -54,8 +58,8 @@ const CompensationDetailCard = ({ compensationData }: any) => {
             <div className="ml-8">
               {compensationData && (
                 <>
-                  <p className="text-base text-grayBlack">Period</p>
-                  <p className="text-[17px] text-grayBlack">
+                  <p className="text-base font-normal text-grayBlack">Period</p>
+                  <p className="text-[17px] text-black font-medium">
                     {compensationData.month} {compensationData.year}
                   </p>
                 </>
@@ -149,7 +153,9 @@ const CompensationDetailCard = ({ compensationData }: any) => {
                       className="border-b border-slate-300 hover:bg-slate-200"
                     >
                       <td className="w-2/4 py-4 pl-6 pr-2 ">
-                        <Link to={`/salary/compensation/detail/people`}>
+                        <Link
+                          to={`/salary/compensation/detail/people/${employee.employee_compensation_id}`}
+                        >
                           <div className="flex items-center ">
                             <img
                               src={profileImg112}

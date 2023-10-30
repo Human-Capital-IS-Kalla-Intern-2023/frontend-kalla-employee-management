@@ -244,7 +244,7 @@ const AddEligiblesCard = ({ employeeData }: EligiblesProps) => {
           <div className="flex text-xs font-medium sm:flex-row lg:text-sm">
             <button
               aria-label="Cancel Add Eligibles Employee"
-              className="px-1 py-2 mr-2 text-base text-white duration-300 border border-transparent rounded-md lg:px-4 lg:py-2 lg:mr-4 bg-gray lg:hover:scale-105 hover:bg-white hover:border-black hover:text-black"
+              className="px-1 py-2 mr-2 text-base text-white duration-300 border border-transparent rounded-md lg:px-4 lg:py-2 lg:mr-4 bg-gray lg:hover:scale-[1.03] hover:bg-white hover:border-black hover:text-black"
               onClick={handleCancelButton}
             >
               CANCEL

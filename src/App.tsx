@@ -39,6 +39,7 @@ import MasterSalary from './pages/salary/master/MasterSalary';
 import ConfigureSalary from './pages/salary/configure/ConfigureSalary';
 import AddConfigureSalary from './pages/salary/configure/AddConfigureSalary';
 import EditPropertySalaryCard from './components/cards/configure/EditPropertySalaryCard';
+import DetailPropertySalaryCard from './components/cards/configure/DetailPropertySalaryCard';
 
 // Setting Page
 import Setting from './pages/profile/Setting';
@@ -243,10 +244,10 @@ const App = () => {
           ></Route>
 
           <Route
-            path="/salary/compensation/detail/people"
+            path="/salary/compensation/detail/people/:employeeCompensationId"
             element={
               <PrivateRoute
-                path="/salary/compensation/detail/people"
+                path="/salary/compensation/detail/people/:employeeCompensationId"
                 element={<CompensationPeople />}
               />
             }
@@ -318,6 +319,15 @@ const App = () => {
               <PrivateRoute
                 path="/salary/configures/payroll_component/edit/:salaryId"
                 element={<EditPropertySalaryCard />}
+              />
+            }
+          ></Route>
+          <Route
+            path="/salary/configures/payroll_component/detail/:salaryId"
+            element={
+              <PrivateRoute
+                path="/salary/configures/payroll_component/detail/:salaryId"
+                element={<DetailPropertySalaryCard />}
               />
             }
           ></Route>

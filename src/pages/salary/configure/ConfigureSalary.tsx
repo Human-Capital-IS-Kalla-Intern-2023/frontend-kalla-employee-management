@@ -272,6 +272,7 @@ const ConfigureSalary: React.FC = () => {
         fetchDetailedData={fetchDetailConfigureSalary}
         onEditNavigate="payroll_component/edit/{salaryId}"
         changeIsActive={handleChangeIsActiveSalarySBU}
+        onDetailNavigate="payroll_component/detail/{salaryId}"
       />
       <TabelFooter
         currentPage={currentPage}

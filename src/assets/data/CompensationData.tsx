@@ -15,7 +15,7 @@ interface InputField {
   label: string;
   name: string;
   type: string;
-  options: { label: string; value: number }[];
+  options: { label: string; value: any }[];
 }
 
 const inputField: InputField[] = [
@@ -34,10 +34,10 @@ const inputField: InputField[] = [
     options: [],
   },
   {
-    id: 'year',
-    label: 'Year',
-    name: 'year',
-    type: 'number',
+    id: 'salary_id',
+    label: 'Payroll Component',
+    name: 'salary_id',
+    type: 'select',
     options: [],
   },
   {
@@ -45,13 +45,13 @@ const inputField: InputField[] = [
     label: 'Month',
     name: 'month',
     type: 'select',
-    options: [], // You will populate this array with month options
+    options: [],
   },
   {
-    id: 'salary_id',
-    label: 'Payroll Component',
-    name: 'salary_id',
-    type: 'select',
+    id: 'year',
+    label: 'Year',
+    name: 'year',
+    type: 'number',
     options: [],
   },
 ];
@@ -101,22 +101,23 @@ function populateMonthOptions() {
   const monthField = inputField.find((field) => field.label === 'Month');
   if (monthField) {
     const months = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
+      'JANUARI',
+      'FEBRUARI',
+      'MARET',
+      'APRIL',
+      'MEI',
+      'JUNI',
+      'JULI',
+      'AGUSTUS',
+      'SEPTEMBER',
+      'OKTOBER',
+      'NOVEMBER',
+      'DESEMBER',
     ];
-    monthField.options = months.map((month, index) => ({
+    monthField.options = months.map((month) => ({
       label: month,
-      value: index + 1,
+      value: month,
+      name: month,
     }));
   }
 }

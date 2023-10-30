@@ -1,8 +1,10 @@
 import { CloseButtonIcon, PDFIcon } from '../../../assets/icons/icon';
 import { Link } from 'react-router-dom';
 import html2pdf from 'html2pdf.js';
+import { useParams } from 'react-router-dom';
 
 const PaySlipModal = ({ onClose }: any) => {
+  const { employeeCompensationId } = useParams();
   const handleGeneratePDF = () => {
     const content = document.getElementById('payslip-content');
 
@@ -112,7 +114,7 @@ const PaySlipModal = ({ onClose }: any) => {
       className={`fixed inset-0 flex  items-center justify-center  overflow-y-scroll z-[1000] bg-opacity-50`}
     >
       <div
-        className="w-4/6 p-6 mt-32 mb-5 ml-56 bg-white rounded-lg shadow-lg max-h-fit"
+        className="w-4/6 p-6 mt-32 mb-5 bg-white rounded-lg shadow-lg max-h-fit"
         id="payslip-content"
       >
         <div className="flex items-center justify-between">
@@ -130,7 +132,9 @@ const PaySlipModal = ({ onClose }: any) => {
             </button>
 
             <button onClick={onClose} id="close-button">
-              <Link to={`/salary/compensation/detail/people`}>
+              <Link
+                to={`/salary/compensation/detail/people/${employeeCompensationId}`}
+              >
                 <CloseButtonIcon className="w-10 h-10 p-2 duration-300 rounded-full hover:bg-red-800 hover:text-white" />
               </Link>
             </button>

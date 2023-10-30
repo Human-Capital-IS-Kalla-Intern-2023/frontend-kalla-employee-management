@@ -17,6 +17,8 @@ import {
   UserIcon,
 } from '../../assets/icons/icon';
 
+// Import Helper
+import { DeleteText } from '../../helpers/DeleteText';
 interface ColCells {
   key: any;
   text: any;
@@ -60,6 +62,8 @@ const TabelBody: React.FC<TabelBodyProps> = ({
     null
   );
 
+  console.log(data);
+
   const [editId, setEditId] = useState<any>(null);
 
   const scrollRef = useRef(false);
@@ -77,6 +81,8 @@ const TabelBody: React.FC<TabelBodyProps> = ({
 
   const navigate = useNavigate();
   const location = useLocation();
+
+  const locationPathname = location.pathname;
 
   const openEditModal = useCallback(
     async (id: number) => {
@@ -489,6 +495,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                                             '{compensationId}',
                                             customCell.id
                                           )
+                                          .replace('{salaryId}', customCell.id)
                                           .replace(
                                             '{positionId}',
                                             customCell.id_main_position
@@ -538,6 +545,10 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                                 </Link>
                                 {deleteModalOpen && (
                                   <DeleteModal
+                                    deleteData={DeleteText(
+                                      customCell,
+                                      locationPathname
+                                    )}
                                     isOpen={deleteModalOpen}
                                     onClose={closeDeleteModal}
                                     onDelete={() => {
