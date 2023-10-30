@@ -6,26 +6,9 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import PaySlipModal from '../../modals/compensation/PaySlipModal';
 
-function generateRandomData() {
-  const fullname = 'Muh Thoriq Ali Said'; // Replace with a random full name generator
-  const nip = 'H071201077';
-  const grade_name = 'Grade ' + (Math.floor(Math.random() * 10) + 1);
-  const position_name = 'Human Capital IS';
-  const company_name = 'Company ' + (Math.floor(Math.random() * 3) + 1);
-
-  return {
-    fullname,
-    nip,
-    grade_name,
-    position_name,
-    company_name,
-  };
-}
-
-const CompoensationPeopleCard = () => {
-  const employeeData = generateRandomData();
-
-  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+const CompoensationPeopleCard = ({ compensationEmployeeData }: any) => {
+  const [isDropdownPaySlip, setIsDropdownPaySlip] = useState(false);
+  const [isDropdownPosition, setIsDropdownPosition] = useState(false);
   const [isFixedPayVisible, setIsFixedPayVisible] = useState(true);
   const [isDeductionVisible, setIsDeductionVisible] = useState(true);
   const [isPaySlipVisible, setIsPaySlipVisible] = useState(false);
@@ -47,13 +30,25 @@ const CompoensationPeopleCard = () => {
   };
 
   const handleManageClick = () => {
-    setIsDropdownVisible(!isDropdownVisible);
+    setIsDropdownPaySlip(!isDropdownPaySlip);
   };
 
+  const [dropdownWidth, setDropdownWidth] = useState(0);
+
+  const handlePositionClick = () => {
+    setIsDropdownPosition(!isDropdownPosition);
+    // Measure the width of the position text
+    const positionTextWidth = document
+      .querySelector('.position-text')
+      ?.getBoundingClientRect().width;
+    if (positionTextWidth) {
+      setDropdownWidth(positionTextWidth);
+    }
+  };
   const { pathname } = useLocation();
 
   useEffect(() => {
-    if (pathname === '/salary/compensation/detail/people/payslip') {
+    if (pathname.includes(`/payslip`)) {
       setIsPaySlipVisible(true);
     }
   }, [pathname]);
@@ -61,8 +56,8 @@ const CompoensationPeopleCard = () => {
     <>
       <div className="">
         <HeaderCompensationCard
-          text={'Company - Month Year'}
-          link={`/salary/compensation/detail
+          text={`${compensationEmployeeData.employee_compensation_name}`}
+          link={`/salary/compensation/detail/${compensationEmployeeData.compensation_id}
         `}
         />
 
@@ -79,11 +74,11 @@ const CompoensationPeopleCard = () => {
                 <ArrowButtonIcon className="w-6 h-8 ml-3 text-center" />
               </button>
 
-              {isDropdownVisible && (
-                <div className="absolute px-[5px] py-1 bg-white rounded-b-lg mt-[3px] border border-primary right-[149px] z-10 duration-200">
+              {isDropdownPaySlip && (
+                <div className="absolute  bg-white rounded-b-lg mt-[3px] border border-primary right-[149px] z-10 duration-200">
                   <Link to={'payslip'}>
                     <button
-                      className="block pr-[55px] pl-[13px] py-2 text-sm w-full items-start text-left hover:text-white  lg:text-[17px] uppercase hover:bg-primary"
+                      className="block  pl-[13px] px-[65px]  py-3 duration-300 rounded-b-lg text-sm w-full items-start text-left hover:text-white  lg:text-[17px] uppercase hover:bg-primary"
                       aria-label="Add Eligibles"
                       onClick={togglePaySlipVisibility}
                     >
@@ -109,25 +104,44 @@ const CompoensationPeopleCard = () => {
           </div>
           <img
             src={profileImg160}
-            alt={`Image Profile ${employeeData.fullname}`}
+            alt={`Image Profile ${compensationEmployeeData.fullname}`}
             className="mx-auto rounded-2xl shadow-allSideLow"
             width={160}
             height={160}
           />
 
           <h2 className="mt-4 font-semibold text-center uppercase text-md sm:text-md md:text-lg lg:text-[22px]">
-            {employeeData.fullname}
+            {compensationEmployeeData.fullname}
           </h2>
           <p className="pt-2 text-base italic font-medium text-center lg:text-md">
-            {employeeData.nip}
+            {compensationEmployeeData.nip}
           </p>
-          <div className="flex items-center justify-center text-center">
-            <p className="pt-2 text-base font-medium text-center uppercase lg:text-lg text-primary">
-              {employeeData.position_name}
+          <div className="relative flex items-center justify-center mt-2 text-center">
+            <p
+              className={`pt-2 ml-5 text-base font-medium text-center border z-10 p-2  rounded-t-lg uppercase lg:text-lg text-primary position-text ${
+                isDropdownPosition ? ' border-primary ' : 'border-transparent'
+              }`}
+            >
+              {compensationEmployeeData.position_name}
             </p>
-            <ArrowButtonIcon className="w-6 h-8 ml-1 text-center" />
+            <button onClick={handlePositionClick} className="relative ml-1">
+              <ArrowButtonIcon className={`w-6 h-8 text-center  `} />
+              {isDropdownPosition && (
+                <div
+                  className="absolute right-0 z-5 mt-[6px] mr-[28px] duration-200 bg-white border rounded-t-none rounded-lg border-primary"
+                  style={{ width: `${dropdownWidth}px ` }}
+                >
+                  <ul className="">
+                    <Link to={`/salary/compensation/detail/position`}>
+                      <li className="px-4 py-3 duration-300 rounded-lg rounded-t-none shadow-lg cursor-pointer hover:bg-primary hover:text-white">
+                        DETAIL
+                      </li>
+                    </Link>
+                  </ul>
+                </div>
+              )}
+            </button>
           </div>
-
           <div className="px-1 lg:px-10 lg:mx-2 lg:mt-10">
             <div className="my-4 rounded-t-lg">
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 lg:grid-cols-2">
@@ -135,14 +149,18 @@ const CompoensationPeopleCard = () => {
                   <h2 className="mb-1 text-[17px] font-semibold uppercase text-grayBlack lg:mb-2 sm:text-md lg:text-md">
                     Fixed Pay
                   </h2>
-                  <p className="text-base md:text-base lg:text-md">Rp. 0</p>
+                  <p className="text-base md:text-base lg:text-md">
+                    {compensationEmployeeData.fixed_pay}
+                  </p>
                 </div>
 
                 <div className="p-4 bg-white border-b-4 border-l-4 border-transparent rounded-lg shadow-allSideLow">
                   <h2 className="mb-1 text-[17px] font-semibold uppercase text-grayBlack lg:mb-2 sm:text-md lg:text-md">
                     Deduction
                   </h2>
-                  <p className="text-base md:text-base lg:text-md">Rp.0</p>
+                  <p className="text-base md:text-base lg:text-md">
+                    {compensationEmployeeData.deductions}
+                  </p>
                 </div>
               </div>
             </div>
@@ -161,34 +179,32 @@ const CompoensationPeopleCard = () => {
                 </div>
               </div>
               <div
-                className={` mx-11 ${isFixedPayVisible ? 'block' : 'hidden'}`}
+                className={`mx-11 ${isFixedPayVisible ? 'block' : 'hidden'}`}
               >
                 <table className="w-full">
                   <thead>
                     <tr>
-                      <th className="w-10/12 text-sm"></th>
+                      <th className="w-9/12 text-sm"></th>
                       <th className="w-1/12 text-sm"></th>
-                      <th className="w-1/12 text-sm"></th>
+                      <th className="w-2/12 text-sm text-end"></th>
                     </tr>
                   </thead>
-                  <tbody className="">
-                    <tr className="border-b border-slate-300">
-                      <td className="w-9/12 py-3 text-sm">Text 1</td>
-                      <td className="w-1/12 text-sm">Rp.</td>
-                      <td className="w-2/12 text-sm font-semibold text-end">
-                        0
-                      </td>
-                    </tr>
-                    <tr className="border-b border-slate-300">
-                      <td className="py-3 text-sm">Text 2</td>
-                      <td className="text-sm">Rp.</td>
-                      <td className="text-sm font-semibold text-end">1000</td>
-                    </tr>
-                    <tr className="">
-                      <td className="py-3 text-sm">Text 3</td>
-                      <td className="text-sm">Rp.</td>
-                      <td className="text-sm font-semibold text-end">20000</td>
-                    </tr>
+                  <tbody>
+                    {compensationEmployeeData.salary_components
+                      .filter(
+                        (component: any) => component.type === 'fixed pay'
+                      ) // Filter for fixed pay components
+                      .map((component: any, index: any) => (
+                        <tr key={index} className="border-b border-slate-300">
+                          <td className="w-10/12 py-3 text-sm">
+                            {component.component_name}
+                          </td>
+                          <td className="w-1/12 text-sm">Rp.</td>
+                          <td className="w-1/12 text-sm font-semibold text-end">
+                            {component.nominal}
+                          </td>
+                        </tr>
+                      ))}
                   </tbody>
                 </table>
               </div>
@@ -208,34 +224,32 @@ const CompoensationPeopleCard = () => {
                 </div>
               </div>
               <div
-                className={` mx-11 ${isDeductionVisible ? 'block' : 'hidden'}`}
+                className={`mx-11 ${isDeductionVisible ? 'block' : 'hidden'}`}
               >
                 <table className="w-full">
                   <thead>
                     <tr>
-                      <th className="w-10/12 text-sm"></th>
+                      <th className="w-9/12 text-sm"></th>
                       <th className="w-1/12 text-sm"></th>
-                      <th className="w-1/12 text-sm"></th>
+                      <th className="w-2/12 text-sm text-end"></th>
                     </tr>
                   </thead>
-                  <tbody className="">
-                    <tr className="border-b border-slate-300">
-                      <td className="w-9/12 py-3 text-sm">Text 1</td>
-                      <td className="w-1/12 text-sm">Rp.</td>
-                      <td className="w-2/12 text-sm font-semibold text-end">
-                        0
-                      </td>
-                    </tr>
-                    <tr className="border-b border-slate-300">
-                      <td className="py-3 text-sm">Text 2</td>
-                      <td className="text-sm">Rp.</td>
-                      <td className="text-sm font-semibold text-end">1000</td>
-                    </tr>
-                    <tr className="">
-                      <td className="py-3 text-sm">Text 3</td>
-                      <td className="text-sm">Rp.</td>
-                      <td className="text-sm font-semibold text-end">20000</td>
-                    </tr>
+                  <tbody>
+                    {compensationEmployeeData.salary_components
+                      .filter(
+                        (component: any) => component.type === 'deductions'
+                      ) // Filter for fdeduction components
+                      .map((component: any, index: any) => (
+                        <tr key={index} className="border-b border-slate-300">
+                          <td className="w-10/12 py-3 text-sm">
+                            {component.component_name}
+                          </td>
+                          <td className="w-1/12 text-sm">Rp.</td>
+                          <td className="w-1/12 text-sm font-semibold text-end">
+                            {component.nominal}
+                          </td>
+                        </tr>
+                      ))}
                   </tbody>
                 </table>
               </div>
