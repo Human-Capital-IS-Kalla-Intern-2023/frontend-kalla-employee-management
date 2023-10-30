@@ -160,7 +160,7 @@ const Sidebar = () => {
                 className={`px-1 py-2 mb-1 rounded-md text-base   ${
                   pathname.includes('/dashboard')
                     ? 'bg-primary text-white '
-                    : ''
+                    : 'hover:bg-slate-300'
                 }`}
               >
                 <NavLink to={'/dashboard'} className="flex items-center">
@@ -211,20 +211,24 @@ const Sidebar = () => {
                 </NavLink>
               </li>
 
-              <li className="pt-4 border-t border-slate-300">
-                <p className="inline-block pl-3 mb-2 text-base text-slate-500">
-                  Other Section
-                </p>
+              <li className=" border-slate-300">
+                {(open || isTabletMid) && (
+                  <div className="py-5 border-y border-slate-300 ">
+                    <p className="inline-block pl-3 mb-2 text-[17px] text-slate-500">
+                      Other Section
+                    </p>
+                    {subMenusList?.map((menu: any) => (
+                      <div
+                        key={menu.name}
+                        className="flex flex-col gap-1 px-1 py-2 mb-1 text-base rounded-md hover:bg-primary hover:text-white"
+                      >
+                        <SideBarMenu data={menu} />
+                      </div>
+                    ))}
+                  </div>
+                )}
               </li>
-              {subMenusList?.map((menu: any) => (
-                <li
-                  key={menu.name}
-                  className="flex flex-col gap-1 px-1 py-2 mb-1 text-base rounded-md"
-                >
-                  <SideBarMenu data={menu} />
-                </li>
-              ))}
-              <li className="border-t border-slate-300">
+              <li className="">
                 <ButtonLogout />
               </li>
             </ul>

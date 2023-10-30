@@ -2,7 +2,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useMediaQuery } from 'react-responsive';
-import { NavLink, useLocation, Link } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 import ButtonLogout from '../../components/buttons/LogoutButton';
 
@@ -106,7 +106,7 @@ const EmployeeSideBar = (employeeData: any) => {
             overflow-hidden md:relative fixed
          h-full  min-h-screen"
         >
-          <div className="flex items-center gap-2.5 font-medium border-b py-3 border-slate-300 mx-3">
+          <div className="flex items-center gap-2.5 font-medium  py-3 border-slate-300 mx-3">
             <img
               alt="Kalla Logo"
               src={logo232}
@@ -124,7 +124,7 @@ const EmployeeSideBar = (employeeData: any) => {
               className="object-fit"
             />
           </div>
-          <div className="flex items-center py-4 border-y border-slate-300 hover:bg-slate-200">
+          {/* <div className="flex items-center py-4 border-y border-slate-300 hover:bg-slate-200">
             <Link to="/employee">
               <button
                 className="flex items-center"
@@ -134,7 +134,19 @@ const EmployeeSideBar = (employeeData: any) => {
                 <span className="ml-2">Back to Employee DB</span>
               </button>
             </Link>
-          </div>
+          </div> */}
+          <NavLink to={`/employee`}>
+            <div className="flex items-center py-4 border-y border-slate-300 hover:bg-slate-200">
+              <LeftArrowIcon2 className="ml-1 w-9 h-9 min-w-max" />
+              <motion.div
+                variants={textAnimation}
+                animate={open ? 'open' : 'closed'}
+                className="ml-2 link"
+              >
+                Back to Employee DB
+              </motion.div>
+            </div>
+          </NavLink>
           <div className="flex flex-col h-full">
             <ul className="whitespace-pre px-2.5 text-[0.9rem] py-5 flex  flex-col gap-1  font-medium overflow-x-hidden scrollbar-thin scrollbar-track-white scrollbar-thumb-slate-100   md:h-[68%] h-[70%] rounded-md">
               <li
