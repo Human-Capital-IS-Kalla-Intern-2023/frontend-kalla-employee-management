@@ -40,6 +40,7 @@ import ConfigureSalary from './pages/salary/configure/ConfigureSalary';
 import AddConfigureSalary from './pages/salary/configure/AddConfigureSalary';
 import EditPropertySalaryCard from './components/cards/configure/EditPropertySalaryCard';
 import DetailPropertySalaryCard from './components/cards/configure/DetailPropertySalaryCard';
+import CompensationPeopleEdit from './pages/salary/compensation/CompensationPeopleEdit';
 
 // Setting Page
 import Setting from './pages/profile/Setting';
@@ -57,7 +58,6 @@ import DeleteModal from './components/modals/DeleteModal';
 
 // Import CSS
 import './App.css';
-import CompensationPeopleEditCard from './components/cards/compensation/edit compensation/CompensationPeopleEditCard';
 
 const App = () => {
   return (
@@ -266,11 +266,11 @@ const App = () => {
           ></Route>
 
           <Route
-            path="/salary/compensation/detail/people/edit"
+            path="/salary/compensation/detail/people/edit/:employeeCompensationId"
             element={
               <PrivateRoute
-                path="/salary/compensation/detail/people/edit"
-                element={<CompensationPeopleEditCard />}
+                path="/salary/compensation/detail/people/edit/:employeeCompensationId"
+                element={<CompensationPeopleEdit />}
               />
             }
           ></Route>

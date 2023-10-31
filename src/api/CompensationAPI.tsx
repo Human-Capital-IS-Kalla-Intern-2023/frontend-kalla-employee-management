@@ -204,6 +204,32 @@ const getDetailCompensationEmployee = async (employee_compensation_id: any) => {
   }
 };
 
+const getEditCompensationEmployee = async (employee_compensation_id: any) => {
+  try {
+    const token = TokenHelper();
+
+    const headerToken = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const reponseGetDetailCompensation = await RequestApi(
+      'GET',
+      `compensations/edit-employee/${employee_compensation_id}`,
+      {},
+      headerToken,
+      'Mengambil data edit compensations employee'
+    );
+
+    return reponseGetDetailCompensation;
+  } catch (error) {
+    console.error(
+      'Terjadi kesalahan saat mengambil data edit compensations employee:',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   getCompensation,
   getCompanySalary,
@@ -213,4 +239,5 @@ export {
   deleteCompensation,
   searchCompensation,
   getDetailCompensationEmployee,
+  getEditCompensationEmployee,
 };

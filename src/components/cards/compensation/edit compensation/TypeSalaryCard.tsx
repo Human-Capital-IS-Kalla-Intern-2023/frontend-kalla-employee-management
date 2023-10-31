@@ -2,8 +2,20 @@ import { ArrowButtonIcon } from '../../../../assets/icons/icon';
 import InputSalaryCard from './InputSalaryCard';
 import { useState } from 'react';
 
-const TypeSalaryCard = ({ typeName }: { typeName: string }) => {
+const TypeSalaryCard = ({ typeName, salaryComponents }: any) => {
   const [isCardVisible, setIsCardVisible] = useState(true);
+  const [inputValues, setInputValues] = useState(
+    salaryComponents.map((component: any) => component.nominal)
+  );
+
+  console.log('inputValues', inputValues);
+
+  const handleChange = (newValue: number, index: number) => {
+    const updatedValues = [...inputValues];
+    console.log('updateValue', updatedValues);
+    updatedValues[index] = newValue;
+    setInputValues(updatedValues);
+  };
 
   const toggleCardVisibility = () => {
     setIsCardVisible(!isCardVisible);
@@ -23,17 +35,18 @@ const TypeSalaryCard = ({ typeName }: { typeName: string }) => {
       </div>
 
       {isCardVisible && (
-        <div>
-          <div className="flex mb-4 space-x-4">
-            <InputSalaryCard componentName="Salary 1" />
-            <InputSalaryCard componentName="Salary 2" />
-            <InputSalaryCard componentName="Salary 3" />
-          </div>
-          <div className="flex mb-4 space-x-4">
-            <InputSalaryCard componentName="Salary 1" />
-            <InputSalaryCard componentName="Salary 2" />
-            <InputSalaryCard componentName="Salary 3" />
-          </div>
+        <div className="grid grid-cols-3">
+          {salaryComponents.map((component: any, index: number) => (
+            <InputSalaryCard
+              key={component.component_id}
+              componentName={component.component_name}
+              salaryName={component.salary}
+              value={component.nominal}
+              isEdit={component.is_edit === 1}
+              isStatus={component.is_status === 1}
+              onChange={(newValue) => handleChange(newValue, index)}
+            />
+          ))}
         </div>
       )}
     </div>
