@@ -4,6 +4,7 @@ import ReactLoading from 'react-loading';
 import {
   SuccessAlert,
   ErrorAlert,
+  ConfirmationAlert,
 } from '../../../components/alerts/CustomAlert';
 import { ResetAlert } from '../../../helpers/ResetAlert';
 import CompensationPeopleEditCard from '../../../components/cards/compensation/edit compensation/CompensationPeopleEditCard';
@@ -62,11 +63,19 @@ const CompensationPeopleEdit = () => {
           salaryComponents
         );
         if (responseData) {
-          setSuccessTitle(`${responseData.status}`);
-          setSuccessMessage(`${responseData.message}`);
-          navigate(
-            `/salary/compensation/detail/people/${employeeCompensationId}`
-          );
+          ConfirmationAlert({
+            title: `${responseData.status}`,
+            html: `${responseData.message}<br/> <small>Click the button below to see update result</small> `,
+            confirmButtonText: 'See Update Result',
+            onConfirm: () => {
+              navigate(
+                `/salary/compensation/detail/people/${employeeCompensationId}`
+              );
+              localStorage.removeItem(
+                `salaryComponents-${employeeCompensationId}`
+              );
+            },
+          });
         }
       }
     } catch (error: any) {
@@ -91,7 +100,7 @@ const CompensationPeopleEdit = () => {
     }
   }, [employeeCompensationId]);
 
-  if (!compensationEditEmployeeData || isLoading) {
+  if (!compensationEditEmployeeData) {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
         <ReactLoading type="spin" color="green" height={50} width={50} />
@@ -100,6 +109,11 @@ const CompensationPeopleEdit = () => {
   }
   return (
     <>
+      {isLoading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <ReactLoading type="spin" color="green" height={50} width={50} />
+        </div>
+      )}
       {successMessage && successTitle && (
         <SuccessAlert title={successTitle} text={successMessage} />
       )}

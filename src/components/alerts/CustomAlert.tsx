@@ -76,19 +76,16 @@ const ConfirmationAlert: React.FC<ConfirmationAlertProps> = ({
   onConfirm,
   confirmButtonText,
 }) => {
-  const defaultTimer = 10000;
-
   Swal.fire({
     icon: 'success',
     title: title,
     text: text,
     html: html,
-    timer: timer || defaultTimer,
+    timer: timer,
 
     allowOutsideClick: false,
     allowEscapeKey: false,
     confirmButtonText: confirmButtonText,
-    confirmButtonColor: '#0B6533',
     backdrop: true,
   }).then((result: any) => {
     if (result.isConfirmed) {
