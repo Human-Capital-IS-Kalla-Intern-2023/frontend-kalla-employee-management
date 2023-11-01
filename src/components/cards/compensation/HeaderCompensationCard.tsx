@@ -15,7 +15,7 @@ const HeaderCompensationCard = ({
         </h1>
         {submitButton && (
           <button
-            aria-label="Save and Close"
+            aria-label="Save & Close"
             className="px-1 py-2 text-white duration-300 rounded-md lg:text-[17px] lg:px-4 lg:py-2 bg-primary hover:bg-green-600 lg:hover:scale-[1.03]"
             onClick={handleSaveAndClose}
           >
@@ -26,7 +26,7 @@ const HeaderCompensationCard = ({
 
       {/* Back Button Detail Section Start */}
       <section className="flex items-center justify-start m-5 mt-5">
-        <Link to={link}>
+        <Link to={link} aria-label="back">
           <LeftArrowIcon2 className="h-10 ml-2 mr-4 duration-200 w-9 hover:text-primary hover:scale-110" />
         </Link>
         <span className="text-lg">{text}</span>

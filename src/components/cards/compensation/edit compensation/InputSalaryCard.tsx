@@ -9,7 +9,7 @@ const InputSalaryCard = ({
 }: {
   componentName: string;
   salaryName: string;
-  value?: number;
+  value?: any;
   onChange: (newValue: number) => void;
   isEdit: boolean;
   isStatus: boolean;
@@ -18,11 +18,20 @@ const InputSalaryCard = ({
 
   const handleInputChange = (e: any) => {
     if (isEdit) {
-      const newValue = parseInt(e.target.value);
-      setInputValue(newValue); // Update the local state
-      onChange(newValue);
+      const inputValue = e.target.value;
+      const newValue = parseInt(inputValue, 10);
+      console.log(newValue);
+      if (isNaN(newValue)) {
+        setInputValue('');
+        onChange(NaN);
+      } else {
+        const newValue = parseInt(inputValue, 10);
+        setInputValue(newValue);
+        onChange(newValue);
+      }
     }
   };
+
   return (
     <div className="w-full mb-4 ">
       <p className="mt-2 ml-2 text-base font-medium text-grayBlack">
@@ -35,7 +44,7 @@ const InputSalaryCard = ({
           className={`w-full p-2 pl-10 text-right border border-gray-300 rounded-md appearance-none  [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${
             !isEdit || !isStatus ? 'cursor-not-allowed' : 'cursor-auto'
           }`}
-          placeholder={`${value}`}
+          placeholder="Enter Salary Value"
           value={inputValue}
           min={0}
           disabled={!isEdit || !isStatus}

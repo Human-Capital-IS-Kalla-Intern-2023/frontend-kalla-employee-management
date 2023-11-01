@@ -17,6 +17,12 @@ const CompensationPeopleEdit = () => {
       const response = await getEditCompensationEmployee(
         employeeCompensationId
       );
+      const salaryComponents = response.data[0].salary_components;
+
+      localStorage.setItem(
+        `salaryComponents-${employeeCompensationId}`,
+        JSON.stringify(salaryComponents)
+      );
       setCompensationEditEmployeeData(response.data[0]);
     } catch (error) {
       console.error(error);
