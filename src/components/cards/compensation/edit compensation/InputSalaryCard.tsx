@@ -104,6 +104,13 @@ const InputSalaryCard = ({
           placeholder={`Enter Salary Value`}
           value={inputValue}
           disabled={!isEdit || !isStatus}
+          onKeyDown={(e) => {
+            const key = e.key;
+
+            if (key === '-' || key === '+' || key === 'e') {
+              e.preventDefault();
+            }
+          }}
           onChange={handleInputChange}
           title={
             !isEdit && !isStatus
