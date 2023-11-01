@@ -131,7 +131,7 @@ const DetailPropertySalaryCard = () => {
         <div className="flex text-xs font-medium sm:flex-row lg:text-sm ">
           <button
             aria-label="Cancel"
-            className="px-1 py-2 mr-2 duration-300 bg-transparent  rounded-md lg:text-lg text-pureBlack lg:px-4 lg:py-2 lg:mr-4 hover:bg-stone-300 hover:text-pureBlack bg-slate-400 lg:hover:scale-[1.03] "
+            className="px-1 py-2 mr-2 duration-300 bg-transparent  rounded-md lg:text-lg  lg:px-4 lg:py-2 lg:mr-4 hover:bg-stone-300 hover:text-pureBlack bg-slate-500 text-white lg:hover:scale-[1.03] "
             onClick={backHandler}
           >
             BACK
@@ -165,6 +165,7 @@ const DetailPropertySalaryCard = () => {
                 disabled
                 value={companyDropdownValue}
                 className="block w-full px-3 py-2 mt-1 text-sm bg-white border rounded-md shadow-sm cursor-not-allowed focus:outline-none focus:ring-primary focus:border-primary"
+                title="Not Allowed to edit legal employee in this page"
               >
                 <option value="" disabled>
                   Select an option
@@ -186,6 +187,7 @@ const DetailPropertySalaryCard = () => {
                   type="text"
                   id="input"
                   name="input"
+                  title="Not Allowed to edit salary name in this page"
                   readOnly
                   placeholder="Salary Name"
                   value={salaryNameValue}
@@ -252,6 +254,7 @@ const DetailPropertySalaryCard = () => {
                             value={row.order}
                             readOnly
                             className="w-24 bg-white border-b cursor-not-allowed focus:outline-none"
+                            title="Not Allowed to edit order in this page"
                           />
                         </td>
 
@@ -266,6 +269,7 @@ const DetailPropertySalaryCard = () => {
                             type="checkbox"
                             disabled
                             className="w-5 h-5 rounded cursor-not-allowed focus:ring-primary "
+                            title="Not Allowed to edit hide function in this page"
                             checked={row.is_hide === 1}
                           />
                         </td>
@@ -274,6 +278,7 @@ const DetailPropertySalaryCard = () => {
                             type="checkbox"
                             disabled
                             className="w-5 h-5 rounded cursor-not-allowed focus:ring-primary"
+                            title="Not Allowed to change edit function in this page"
                             checked={row.is_edit === 1}
                           />
                         </td>

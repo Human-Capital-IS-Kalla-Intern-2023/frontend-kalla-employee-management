@@ -3,7 +3,7 @@ import HeaderCompensationCard from './HeaderCompensationCard';
 import { ArrowButtonIcon } from '../../../assets/icons/icon';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import PaySlipModal from '../../modals/compensation/PaySlipModal';
 
 const CompoensationPeopleCard = ({ compensationEmployeeData }: any) => {
@@ -12,6 +12,8 @@ const CompoensationPeopleCard = ({ compensationEmployeeData }: any) => {
   const [isFixedPayVisible, setIsFixedPayVisible] = useState(true);
   const [isDeductionVisible, setIsDeductionVisible] = useState(true);
   const [isPaySlipVisible, setIsPaySlipVisible] = useState(false);
+
+  const { employeeCompensationId } = useParams();
 
   const toggleFixedPayVisibility = () => {
     setIsFixedPayVisible(!isFixedPayVisible);
@@ -44,6 +46,12 @@ const CompoensationPeopleCard = ({ compensationEmployeeData }: any) => {
     if (positionTextWidth) {
       setDropdownWidth(positionTextWidth);
     }
+  };
+  const formatValue = (value: any) => {
+    if (typeof value === 'number') {
+      return new Intl.NumberFormat('id-ID').format(value);
+    }
+    return '';
   };
   const { pathname } = useLocation();
 
@@ -95,7 +103,9 @@ const CompoensationPeopleCard = ({ compensationEmployeeData }: any) => {
               )}
             </div>
             <div>
-              <Link to={`/salary/compensation/detail/people/edit`}>
+              <Link
+                to={`/salary/compensation/detail/people/${employeeCompensationId}/edit`}
+              >
                 <button className="px-4 py-2 mr-8 text-white  lg:text-[17px] uppercase duration-300 border rounded-md border-primary bg-primary hover:bg-gray">
                   Edit
                 </button>
@@ -149,8 +159,8 @@ const CompoensationPeopleCard = ({ compensationEmployeeData }: any) => {
                   <h2 className="mb-1 text-[17px] font-semibold uppercase text-grayBlack lg:mb-2 sm:text-md lg:text-md">
                     Fixed Pay
                   </h2>
-                  <p className="text-base md:text-base lg:text-md">
-                    {compensationEmployeeData.fixed_pay}
+                  <p className="text-base md:text-base text-pureBlack lg:text-[17px]">
+                    Rp. {formatValue(compensationEmployeeData.fixed_pay)}
                   </p>
                 </div>
 
@@ -158,8 +168,8 @@ const CompoensationPeopleCard = ({ compensationEmployeeData }: any) => {
                   <h2 className="mb-1 text-[17px] font-semibold uppercase text-grayBlack lg:mb-2 sm:text-md lg:text-md">
                     Deduction
                   </h2>
-                  <p className="text-base md:text-base lg:text-md">
-                    {compensationEmployeeData.deductions}
+                  <p className="text-base md:text-base text-pureBlack lg:text-[17px]">
+                    Rp. {formatValue(compensationEmployeeData.deductions)}
                   </p>
                 </div>
               </div>
@@ -196,12 +206,12 @@ const CompoensationPeopleCard = ({ compensationEmployeeData }: any) => {
                       ) // Filter for fixed pay components
                       .map((component: any, index: any) => (
                         <tr key={index} className="border-b border-slate-300">
-                          <td className="w-10/12 py-3 text-sm">
+                          <td className="w-10/12 py-3 text-sm text-grayBlack">
                             {component.component_name}
                           </td>
-                          <td className="w-1/12 text-sm">Rp.</td>
-                          <td className="w-1/12 text-sm font-semibold text-end">
-                            {component.nominal}
+                          <td className="w-1/12 text-sm text-grayBlack">Rp.</td>
+                          <td className="w-1/12 text-[15px] text-pureBlack text-end">
+                            {formatValue(component.nominal)}
                           </td>
                         </tr>
                       ))}
@@ -238,15 +248,15 @@ const CompoensationPeopleCard = ({ compensationEmployeeData }: any) => {
                     {compensationEmployeeData.salary_components
                       .filter(
                         (component: any) => component.type === 'deductions'
-                      ) // Filter for fdeduction components
+                      )
                       .map((component: any, index: any) => (
                         <tr key={index} className="border-b border-slate-300">
-                          <td className="w-10/12 py-3 text-sm">
+                          <td className="w-10/12 py-3 text-sm text-grayBlack">
                             {component.component_name}
                           </td>
-                          <td className="w-1/12 text-sm">Rp.</td>
-                          <td className="w-1/12 text-sm font-semibold text-end">
-                            {component.nominal}
+                          <td className="w-1/12 text-sm text-grayBlack">Rp.</td>
+                          <td className="w-1/12 text-[15px] text-pureBlack text-end">
+                            {formatValue(component.nominal)}
                           </td>
                         </tr>
                       ))}

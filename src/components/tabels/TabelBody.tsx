@@ -384,23 +384,21 @@ const TabelBody: React.FC<TabelBodyProps> = ({
     }
   }, [data, location.search, modalDeleteId, navigate, openDeleteModal]);
 
-  useEffect(() => {
-    const closeDropdownOnOutsideClick = (event: any) => {
-      // Cek apakah event target (elemen yang diklik) adalah dropdown atau turunannya
-      if (!event.target.closest('.dropdown-wrapper')) {
-        // Jika bukan, maka tutup dropdown
-        setActiveDropdown(null);
-      }
-    };
+  const dropdownRef = useRef<HTMLTableRowElement | null>(null);
 
-    // Tambahkan event listener untuk mengawasi klik di seluruh dokumen
-    document.addEventListener('click', closeDropdownOnOutsideClick);
+  // useEffect(() => {
+  //   const handleClickOutsideDropdown = (event: any) => {
+  //     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+  //       setActiveDropdown(null);
+  //     }
+  //   };
 
-    // Membersihkan event listener saat komponen tidak lagi ter-render
-    return () => {
-      document.removeEventListener('click', closeDropdownOnOutsideClick);
-    };
-  }, []);
+  //   document.addEventListener('click', handleClickOutsideDropdown);
+
+  //   return () => {
+  //     document.removeEventListener('click', handleClickOutsideDropdown);
+  //   };
+  // }, []);
 
   return (
     <section className="py-3 antialiased sm:py-2 overlay">
@@ -424,6 +422,7 @@ const TabelBody: React.FC<TabelBodyProps> = ({
                 {data && Array.isArray(data) && data.length > 0 ? (
                   data.map((customCell: any, index: number) => (
                     <tr
+                      ref={dropdownRef}
                       className={`border-b ${
                         index === data.length - 1 ? 'border-none' : ''
                       } ${

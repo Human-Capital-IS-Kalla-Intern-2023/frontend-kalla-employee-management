@@ -230,6 +230,38 @@ const getEditCompensationEmployee = async (employee_compensation_id: any) => {
   }
 };
 
+const editCompensationEmployee = async (
+  employee_compensation_id: any,
+  compensationUpdateData: any
+) => {
+  try {
+    const token = TokenHelper();
+    console.log('compensationUpdateData', {
+      salary_components: compensationUpdateData,
+    });
+
+    const headerToken = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const reponseGetDetailCompensation = await RequestApi(
+      'PUT',
+      `compensations/update-employee/${employee_compensation_id}`,
+      { salary_components: compensationUpdateData },
+      headerToken,
+      'Mengedit data edit compensations employee'
+    );
+
+    return reponseGetDetailCompensation;
+  } catch (error) {
+    console.error(
+      'Terjadi kesalahan saat Mengedit data compensations employee:',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   getCompensation,
   getCompanySalary,
@@ -240,4 +272,5 @@ export {
   searchCompensation,
   getDetailCompensationEmployee,
   getEditCompensationEmployee,
+  editCompensationEmployee,
 };
