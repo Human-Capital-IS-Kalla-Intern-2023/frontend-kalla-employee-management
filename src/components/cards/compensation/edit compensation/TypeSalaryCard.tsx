@@ -45,7 +45,7 @@ const TypeSalaryCard = ({ typeName, salaryComponents }: any) => {
               salaryName={component.salary}
               value={component.nominal}
               isEdit={component.is_edit === 1}
-              isStatus={component.is_status === 0}
+              isStatus={component.is_status === 1}
               onChange={(newValue) => handleChange(newValue, index)}
             />
           ))}

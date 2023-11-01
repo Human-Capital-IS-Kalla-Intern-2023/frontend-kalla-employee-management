@@ -3,7 +3,7 @@ import HeaderCompensationCard from './HeaderCompensationCard';
 import { ArrowButtonIcon } from '../../../assets/icons/icon';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import PaySlipModal from '../../modals/compensation/PaySlipModal';
 
 const CompoensationPeopleCard = ({ compensationEmployeeData }: any) => {
@@ -12,6 +12,8 @@ const CompoensationPeopleCard = ({ compensationEmployeeData }: any) => {
   const [isFixedPayVisible, setIsFixedPayVisible] = useState(true);
   const [isDeductionVisible, setIsDeductionVisible] = useState(true);
   const [isPaySlipVisible, setIsPaySlipVisible] = useState(false);
+
+  const { employeeCompensationId } = useParams();
 
   const toggleFixedPayVisibility = () => {
     setIsFixedPayVisible(!isFixedPayVisible);
@@ -95,7 +97,9 @@ const CompoensationPeopleCard = ({ compensationEmployeeData }: any) => {
               )}
             </div>
             <div>
-              <Link to={`/salary/compensation/detail/people/edit`}>
+              <Link
+                to={`/salary/compensation/detail/people/${employeeCompensationId}/edit`}
+              >
                 <button className="px-4 py-2 mr-8 text-white  lg:text-[17px] uppercase duration-300 border rounded-md border-primary bg-primary hover:bg-gray">
                   Edit
                 </button>

@@ -41,17 +41,21 @@ const InputSalaryCard = ({
       <div className="relative mx-2 mt-2 ">
         <input
           type="number"
-          className={`w-full p-2 pl-10 text-right border border-gray-300 rounded-md appearance-none  [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${
+          className={`w-full p-2 pl-10 text-right border border-gray-300 rounded-md small-placeholder appearance-none  [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${
             !isEdit || !isStatus ? 'cursor-not-allowed' : 'cursor-auto'
           }`}
-          placeholder="Enter Salary Value"
+          placeholder={`Enter Salary Value - Real Value ${value}`}
           value={inputValue}
           min={0}
           disabled={!isEdit || !isStatus}
           onChange={handleInputChange}
           title={
-            !isEdit || !isStatus
-              ? 'Not Allow To Edit This Salary Component'
+            !isEdit && !isStatus
+              ? 'Not allowed to change value for this salary component because not active and editing is disabled'
+              : !isEdit
+              ? 'Not allowed to change value for this salary component because editing is disabled'
+              : !isStatus
+              ? 'Not allowed to change value for this salary component because it is not active'
               : ''
           }
         />
