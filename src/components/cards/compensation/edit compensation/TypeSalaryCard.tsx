@@ -42,8 +42,9 @@ const TypeSalaryCard = ({ typeName, salaryComponents }: any) => {
             <InputSalaryCard
               key={component.component_id}
               componentName={component.component_name}
+              componentId={component.component_id}
               salaryName={component.salary}
-              value={component.nominal}
+              nominal={component.nominal}
               isEdit={component.is_edit === 1}
               isStatus={component.is_status === 1}
               onChange={(newValue) => handleChange(newValue, index)}
