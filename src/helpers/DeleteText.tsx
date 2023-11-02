@@ -2,6 +2,9 @@ export const DeleteText = (
   customCell: Record<string, any>,
   locationPathname: string
 ): string => {
+  if (locationPathname.includes('/employee/detail/eligibles')) {
+    return customCell.position_name;
+  }
   if (locationPathname.includes('/employee')) {
     return customCell.fullname;
   } else if (locationPathname.includes('/posisi')) {

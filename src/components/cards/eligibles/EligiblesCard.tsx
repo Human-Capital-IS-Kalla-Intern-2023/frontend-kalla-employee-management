@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { Link, useLocation } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import ReactLoading from 'react-loading';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
@@ -20,6 +20,7 @@ import { ArrowButtonIcon } from '../../../assets/icons/icon';
 import profileImg160 from '../../../assets/img/profile/profileImg-160.webp';
 import { TrashIcon } from '../../../assets/icons/icon';
 
+import { DeleteText } from '../../../helpers/DeleteText';
 type EligiblesProps = {
   employeeData: any;
 };
@@ -30,12 +31,15 @@ type PositionType = {
   directorate_name: string;
   division_name: string;
   section_name: string;
+  full_name: string[];
   id_additional_position: string;
   employee_detail_id: any;
 };
 
 const EligiblesCard = ({ employeeData }: EligiblesProps) => {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+
+  console.log(employeeData);
 
   const { employeeId } = useParams();
   const { positionId } = useParams();
@@ -72,6 +76,8 @@ const EligiblesCard = ({ employeeData }: EligiblesProps) => {
 
   const navigate = useNavigate();
   const location = useLocation();
+
+  const locationPathname = location.pathname;
 
   const handleCloseModal = useCallback(() => {
     setIsModalOpen(false);
@@ -353,6 +359,8 @@ const EligiblesCard = ({ employeeData }: EligiblesProps) => {
                       <tbody>
                         {employeeData.salary_detail !==
                           'Eligible Belum Dibuat' &&
+                        employeeData.salary_detail !==
+                          'Salary Component belum diatur' &&
                         employeeData.salary_detail &&
                         employeeData.salary_detail.length > 0 ? (
                           employeeData.salary_detail
@@ -475,6 +483,10 @@ const EligiblesCard = ({ employeeData }: EligiblesProps) => {
 
                                       <li>
                                         <DeleteModal
+                                          deleteData={DeleteText(
+                                            position,
+                                            locationPathname
+                                          )}
                                           isOpen={isDeleteModalOpen}
                                           onClose={() =>
                                             setIsDeleteModalOpen(false)
