@@ -236,9 +236,6 @@ const editCompensationEmployee = async (
 ) => {
   try {
     const token = TokenHelper();
-    console.log('compensationUpdateData', {
-      salary_components: compensationUpdateData,
-    });
 
     const headerToken = {
       Authorization: `Bearer ${token}`,
@@ -262,6 +259,32 @@ const editCompensationEmployee = async (
   }
 };
 
+const getPrintPayRoll = async (employee_compensation_id: any) => {
+  try {
+    const token = TokenHelper();
+
+    const headerToken = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    const reponseGetDetailCompensation = await RequestApi(
+      'GET',
+      `compensations/print-employee/${employee_compensation_id}`,
+      {},
+      headerToken,
+      'Mengambil payroll employee'
+    );
+
+    return reponseGetDetailCompensation;
+  } catch (error) {
+    console.error(
+      'Terjadi kesalahan saat mengambil data payroll employee:',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   getCompensation,
   getCompanySalary,
@@ -273,4 +296,5 @@ export {
   getDetailCompensationEmployee,
   getEditCompensationEmployee,
   editCompensationEmployee,
+  getPrintPayRoll,
 };

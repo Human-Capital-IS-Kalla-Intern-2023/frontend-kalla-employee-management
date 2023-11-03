@@ -6,7 +6,10 @@ import { useState, useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import PaySlipModal from '../../modals/compensation/PaySlipModal';
 
-const CompoensationPeopleCard = ({ compensationEmployeeData }: any) => {
+const CompoensationPeopleCard = ({
+  compensationEmployeeData,
+  payslipData,
+}: any) => {
   const [isDropdownPaySlip, setIsDropdownPaySlip] = useState(false);
   const [isDropdownPosition, setIsDropdownPosition] = useState(false);
   const [isFixedPayVisible, setIsFixedPayVisible] = useState(true);
@@ -98,7 +101,10 @@ const CompoensationPeopleCard = ({ compensationEmployeeData }: any) => {
 
               {isPaySlipVisible && (
                 <div className="fixed inset-0 flex items-center justify-center z-[1000] bg-black bg-opacity-50">
-                  <PaySlipModal onClose={toggleHidePaySlipVisibility} />
+                  <PaySlipModal
+                    onClose={toggleHidePaySlipVisibility}
+                    payslipData={payslipData}
+                  />
                 </div>
               )}
             </div>

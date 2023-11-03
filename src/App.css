@@ -30,3 +30,12 @@ body {
 .small-placeholder::placeholder {
   font-size: 0.85rem;
 }
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
