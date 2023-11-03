@@ -62,8 +62,6 @@ const TabelBody: React.FC<TabelBodyProps> = ({
     null
   );
 
-  console.log(data);
-
   const [editId, setEditId] = useState<any>(null);
 
   const scrollRef = useRef(false);

@@ -3,8 +3,15 @@ import { Link } from 'react-router-dom';
 import html2pdf from 'html2pdf.js';
 import { useParams } from 'react-router-dom';
 
-const PaySlipModal = ({ onClose }: any) => {
+const PaySlipModal = ({ onClose, payslipData }: any) => {
   const { employeeCompensationId } = useParams();
+
+  const formatValue = (value: any) => {
+    if (typeof value === 'number') {
+      return new Intl.NumberFormat('id-ID').format(value);
+    }
+    return '';
+  };
   const handleGeneratePDF = () => {
     const content = document.getElementById('payslip-content');
 
@@ -14,7 +21,7 @@ const PaySlipModal = ({ onClose }: any) => {
       content.style.height = '100%';
       content.style.justifyContent = 'center';
       content.style.margin = '0px';
-      content.style.padding = '30px';
+      content.style.padding = '15px';
       content.style.background = '#FFF';
       content.style.boxShadow = 'none';
       content.style.maxHeight = 'fit-content';
@@ -109,12 +116,24 @@ const PaySlipModal = ({ onClose }: any) => {
     return new Blob([ab], { type: mimeString });
   };
 
+  const groupedComponents = payslipData.salary_components.reduce(
+    (result: any, component: any) => {
+      if (component.type === 'fixed pay') {
+        result.income.push(component);
+      } else if (component.type === 'deductions') {
+        result.deduction.push(component);
+      }
+      return result;
+    },
+    { income: [], deduction: [] }
+  );
+
   return (
     <div
-      className={`fixed inset-0 flex  items-center justify-center  overflow-y-scroll z-[1000] bg-opacity-50`}
+      className={`fixed inset-0 flex  items-center justify-center scrollbar-hide  overflow-y-scroll   z-[1000] bg-opacity-50`}
     >
       <div
-        className="w-4/6 p-6 mt-32 mb-5 bg-white rounded-lg shadow-lg max-h-fit"
+        className="w-4/6 p-6 mb-5 bg-white rounded-lg shadow-lg mt-44 max-h-fit"
         id="payslip-content"
       >
         <div className="flex items-center justify-between">
@@ -145,9 +164,13 @@ const PaySlipModal = ({ onClose }: any) => {
 
         <div className="flex items-center justify-between mt-4">
           <div>
-            <p className="text-[17px] font-extrabold">HDLG - Oktober 2023</p>
-            <p className="text-base font-medium">PT Hadji Kalla (Holding)</p>
-            <p className="mt-1 text-[15px] text-gray">Date 2023 - Date 2023</p>
+            <p className="text-[17px] font-extrabold">
+              {/* {payslipData.compensation_name} */}
+            </p>
+            <p className="text-base font-medium">{payslipData.company_name}</p>
+            <p className="mt-1 text-[15px] text-gray">
+              {/* {payslipData.month} {payslipData.year} */}
+            </p>
           </div>
           <button
             className="px-5 py-1 mb-8 mr-5 text-lg font-semibold text-red-800 border border-red-800 rounded-md bg-transparentrounded-md"
@@ -159,108 +182,109 @@ const PaySlipModal = ({ onClose }: any) => {
 
         <div className="mt-8">
           <p className="text-[17px] mt-4 font-semibold">Informasi Pribadi</p>
-          <div className="flex justify-between mt-1">
+          <div className="flex justify-between mt-1 mr-32">
             <div>
               <p className="py-1">Nama:</p>
-              <p className="py-1">NIK:</p>
+              <p className="py-1">NIP:</p>
               <p className="py-1">Position:</p>
             </div>
             <div>
-              <p className="py-1">Text</p>
-              <p className="py-1">Text</p>
-              <p className="py-1">Text</p>
+              <p className="py-1">{payslipData.fullname}</p>
+              <p className="py-1">{payslipData.nip}</p>
+              <p className="py-1">{payslipData.position_name}</p>
             </div>
-            <div>
+            <div className="ml-12">
               <p className="py-1">Location:</p>
               <p className="py-1">Company:</p>
             </div>
-            <div>
-              <p className="py-1">Text</p>
-              <p className="py-1">Text</p>
+            <div className="mr-10">
+              <p className="py-1 ">{payslipData.location_name}</p>
+              <p className="py-1">{payslipData.company_name}</p>
             </div>
           </div>
         </div>
 
-        <div className="inset-0 flex items-center justify-center space-x-4">
-          <div className="flex justify-between w-1/2 mt-6 rounded-md">
-            <div className="w-2/3 bg-slate-200 rounded-tl-md">
+        <div className="inset-0 flex items-start justify-center space-x-4">
+          {/* Display income components */}
+          <div className="flex justify-between w-2/3 mt-6 rounded-md">
+            <div className="w-2/3 bg-slate-100 rounded-tl-md">
               <p className="py-3 pl-2 mb-4 text-white bg-primary rounded-tl-md">
                 Penghasilan
               </p>
-              <div>
-                <p className="py-2 pl-2">Text</p>
-                <p className="py-2 pl-2">Text</p>
-                <p className="py-2 pl-2">Text</p>
-                <p className="py-3 pl-2 mt-4 text-white bg-primary rounded-bl-md">
-                  Total
-                </p>
-              </div>
+              {groupedComponents.income.map((component: any) => (
+                <div key={component.component_id}>
+                  <p className="py-2 pl-2 text-[15px] text-grayBlack">
+                    {component.component_name}
+                  </p>
+                </div>
+              ))}
+              <p className="py-3 pl-2 mt-4 text-white text-[15px] bg-primary rounded-bl-md">
+                Total
+              </p>
             </div>
-            <div className="w-1/3 bg-slate-200 rounded-tr-md">
-              <p className="py-3 pl-2 mb-4 text-white bg-primary rounded-tr-md ">
+            <div className="w-1/3 bg-slate-100 rounded-tr-md">
+              <p className="py-3 pl-2 mb-4 text-white bg-primary rounded-tr-md">
                 Jumlah
               </p>
-              <div>
-                <p className="py-2 pl-2 ">
-                  <span className="">Rp.</span> 0
-                </p>
-                <p className="py-2 pl-2 ">
-                  <span className="">Rp.</span> 0
-                </p>
-                <p className="py-2 pl-2 ">
-                  <span className="">Rp.</span> 0
-                </p>
-                <p className="py-3 pl-2 mt-4 text-white rounded-br-md bg-primary">
-                  Total
-                </p>
-              </div>
+              {groupedComponents.income.map((component: any) => (
+                <div key={component.component_id}>
+                  <p className="py-2 pl-2 text-[15px]">
+                    <span className="text-grayBlack">Rp.</span>{' '}
+                    {formatValue(component.nominal)}
+                  </p>
+                </div>
+              ))}
+              <p className="py-3 pl-2 mt-4 text-[15px] text-white rounded-br-md bg-primary">
+                Rp. {formatValue(payslipData.fixed_pay)}
+              </p>
             </div>
           </div>
-
-          <div className="flex justify-between w-1/2 mt-6 rounded-md ">
-            <div className="w-2/3 bg-slate-200 rounded-tl-md">
+          {/* Display deduction components */}
+          <div className="flex justify-between w-2/3 mt-6 rounded-md">
+            <div className="w-2/3 bg-slate-100 rounded-tl-md">
               <p className="py-3 pl-2 mb-4 text-white bg-red-800 rounded-tl-md">
                 Pengeluaran
               </p>
-              <div>
-                <p className="py-2 pl-2">Text</p>
-                <p className="py-2 pl-2">Text</p>
-                <p className="py-2 pl-2">Text</p>
-                <p className="py-3 pl-2 mt-4 text-white bg-red-800 rounded-bl-md">
-                  Total
-                </p>
-              </div>
+              {groupedComponents.deduction.map((component: any) => (
+                <div key={component.component_id}>
+                  <p className="py-2 pl-2 text-[15px] text-grayBlack">
+                    {component.component_name}
+                  </p>
+                </div>
+              ))}
+              <p className="py-3 pl-2 mt-4 text-white bg-red-800 text-[15px]  rounded-bl-md">
+                Total
+              </p>
             </div>
-            <div className="w-1/3 bg-slate-200 rounded-tr-md">
+            <div className="w-1/3 bg-slate-100 rounded-tr-md">
               <p className="py-3 pl-2 mb-4 text-white bg-red-800 rounded-tr-md">
                 Jumlah
               </p>
-              <div>
-                <p className="py-2 pl-2 ">
-                  <span className="">Rp.</span> 0
-                </p>
-                <p className="py-2 pl-2 ">
-                  <span className="">Rp.</span> 0
-                </p>
-                <p className="py-2 pl-2 ">
-                  <span className="">Rp.</span> 0
-                </p>
-                <p className="py-3 pl-2 mt-4 text-white bg-red-800 rounded-br-md">
-                  Total
-                </p>
-              </div>
+              {groupedComponents.deduction.map((component: any) => (
+                <div key={component.component_id}>
+                  <p className="py-2 pl-2 text-[15px] ">
+                    <span className="text-grayBlack ">Rp.</span>{' '}
+                    {formatValue(component.nominal)}
+                  </p>
+                </div>
+              ))}
+              <p className="py-3 pl-2 mt-4 text-white text-[15px]  bg-red-800 rounded-br-md">
+                Rp. {formatValue(payslipData.deductions)}
+              </p>
             </div>
           </div>
         </div>
 
-        <div className="p-3 mt-6 rounded-md bg-slate-200 ">
+        <div className="p-3 mt-6 rounded-md bg-slate-100 total-payslip">
           <div className="">
             <p className="text-[17px] font-semibold">Total PaySlip</p>
           </div>
           <div className="flex items-center mt-3 space-x-6">
             <div className="">
               <div>
-                <span className="text-primary text-[17px] ">Rp. 0</span>
+                <span className="text-primary text-[17px] ">
+                  Rp. {formatValue(payslipData.fixed_pay)}
+                </span>
               </div>
               <div>
                 <span className="text-grayBlack text-[15px] ">
@@ -273,7 +297,9 @@ const PaySlipModal = ({ onClose }: any) => {
             </div>
             <div className="">
               <div>
-                <span className="text-red-800 text-[17px] ">Rp. 0</span>
+                <span className="text-red-800 text-[17px] ">
+                  Rp. {formatValue(payslipData.deductions)}
+                </span>
               </div>
               <div>
                 <span className="text-grayBlack text-[15px] ">
@@ -286,7 +312,9 @@ const PaySlipModal = ({ onClose }: any) => {
             </div>
             <div className="">
               <div>
-                <span className="text-[17px] ">Rp. 0</span>
+                <span className="text-[17px] ">
+                  Rp. {formatValue(payslipData.total_pay)}
+                </span>
               </div>
               <div>
                 <span className="text-grayBlack text-[15px] ">

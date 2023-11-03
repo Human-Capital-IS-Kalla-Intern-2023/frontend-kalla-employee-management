@@ -2,13 +2,19 @@ import CompoensationPeopleCard from '../../../components/cards/compensation/Comp
 
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { getDetailCompensationEmployee } from '../../../api/CompensationAPI';
+import {
+  getDetailCompensationEmployee,
+  getPrintPayRoll,
+} from '../../../api/CompensationAPI';
 import ReactLoading from 'react-loading';
 const CompensationPeople = () => {
   const { employeeCompensationId } = useParams();
   const [compensationEmployeeData, setCompensationEmployeeData] = useState<
     any | null
   >(null);
+  const [payrollEmployeeData, setPayrollEmployeeData] = useState<any | null>(
+    null
+  );
 
   const fetchEmployeeCompensation = async (employeeCompensationId: string) => {
     try {
@@ -21,9 +27,19 @@ const CompensationPeople = () => {
     }
   };
 
+  const fetchPayrollEmployee = async (employeeCompensationId: string) => {
+    try {
+      const response = await getPrintPayRoll(employeeCompensationId);
+      setPayrollEmployeeData(response.data[0]);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     if (employeeCompensationId) {
       fetchEmployeeCompensation(employeeCompensationId);
+      fetchPayrollEmployee(employeeCompensationId);
     }
   }, [employeeCompensationId]);
 
@@ -37,6 +53,7 @@ const CompensationPeople = () => {
   return (
     <CompoensationPeopleCard
       compensationEmployeeData={compensationEmployeeData}
+      payslipData={payrollEmployeeData}
     />
   );
 };

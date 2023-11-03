@@ -154,6 +154,8 @@ const getDetailEligiblesEmployee = async (employeeId: any, positionId: any) => {
       Authorization: `Bearer ${token}`,
     };
 
+    console.log(employeeId, positionId);
+
     const responseGetDetailEligiblesEmployee = await RequestApi(
       'GET',
       `eligibles/${employeeId}/${positionId}`,
@@ -161,6 +163,7 @@ const getDetailEligiblesEmployee = async (employeeId: any, positionId: any) => {
       headerToken,
       'Mengambil detail eligibles employee'
     );
+    console.log(responseGetDetailEligiblesEmployee);
 
     return responseGetDetailEligiblesEmployee;
   } catch (error) {

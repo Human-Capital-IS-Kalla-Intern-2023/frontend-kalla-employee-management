@@ -78,8 +78,6 @@ const InputSalaryCard = ({
     }
   };
 
-  console.log(inputValue);
-
   return (
     <div className="w-full mb-4">
       <p className="mt-2 ml-2 text-base font-medium text-grayBlack">
@@ -88,7 +86,7 @@ const InputSalaryCard = ({
       <span className="ml-2 text-[14px] text-gray">
         {salaryName}{' '}
         {inputValue === '' ? (
-          <span className="text-sm text-gray italic">
+          <span className="text-sm italic text-gray">
             - Real Value {formatValue(nominal)}
           </span>
         ) : (

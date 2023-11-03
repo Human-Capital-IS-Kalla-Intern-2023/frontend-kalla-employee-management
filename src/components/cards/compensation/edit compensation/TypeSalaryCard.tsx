@@ -14,7 +14,6 @@ const TypeSalaryCard = ({ typeName, salaryComponents }: any) => {
     setInputValues(updatedValues);
   };
 
-  console.log(inputValues);
   const toggleCardVisibility = () => {
     setIsCardVisible(!isCardVisible);
   };

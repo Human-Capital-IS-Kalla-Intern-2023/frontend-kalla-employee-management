@@ -27,7 +27,6 @@ interface FieldOptions {
 
 const EditPropertySalaryCard = () => {
   const { salaryId } = useParams();
-  console.log(salaryId);
 
   const [companyDropdownValue, setCompanyDropdownValue] = useState<
     number | string
