@@ -39,8 +39,6 @@ type PositionType = {
 const EligiblesCard = ({ employeeData }: EligiblesProps) => {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
-  console.log(employeeData);
-
   const { employeeId } = useParams();
   const { positionId } = useParams();
 
