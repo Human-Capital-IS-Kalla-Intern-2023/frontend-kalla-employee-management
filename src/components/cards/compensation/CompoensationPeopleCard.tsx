@@ -148,7 +148,9 @@ const CompoensationPeopleCard = ({
                   style={{ width: `${dropdownWidth}px ` }}
                 >
                   <ul className="">
-                    <Link to={`/salary/compensation/detail/position`}>
+                    <Link
+                      to={`/salary/compensation/detail/position/${compensationEmployeeData.employee_id}/${compensationEmployeeData.position_id}`}
+                    >
                       <li className="px-4 py-3 duration-300 rounded-lg rounded-t-none shadow-lg cursor-pointer hover:bg-primary hover:text-white">
                         DETAIL
                       </li>

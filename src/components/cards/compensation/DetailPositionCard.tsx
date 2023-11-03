@@ -1,45 +1,30 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Link, useLocation } from 'react-router-dom';
-import ReactLoading from 'react-loading';
+import { Link } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer, toast } from 'react-toastify';
-import { ThreeDotIcon } from '../../../assets/icons/icon';
 
-import { getDetailEmployee } from '../../../api/EmployeeAPI';
-
-import SetEligiblesModal from '../../modals/eligibles//SetEligiblesModal';
-import CustomToastWithLink from '../../alerts/CustomToastWithLink';
-import { ArrowButtonIcon } from '../../../assets/icons/icon';
 import profileImg160 from '../../../assets/img/profile/profileImg-160.webp';
 
 type EligiblesProps = {
   employeeData: any;
 };
 
-type PositionType = {
-  position_name: string[];
-  company_name: string;
-  directorate_name: string;
-  division_name: string;
-  section_name: string;
-  id_additional_position: string;
-  employee_detail_id: any;
-};
+// type PositionType = {
+//   position_name: string[];
+//   company_name: string;
+//   directorate_name: string;
+//   division_name: string;
+//   section_name: string;
+//   id_additional_position: string;
+//   employee_detail_id: any;
+// };
 
 const DetailPositionCard = ({ employeeData }: EligiblesProps) => {
-  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [isAssignmentActive, setAssignmentActive] = useState(true);
   const [isEligibleActive, setEligibleActive] = useState(false);
 
   const { employeeId } = useParams();
   const { positionId } = useParams();
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const [allPositionOption, setAllPositionOption] = useState<any | null>(null);
-
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleAssignmentClick = () => {
     setAssignmentActive(true);
@@ -51,66 +36,11 @@ const DetailPositionCard = ({ employeeData }: EligiblesProps) => {
     setEligibleActive(true);
   };
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
-
   const navigate = useNavigate();
-  const location = useLocation();
-
-  const handleCloseModal = useCallback(() => {
-    setIsModalOpen(false);
-    if (location.pathname.endsWith('/set')) {
-      const newUrl = location.pathname.slice(0, -4);
-      navigate(newUrl);
-    }
-  }, [location.pathname, navigate]);
-
-  const fetchSecondaryPositionEmployee = async (employeeId: any) => {
-    try {
-      setIsLoading(true);
-
-      const responseData = await getDetailEmployee(employeeId);
-      setAllPositionOption(responseData.data);
-    } catch (error: any) {
-      console.error('Error fetch detail employee:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (location.pathname.endsWith('/set')) {
-      handleOpenModal();
-    }
-  }, [location.pathname]);
-
-  useEffect(() => {
-    fetchSecondaryPositionEmployee(employeeId);
-  }, [employeeId, positionId]);
 
   const handleBackButton = async () => {
-    navigate(`/salary/compensation/detail/`);
+    navigate(`/salary/compensation/detail/people/${employeeId}`);
   };
-
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  useEffect(() => {
-    const handleEscKeyPress = (event: any) => {
-      if (event.key === 'Escape') {
-        setIsDropdownVisible(false);
-      }
-    };
-
-    if (isDropdownVisible) {
-      document.addEventListener('keydown', handleEscKeyPress);
-    } else {
-      document.removeEventListener('keydown', handleEscKeyPress);
-    }
-
-    return () => {
-      document.removeEventListener('keydown', handleEscKeyPress);
-    };
-  }, [isDropdownOpen]);
 
   return (
     <>
@@ -135,7 +65,7 @@ const DetailPositionCard = ({ employeeData }: EligiblesProps) => {
                   className="flex items-center justify-center px-5 py-3 text-[17px] font-medium duration-200 rounded-t-lg rounded-lg
                    text-pureBlack bg-secondary focus:outline-none hover:bg-yellow lg:hover:scale-[1.03]"
                 >
-                  Back
+                  BACK
                 </button>
               </div>
             </div>
@@ -143,14 +73,6 @@ const DetailPositionCard = ({ employeeData }: EligiblesProps) => {
         </header>
         {/* Header Section End */}
 
-        <ToastContainer />
-
-        {isModalOpen && (
-          <SetEligiblesModal
-            onClose={handleCloseModal}
-            allPositionOption={allPositionOption}
-          />
-        )}
         {/* Modal Add Eligibles Section Start */}
         <div className="max-w-screen-xl px-1 pt-6 mx-auto">
           <div className="relative overflow-hidden ">
@@ -174,10 +96,10 @@ const DetailPositionCard = ({ employeeData }: EligiblesProps) => {
                             {employeeData.nip}
                           </p>
                         </div>
-                        <div className="pl-9 mb-2">
+                        <div className="mb-2 pl-9">
                           <h3 className=" text-[15px]">Position</h3>
                           <p className="text-base font-semibold uppercase">
-                            {employeeData.main_position}
+                            {employeeData.position_name}
                           </p>
                         </div>
                       </div>
@@ -193,14 +115,20 @@ const DetailPositionCard = ({ employeeData }: EligiblesProps) => {
                     isAssignmentActive ? 'border-b-2' : ''
                   }`}
                 >
-                  <button className="w-full" onClick={handleAssignmentClick}>
+                  <button
+                    className="w-full text-lg"
+                    onClick={handleAssignmentClick}
+                  >
                     ASSIGNMENT
                   </button>
                 </div>
                 <div
                   className={`w-1/12 ${isEligibleActive ? 'border-b-2' : ''}`}
                 >
-                  <button className="w-full" onClick={handleEligibleClick}>
+                  <button
+                    className="w-full text-lg"
+                    onClick={handleEligibleClick}
+                  >
                     ELIGIBLE
                   </button>
                 </div>
@@ -217,36 +145,36 @@ const DetailPositionCard = ({ employeeData }: EligiblesProps) => {
                       <div className="w-full mb-1 mr-3 text-left sm:w-1/2 lg:mb-3 sm:mb-0">
                         <div className="flex items-center w-full py-1">
                           <div className="w-5/12">
-                            <p className="text-lg">Position Name</p>
+                            <p className="text-base">Position Name</p>
                           </div>
                           <label className="relative inline-flex items-center w-8/12">
                             :
-                            <div className="text-lg p-1 rounded-md">
-                              {employeeData.main_position}
+                            <div className="p-1 text-base rounded-md">
+                              {employeeData.position_name}
                             </div>
                           </label>
                         </div>
 
                         <div className="flex items-center w-full py-1">
                           <div className="w-5/12">
-                            <p className="text-lg">Company</p>
+                            <p className="text-base">Company</p>
                           </div>
                           <label className="relative inline-flex items-center w-8/12">
                             :
-                            <div className="text-lg p-1 rounded-md">
-                              {employeeData.company_main}
+                            <div className="p-1 text-base rounded-md">
+                              {employeeData.company_name}
                             </div>
                           </label>
                         </div>
 
                         <div className="flex items-center w-full py-1">
                           <div className="w-5/12">
-                            <p className="text-lg">Directorate</p>
+                            <p className="text-base">Directorate</p>
                           </div>
                           <label className="relative inline-flex items-center w-8/12">
                             :
-                            <div className="text-lg p-1 rounded-md">
-                              {employeeData.directorate_main}
+                            <div className="p-1 text-base rounded-md">
+                              {employeeData.directorate_name}
                             </div>
                           </label>
                         </div>
@@ -263,12 +191,12 @@ const DetailPositionCard = ({ employeeData }: EligiblesProps) => {
                       <div className="w-full mb-1 mr-3 text-left sm:w-1/2 lg:mb-3 sm:mb-0">
                         <div className="flex items-center w-full py-1">
                           <div className="w-5/12">
-                            <p className="text-lg">Job Grade</p>
+                            <p className="text-base">Job Grade</p>
                           </div>
                           <label className="relative inline-flex items-center w-8/12">
                             :
-                            <div className="text-lg p-1 rounded-md">
-                              {employeeData.job_grade}
+                            <div className="p-1 text-base rounded-md">
+                              {employeeData.grade_name}
                             </div>
                           </label>
                         </div>
@@ -279,7 +207,7 @@ const DetailPositionCard = ({ employeeData }: EligiblesProps) => {
                           </div>
                           <label className="relative inline-flex items-center w-8/12">
                             :
-                            <div className="text-lg p-1 rounded-md">
+                            <div className="p-1 text-lg rounded-md">
                               {employeeData.company_main}
                             </div>
                           </label>
@@ -291,7 +219,7 @@ const DetailPositionCard = ({ employeeData }: EligiblesProps) => {
                           </div>
                           <label className="relative inline-flex items-center w-8/12">
                             :
-                            <div className="text-lg p-1 rounded-md">
+                            <div className="p-1 text-lg rounded-md">
                               {employeeData.directorate_main}
                             </div>
                           </label>
@@ -311,7 +239,7 @@ const DetailPositionCard = ({ employeeData }: EligiblesProps) => {
                         <tr className="bg-primary">
                           <th className="w-1/2 px-4 py-2 text-left border-b-2 rounded-tl-lg">
                             <h2 className="text-lg font-medium text-white">
-                              Bank Information Information
+                              Bank Information
                             </h2>
                           </th>
                           <th className="w-1/2 px-4 py-2 text-right border-b-2 rounded-tr-lg"></th>
@@ -421,7 +349,6 @@ const DetailPositionCard = ({ employeeData }: EligiblesProps) => {
                               No salary data available , setting{' '}
                               <Link
                                 to={`/employee/detail/eligibles/${employeeId}/${positionId}/set`}
-                                onClick={handleOpenModal}
                                 className="text-blue-700"
                               >
                                 here
@@ -431,7 +358,6 @@ const DetailPositionCard = ({ employeeData }: EligiblesProps) => {
                         </tbody>
                       </table>
                     </div>
-                    {/* Tabel 2*/}
 
                     {/* Tabel 3 */}
                   </div>

@@ -256,10 +256,10 @@ const App = () => {
           </Route>
 
           <Route
-            path="/salary/compensation/detail/position"
+            path="/salary/compensation/detail/position/:employeeId/:positionId"
             element={
               <PrivateRoute
-                path="/salary/compensation/detail/position"
+                path="/salary/compensation/detail/position/:employeeId/:positionId"
                 element={<DetailPosition />}
               />
             }
