@@ -49,7 +49,7 @@ const PaySlipModal = ({ onClose, payslipData }: any) => {
           const pdfBlob = dataURItoBlob(pdfString);
 
           // Custom file name for the PDF
-          const fileName = 'custom_filename.pdf';
+          const fileName = `${payslipData.employee_compensation_name} - ${payslipData.nip} - ${payslipData.fullname}`;
 
           // Create a URL for the Blob
           const blobURL = URL.createObjectURL(pdfBlob);
@@ -165,11 +165,11 @@ const PaySlipModal = ({ onClose, payslipData }: any) => {
         <div className="flex items-center justify-between mt-4">
           <div>
             <p className="text-[17px] font-extrabold">
-              {/* {payslipData.compensation_name} */}
+              {payslipData.employee_compensation_name}
             </p>
             <p className="text-base font-medium">{payslipData.company_name}</p>
             <p className="mt-1 text-[15px] text-gray">
-              {/* {payslipData.month} {payslipData.year} */}
+              {payslipData.bulan} {payslipData.tahun}
             </p>
           </div>
           <button
@@ -180,7 +180,7 @@ const PaySlipModal = ({ onClose, payslipData }: any) => {
           </button>
         </div>
 
-        <div className="mt-8">
+        <div className="mt-5">
           <p className="text-[17px] mt-4 font-semibold">Informasi Pribadi</p>
           <div className="flex justify-between mt-1 mr-32">
             <div>
