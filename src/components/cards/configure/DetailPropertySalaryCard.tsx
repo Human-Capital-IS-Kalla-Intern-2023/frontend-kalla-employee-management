@@ -131,7 +131,7 @@ const DetailPropertySalaryCard = () => {
         <div className="flex text-xs font-medium sm:flex-row lg:text-sm ">
           <button
             aria-label="Cancel"
-            className="px-1 py-2 mr-2 duration-300 bg-transparent  rounded-md lg:text-lg  lg:px-4 lg:py-2 lg:mr-4 hover:bg-stone-300 hover:text-pureBlack bg-slate-500 text-white lg:hover:scale-[1.03] "
+            className="px-1 py-2 mr-2 duration-300 rounded-md lg:text-lg  lg:px-4 lg:py-2 lg:mr-4 hover:bg-stone-300 hover:text-pureBlack bg-slate-500 text-white lg:hover:scale-[1.03] "
             onClick={backHandler}
           >
             BACK
