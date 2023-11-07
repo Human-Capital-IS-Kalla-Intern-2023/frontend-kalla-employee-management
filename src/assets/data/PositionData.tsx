@@ -50,9 +50,9 @@ const inputField = [
     options: [],
   },
   {
-    id: 'grade_id',
+    id: 'job_grade_id',
     label: 'Grade',
-    name: 'grade_id',
+    name: 'job_grade_id',
     type: 'select',
     options: [],
   },
